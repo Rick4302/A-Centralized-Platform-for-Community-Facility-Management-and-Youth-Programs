@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMBO Access · Facility Reservation &amp; Event Registration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F0E4;
+    --paper-deep:#EDE5D2;
+    --ink:#242219;
+    --ink-soft:#5B564A;
+    --black:#1A1613;
+    --black-deep:#0E0C0A;
+    --red:#C22026;
+    --red-deep:#8F171B;
+    --red-bright:#E8434B;
+    --brick:#C22026;
+    --navy:#2A4D78;
+    --line: rgba(36,34,25,0.14);
+    --radius: 2px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    margin:0;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--red-deep);
+    display:flex;
+    align-items:center;
+    gap:0.6rem;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px;
+    height:1px;
+    background:var(--red-deep);
+    display:inline-block;
+  }
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+  button{font-family:inherit;cursor:pointer;}
+
+  /* subtle paper grain */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:2000;
+    opacity:0.035;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:500;
+    background:rgba(245,240,228,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 0;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:1.15rem;
+  }
+  .brand .mark{
+    width:34px;height:34px;
+    border-radius:50%;
+    background:var(--black);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--paper);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.65rem;
+    font-weight:600;
+    border:2px solid var(--red);
+  }
+  .nav-links{
+    display:flex;
+    gap:34px;
+    font-size:0.92rem;
+    color:var(--ink-soft);
+  }
+  .nav-links a{text-decoration:none;transition:color .2s;}
+  .nav-links a:hover{color:var(--red-deep);}
+  .btn{
+    font-family:'IBM Plex Sans',sans-serif;
+    font-weight:600;
+    font-size:0.92rem;
+    padding:11px 26px;
+    border-radius:var(--radius);
+    border:1.5px solid var(--ink);
+    background:var(--ink);
+    color:var(--paper);
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+    position:relative;
+  }
+  .btn:hover{
+    background:var(--red-deep);
+    border-color:var(--red-deep);
+    transform:translateY(-2px);
+    box-shadow:0 6px 0 0 var(--ink);
+  }
+  .btn:active{transform:translateY(0);box-shadow:0 2px 0 0 var(--ink);}
+  .btn-ghost{
+    background:transparent;
+    color:var(--ink);
+  }
+  .btn-ghost:hover{background:var(--ink);color:var(--paper);box-shadow:none;}
+  .btn-small{padding:9px 18px;font-size:0.85rem;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:96px 0 40px;
+    position:relative;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:60px;
+    align-items:center;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 4.6vw, 4.1rem);
+    line-height:1.04;
+    font-weight:700;
+    margin:18px 0 22px;
+  }
+  .hero h1 em{
+    font-style:normal;
+    color:var(--red-deep);
+    position:relative;
+    white-space:nowrap;
+  }
+  .hero h1 .underline{
+    position:relative;
+    display:inline-block;
+  }
+  .hero h1 .underline svg{
+    position:absolute;
+    left:0; bottom:-6px;
+    width:100%;
+    height:14px;
+  }
+  .hero p.lede{
+    font-size:1.13rem;
+    line-height:1.6;
+    color:var(--ink-soft);
+    max-width:46ch;
+    margin-bottom:34px;
+  }
+  .hero-ctas{
+    display:flex;
+    align-items:center;
+    gap:22px;
+    flex-wrap:wrap;
+  }
+  .hero-ctas .btn{padding:15px 32px;font-size:1rem;}
+  .hero-note{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+  }
+
+  /* seal fan */
+  .seal-fan{
+    position:relative;
+    height:420px;
+  }
+  .seal-stub{
+    position:absolute;
+    width:150px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    opacity:0;
+    transform:translateY(24px) rotate(var(--rot));
+    animation:stamp .6s cubic-bezier(.2,.9,.3,1.2) forwards;
+    animation-delay:var(--delay);
+  }
+  .seal-stub .ring{
+    width:118px;height:118px;
+    border-radius:50%;
+    background:var(--paper);
+    border:2px solid var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    padding:10px;
+    box-shadow:0 8px 22px rgba(36,34,25,0.16);
+  }
+  .seal-stub img{
+    width:100%;height:100%;
+    object-fit:contain;
+    border-radius:50%;
+  }
+  .seal-stub .perf{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    margin-top:6px;
+    padding:0 6px;
+  }
+  .seal-stub .perf span{
+    width:4px;height:4px;border-radius:50%;
+    background:var(--ink-soft);
+    opacity:0.5;
+  }
+  .seal-stub .name{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.68rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    margin-top:8px;
+    color:var(--ink-soft);
+    text-align:center;
+  }
+  @keyframes stamp{
+    0%{opacity:0; transform:translateY(30px) rotate(var(--rot)) scale(0.8);}
+    70%{opacity:1;}
+    100%{opacity:1; transform:translateY(0) rotate(var(--rot)) scale(1);}
+  }
+  .s1{--rot:-14deg; left:0; top:60px;}
+  .s2{--rot:-6deg; left:110px; top:0;}
+  .s3{--rot:2deg; left:230px; top:30px;}
+  .s4{--rot:9deg; left:350px; top:-6px;}
+  .s5{--rot:16deg; left:465px; top:70px;}
+
+  @media (max-width: 980px){
+    .seal-fan{display:none;}
+    .hero-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- ORIGIN STRIP ---------- */
+  .origin{
+    background:var(--black);
+    color:var(--paper);
+    padding:54px 0;
+    margin-top:20px;
+  }
+  .origin .wrap{
+    display:grid;
+    grid-template-columns:0.9fr 1.6fr;
+    gap:50px;
+    align-items:start;
+  }
+  .origin .eyebrow{color:var(--red-bright);}
+  .origin .eyebrow::before{background:var(--red-bright);}
+  .origin h2{
+    color:var(--paper);
+    font-size:1.9rem;
+    margin-top:12px;
+    line-height:1.2;
+  }
+  .origin-list{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px 34px;
+    list-style:none;
+    margin:0;padding:0;
+  }
+  .origin-list li{
+    border-top:1px solid rgba(245,240,228,0.25);
+    padding-top:14px;
+    font-size:0.95rem;
+    line-height:1.55;
+    color:rgba(245,240,228,0.86);
+  }
+  .origin-list strong{
+    display:block;
+    font-family:'Fraunces',serif;
+    font-size:1.15rem;
+    color:var(--red-bright);
+    margin-bottom:4px;
+    font-weight:600;
+  }
+  .origin-list .full{grid-column:1 / -1;}
+
+  /* ---------- FEATURES ---------- */
+  .features{
+    padding:96px 0;
+  }
+  .section-head{
+    max-width:640px;
+    margin-bottom:56px;
+  }
+  .section-head h2{
+    font-size:2.3rem;
+    margin-top:14px;
+    line-height:1.15;
+  }
+  .feat-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:2px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .feat-card{
+    background:var(--paper);
+    padding:42px;
+    position:relative;
+  }
+  .feat-card .tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.72rem;
+    color:var(--brick);
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    margin-bottom:16px;
+    display:block;
+  }
+  .feat-card h3{
+    font-size:1.5rem;
+    margin-bottom:12px;
+  }
+  .feat-card p{
+    color:var(--ink-soft);
+    line-height:1.6;
+    font-size:0.98rem;
+    margin-bottom:20px;
+  }
+  .feat-card ul{
+    margin:0;padding:0;list-style:none;
+    display:flex;flex-direction:column;gap:9px;
+  }
+  .feat-card li{
+    font-size:0.9rem;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .feat-card li::before{
+    content:"";
+    width:6px;height:6px;
+    background:var(--red-deep);
+    display:inline-block;
+    transform:rotate(45deg);
+    flex-shrink:0;
+  }
+
+  /* ---------- BARANGAYS ---------- */
+  .barangays{
+    padding:20px 0 100px;
+  }
+  .brgy-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .brgy-card{
+    background:var(--paper-deep);
+    padding:30px 20px 26px;
+    text-align:center;
+    transition:background .25s ease;
+    position:relative;
+    overflow:hidden;
+  }
+  .brgy-card:hover{background:var(--paper);}
+  .brgy-card .imgwrap{
+    width:96px;height:96px;
+    margin:0 auto 18px;
+    border-radius:50%;
+    background:var(--paper);
+    border:1.5px solid var(--ink);
+    display:flex;align-items:center;justify-content:center;
+    padding:8px;
+  }
+  .brgy-card img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
+  .brgy-card h3{
+    font-size:1.05rem;
+    margin-bottom:6px;
+  }
+  .brgy-card .code{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.68rem;
+    color:var(--brick);
+    letter-spacing:0.08em;
+    display:block;
+    margin-bottom:10px;
+  }
+  .brgy-card p{
+    font-size:0.82rem;
+    color:var(--ink-soft);
+    line-height:1.5;
+    margin:0;
+  }
+  @media (max-width: 900px){
+    .brgy-grid{grid-template-columns:repeat(2,1fr);}
+    .feat-grid{grid-template-columns:1fr;}
+    .origin .wrap{grid-template-columns:1fr;}
+    .origin-list{grid-template-columns:1fr;}
+  }
+  @media (max-width: 560px){
+    .brgy-grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- CTA BAND ---------- */
+  .cta-band{
+    background:var(--ink);
+    color:var(--paper);
+    padding:76px 0;
+    position:relative;
+    overflow:hidden;
+  }
+  .cta-band::after{
+    content:"";
+    position:absolute;
+    right:-80px; top:-80px;
+    width:280px;height:280px;
+    border:1px dashed rgba(245,240,228,0.18);
+    border-radius:50%;
+  }
+  .cta-band .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:40px;
+    flex-wrap:wrap;
+  }
+  .cta-band h2{
+    color:var(--paper);
+    font-size:2.1rem;
+    max-width:520px;
+    line-height:1.2;
+  }
+  .cta-band .eyebrow{color:var(--red-bright);}
+  .cta-band .eyebrow::before{background:var(--red-bright);}
+  .cta-band .btn{
+    background:var(--red);
+    border-color:var(--red);
+    color:var(--ink);
+    padding:16px 34px;
+    font-size:1rem;
+  }
+  .cta-band .btn:hover{
+    background:var(--paper);
+    border-color:var(--paper);
+    box-shadow:0 6px 0 0 var(--black);
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:50px 0 40px;
+    border-top:1px solid var(--line);
+  }
+  .foot-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:30px;
+    margin-bottom:36px;
+  }
+  .foot-seals{
+    display:flex;
+    gap:14px;
+  }
+  .foot-seals .imgwrap{
+    width:44px;height:44px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--paper-deep);
+    display:flex;align-items:center;justify-content:center;
+    padding:4px;
+  }
+  .foot-seals img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
+  .foot-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:0.8rem;
+    color:var(--ink-soft);
+    font-family:'IBM Plex Mono',monospace;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+  }
+
+  [data-reveal]{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  [data-reveal].in{
+    opacity:1;
+    transform:translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <div class="brand">
+      <span class="mark">5X</span>
+      EMBO Access
+    </div>
+    <nav class="nav-links">
+      <a href="#features">What you can do</a>
+      <a href="#barangays">The five barangays</a>
+      <a href="#origin">Our roots</a>
+    </nav>
+    <a href="login.html" class="btn btn-small" id="nav-login">Log in</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Facility Reservation &amp; Event Registration</div>
+      <h1>
+        One gate<br>
+        for <span class="underline">five barrios<svg viewBox="0 0 220 14" preserveAspectRatio="none"><path d="M2 10 Q 55 2, 110 8 T 218 6" stroke="var(--red)" stroke-width="5" fill="none" stroke-linecap="round"/></svg></span>.
+      </h1>
+      <p class="lede">Book a court, a hall, or a corner of the plaza — and sign up for the barangay's next event — across Cembo, West&nbsp;Rembo, East&nbsp;Rembo, Comembo, and Pembo. One account, five barangays, zero queueing at the office.</p>
+      <div class="hero-ctas">
+        <a href="login.html" class="btn" id="hero-login">Log in to reserve →</a>
+        <span class="hero-note">No account yet? You can create one at login.</span>
+      </div>
+    </div>
+
+    <div class="seal-fan" aria-hidden="true">
+      <div class="seal-stub s1" style="--delay:0.05s">
+        <div class="ring"><img src="../Pics/cembologo.png" alt=""></div>
+        <div class="perf"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="name">Cembo</div>
+      </div>
+      <div class="seal-stub s2" style="--delay:0.18s">
+        <div class="ring"><img src="../Pics/West_Rembo_Logo.png" alt=""></div>
+        <div class="perf"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="name">West Rembo</div>
+      </div>
+      <div class="seal-stub s3" style="--delay:0.31s">
+        <div class="ring"><img src="../Pics/Barangay_Comembo_Seal.png" alt=""></div>
+        <div class="perf"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="name">Comembo</div>
+      </div>
+      <div class="seal-stub s4" style="--delay:0.44s">
+        <div class="ring"><img src="../Pics/East_Rembo_Logo.png" alt=""></div>
+        <div class="perf"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="name">East Rembo</div>
+      </div>
+      <div class="seal-stub s5" style="--delay:0.57s">
+        <div class="ring"><img src="../Pics/pembologo.png" alt=""></div>
+        <div class="perf"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="name">Pembo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="origin" id="origin">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Where "Embo" comes from</div>
+      <h2>Five barrios, one root word.</h2>
+    </div>
+    <ul class="origin-list" data-reveal>
+      <li><strong>Cembo</strong>Central Enlisted Men's Barrio — the first of the five, settled in 1949 by servicemen of the Philippine Ground Force.</li>
+      <li><strong>Comembo</strong>Combat Enlisted Men's Barrio — home to the Philippine Army's Combat Engineering Group from 1957.</li>
+      <li><strong>Pembo</strong>Panthers Enlisted Men's Barrio — named for the First Ranger Regiment, the "Panthers."</li>
+      <li><strong>West &amp; East Rembo</strong>Riverside Enlisted Men's Barrio — settled along the Pasig-Pateros riverside.</li>
+      <li class="full">All five trace back to Fort Bonifacio's enlisted personnel housing. Different units, one shared "EMBO" — and today, one shared reservation system.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <div class="eyebrow">What you can do</div>
+      <h2>Two things, done properly.</h2>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card" data-reveal>
+        <span class="tag">Reserve</span>
+        <h3>Facility reservation</h3>
+        <p>Check real-time availability and hold a covered court, multi-purpose hall, or barangay plaza for your date — no walk-in required.</p>
+        <ul>
+          <li>Live calendar per barangay facility</li>
+          <li>Instant confirmation slip &amp; reference number</li>
+          <li>Cancel or reschedule from your account</li>
+        </ul>
+      </div>
+      <div class="feat-card" data-reveal>
+        <span class="tag">Register</span>
+        <h3>Event registration</h3>
+        <p>Sign up for barangay-run activities — sports leagues, health drives, assemblies, fiestas — with your slot confirmed on the spot.</p>
+        <ul>
+          <li>One list of events across all five barangays</li>
+          <li>Digital registration, no paper forms</li>
+          <li>Reminders before the event date</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="barangays" id="barangays">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <div class="eyebrow">Coverage</div>
+      <h2>Every reservation, one login, five barangays.</h2>
+    </div>
+    <div class="brgy-grid">
+      <div class="brgy-card" data-reveal>
+        <div class="imgwrap"><img src="../Pics/cembologo.png" alt="Barangay Cembo seal"></div>
+        <span class="code">BRGY. 24</span>
+        <h3>Cembo</h3>
+        <p>Central Enlisted Men's Barrio</p>
+      </div>
+      <div class="brgy-card" data-reveal>
+        <div class="imgwrap"><img src="../Pics/West_Rembo_Logo.png" alt="Barangay West Rembo logo"></div>
+        <span class="code">RIVERSIDE</span>
+        <h3>West Rembo</h3>
+        <p>West Riverside Enlisted Men's Barrio</p>
+      </div>
+      <div class="brgy-card" data-reveal>
+        <div class="imgwrap"><img src="../Pics/East_Rembo_Logo.png" alt="Barangay East Rembo seal"></div>
+        <span class="code">EST. 1954</span>
+        <h3>East Rembo</h3>
+        <p>Riverside Enlisted Men's Barrio</p>
+      </div>
+      <div class="brgy-card" data-reveal>
+        <div class="imgwrap"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Barangay Comembo seal"></div>
+        <span class="code">EST. 1957</span>
+        <h3>Comembo</h3>
+        <p>Combat Enlisted Men's Barrio</p>
+      </div>
+      <div class="brgy-card" data-reveal>
+        <div class="imgwrap"><img src="../Pics/pembologo.png" alt="Barangay Pembo seal"></div>
+        <span class="code">THE PANTHERS</span>
+        <h3>Pembo</h3>
+        <p>Panthers Enlisted Men's Barrio</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Ready when you are</div>
+      <h2>Reserve a facility or join an event — in a few taps.</h2>
+    </div>
+    <a href="login.html" class="btn" id="cta-login">Log in to get started →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="brand">
+        <span class="mark">5X</span>
+        EMBO Access
+      </div>
+      <div class="foot-seals">
+        <div class="imgwrap"><img src="../Pics/cembologo.png" alt="Cembo"></div>
+        <div class="imgwrap"><img src="../Pics/West_Rembo_Logo.png" alt="West Rembo"></div>
+        <div class="imgwrap"><img src="../Pics/East_Rembo_Logo.png" alt="East Rembo"></div>
+        <div class="imgwrap"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Comembo"></div>
+        <div class="imgwrap"><img src="../Pics/pembologo.png" alt="Pembo"></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>Cembo · West Rembo · East Rembo · Comembo · Pembo</span>
+      <span>Facility Reservation &amp; Event Registration System</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // scroll reveal
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:0.15});
+  revealEls.forEach(el=>io.observe(el));
+
+  // login buttons -> login page (placeholder route, wire up to real route later)
+  document.querySelectorAll('#nav-login, #hero-login, #cta-login').forEach(btn=>{
+    btn.addEventListener('click', function(e){
+      // currently points to login.html — replace with your router/path as needed
+    });
+  });
+</script>
+
+</body>
+</html>
