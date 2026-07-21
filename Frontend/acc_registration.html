@@ -430,6 +430,94 @@
   .form-banner.show{display:flex;}
   .form-banner strong{display:block;font-family:'Fraunces',serif;font-size:1.02rem;margin-bottom:2px;}
 
+  /* ---------- OTP VERIFICATION STEP ---------- */
+  .otp-step{
+    padding:28px 30px 30px;
+    display:none;
+  }
+  .otp-step.show{display:block;}
+  .otp-intro{
+    margin-bottom:24px;
+  }
+  .otp-intro .tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.7rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--red-deep);
+    display:block;
+    margin-bottom:10px;
+  }
+  .otp-intro p{
+    font-size:0.95rem;
+    line-height:1.6;
+    color:var(--ink-soft);
+    margin:0;
+  }
+  .otp-intro strong{color:var(--ink);}
+  .otp-inputs{
+    display:flex;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .otp-digit{
+    width:100%;
+    aspect-ratio:1;
+    text-align:center;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:1.3rem;
+    font-weight:600;
+    color:var(--ink);
+    background:var(--paper);
+    border:1.5px solid var(--line);
+    border-radius:var(--radius);
+    outline:none;
+    transition:border-color .18s ease, box-shadow .18s ease;
+  }
+  .otp-digit:focus{
+    border-color:var(--ink);
+    box-shadow:0 3px 0 0 var(--line);
+  }
+  .otp-digit.error{border-color:var(--red-deep);}
+  .otp-inputs.error .otp-digit{border-color:var(--red-deep);}
+  #otp-error{margin-bottom:16px;}
+  .otp-meta{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:22px;
+    font-size:0.85rem;
+    color:var(--ink-soft);
+  }
+  .btn-link{
+    background:none;
+    border:none;
+    padding:0;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-weight:600;
+    font-size:0.85rem;
+    color:var(--red-deep);
+    text-decoration:underline;
+    text-underline-offset:2px;
+  }
+  .btn-link:disabled{
+    color:var(--ink-soft);
+    text-decoration:none;
+    cursor:not-allowed;
+  }
+  .otp-dev-hint{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.78rem;
+    color:var(--navy);
+    background:rgba(42,77,120,0.08);
+    border:1px dashed var(--navy);
+    border-radius:var(--radius);
+    padding:10px 12px;
+    margin-bottom:22px;
+    line-height:1.5;
+  }
+  .otp-back{margin-top:10px;}
+
   @media (max-width: 900px){
     .register-grid{grid-template-columns:1fr;}
     .field-row{grid-template-columns:1fr;}
@@ -615,13 +703,40 @@
           <span>I confirm the details above are accurate and I am a resident of the barangay selected. I agree to the <a href="#">terms of use</a> and <a href="#">privacy notice</a>.</span>
         </label>
 
-        <button type="submit" class="btn btn-full" id="submit-btn">Create account →</button>
+        <button type="submit" class="btn btn-full" id="submit-btn">Send verification code →</button>
 
         <div class="ledger-foot">
           <span>Already registered?</span>
           <a href="login.html">Log in instead →</a>
         </div>
       </form>
+
+      <div class="otp-step" id="otp-step">
+        <div class="otp-intro">
+          <span class="tag">Step 2 of 2 · Verify it's you</span>
+          <p>We sent a 6-digit code to <strong id="otp-destination">your email</strong>. Enter it below to confirm you're a real person and finish creating your account.</p>
+        </div>
+
+        <div class="otp-dev-hint" id="otp-dev-hint"></div>
+
+        <div class="otp-inputs" id="otp-inputs">
+          <input type="text" class="otp-digit" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-idx="0" aria-label="Digit 1">
+          <input type="text" class="otp-digit" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-idx="1" aria-label="Digit 2">
+          <input type="text" class="otp-digit" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-idx="2" aria-label="Digit 3">
+          <input type="text" class="otp-digit" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-idx="3" aria-label="Digit 4">
+          <input type="text" class="otp-digit" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-idx="4" aria-label="Digit 5">
+          <input type="text" class="otp-digit" inputmode="numeric" pattern="[0-9]*" maxlength="1" data-idx="5" aria-label="Digit 6">
+        </div>
+        <div class="field-error" id="otp-error">That code isn't right — check the digits and try again.</div>
+
+        <div class="otp-meta">
+          <span id="otp-timer">Resend code in 60s</span>
+          <button type="button" class="btn-link" id="otp-resend" disabled>Resend code</button>
+        </div>
+
+        <button type="button" class="btn btn-full" id="otp-verify-btn">Verify &amp; create account →</button>
+        <button type="button" class="btn btn-ghost btn-full otp-back" id="otp-back-btn">← Edit my details</button>
+      </div>
     </div>
 
   </div>
@@ -672,11 +787,21 @@
     pwMeter.className = 'pw-meter' + (score>0 ? ' s'+score : '');
   });
 
-  // validation + fake submit
+  // validation + OTP-gated submit
   const form = document.getElementById('register-form');
   const banner = document.getElementById('success-banner');
   const brgyPicker = document.getElementById('brgy-picker');
   const brgyError = document.getElementById('brgy-error');
+  const otpStep = document.getElementById('otp-step');
+  const otpDestination = document.getElementById('otp-destination');
+  const otpDevHint = document.getElementById('otp-dev-hint');
+  const otpError = document.getElementById('otp-error');
+  const otpInputsWrap = document.getElementById('otp-inputs');
+  const otpDigits = Array.from(document.querySelectorAll('.otp-digit'));
+  const otpTimerEl = document.getElementById('otp-timer');
+  const otpResendBtn = document.getElementById('otp-resend');
+  const otpVerifyBtn = document.getElementById('otp-verify-btn');
+  const otpBackBtn = document.getElementById('otp-back-btn');
 
   function setError(fieldEl, hasError){
     fieldEl.classList.toggle('has-error', hasError);
@@ -684,6 +809,48 @@
     if(input) input.classList.toggle('error', hasError);
   }
 
+  // ---- OTP state ----
+  let currentOtp = null;
+  let resendTimer = null;
+  let resendSeconds = 60;
+  let attemptsLeft = 5;
+
+  function generateOtp(){
+    return String(Math.floor(100000 + Math.random() * 900000));
+  }
+
+  function startResendCountdown(){
+    resendSeconds = 60;
+    otpResendBtn.disabled = true;
+    otpTimerEl.textContent = `Resend code in ${resendSeconds}s`;
+    clearInterval(resendTimer);
+    resendTimer = setInterval(()=>{
+      resendSeconds--;
+      if(resendSeconds <= 0){
+        clearInterval(resendTimer);
+        otpTimerEl.textContent = "Didn't get it?";
+        otpResendBtn.disabled = false;
+      } else {
+        otpTimerEl.textContent = `Resend code in ${resendSeconds}s`;
+      }
+    }, 1000);
+  }
+
+  function sendOtp(destinationLabel){
+    currentOtp = generateOtp();
+    attemptsLeft = 5;
+    otpDestination.textContent = destinationLabel;
+    otpError.style.display = 'none';
+    otpInputsWrap.classList.remove('error');
+    otpDigits.forEach(d => d.value = '');
+    // In production this is where a backend call sends the code by email/SMS.
+    // Shown here only because this page has no backend to actually deliver it yet.
+    otpDevHint.textContent = `Demo mode — no backend connected yet, so here's the code that would've been sent: ${currentOtp}`;
+    startResendCountdown();
+    otpDigits[0].focus();
+  }
+
+  // move to OTP step once the registration details check out
   form.addEventListener('submit', function(e){
     e.preventDefault();
     let valid = true;
@@ -729,11 +896,14 @@
 
     if(!valid) return;
 
-    // No backend wired up yet — show confirmation state.
-    banner.classList.add('show');
-    document.getElementById('submit-btn').textContent = 'Account created ✓';
-    document.getElementById('submit-btn').setAttribute('disabled','true');
-    banner.scrollIntoView({behavior:'smooth', block:'nearest'});
+    // Details look good — gate the actual account creation behind OTP verification
+    // so we know a real person (not a bot/script) is behind this submission.
+    form.style.display = 'none';
+    otpStep.classList.add('show');
+    otpVerifyBtn.disabled = false;
+    otpVerifyBtn.textContent = 'Verify & create account →';
+    sendOtp(email.value.trim());
+    otpStep.scrollIntoView({behavior:'smooth', block:'nearest'});
   });
 
   brgyPicker.querySelectorAll('input[name="barangay"]').forEach(inp=>{
@@ -741,6 +911,82 @@
       brgyError.style.display = 'none';
       brgyPicker.style.outline = 'none';
     });
+  });
+
+  // ---- OTP digit box behavior: auto-advance, backspace, paste ----
+  otpDigits.forEach((input, i)=>{
+    input.addEventListener('input', ()=>{
+      input.value = input.value.replace(/[^0-9]/g,'').slice(0,1);
+      otpInputsWrap.classList.remove('error');
+      otpError.style.display = 'none';
+      if(input.value && i < otpDigits.length - 1){
+        otpDigits[i+1].focus();
+      }
+    });
+    input.addEventListener('keydown', (e)=>{
+      if(e.key === 'Backspace' && !input.value && i > 0){
+        otpDigits[i-1].focus();
+      }
+    });
+    input.addEventListener('paste', (e)=>{
+      const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g,'');
+      if(pasted.length > 1){
+        e.preventDefault();
+        pasted.slice(0, otpDigits.length).split('').forEach((ch, idx)=>{
+          if(otpDigits[idx]) otpDigits[idx].value = ch;
+        });
+        const next = Math.min(pasted.length, otpDigits.length - 1);
+        otpDigits[next].focus();
+      }
+    });
+  });
+
+  // ---- Verify ----
+  otpVerifyBtn.addEventListener('click', ()=>{
+    const entered = otpDigits.map(d => d.value).join('');
+    if(entered.length < 6){
+      otpInputsWrap.classList.add('error');
+      otpError.textContent = 'Enter all 6 digits.';
+      otpError.style.display = 'block';
+      return;
+    }
+    if(entered !== currentOtp){
+      attemptsLeft--;
+      otpInputsWrap.classList.add('error');
+      if(attemptsLeft > 0){
+        otpError.textContent = `That code isn't right — check the digits and try again. (${attemptsLeft} attempt${attemptsLeft===1?'':'s'} left)`;
+        otpError.style.display = 'block';
+      } else {
+        otpError.textContent = 'Too many incorrect attempts. Request a new code to keep trying.';
+        otpError.style.display = 'block';
+        otpVerifyBtn.disabled = true;
+      }
+      otpDigits.forEach(d => d.value = '');
+      otpDigits[0].focus();
+      return;
+    }
+
+    // Correct code — account verified as human, safe to "create" it.
+    clearInterval(resendTimer);
+    otpStep.classList.remove('show');
+    banner.classList.add('show');
+    banner.scrollIntoView({behavior:'smooth', block:'nearest'});
+  });
+
+  // ---- Resend ----
+  otpResendBtn.addEventListener('click', ()=>{
+    const email = document.getElementById('email');
+    attemptsLeft = 5;
+    otpVerifyBtn.disabled = false;
+    sendOtp(email.value.trim());
+  });
+
+  // ---- Back to editing details ----
+  otpBackBtn.addEventListener('click', ()=>{
+    clearInterval(resendTimer);
+    otpStep.classList.remove('show');
+    form.style.display = '';
+    form.scrollIntoView({behavior:'smooth', block:'nearest'});
   });
 </script>
 
