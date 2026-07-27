@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SK Barangay Comembo · EMBO Access</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5F0E4;
+    --paper-deep:#EDE5D2;
+    --ink:#242219;
+    --ink-soft:#5B564A;
+    --black:#1A1613;
+    --red:#C22026;
+    --red-deep:#8F171B;
+    --line: rgba(36,34,25,0.14);
+    --radius: 2px;
+
+    /* per-barangay accent */
+    --accent: #A14E2A;
+    --accent-deep: #7A3B1F;
+    --accent-tint: rgba(161,78,42,0.15);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    margin:0;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+  }
+  a{color:inherit;}
+  p{margin:0;}
+  .wrap{
+    max-width:1220px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+  button{font-family:inherit;cursor:pointer;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.7rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    display:flex;
+    align-items:center;
+    gap:0.6rem;
+  }
+
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:2000;
+    opacity:0.035;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:500;
+    background:rgba(245,240,228,0.9);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 0;
+    gap:24px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    text-decoration:none;
+    flex-shrink:0;
+  }
+  .brand .seal{
+    width:38px;height:38px;
+    border-radius:50%;
+    border:1.5px solid var(--ink);
+    background:var(--paper);
+    padding:3px;
+    flex-shrink:0;
+  }
+  .brand .seal img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
+  .brand-text{display:flex;flex-direction:column;line-height:1.15;}
+  .brand-text .sk{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:1.02rem;
+  }
+  .brand-text .brgy{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.66rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--accent-deep);
+  }
+
+  .nav-links{
+    display:flex;
+    gap:8px;
+    font-size:0.9rem;
+    color:var(--ink-soft);
+    flex:1;
+  }
+  .nav-links a{
+    text-decoration:none;
+    padding:8px 14px;
+    border-radius:var(--radius);
+    transition:background .18s ease, color .18s ease;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .nav-links a:hover{background:var(--paper-deep);color:var(--ink);}
+  .nav-links a.active{
+    background:var(--accent);
+    color:var(--paper);
+    font-weight:600;
+  }
+
+  .nav-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-shrink:0;
+  }
+  .icon-btn{
+    width:38px;height:38px;
+    border-radius:50%;
+    border:1.5px solid var(--line);
+    background:var(--paper-deep);
+    display:flex;align-items:center;justify-content:center;
+    transition:border-color .18s ease, background .18s ease;
+  }
+  .icon-btn:hover{border-color:var(--accent-deep);background:var(--paper);}
+  .user-chip{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:6px 12px 6px 6px;
+    border-radius:999px;
+    border:1.5px solid var(--line);
+    background:var(--paper-deep);
+    font-size:0.85rem;
+    font-weight:600;
+  }
+  .user-chip .avatar{
+    width:26px;height:26px;
+    border-radius:50%;
+    background:var(--accent-deep);
+    color:var(--paper);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.66rem;
+  }
+
+  .btn{
+    font-family:'IBM Plex Sans',sans-serif;
+    font-weight:600;
+    font-size:0.92rem;
+    padding:12px 24px;
+    border-radius:var(--radius);
+    border:1.5px solid var(--ink);
+    background:var(--ink);
+    color:var(--paper);
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .btn:hover{
+    background:var(--accent-deep);
+    border-color:var(--accent-deep);
+    transform:translateY(-2px);
+    box-shadow:0 6px 0 0 var(--ink);
+  }
+  .btn:active{transform:translateY(0);box-shadow:0 2px 0 0 var(--ink);}
+  .btn-invert{
+    background:var(--paper);
+    border-color:var(--paper);
+    color:var(--ink);
+  }
+  .btn-invert:hover{
+    background:var(--ink);
+    border-color:var(--paper);
+    color:var(--paper);
+    box-shadow:0 6px 0 0 rgba(245,240,228,0.5);
+  }
+  .btn-outline{
+    background:transparent;
+    border-color:var(--paper);
+    color:var(--paper);
+  }
+  .btn-outline:hover{
+    background:rgba(245,240,228,0.14);
+    border-color:var(--paper);
+    color:var(--paper);
+    box-shadow:none;
+    transform:translateY(-2px);
+  }
+  .btn-small{padding:9px 16px;font-size:0.82rem;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:var(--accent);
+    background-image:
+      radial-gradient(circle at 88% -10%, rgba(255,255,255,0.16), transparent 55%);
+    color:var(--paper);
+    padding:56px 0 92px;
+    position:relative;
+  }
+  .hero-top{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:40px;
+    margin-bottom:8px;
+  }
+  .hero-copy{max-width:640px;}
+  .hero .eyebrow{color:rgba(245,240,228,0.85);}
+  .hero .eyebrow::before{content:"";width:22px;height:1px;background:rgba(245,240,228,0.6);display:inline-block;}
+  .hero h1{
+    font-size:clamp(2.1rem, 3.6vw, 2.9rem);
+    line-height:1.08;
+    font-weight:700;
+    color:var(--paper);
+    margin:14px 0 14px;
+  }
+  .hero p.lede{
+    font-size:1.02rem;
+    line-height:1.6;
+    color:rgba(245,240,228,0.88);
+    max-width:52ch;
+    margin-bottom:30px;
+  }
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+  .hero-seal{
+    width:96px;height:96px;
+    border-radius:50%;
+    background:var(--paper);
+    border:3px solid rgba(245,240,228,0.5);
+    padding:8px;
+    flex-shrink:0;
+    box-shadow:0 8px 0 0 rgba(0,0,0,0.12);
+  }
+  .hero-seal img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
+
+  /* ---------- STATS STRIP (overlaps hero/body boundary) ---------- */
+  .stats-strip{
+    margin-top:-54px;
+    position:relative;
+    z-index:10;
+    margin-bottom:52px;
+  }
+  .stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:16px;
+  }
+  .stat-card{
+    background:var(--paper-deep);
+    border:1.5px solid var(--ink);
+    border-radius:var(--radius);
+    padding:18px 20px;
+    box-shadow:0 8px 0 0 rgba(36,34,25,0.08);
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .stat-card .stat-icon{
+    width:42px;height:42px;
+    border-radius:50%;
+    background:var(--accent-tint);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    color:var(--accent-deep);
+  }
+  .stat-card .stat-num{
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:1.5rem;
+    line-height:1;
+  }
+  .stat-card .stat-label{
+    font-size:0.76rem;
+    color:var(--ink-soft);
+    margin-top:3px;
+  }
+
+  /* ---------- BODY GRID ---------- */
+  .body-section{padding-bottom:80px;}
+  .body-grid{
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:40px;
+    align-items:start;
+  }
+
+  .section-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:20px;
+  }
+  .section-head h2{font-size:1.3rem;}
+  .section-head a{
+    font-size:0.85rem;
+    font-weight:600;
+    color:var(--accent-deep);
+    text-decoration:none;
+  }
+  .section-head a:hover{text-decoration:underline;}
+
+  .live-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.72rem;
+    color:var(--ink-soft);
+    background:var(--paper-deep);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:5px 12px;
+    margin-bottom:26px;
+  }
+  .live-dot{
+    width:7px;height:7px;
+    border-radius:50%;
+    background:#2E6B4F;
+    box-shadow:0 0 0 0 rgba(46,107,79,0.5);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(46,107,79,0.45);}
+    70%{box-shadow:0 0 0 7px rgba(46,107,79,0);}
+    100%{box-shadow:0 0 0 0 rgba(46,107,79,0);}
+  }
+
+  /* announcement cards */
+  .ann-card{
+    display:flex;
+    gap:16px;
+    padding:18px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .ann-card:first-child{padding-top:0;}
+  .ann-thumb{
+    width:84px;height:84px;
+    border-radius:var(--radius);
+    background:var(--accent-tint);
+    border:1px solid var(--line);
+    flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--accent-deep);
+  }
+  .ann-tag{
+    display:inline-block;
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.66rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--accent-deep);
+    background:var(--accent-tint);
+    border-radius:999px;
+    padding:3px 9px;
+    margin-bottom:7px;
+  }
+  .ann-date{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.72rem;
+    color:var(--ink-soft);
+    margin-left:8px;
+  }
+  .ann-card h3{font-size:1.02rem;margin-bottom:5px;line-height:1.3;}
+  .ann-card p{
+    font-size:0.87rem;
+    color:var(--ink-soft);
+    line-height:1.5;
+    margin-bottom:6px;
+  }
+  .ann-card .read-more{
+    font-size:0.82rem;
+    font-weight:600;
+    color:var(--accent-deep);
+    text-decoration:none;
+  }
+  .ann-card .read-more:hover{text-decoration:underline;}
+
+  /* upcoming programs */
+  .side-card{
+    background:var(--paper-deep);
+    border:1.5px solid var(--ink);
+    border-radius:var(--radius);
+    padding:20px;
+    margin-bottom:22px;
+  }
+  .side-card .side-title{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.7rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--accent-deep);
+    margin-bottom:14px;
+    display:block;
+  }
+  .prog-item{padding:14px 0;border-bottom:1px solid var(--line);}
+  .prog-item:last-of-type{border-bottom:none;padding-bottom:4px;}
+  .prog-item:first-of-type{padding-top:0;}
+  .prog-item h4{font-size:0.98rem;margin-bottom:6px;}
+  .prog-meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    margin-bottom:10px;
+  }
+  .prog-meta span{display:flex;align-items:center;gap:4px;}
+  .prog-bar-wrap{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .prog-bar{
+    flex:1;
+    height:5px;
+    background:var(--line);
+    border-radius:3px;
+    overflow:hidden;
+  }
+  .prog-bar-fill{height:100%;background:var(--accent-deep);border-radius:3px;}
+  .prog-bar-label{font-size:0.72rem;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;white-space:nowrap;}
+  .prog-join{
+    width:100%;
+    text-align:center;
+    padding:9px;
+    font-size:0.84rem;
+    font-weight:600;
+    border-radius:var(--radius);
+    border:1.5px solid var(--accent-deep);
+    background:var(--accent-deep);
+    color:var(--paper);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .prog-join:hover{transform:translateY(-1px);box-shadow:0 4px 0 0 var(--ink);}
+
+  /* mini calendar */
+  .mini-cal-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:12px;
+  }
+  .mini-cal-head strong{font-family:'Fraunces',serif;font-size:1rem;}
+  .mini-cal-nav{display:flex;gap:4px;}
+  .mini-cal-nav button{
+    width:24px;height:24px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--paper);
+    font-size:0.75rem;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .mini-cal-grid{
+    display:grid;
+    grid-template-columns:repeat(7, 1fr);
+    gap:3px;
+    text-align:center;
+  }
+  .mini-cal-grid .dow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.62rem;
+    color:var(--ink-soft);
+    padding-bottom:4px;
+  }
+  .mini-cal-grid .day{
+    font-size:0.78rem;
+    padding:6px 0;
+    border-radius:3px;
+    color:var(--ink);
+    position:relative;
+  }
+  .mini-cal-grid .day.blank{visibility:hidden;}
+  .mini-cal-grid .day.has-event::after{
+    content:"";
+    position:absolute;
+    bottom:2px;left:50%;
+    transform:translateX(-50%);
+    width:4px;height:4px;
+    border-radius:50%;
+    background:var(--accent-deep);
+  }
+  .mini-cal-grid .day.today{
+    background:var(--accent-deep);
+    color:var(--paper);
+    font-weight:700;
+  }
+  .mini-cal-grid .day.today::after{background:var(--paper);}
+  .mini-cal-foot{
+    margin-top:14px;
+    text-align:center;
+  }
+  .mini-cal-foot a{
+    font-size:0.82rem;
+    font-weight:600;
+    color:var(--accent-deep);
+    text-decoration:none;
+  }
+  .mini-cal-foot a:hover{text-decoration:underline;}
+
+  /* ---------- CHATBOT ---------- */
+  .chat-fab{
+    position:fixed;
+    bottom:26px;right:26px;
+    width:58px;height:58px;
+    border-radius:50%;
+    background:var(--ink);
+    border:2.5px solid var(--accent);
+    color:var(--paper);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 0 0 rgba(36,34,25,0.18);
+    z-index:900;
+    transition:transform .18s ease;
+  }
+  .chat-fab:hover{transform:translateY(-3px);}
+  .chat-panel{
+    position:fixed;
+    bottom:96px;right:26px;
+    width:340px;
+    max-width:calc(100vw - 40px);
+    background:var(--paper-deep);
+    border:1.5px solid var(--ink);
+    border-radius:var(--radius);
+    box-shadow:0 14px 0 0 rgba(36,34,25,0.12);
+    z-index:900;
+    display:none;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  .chat-panel.show{display:flex;}
+  .chat-head{
+    background:var(--accent);
+    color:var(--paper);
+    padding:14px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .chat-head .title{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:1rem;
+  }
+  .chat-head .sub{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.65rem;
+    color:rgba(245,240,228,0.8);
+  }
+  .chat-close{
+    background:none;border:none;color:var(--paper);
+    font-size:1.1rem;line-height:1;
+  }
+  .chat-body{
+    padding:16px 18px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    max-height:320px;
+    overflow-y:auto;
+  }
+  .chat-msg{
+    max-width:82%;
+    padding:9px 13px;
+    border-radius:var(--radius);
+    font-size:0.85rem;
+    line-height:1.45;
+  }
+  .chat-msg.bot{
+    background:var(--paper);
+    border:1px solid var(--line);
+    align-self:flex-start;
+  }
+  .chat-msg.user{
+    background:var(--accent-deep);
+    color:var(--paper);
+    align-self:flex-end;
+  }
+  .chat-suggest{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    padding:0 18px 12px;
+  }
+  .chat-suggest button{
+    font-size:0.74rem;
+    padding:6px 11px;
+    border-radius:999px;
+    border:1px solid var(--accent-deep);
+    background:transparent;
+    color:var(--accent-deep);
+    font-weight:600;
+  }
+  .chat-suggest button:hover{background:var(--accent-tint);}
+  .chat-input-row{
+    display:flex;
+    gap:8px;
+    padding:12px;
+    border-top:1px dashed var(--line);
+  }
+  .chat-input-row input{
+    flex:1;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:0.85rem;
+    padding:10px 12px;
+    border:1.5px solid var(--line);
+    border-radius:var(--radius);
+    background:var(--paper);
+    outline:none;
+  }
+  .chat-input-row input:focus{border-color:var(--ink);}
+  .chat-send{
+    width:38px;height:38px;
+    border-radius:var(--radius);
+    background:var(--accent-deep);
+    border:none;
+    color:var(--paper);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+
+  @media (max-width: 980px){
+    .body-grid{grid-template-columns:1fr;}
+    .stats-grid{grid-template-columns:repeat(2, 1fr);}
+    .nav-links{display:none;}
+    .hero-seal{width:72px;height:72px;}
+  }
+  @media (max-width: 620px){
+    .stats-grid{grid-template-columns:1fr 1fr;}
+    .hero{padding:44px 0 78px;}
+    .hero-top{flex-direction:column-reverse;gap:18px;}
+    .chat-panel{right:14px;bottom:88px;}
+    .chat-fab{right:14px;bottom:18px;}
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:44px 0 36px;
+    border-top:1px solid var(--line);
+  }
+  .foot-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:26px;
+    margin-bottom:30px;
+  }
+  .foot-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:1.05rem;
+  }
+  .foot-brand .mark{
+    width:32px;height:32px;
+    border-radius:50%;
+    background:var(--black);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--paper);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.6rem;
+    font-weight:600;
+    border:2px solid var(--accent);
+  }
+  .foot-seals{display:flex;gap:12px;}
+  .foot-seals .imgwrap{
+    width:38px;height:38px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--paper-deep);
+    display:flex;align-items:center;justify-content:center;
+    padding:4px;
+  }
+  .foot-seals img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
+  .foot-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    font-family:'IBM Plex Mono',monospace;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="index.html" class="brand">
+      <span class="seal"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Comembo seal"></span>
+      <span class="brand-text">
+        <span class="sk">SK Comembo</span>
+        <span class="brgy">Youth Facility Portal</span>
+      </span>
+    </a>
+    <nav class="nav-links">
+      <a href="home_comembo.html" class="active">Home</a>
+      <a href="facilities.html">Facilities</a>
+      <a href="my_reservations.html">My Reservations</a>
+      <a href="feedback.html">Feedback</a>
+    </nav>
+    <div class="nav-right">
+      <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="user-chip">
+        <span class="avatar">JD</span>
+        Juan Dela Cruz
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <div class="hero-copy">
+        <div class="eyebrow">SK Barangay Comembo · Taguig City</div>
+        <h1>Welcome to SK Barangay Comembo</h1>
+        <p class="lede">Empowering youth through programs, facilities, and community engagement — reserve a court or hall, join upcoming activities, and stay in the loop with Comembo's SK office.</p>
+        <div class="hero-actions">
+          <a href="facilities.html" class="btn btn-invert">Reserve a Facility</a>
+          <a href="my_reservations.html" class="btn btn-outline">View My Reservations</a>
+        </div>
+      </div>
+      <div class="hero-seal">
+        <img src="../Pics/Barangay_Comembo_Seal.png" alt="Comembo seal">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wrap stats-strip">
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M17 20v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1M10 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm8 8v-1a4 4 0 0 0-3-3.87M15 4.13A4 4 0 0 1 15 11.87" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      <div>
+        <div class="stat-num">964</div>
+        <div class="stat-label">Active Youth Members</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M4 9h16M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      <div>
+        <div class="stat-num">8</div>
+        <div class="stat-label">Programs This Month</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 3v18M15 3v18M4 8h5M15 8h5M4 16h5M15 16h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      <div>
+        <div class="stat-num">21</div>
+        <div class="stat-label">Facility Reservations</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 17l5-5 4 4 8-9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <div>
+        <div class="stat-num">79%</div>
+        <div class="stat-label">Participation Rate</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="body-section">
+  <div class="wrap body-grid">
+
+    <div class="col-announcements">
+      <div class="live-chip"><span class="live-dot"></span> 4 of 6 facilities available right now</div>
+
+      <div class="section-head">
+        <h2>Latest Announcements</h2>
+        <a href="#">View All →</a>
+      </div>
+
+      <div class="ann-card">
+        <div class="ann-thumb"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 3a9 9 0 0 0 0 18M9 3.6c-1.2 3-1.2 13.8 0 16.8M15 3.6c1.2 3 1.2 13.8 0 16.8M3.6 9h16.8M3.6 15h16.8" stroke="currentColor" stroke-width="1.3"/></svg></div>
+        <div>
+          <span class="ann-tag">Facility Update</span><span class="ann-date">2026-04-10</span>
+          <h3>Covered Court Repainting Finished</h3>
+          <p>The covered court has fresh court lines and a new coat of paint. Booking slots are open starting this week.</p>
+          <a href="#" class="read-more">Read More →</a>
+        </div>
+      </div>
+
+      <div class="ann-card">
+        <div class="ann-thumb"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.4 5 5.6.5-4.2 3.7 1.3 5.5L12 14.9 6.9 17.7l1.3-5.5-4.2-3.7 5.6-.5L12 3Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+        <div>
+          <span class="ann-tag">Event</span><span class="ann-date">2026-04-05</span>
+          <h3>Out-of-School Youth Skills Training</h3>
+          <p>A free two-week skills training for out-of-school youth kicks off this month. Slots are limited — join through Programs.</p>
+          <a href="#" class="read-more">Read More →</a>
+        </div>
+      </div>
+
+      <div class="ann-card">
+        <div class="ann-thumb"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M4 19V5a1 1 0 0 1 1-1h11l4 4v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 9h6M8 13h8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+        <div>
+          <span class="ann-tag">Notice</span><span class="ann-date">2026-04-01</span>
+          <h3>Reminder: Bring a Valid ID for Facility Use</h3>
+          <p>Please present a valid ID matching your registered account when checking in for an approved reservation.</p>
+          <a href="#" class="read-more">Read More →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-side">
+      <div class="section-head">
+        <h2>Upcoming Programs</h2>
+        <a href="#">View All →</a>
+      </div>
+
+      <div class="side-card">
+        <div class="prog-item">
+          <h4>Chess & Board Games Night</h4>
+          <div class="prog-meta">
+            <span>📅 2026-04-22</span>
+            <span>🕒 5:00–8:00 PM</span>
+            <span>📍 Covered Court</span>
+          </div>
+          <div class="prog-bar-wrap">
+            <div class="prog-bar"><div class="prog-bar-fill" style="width:48%;"></div></div>
+            <span class="prog-bar-label">24/50</span>
+          </div>
+          <button class="prog-join">Join Program</button>
+        </div>
+        <div class="prog-item">
+          <h4>Resume & Job Readiness Seminar</h4>
+          <div class="prog-meta">
+            <span>📅 2026-04-28</span>
+            <span>🕒 2:00–4:00 PM</span>
+            <span>📍 Function Hall</span>
+          </div>
+          <div class="prog-bar-wrap">
+            <div class="prog-bar"><div class="prog-bar-fill" style="width:30%;"></div></div>
+            <span class="prog-bar-label">9/30</span>
+          </div>
+          <button class="prog-join">Join Program</button>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <span class="side-title">This Month at a Glance</span>
+        <div class="mini-cal-head">
+          <strong>April 2026</strong>
+          <div class="mini-cal-nav"><button>‹</button><button>›</button></div>
+        </div>
+        <div class="mini-cal-grid">
+          <span class="dow">S</span><span class="dow">M</span><span class="dow">T</span><span class="dow">W</span><span class="dow">T</span><span class="dow">F</span><span class="dow">S</span>
+          <span class="day blank"></span>
+          <span class="day blank"></span>
+          <span class="day blank"></span>
+          <span class="day has-event">1</span>
+          <span class="day">2</span>
+          <span class="day">3</span>
+          <span class="day">4</span>
+          <span class="day has-event">5</span>
+          <span class="day">6</span>
+          <span class="day">7</span>
+          <span class="day">8</span>
+          <span class="day">9</span>
+          <span class="day has-event">10</span>
+          <span class="day">11</span>
+          <span class="day">12</span>
+          <span class="day">13</span>
+          <span class="day">14</span>
+          <span class="day">15</span>
+          <span class="day">16</span>
+          <span class="day">17</span>
+          <span class="day">18</span>
+          <span class="day today">19</span>
+          <span class="day">20</span>
+          <span class="day">21</span>
+          <span class="day has-event">22</span>
+          <span class="day">23</span>
+          <span class="day">24</span>
+          <span class="day">25</span>
+          <span class="day">26</span>
+          <span class="day">27</span>
+          <span class="day has-event">28</span>
+          <span class="day">29</span>
+          <span class="day">30</span>
+          <span class="day blank"></span>
+          <span class="day blank"></span>
+        </div>
+        <div class="mini-cal-foot"><a href="facilities.html">View Reservation Calendar →</a></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="mark">5X</span>
+        EMBO Access
+      </div>
+      <div class="foot-seals">
+        <div class="imgwrap"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Cembo"></div>
+        <div class="imgwrap"><img src="../Pics/West_Rembo_Logo.png" alt="West Rembo"></div>
+        <div class="imgwrap"><img src="../Pics/East_Rembo_Logo.png" alt="East Rembo"></div>
+        <div class="imgwrap"><img src="../Pics/cembologo.png" alt="Comembo"></div>
+        <div class="imgwrap"><img src="../Pics/pembologo.png" alt="Pembo"></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>Cembo · West Rembo · East Rembo · Comembo · Pembo</span>
+      <span>Facility Reservation &amp; Event Registration System</span>
+    </div>
+  </div>
+</footer>
+
+<button class="chat-fab" id="chat-fab" title="SK Assistant">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</button>
+
+<div class="chat-panel" id="chat-panel">
+  <div class="chat-head">
+    <div>
+      <div class="title">SK Assistant</div>
+      <div class="sub">Barangay Comembo · Online</div>
+    </div>
+    <button class="chat-close" id="chat-close">✕</button>
+  </div>
+  <div class="chat-body" id="chat-body">
+    <div class="chat-msg bot">Hi! I'm the SK Comembo assistant. I can help with facility availability, upcoming programs, your reservations, or announcements. What do you need?</div>
+  </div>
+  <div class="chat-suggest">
+    <button data-msg="Is the basketball court free this weekend?">Court availability</button>
+    <button data-msg="What programs are coming up?">Upcoming programs</button>
+    <button data-msg="Where's my reservation status?">My reservation status</button>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" id="chat-input" placeholder="Type a message…">
+    <button class="chat-send" id="chat-send">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 20l16-8L4 4l2 8-2 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  const fab = document.getElementById('chat-fab');
+  const panel = document.getElementById('chat-panel');
+  const closeBtn = document.getElementById('chat-close');
+  const navChatBtn = document.getElementById('nav-chat-btn');
+  const body = document.getElementById('chat-body');
+  const input = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('chat-send');
+
+  function togglePanel(){ panel.classList.toggle('show'); if(panel.classList.contains('show')) input.focus(); }
+  fab.addEventListener('click', togglePanel);
+  navChatBtn.addEventListener('click', togglePanel);
+  closeBtn.addEventListener('click', ()=> panel.classList.remove('show'));
+
+  const canned = {
+    "is the basketball court free this weekend?": "Let me check the calendar — the Basketball Court has an open slot Saturday 2:00–4:00 PM. Want me to start a reservation request for it?",
+    "what programs are coming up?": "Coming up: our Basketball Tournament and a Digital Skills Workshop this month. Tap \"Join Program\" on the home page to sign up.",
+    "where's my reservation status?": "You can see every request and its status — Pending, Approved, or Rejected — under \"My Reservations\" in the top menu."
+  };
+
+  function addMsg(text, who){
+    const el = document.createElement('div');
+    el.className = 'chat-msg ' + who;
+    el.textContent = text;
+    body.appendChild(el);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function respond(text){
+    addMsg(text, 'user');
+    const key = text.trim().toLowerCase();
+    const reply = canned[key] || "Thanks — I've noted that. This is a front-end preview, so a real SK Assistant would look this up for you once it's connected to the barangay's system.";
+    setTimeout(()=> addMsg(reply, 'bot'), 500);
+  }
+
+  sendBtn.addEventListener('click', ()=>{
+    const v = input.value.trim();
+    if(!v) return;
+    respond(v);
+    input.value = '';
+  });
+  input.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter'){
+      const v = input.value.trim();
+      if(!v) return;
+      respond(v);
+      input.value = '';
+    }
+  });
+  document.querySelectorAll('.chat-suggest button').forEach(btn=>{
+    btn.addEventListener('click', ()=> respond(btn.dataset.msg));
+  });
+</script>
+
+</body>
+</html>
