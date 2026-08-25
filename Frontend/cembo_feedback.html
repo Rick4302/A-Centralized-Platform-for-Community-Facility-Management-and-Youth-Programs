@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Feedback · EMBO Access</title>
+<title>Feedback · SK Cembo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
     --line: rgba(36,34,25,0.14);
     --radius: 2px;
 
-    /* default accent = Cembo navy; swapped live by the barangay picker below */
+    /* SK Cembo accent */
     --accent:#2A4D78;
     --accent-deep:#1E3A5C;
     --accent-tint: rgba(42,77,120,0.14);
@@ -99,24 +99,32 @@
   .brand{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:11px;
     text-decoration:none;
     flex-shrink:0;
+  }
+  .brand .seal{
+    width:38px;height:38px;
+    border-radius:50%;
+    border:1.5px solid var(--ink);
+    background:var(--paper);
+    padding:3px;
+    flex-shrink:0;
+  }
+  .brand .seal img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
+  .brand-text{display:flex;flex-direction:column;line-height:1.15;}
+  .brand-text .sk{
     font-family:'Fraunces', serif;
     font-weight:700;
-    font-size:1.1rem;
+    font-size:1.02rem;
   }
-  .brand .mark{
-    width:34px;height:34px;
-    border-radius:50%;
-    background:var(--black);
-    display:flex;align-items:center;justify-content:center;
-    color:var(--paper);
-    font-family:'IBM Plex Mono',monospace;
-    font-size:0.65rem;
-    font-weight:600;
-    border:2px solid var(--accent);
-    transition:border-color .2s ease;
+  .brand-text .brgy{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.66rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--accent-deep);
+    transition:color .2s ease;
   }
   .nav-links{
     display:flex;
@@ -352,6 +360,20 @@
     color:var(--ink-soft);
   }
 
+  .locked-field{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:0.96rem;
+    font-weight:600;
+    color:var(--ink);
+    background:var(--paper);
+    border:1.5px solid var(--line);
+    border-radius:var(--radius);
+    padding:10px 14px;
+  }
+  .locked-field img{width:22px;height:22px;border-radius:50%;object-fit:contain;background:var(--paper-deep);padding:2px;flex-shrink:0;}
+
   /* ---------- STAR RATING ---------- */
   .rating-field{margin-bottom:22px;}
   .stars{
@@ -516,9 +538,12 @@
 
 <header>
   <div class="wrap nav">
-    <a href="index.html" class="brand">
-      <span class="mark">5X</span>
-      EMBO Access
+    <a href="cembo_page.html" class="brand">
+      <span class="seal"><img src="../Pics/cembologo.png" alt="Cembo seal"></span>
+      <span class="brand-text">
+        <span class="sk">SK Cembo</span>
+        <span class="brgy">Youth Facility Portal</span>
+      </span>
     </a>
     <nav class="nav-links">
       <a href="cembo_page.html">Home</a>
@@ -537,9 +562,9 @@
 
 <section class="hero">
   <div class="wrap">
-    <div class="eyebrow">We're listening</div>
+    <div class="eyebrow">SK Barangay Cembo · We're listening</div>
     <h1>Tell us how we're doing.</h1>
-    <p class="lede">Rate a reservation, a program, or the system itself. Your feedback goes straight to the SK office of the barangay you select — it helps us fix what's broken and keep doing what's working.</p>
+    <p class="lede">Rate a reservation, a program, or the system itself. Your feedback goes straight to the SK Cembo office — it helps us fix what's broken and keep doing what's working for the youth of Cembo.</p>
   </div>
 </section>
 
@@ -584,17 +609,13 @@
           </div>
 
           <div class="field-row">
-            <div class="field" data-field="barangay">
-              <label for="fb-barangay">Barangay <span class="req">*</span></label>
-              <select id="fb-barangay" name="barangay" required>
-                <option value="" disabled selected>Select a barangay</option>
-                <option value="cembo">Cembo</option>
-                <option value="comembo">Comembo</option>
-                <option value="eastrembo">East Rembo</option>
-                <option value="westrembo">West Rembo</option>
-                <option value="pembo">Pembo</option>
-              </select>
-              <span class="field-error">Select the barangay this feedback is about.</span>
+            <div class="field">
+              <label>Barangay</label>
+              <div class="locked-field">
+                <img src="../Pics/cembologo.png" alt="Cembo seal">
+                Cembo
+              </div>
+              <input type="hidden" id="fb-barangay" name="barangay" value="cembo">
             </div>
             <div class="field" data-field="category">
               <label for="fb-category">Category <span class="req">*</span></label>
@@ -631,14 +652,14 @@
           </div>
 
           <button type="submit" class="btn btn-full" id="submit-btn">Send feedback →</button>
-          <p class="form-foot-note">Your feedback is routed to the SK office of the selected barangay and may be reviewed alongside your account for follow-up.</p>
+          <p class="form-foot-note">Your feedback is routed directly to the SK Cembo office and may be reviewed alongside your account for follow-up.</p>
         </form>
       </div>
     </div>
 
     <div class="col-side">
       <div class="side-card">
-        <span class="side-title">Recent Feedback</span>
+        <span class="side-title">Recent Feedback · Cembo</span>
         <div id="fb-list">
           <!-- feedback items injected here -->
         </div>
@@ -653,11 +674,11 @@
           </li>
           <li>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            For urgent safety concerns, contact your barangay office directly.
+            For urgent safety concerns, contact the SK Cembo office directly.
           </li>
           <li>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Feedback is reviewed by SK staff, not shared publicly beyond your barangay.
+            Feedback is reviewed by SK Cembo staff, not shared publicly.
           </li>
         </ul>
       </div>
@@ -689,25 +710,8 @@
 </footer>
 
 <script>
-  // ---------- barangay accent colors (kept in sync with each barangay page) ----------
-  const ACCENTS = {
-    cembo:      { accent:'#2A4D78', deep:'#1E3A5C', tint:'rgba(42,77,120,0.14)'  },
-    comembo:    { accent:'#A14E2A', deep:'#7A3B1F', tint:'rgba(161,78,42,0.14)'  },
-    eastrembo:  { accent:'#B8862A', deep:'#8C6720', tint:'rgba(184,134,42,0.14)' },
-    westrembo:  { accent:'#2E6B4F', deep:'#1E4A36', tint:'rgba(46,107,79,0.14)'  },
-    pembo:      { accent:'#8F171B', deep:'#6E1215', tint:'rgba(143,23,27,0.14)'  }
-  };
-
-  const barangaySelect = document.getElementById('fb-barangay');
-  function applyAccent(key){
-    const theme = ACCENTS[key];
-    if(!theme) return;
-    const root = document.documentElement.style;
-    root.setProperty('--accent', theme.accent);
-    root.setProperty('--accent-deep', theme.deep);
-    root.setProperty('--accent-tint', theme.tint);
-  }
-  barangaySelect.addEventListener('change', ()=> applyAccent(barangaySelect.value));
+  // barangay is locked to Cembo on this page — no picker needed
+  const barangayField = document.getElementById('fb-barangay');
 
   // ---------- star rating ----------
   const starWrap = document.getElementById('star-rating');
@@ -742,12 +746,12 @@
 
   // ---------- recent feedback list (persisted in this browser) ----------
   const fbList = document.getElementById('fb-list');
-  const STORAGE_KEY = 'embo_feedback_v1';
+  const STORAGE_KEY = 'sk_cembo_feedback_v1';
 
   const seedFeedback = [
     { name:'Marites A.', barangay:'Cembo', category:'Facility Reservation', rating:5, text:'Booking the covered court took two minutes. Confirmation slip printed on the spot — huge upgrade from the old walk-in process.', date:'2026-04-14' },
-    { name:'Ronnie P.', barangay:'Pembo', category:'Event Registration', rating:4, text:'Registered for the leadership summit easily, but I wish reminders came a day earlier than they do now.', date:'2026-04-09' },
-    { name:'Dianne C.', barangay:'West Rembo', category:'Website / System', rating:5, text:'Clean and fast on mobile. Was able to check the mini calendar and reserve a slot between jeepney rides.', date:'2026-04-02' }
+    { name:'Ronnie P.', barangay:'Cembo', category:'Event Registration', rating:4, text:'Registered for the leadership summit easily, but I wish reminders came a day earlier than they do now.', date:'2026-04-09' },
+    { name:'Dianne C.', barangay:'Cembo', category:'Website / System', rating:5, text:'Clean and fast on mobile. Was able to check the mini calendar and reserve a slot between jeepney rides.', date:'2026-04-02' }
   ];
 
   function loadFeedback(){
@@ -797,9 +801,6 @@
     facility:'Facility Reservation', event:'Event Registration',
     system:'Website / System', staff:'SK Staff & Service', other:'Other'
   };
-  const barangayLabels = {
-    cembo:'Cembo', comembo:'Comembo', eastrembo:'East Rembo', westrembo:'West Rembo', pembo:'Pembo'
-  };
 
   function setError(fieldEl, hasError){
     fieldEl.classList.toggle('has-error', hasError);
@@ -818,7 +819,6 @@
     const checks = [
       [nameEl.closest('.field'), nameEl.value.trim().length > 0],
       [emailEl.closest('.field'), /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())],
-      [barangaySelect.closest('.field'), barangaySelect.value !== ''],
       [categorySelect.closest('.field'), categorySelect.value !== ''],
       [starWrap.closest('.field'), currentRating > 0],
       [message.closest('.field'), message.value.trim().length > 0],
@@ -840,7 +840,7 @@
     // Replace this block with a real POST request to your feedback endpoint.
     const newEntry = {
       name: nameEl.value.trim(),
-      barangay: barangayLabels[barangaySelect.value],
+      barangay: 'Cembo',
       category: categoryLabels[categorySelect.value],
       rating: currentRating,
       text: message.value.trim(),
