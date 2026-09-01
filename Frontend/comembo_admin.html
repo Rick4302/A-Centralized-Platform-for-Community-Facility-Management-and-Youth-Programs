@@ -845,6 +845,96 @@
     padding-top:20px;
     border-top:1px solid var(--line);
   }
+
+  /* ---------- INSIGHTS (Summary / Statistics / Reports) ---------- */
+  .insights-panel{display:none;}
+  .insights-panel.active{display:block;}
+
+  /* Summary tab */
+  .summary-lede{
+    font-size:0.92rem;
+    color:var(--ink-soft);
+    max-width:72ch;
+    line-height:1.6;
+    margin-bottom:22px;
+  }
+  .summary-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:16px;
+    margin-bottom:8px;
+  }
+  .summary-card{
+    background:var(--paper-deep);
+    border:1.5px solid var(--ink);
+    border-radius:var(--radius);
+    padding:20px 22px;
+    box-shadow:0 6px 0 0 rgba(36,34,25,0.06);
+  }
+  .summary-card .tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.66rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--accent-deep);
+    display:block;
+    margin-bottom:8px;
+  }
+  .summary-card p{font-size:0.88rem;line-height:1.55;color:var(--ink);}
+  .summary-card strong{font-weight:700;}
+
+  /* Statistics tab */
+  .chart-grid{
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:18px;
+    margin-bottom:18px;
+  }
+  .chart-grid.full{grid-template-columns:1fr;}
+  .chart-card{
+    background:var(--paper-deep);
+    border:1.5px solid var(--ink);
+    border-radius:var(--radius);
+    padding:20px 22px 14px;
+    box-shadow:0 6px 0 0 rgba(36,34,25,0.06);
+  }
+  .chart-card h3{font-size:0.98rem;margin-bottom:2px;}
+  .chart-card .chart-sub{font-size:0.78rem;color:var(--ink-soft);margin-bottom:14px;}
+  .chart-card canvas{max-height:240px;}
+  .chart-legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 16px;
+    margin-top:12px;
+    font-size:0.76rem;
+    color:var(--ink-soft);
+  }
+  .chart-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .chart-legend i{width:9px;height:9px;border-radius:50%;display:inline-block;}
+
+  /* Reports tab */
+  .report-list{display:flex;flex-direction:column;gap:12px;padding-bottom:8px;}
+  .report-row{
+    background:var(--paper-deep);
+    border:1.5px solid var(--ink);
+    border-radius:var(--radius);
+    padding:16px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+    box-shadow:0 5px 0 0 rgba(36,34,25,0.06);
+  }
+  .report-row .report-info h3{font-size:0.96rem;margin-bottom:4px;}
+  .report-row .report-info p{font-size:0.8rem;color:var(--ink-soft);}
+  .report-row .report-actions{display:flex;gap:10px;flex-shrink:0;}
+  .report-row .btn-small{padding:8px 14px;font-size:0.78rem;}
+
+  @media (max-width: 980px){
+    .summary-grid{grid-template-columns:1fr;}
+    .chart-grid{grid-template-columns:1fr;}
+  }
 </style>
 </head>
 <body>
@@ -952,6 +1042,102 @@
   </div>
 </section>
 
+<section class="wrap page-sub">
+  <div class="section-head-row">
+    <h2>Insights</h2>
+  </div>
+
+  <div class="tab-row">
+    <button class="tab-btn active" data-tab="summary">Summary</button>
+    <button class="tab-btn" data-tab="statistics">Statistics</button>
+    <button class="tab-btn" data-tab="reports">Reports</button>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="insights-panel active" id="panel-summary">
+    <p class="summary-lede">A quick read on how Comembo's facilities, reservations, and youth programs are trending this month.</p>
+    <div class="summary-grid">
+      <div class="summary-card">
+        <span class="tag">Reservations</span>
+        <p><strong>5 requests</strong> logged this month across <strong>6 facilities</strong> — 2 approved, 2 pending, 1 rejected. The <strong>Comembo Covered Court</strong> remains the most requested venue.</p>
+      </div>
+      <div class="summary-card">
+        <span class="tag">Approval Rate</span>
+        <p><strong>67%</strong> of decided requests were approved. Average time from submission to a decision is currently <strong>~2 days</strong>.</p>
+      </div>
+      <div class="summary-card">
+        <span class="tag">Events &amp; Programs</span>
+        <p><strong>4 active events</strong> with <strong>90 total registrations</strong>, averaging <strong>23 sign-ups</strong> per program. The Digital Skills Workshop is filling up fastest.</p>
+      </div>
+      <div class="summary-card">
+        <span class="tag">Attention Needed</span>
+        <p><strong>2 reservations</strong> are still awaiting review. Oldest pending request was submitted <strong>3 days ago</strong> — worth a look under Manage Reservations.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATISTICS -->
+  <div class="insights-panel" id="panel-statistics">
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>Reservations by Facility</h3>
+        <div class="chart-sub">Total requests received per facility, this month</div>
+        <canvas id="chartFacility"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>Reservation Status</h3>
+        <div class="chart-sub">Breakdown of all requests</div>
+        <canvas id="chartStatus"></canvas>
+      </div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>Reservation Trend</h3>
+        <div class="chart-sub">Requests submitted, last 6 months</div>
+        <canvas id="chartTrend"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>Event Registrations</h3>
+        <div class="chart-sub">Sign-ups per active program</div>
+        <canvas id="chartEvents"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- REPORTS -->
+  <div class="insights-panel" id="panel-reports">
+    <div class="report-list">
+      <div class="report-row">
+        <div class="report-info">
+          <h3>Facility Utilization Report</h3>
+          <p>Reservation counts and approval status broken down by facility.</p>
+        </div>
+        <div class="report-actions">
+          <button class="btn btn-small btn-secondary-nav" onclick="downloadReport('facility')">Download CSV</button>
+        </div>
+      </div>
+      <div class="report-row">
+        <div class="report-info">
+          <h3>Reservation Summary Report</h3>
+          <p>All facility reservation requests with status and requesting officer.</p>
+        </div>
+        <div class="report-actions">
+          <button class="btn btn-small btn-secondary-nav" onclick="downloadReport('reservations')">Download CSV</button>
+        </div>
+      </div>
+      <div class="report-row">
+        <div class="report-info">
+          <h3>Event Attendance Report</h3>
+          <p>Registration totals and capacity for each youth program or event.</p>
+        </div>
+        <div class="report-actions">
+          <button class="btn btn-small btn-secondary-nav" onclick="downloadReport('events')">Download CSV</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="wrap">
   <div class="section-head-row">
     <h2>Recent Activity</h2>
@@ -1036,8 +1222,131 @@
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
 <script>
+  /* ---------- INSIGHTS: tabs ---------- */
+  const tabBtns = document.querySelectorAll('.tab-row .tab-btn[data-tab]');
+  const panels = {
+    summary: document.getElementById('panel-summary'),
+    statistics: document.getElementById('panel-statistics'),
+    reports: document.getElementById('panel-reports')
+  };
+  let chartsInitialized = false;
 
+  tabBtns.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      tabBtns.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      Object.values(panels).forEach(p=>p.classList.remove('active'));
+      panels[btn.dataset.tab].classList.add('active');
+      if(btn.dataset.tab === 'statistics' && !chartsInitialized){
+        initCharts();
+        chartsInitialized = true;
+      }
+    });
+  });
+
+  /* ---------- INSIGHTS: sample data ---------- */
+  const facilityLabels = ['Comembo Covered Court','Multi-Purpose Area','Basketball Court','Function Hall','Youth Center Hall','Outdoor Plaza'];
+  const facilityData = [2, 1, 1, 1, 0, 0];
+
+  const statusLabels = ['Approved','Pending','Rejected'];
+  const statusData = [2, 2, 1];
+  const statusColors = ['#2E6B4F', '#B8862A', '#8F171B'];
+
+  const trendLabels = ['Nov','Dec','Jan','Feb','Mar','Apr'];
+  const trendData = [1, 2, 3, 2, 4, 5];
+
+  const eventLabels = ['Basketball Tournament','Digital Skills Workshop','Youth Assembly','Clean-Up Drive'];
+  const eventData = [28, 32, 18, 12];
+
+  function initCharts(){
+    const inkSoft = '#5B564A';
+    const accent = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#A14E2A';
+    const accentDeep = getComputedStyle(document.documentElement).getPropertyValue('--accent-deep').trim() || '#7A3B1F';
+    Chart.defaults.font.family = "'IBM Plex Sans', sans-serif";
+    Chart.defaults.color = inkSoft;
+
+    new Chart(document.getElementById('chartFacility'), {
+      type: 'bar',
+      data: { labels: facilityLabels, datasets: [{ label:'Reservations', data: facilityData, backgroundColor: accent, borderRadius: 2, maxBarThickness: 32 }] },
+      options: {
+        responsive:true,
+        plugins:{ legend:{ display:false } },
+        scales:{ y:{ beginAtZero:true, ticks:{ precision:0 }, grid:{ color:'rgba(36,34,25,0.08)' } }, x:{ grid:{ display:false } } }
+      }
+    });
+
+    new Chart(document.getElementById('chartStatus'), {
+      type: 'doughnut',
+      data: { labels: statusLabels, datasets: [{ data: statusData, backgroundColor: statusColors, borderColor:'#EDE5D2', borderWidth:2 }] },
+      options: { responsive:true, cutout:'62%', plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, padding:14, font:{size:11} } } } }
+    });
+
+    new Chart(document.getElementById('chartTrend'), {
+      type: 'line',
+      data: { labels: trendLabels, datasets: [{ label:'Requests', data: trendData, borderColor: accentDeep, backgroundColor:'rgba(42,77,120,0.12)', fill:true, tension:0.35, pointRadius:3 }] },
+      options: {
+        responsive:true,
+        plugins:{ legend:{ display:false } },
+        scales:{ y:{ beginAtZero:true, ticks:{ precision:0 }, grid:{ color:'rgba(36,34,25,0.08)' } }, x:{ grid:{ display:false } } }
+      }
+    });
+
+    new Chart(document.getElementById('chartEvents'), {
+      type: 'bar',
+      data: { labels: eventLabels, datasets: [{ label:'Registrations', data: eventData, backgroundColor:'#8F171B', borderRadius: 2, maxBarThickness: 32 }] },
+      options: {
+        indexAxis:'y',
+        responsive:true,
+        plugins:{ legend:{ display:false } },
+        scales:{ x:{ beginAtZero:true, ticks:{ precision:0 }, grid:{ color:'rgba(36,34,25,0.08)' } }, y:{ grid:{ display:false } } }
+      }
+    });
+  }
+
+  /* ---------- INSIGHTS: report export ---------- */
+  function toCSV(rows){
+    return rows.map(r => r.map(cell => {
+      const s = String(cell);
+      return /[",\n]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s;
+    }).join(',')).join('\n');
+  }
+
+  function downloadCSV(filename, rows){
+    const csv = toCSV(rows);
+    const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function downloadReport(type){
+    if(type === 'facility'){
+      const rows = [['Facility','Reservations']];
+      facilityLabels.forEach((label,i)=> rows.push([label, facilityData[i]]));
+      downloadCSV('facility_utilization_report.csv', rows);
+    } else if(type === 'reservations'){
+      const rows = [
+        ['Facility','Purpose','Requested By','Status','Date'],
+        ['Comembo Covered Court','SK Tournament Practice','Admin Maria Santos','Approved','2026-04-11'],
+        ['Multi-Purpose Area','Community Clean-Up Drive','Admin Juan Cruz','Rejected','2026-04-09'],
+        ['Basketball Court','Youth Basketball League','Admin Maria Santos','Approved','2026-04-06'],
+        ['Function Hall','Barangay Assembly','Admin Juan Cruz','Pending','2026-04-14'],
+        ['Comembo Covered Court','Weekend Open Play','Admin Maria Santos','Pending','2026-04-15']
+      ];
+      downloadCSV('reservation_summary_report.csv', rows);
+    } else if(type === 'events'){
+      const rows = [['Event','Registrations']];
+      eventLabels.forEach((label,i)=> rows.push([label, eventData[i]]));
+      downloadCSV('event_attendance_report.csv', rows);
+    }
+  }
 </script>
 <script>
   const fab = document.getElementById('chat-fab');
