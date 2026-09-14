@@ -542,7 +542,7 @@
       <a href="#barangays">The five barangays</a>
       <a href="#origin">Our roots</a>
     </nav>
-    <a href="login.html" class="btn btn-small" id="nav-login">Log in</a>
+    <a href="login_page.html" class="btn btn-small" id="nav-login">Log in</a>
   </div>
 </header>
 
@@ -556,7 +556,7 @@
       </h1>
       <p class="lede">Book a court, a hall, or a corner of the plaza — and sign up for the barangay's next event — across Cembo, West&nbsp;Rembo, East&nbsp;Rembo, Comembo, and Pembo. One account, five barangays, zero queueing at the office.</p>
       <div class="hero-ctas">
-        <a href="login.html" class="btn" id="hero-login">Log in to reserve →</a>
+        <a href="login_page.html" class="btn" id="hero-login">Log in to reserve →</a>
         <span class="hero-note">No account yet? You can create one at login.</span>
       </div>
     </div>
@@ -685,7 +685,7 @@
       <div class="eyebrow">Ready when you are</div>
       <h2>Reserve a facility or join an event — in a few taps.</h2>
     </div>
-    <a href="login.html" class="btn" id="cta-login">Log in to get started →</a>
+    <a href="login_page.html" class="btn" id="cta-login">Log in to get started →</a>
   </div>
 </section>
 
@@ -721,12 +721,12 @@
   }, {threshold:0.15});
   revealEls.forEach(el=>io.observe(el));
 
-  // login buttons -> login page (placeholder route, wire up to real route later)
-  document.querySelectorAll('#nav-login, #hero-login, #cta-login').forEach(btn=>{
-    btn.addEventListener('click', function(e){
-      // currently points to login.html — replace with your router/path as needed
-    });
+  document.querySelectorAll('#nav-login, #hero-login, #cta-login').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.preventDefault(); // Prevents default HTML link jump
+    window.location.href = 'login_page.html';
   });
+});
 </script>
 
 </body>

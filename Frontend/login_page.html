@@ -518,7 +518,7 @@
 
         <div class="ledger-foot">
           <span>Don't have an account?</span>
-          <a href="register.html">Register here →</a>
+          <a href="acc_registration.html">Register here →</a>
         </div>
       </form>
     </div>
@@ -548,10 +548,35 @@
   </div>
 </footer>
 
-<script>
-  // password show/hide
-  document.querySelectorAll('.pw-toggle').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
+<script type="module">
+  // 1. Firebase SDK Imports
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { 
+    getAuth, 
+    signInWithEmailAndPassword, 
+    GoogleAuthProvider, 
+    signInWithPopup 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  // 2. Your Firebase Configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
+    authDomain: "embo-access.firebaseapp.com",
+    projectId: "embo-access",
+    storageBucket: "embo-access.firebasestorage.app",
+    messagingSenderId: "173132109750",
+    appId: "1:173132109750:web:8697b6c0b83676a62a5317",
+    measurementId: "G-3FEJE2LCY9"
+  };
+
+  // 3. Initialize Firebase Services
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const googleProvider = new GoogleAuthProvider();
+
+  // 4. Password Show/Hide Toggle Logic
+  document.querySelectorAll('.pw-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
       const target = document.getElementById(btn.dataset.target);
       const isPw = target.type === 'password';
       target.type = isPw ? 'text' : 'password';
@@ -559,49 +584,95 @@
     });
   });
 
-  // validation + fake submit
+  // 5. Form Elements
   const form = document.getElementById('login-form');
   const successBanner = document.getElementById('success-banner');
   const errorBanner = document.getElementById('error-banner');
   const submitBtn = document.getElementById('submit-btn');
+  const googleBtn = document.getElementById('google-btn');
 
-  function setError(fieldEl, hasError){
+  function setError(fieldEl, hasError) {
     fieldEl.classList.toggle('has-error', hasError);
     const input = fieldEl.querySelector('input');
-    if(input) input.classList.toggle('error', hasError);
+    if (input) input.classList.toggle('error', hasError);
   }
 
-  form.addEventListener('submit', function(e){
+  // 6. Email & Password Login Handler
+  form.addEventListener('submit', async function(e) {
     e.preventDefault();
+    
     errorBanner.classList.remove('show');
+    successBanner.classList.remove('show');
 
-    const email = document.getElementById('email');
-    const password = document.getElementById('password');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const emailVal = emailInput.value.trim();
+    const passwordVal = passwordInput.value;
+
     let valid = true;
 
+    // Client-side validation checks
     const checks = [
-      [email.closest('.field'), /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())],
-      [password.closest('.field'), password.value.length > 0],
+      [emailInput.closest('.field'), /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)],
+      [passwordInput.closest('.field'), passwordVal.length > 0],
     ];
 
-    checks.forEach(([fieldEl, ok])=>{
+    checks.forEach(([fieldEl, ok]) => {
       setError(fieldEl, !ok);
-      if(!ok) valid = false;
+      if (!ok) valid = false;
     });
 
-    if(!valid) return;
+    if (!valid) return;
 
-    // No backend wired up yet — this simulates a successful login.
-    // Replace this block with a real auth request, and show errorBanner on failure.
-    successBanner.classList.add('show');
-    submitBtn.textContent = 'Logged in ✓';
-    submitBtn.setAttribute('disabled','true');
-    successBanner.scrollIntoView({behavior:'smooth', block:'nearest'});
+    submitBtn.textContent = 'Logging in...';
+    submitBtn.setAttribute('disabled', 'true');
 
-    // Example redirect once a real dashboard route exists:
-    // setTimeout(()=>{ window.location.href = 'dashboard.html'; }, 1200);
+    try {
+      // Authenticate against Firebase
+      await signInWithEmailAndPassword(auth, emailVal, passwordVal);
+
+      // Display success message and redirect
+      successBanner.classList.add('show');
+      submitBtn.textContent = 'Logged in ✓';
+      
+      setTimeout(() => {
+        window.location.href = 'dashboard.html'; // Update destination as needed
+      }, 1200);
+
+    } catch (error) {
+      let errorMessage = "No account found with those credentials. Please register or try again.";
+      
+      if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+        errorMessage = "You do not have an account or the credentials are incorrect.";
+      } else if (error.code === 'auth/wrong-password') {
+        errorMessage = "Incorrect password. Please try again or reset your password.";
+      } else if (error.code === 'auth/too-many-requests') {
+        errorMessage = "Access temporarily blocked due to multiple failed attempts.";
+      }
+
+      errorBanner.querySelector('span').textContent = errorMessage;
+      errorBanner.classList.add('show');
+      
+      setError(emailInput.closest('.field'), true);
+      setError(passwordInput.closest('.field'), true);
+
+      submitBtn.textContent = 'Log in →';
+      submitBtn.removeAttribute('disabled');
+    }
   });
-</script>
 
+  // 7. Google Sign-In Handler (If Google Button Exists)
+  if (googleBtn) {
+    googleBtn.addEventListener('click', async () => {
+      try {
+        await signInWithPopup(auth, googleProvider);
+        window.location.href = 'dashboard.html';
+      } catch (error) {
+        errorBanner.querySelector('span').textContent = "Failed to sign in with Google. Please try again.";
+        errorBanner.classList.add('show');
+      }
+    });
+  }
+</script>
 </body>
 </html>

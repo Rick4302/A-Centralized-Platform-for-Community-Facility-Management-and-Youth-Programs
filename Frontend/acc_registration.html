@@ -430,6 +430,62 @@
   .form-banner.show{display:flex;}
   .form-banner strong{display:block;font-family:'Fraunces',serif;font-size:1.02rem;margin-bottom:2px;}
 
+  /* Legal Links Bolding & Cursor */
+.legal-link {
+  color: #8b0000; /* Adjust to match your accent color */
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* Modal Overlay */
+.legal-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+/* Modal Box */
+.legal-modal-content {
+  background-color: #fdfbf7; /* Matches your cream background */
+  margin: 10% auto;
+  padding: 24px 32px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 550px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+.legal-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #666;
+}
+
+.legal-close:hover {
+  color: #000;
+}
+
+.legal-body {
+  margin-top: 16px;
+  max-height: 350px;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
   /* ---------- OTP VERIFICATION STEP ---------- */
   .otp-step{
     padding:28px 30px 30px;
@@ -568,6 +624,7 @@
     border-top:1px solid var(--line);
   }
 </style>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
 
@@ -591,32 +648,31 @@
       <span class="brgy-picker-label">Select your home barangay</span>
       <div class="brgy-picker" id="brgy-picker">
         <label class="brgy-chip">
-          <input type="radio" name="barangay" value="Cembo" required>
+          <input type="radio" name="barangay_chip" value="Cembo">
           <span class="imgwrap"><img src="../Pics/cembologo.png" alt="Cembo seal"></span>
           <span class="lbl">Cembo</span>
         </label>
         <label class="brgy-chip">
-          <input type="radio" name="barangay" value="West Rembo">
+          <input type="radio" name="barangay_chip" value="West Rembo">
           <span class="imgwrap"><img src="../Pics/West_Rembo_Logo.png" alt="West Rembo logo"></span>
           <span class="lbl">West Rembo</span>
         </label>
         <label class="brgy-chip">
-          <input type="radio" name="barangay" value="East Rembo">
+          <input type="radio" name="barangay_chip" value="East Rembo">
           <span class="imgwrap"><img src="../Pics/East_Rembo_Logo.png" alt="East Rembo seal"></span>
           <span class="lbl">East Rembo</span>
         </label>
         <label class="brgy-chip">
-          <input type="radio" name="barangay" value="Comembo">
+          <input type="radio" name="barangay_chip" value="Comembo">
           <span class="imgwrap"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Comembo seal"></span>
           <span class="lbl">Comembo</span>
         </label>
         <label class="brgy-chip">
-          <input type="radio" name="barangay" value="Pembo">
+          <input type="radio" name="barangay_chip" value="Pembo">
           <span class="imgwrap"><img src="../Pics/pembologo.png" alt="Pembo seal"></span>
           <span class="lbl">Pembo</span>
         </label>
       </div>
-      <div class="field-error" id="brgy-error" style="margin-bottom:26px;">Please select the barangay you reside in.</div>
 
       <div class="trust-note">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 5V11C4 16.5 7.4 20.7 12 22C16.6 20.7 20 16.5 20 11V5L12 2Z" stroke="#5B564A" stroke-width="1.6"/></svg>
@@ -629,6 +685,8 @@
         <div>
           <span class="tag">Account Registration</span>
           <h2>Create your account</h2>
+        </div> <!-- FIXED: Closed inner div -->
+      </div> <!-- FIXED: Closed ledger-head div -->
 
       <form id="register-form" novalidate>
 
@@ -653,6 +711,21 @@
           </div>
         </div>
 
+        <!-- NEW: BARANGAY SELECT FIELD -->
+        <div class="field" data-field="barangay">
+          <label for="barangay">Barangay <span class="req">*</span></label>
+          <select id="barangay" name="barangay" required>
+            <option value="" disabled selected>-- Select your Barangay --</option>
+            <option value="Cembo">Cembo</option>
+            <option value="West Rembo">West Rembo</option>
+            <option value="East Rembo">East Rembo</option>
+            <option value="Comembo">Comembo</option>
+            <option value="Pembo">Pembo</option>
+          </select>
+          <span class="field-error">Please select your home barangay.</span>
+        </div>
+
+        <!-- KEPT: SPECIFIC ADDRESS FIELD -->
         <div class="field" data-field="address">
           <label for="address">House No. / Street / Purok <span class="req">*</span></label>
           <input type="text" id="address" name="address" autocomplete="street-address" placeholder="e.g. Blk 4 Lot 12, Purok 3" required>
@@ -697,14 +770,18 @@
 
         <label class="checkline">
           <input type="checkbox" id="agree" name="agree" required>
-          <span>I confirm the details above are accurate and I am a resident of the barangay selected. I agree to the <a href="#">terms of use</a> and <a href="#">privacy notice</a>.</span>
+         <label for="agree">
+  I confirm the details above are accurate and I agree to the 
+  <span id="link-terms" class="legal-link">Terms of Use</span> and 
+  <span id="link-privacy" class="legal-link">Privacy Notice</span>.
+</label>
         </label>
 
         <button type="submit" class="btn btn-full" id="submit-btn">Send verification code →</button>
 
         <div class="ledger-foot">
           <span>Already registered?</span>
-          <a href="login.html">Log in instead →</a>
+          <a href="login_page.html">Log in instead →</a>
         </div>
       </form>
 
@@ -737,6 +814,38 @@
     </div>
 
   </div>
+  <!-- Terms of Use Modal -->
+<div id="terms-modal" class="legal-modal">
+  <div class="legal-modal-content">
+    <span class="legal-close" id="close-terms">&times;</span>
+    <h2>Terms of Use</h2>
+    <div class="legal-body">
+      <p>Welcome to <strong>EMBO Access</strong>. By registering for an account, you agree to the following terms:</p>
+      <ul>
+        <li><strong>Residency Verification:</strong> You confirm that you are a bona fide resident of Cembo, West Rembo, East Rembo, Comembo, or Pembo.</li>
+        <li><strong>Account Integrity:</strong> You are responsible for maintaining the confidentiality of your account credentials and for all activities under your account.</li>
+        <li><strong>Fair Usage:</strong> Facility bookings, court reservations, and event sign-ups must be made in good faith. Fraudulent or abusive bookings will lead to account suspension.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Privacy Notice Modal -->
+<div id="privacy-modal" class="legal-modal">
+  <div class="legal-modal-content">
+    <span class="legal-close" id="close-privacy">&times;</span>
+    <h2>Privacy Notice</h2>
+    <div class="legal-body">
+      <p><strong>EMBO Access</strong> values your privacy and is committed to protecting your personal data in compliance with Republic Act No. 10173 (Data Privacy Act of 2012).</p>
+      <ul>
+        <li><strong>Data Collected:</strong> We collect your name, barangay address, contact number, and email address solely for identity verification and facility reservation management.</li>
+        <li><strong>Data Protection:</strong> Your information is stored securely in Firebase Firestore with strict access control rules.</li>
+        <li><strong>Third-Party Sharing:</strong> We do not sell, rent, or share your personal data with third parties outside of your barangay administration offices.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 </section>
 
 <footer>
@@ -761,10 +870,84 @@
   </div>
 </footer>
 
-<script>
-  // password show/hide
-  document.querySelectorAll('.pw-toggle').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
+<script type="module">
+  // 1. FIREBASE IMPORTS
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // 2. INITIALIZE SERVICES
+  emailjs.init("ikE7jS7FnvkxHB-dY");
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
+    authDomain: "embo-access.firebaseapp.com",
+    projectId: "embo-access",
+    storageBucket: "embo-access.firebasestorage.app",
+    messagingSenderId: "173132109750",
+    appId: "1:173132109750:web:8697b6c0b83676a62a5317",
+    measurementId: "G-3FEJE2LCY9"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // 3. FIREBASE REGISTRATION FUNCTION
+  async function registerUserInFirebase() {
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const firstname = document.getElementById('firstname').value.trim();
+    const lastname = document.getElementById('lastname').value.trim();
+    const barangay = document.getElementById('barangay').value;
+    const address = document.getElementById('address').value.trim();
+    const mobile = document.getElementById('mobile').value.trim();
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      await setDoc(doc(db, "users", user.uid), {
+        firstname: firstname,
+        lastname: lastname,
+        barangay: barangay,
+        address: address,
+        mobile: mobile,
+        email: email,
+        createdAt: serverTimestamp()
+      });
+
+      clearInterval(resendTimer);
+      otpStep.classList.remove('show');
+      otpStep.style.display = 'none';
+      form.style.display = 'block';
+      banner.classList.add('show');
+      banner.style.display = 'flex';
+      banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    } catch (error) {
+      console.error("Firebase Registration Error:", error);
+      otpVerifyBtn.disabled = false;
+      otpVerifyBtn.textContent = 'Verify & create account →';
+
+      if (error.code === 'auth/email-already-in-use') {
+        otpError.textContent = "An account with this email already exists. Please log in instead.";
+      } else {
+        otpError.textContent = "Registration failed: " + error.message;
+      }
+      otpError.style.display = 'block';
+    }
+  }
+
+  // 4. UI HANDLERS & LOGIC
+  document.querySelectorAll('input[name="barangay_chip"]').forEach(chip => {
+    chip.addEventListener('change', (e) => {
+      document.getElementById('barangay').value = e.target.value;
+    });
+  });
+
+  document.querySelectorAll('.pw-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
       const target = document.getElementById(btn.dataset.target);
       const isPw = target.type === 'password';
       target.type = isPw ? 'text' : 'password';
@@ -772,23 +955,19 @@
     });
   });
 
-  // password strength meter
   const pwInput = document.getElementById('password');
   const pwMeter = document.getElementById('pw-meter');
-  pwInput.addEventListener('input', ()=>{
+  pwInput.addEventListener('input', () => {
     const v = pwInput.value;
     let score = 0;
-    if(v.length >= 8) score++;
-    if(/[A-Z]/.test(v) && /[0-9]/.test(v)) score++;
-    if(v.length >= 12 && /[^A-Za-z0-9]/.test(v)) score++;
-    pwMeter.className = 'pw-meter' + (score>0 ? ' s'+score : '');
+    if (v.length >= 8) score++;
+    if (/[A-Z]/.test(v) && /[0-9]/.test(v)) score++;
+    if (v.length >= 12 && /[^A-Za-z0-9]/.test(v)) score++;
+    pwMeter.className = 'pw-meter' + (score > 0 ? ' s' + score : '');
   });
 
-  // validation + OTP-gated submit
   const form = document.getElementById('register-form');
   const banner = document.getElementById('success-banner');
-  const brgyPicker = document.getElementById('brgy-picker');
-  const brgyError = document.getElementById('brgy-error');
   const otpStep = document.getElementById('otp-step');
   const otpDestination = document.getElementById('otp-destination');
   const otpDevHint = document.getElementById('otp-dev-hint');
@@ -800,30 +979,30 @@
   const otpVerifyBtn = document.getElementById('otp-verify-btn');
   const otpBackBtn = document.getElementById('otp-back-btn');
 
-  function setError(fieldEl, hasError){
+  function setError(fieldEl, hasError) {
+    if (!fieldEl) return;
     fieldEl.classList.toggle('has-error', hasError);
-    const input = fieldEl.querySelector('input');
-    if(input) input.classList.toggle('error', hasError);
+    const input = fieldEl.querySelector('input, select');
+    if (input) input.classList.toggle('error', hasError);
   }
 
-  // ---- OTP state ----
   let currentOtp = null;
   let resendTimer = null;
   let resendSeconds = 60;
   let attemptsLeft = 5;
 
-  function generateOtp(){
+  function generateOtp() {
     return String(Math.floor(100000 + Math.random() * 900000));
   }
 
-  function startResendCountdown(){
+  function startResendCountdown() {
     resendSeconds = 60;
     otpResendBtn.disabled = true;
     otpTimerEl.textContent = `Resend code in ${resendSeconds}s`;
     clearInterval(resendTimer);
-    resendTimer = setInterval(()=>{
+    resendTimer = setInterval(() => {
       resendSeconds--;
-      if(resendSeconds <= 0){
+      if (resendSeconds <= 0) {
         clearInterval(resendTimer);
         otpTimerEl.textContent = "Didn't get it?";
         otpResendBtn.disabled = false;
@@ -833,25 +1012,39 @@
     }, 1000);
   }
 
-  function sendOtp(destinationLabel){
+  // 5. ASYNC OTP EMAIL SENDER
+  async function sendOtp(destinationEmail) {
     currentOtp = generateOtp();
     attemptsLeft = 5;
-    otpDestination.textContent = destinationLabel;
+    otpDestination.textContent = destinationEmail;
     otpError.style.display = 'none';
     otpInputsWrap.classList.remove('error');
     otpDigits.forEach(d => d.value = '');
-    // In production this is where a backend call sends the code by email/SMS.
-    // Shown here only because this page has no backend to actually deliver it yet.
-    otpDevHint.textContent = `Demo mode — no backend connected yet, so here's the code that would've been sent: ${currentOtp}`;
+    
+    otpDevHint.textContent = `Sending verification code to ${destinationEmail}...`;
     startResendCountdown();
-    otpDigits[0].focus();
+
+    const templateParams = {
+      to_email: destinationEmail,
+      to_name: document.getElementById('firstname').value.trim() || 'Resident',
+      otp_code: currentOtp
+    };
+
+    try {
+      await emailjs.send('service_3x0rgvq', 'template_46ztmef', templateParams);
+      otpDevHint.textContent = `Verification code sent! Check your inbox and spam folder.`;
+      otpDigits[0].focus();
+    } catch (error) {
+      console.error("EmailJS Error:", error);
+      otpDevHint.textContent = `Failed to send email. Check your settings.`;
+    }
   }
 
-  // move to OTP step once the registration details check out
-  form.addEventListener('submit', function(e){
+  form.addEventListener('submit', function(e) {
     e.preventDefault();
     let valid = true;
 
+    const barangay = document.getElementById('barangay');
     const firstname = document.getElementById('firstname');
     const lastname = document.getElementById('lastname');
     const address = document.getElementById('address');
@@ -860,77 +1053,59 @@
     const password = document.getElementById('password');
     const confirm = document.getElementById('confirm');
     const agree = document.getElementById('agree');
-    const barangaySelected = form.querySelector('input[name="barangay"]:checked');
 
     const checks = [
+      [barangay.closest('.field'), barangay.value !== ''],
       [firstname.closest('.field'), firstname.value.trim().length > 0],
       [lastname.closest('.field'), lastname.value.trim().length > 0],
       [address.closest('.field'), address.value.trim().length > 0],
       [email.closest('.field'), /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())],
-      [mobile.closest('.field'), mobile.value.replace(/\D/g,'').length >= 10],
+      [mobile.closest('.field'), mobile.value.replace(/\D/g, '').length >= 10],
       [password.closest('.field'), password.value.length >= 8],
       [confirm.closest('.field'), confirm.value === password.value && confirm.value.length > 0],
     ];
 
-    checks.forEach(([fieldEl, ok])=>{
+    checks.forEach(([fieldEl, ok]) => {
       setError(fieldEl, !ok);
-      if(!ok) valid = false;
+      if (!ok) valid = false;
     });
 
-    if(!barangaySelected){
-      brgyError.style.display = 'block';
-      brgyPicker.style.outline = '1.5px solid var(--red-deep)';
-      valid = false;
-    } else {
-      brgyError.style.display = 'none';
-      brgyPicker.style.outline = 'none';
-    }
-
-    if(!agree.checked){
+    if (!agree.checked) {
       valid = false;
       agree.focus();
     }
 
-    if(!valid) return;
+    if (!valid) return;
 
-    // Details look good — gate the actual account creation behind OTP verification
-    // so we know a real person (not a bot/script) is behind this submission.
     form.style.display = 'none';
     otpStep.classList.add('show');
+    otpStep.style.display = 'block';
     otpVerifyBtn.disabled = false;
     otpVerifyBtn.textContent = 'Verify & create account →';
     sendOtp(email.value.trim());
-    otpStep.scrollIntoView({behavior:'smooth', block:'nearest'});
+    otpStep.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
 
-  brgyPicker.querySelectorAll('input[name="barangay"]').forEach(inp=>{
-    inp.addEventListener('change', ()=>{
-      brgyError.style.display = 'none';
-      brgyPicker.style.outline = 'none';
-    });
-  });
-
-  // ---- OTP digit box behavior: auto-advance, backspace, paste ----
-  otpDigits.forEach((input, i)=>{
-    input.addEventListener('input', ()=>{
-      input.value = input.value.replace(/[^0-9]/g,'').slice(0,1);
+  otpDigits.forEach((input, i) => {
+    input.addEventListener('input', () => {
+      input.value = input.value.replace(/[^0-9]/g, '').slice(0, 1);
       otpInputsWrap.classList.remove('error');
       otpError.style.display = 'none';
-      if(input.value && i < otpDigits.length - 1){
-        otpDigits[i+1].focus();
+      if (input.value && i < otpDigits.length - 1) {
+        otpDigits[i + 1].focus();
       }
     });
-    input.addEventListener('keydown', (e)=>{
-      if(e.key === 'Backspace' && !input.value && i > 0){
-        otpDigits[i-1].focus();
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && !input.value && i > 0) {
+        otpDigits[i - 1].focus();
       }
     });
-    input.addEventListener('paste', (e)=>{
-      const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g,'');
-      if(pasted.length > 1){
+    input.addEventListener('paste', (e) => {
+      const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
+      if (pasted.length > 1) {
         e.preventDefault();
-        pasted.slice(0, otpDigits.length).split('').forEach((ch, idx)=>{
-          if(otpDigits[idx]) otpDigits[idx].value = ch;
+        pasted.slice(0, otpDigits.length).split('').forEach((ch, idx) => {
+          if (otpDigits[idx]) otpDigits[idx].value = ch;
         });
         const next = Math.min(pasted.length, otpDigits.length - 1);
         otpDigits[next].focus();
@@ -938,20 +1113,19 @@
     });
   });
 
-  // ---- Verify ----
-  otpVerifyBtn.addEventListener('click', ()=>{
+  otpVerifyBtn.addEventListener('click', async () => {
     const entered = otpDigits.map(d => d.value).join('');
-    if(entered.length < 6){
+    if (entered.length < 6) {
       otpInputsWrap.classList.add('error');
       otpError.textContent = 'Enter all 6 digits.';
       otpError.style.display = 'block';
       return;
     }
-    if(entered !== currentOtp){
+    if (entered !== currentOtp) {
       attemptsLeft--;
       otpInputsWrap.classList.add('error');
-      if(attemptsLeft > 0){
-        otpError.textContent = `That code isn't right — check the digits and try again. (${attemptsLeft} attempt${attemptsLeft===1?'':'s'} left)`;
+      if (attemptsLeft > 0) {
+        otpError.textContent = `That code isn't right — check the digits and try again. (${attemptsLeft} attempt${attemptsLeft === 1 ? '' : 's'} left)`;
         otpError.style.display = 'block';
       } else {
         otpError.textContent = 'Too many incorrect attempts. Request a new code to keep trying.';
@@ -963,29 +1137,59 @@
       return;
     }
 
-    // Correct code — account verified as human, safe to "create" it.
-    clearInterval(resendTimer);
-    otpStep.classList.remove('show');
-    banner.classList.add('show');
-    banner.scrollIntoView({behavior:'smooth', block:'nearest'});
+    otpVerifyBtn.disabled = true;
+    otpVerifyBtn.textContent = 'Creating account...';
+    await registerUserInFirebase();
   });
 
-  // ---- Resend ----
-  otpResendBtn.addEventListener('click', ()=>{
+  otpResendBtn.addEventListener('click', () => {
     const email = document.getElementById('email');
     attemptsLeft = 5;
     otpVerifyBtn.disabled = false;
     sendOtp(email.value.trim());
   });
 
-  // ---- Back to editing details ----
-  otpBackBtn.addEventListener('click', ()=>{
+  otpBackBtn.addEventListener('click', () => {
     clearInterval(resendTimer);
     otpStep.classList.remove('show');
-    form.style.display = '';
-    form.scrollIntoView({behavior:'smooth', block:'nearest'});
+    otpStep.style.display = 'none';
+    form.style.display = 'block';
+    form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  // Modal elements
+  const termsModal = document.getElementById('terms-modal');
+  const privacyModal = document.getElementById('privacy-modal');
+
+  // Open Modals
+  document.getElementById('link-terms').addEventListener('click', (e) => {
+    e.preventDefault();
+    termsModal.style.display = 'block';
+  });
+
+  document.getElementById('link-privacy').addEventListener('click', (e) => {
+    e.preventDefault();
+    privacyModal.style.display = 'block';
+  });
+
+  // Close Buttons
+  document.getElementById('close-terms').addEventListener('click', () => {
+    termsModal.style.display = 'none';
+  });
+
+  document.getElementById('close-privacy').addEventListener('click', () => {
+    privacyModal.style.display = 'none';
+  });
+
+  // Close when clicking outside modal box
+  window.addEventListener('click', (e) => {
+    if (e.target === termsModal) termsModal.style.display = 'none';
+    if (e.target === privacyModal) privacyModal.style.display = 'none';
   });
 </script>
+</script>
+
+
 
 </body>
 </html>
