@@ -433,6 +433,7 @@
     border-top:1px solid var(--line);
   }
 </style>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
 
@@ -555,10 +556,25 @@
     getAuth, 
     signInWithEmailAndPassword, 
     GoogleAuthProvider, 
-    signInWithPopup 
+    signInWithPopup,
+    onAuthStateChanged,
+    signOut
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { 
+    getFirestore, 
+    collection, 
+    query, 
+    where, 
+    getDocs, 
+    doc, 
+    updateDoc, 
+    setDoc 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // 2. Your Firebase Configuration
+  // 2. Initialize EmailJS
+  emailjs.init("ikE7jS7FnvkxHB-dY"); 
+
+  // 3. Your Firebase Configuration
   const firebaseConfig = {
     apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
     authDomain: "embo-access.firebaseapp.com",
@@ -569,12 +585,106 @@
     measurementId: "G-3FEJE2LCY9"
   };
 
-  // 3. Initialize Firebase Services
+  // 4. Initialize Firebase Services
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const db = getFirestore(app);
   const googleProvider = new GoogleAuthProvider();
 
-  // 4. Password Show/Hide Toggle Logic
+  // 5. Constants & Local State
+  let failedAttempts = 0;
+  const MAX_ATTEMPTS = 3;
+
+  // ---------- FIRESTORE LOCKOUT HELPERS (QUERY BY EMAIL FIELD) ----------
+  async function checkAccountLockout(email) {
+    if (!email) return { locked: false };
+    try {
+      const q = query(collection(db, "users"), where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+
+      let isLocked = false;
+      querySnapshot.forEach((docSnap) => {
+        if (docSnap.exists() && docSnap.data().isLocked) {
+          isLocked = true;
+        }
+      });
+
+      if (isLocked) {
+        return { 
+          locked: true, 
+          message: "Account is locked out due to multiple failed attempts. Reset your password to restore access." 
+        };
+      }
+      return { locked: false };
+    } catch (err) {
+      console.error("Error checking lockout status:", err);
+      return { locked: false };
+    }
+  }
+
+  async function lockAccountInFirestore(email) {
+    if (!email) return;
+    try {
+      const q = query(collection(db, "users"), where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach(async (docSnap) => {
+        await updateDoc(doc(db, "users", docSnap.id), {
+          isLocked: true,
+          failedAttempts: MAX_ATTEMPTS
+        });
+      });
+    } catch (err) {
+      console.error("Error setting lockout:", err);
+    }
+  }
+
+  async function getUserFullName(email) {
+    let userName = "Resident";
+    try {
+      const q = query(collection(db, "users"), where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          userName = data.fullName || data.name || data.firstName || "Resident";
+        }
+      });
+    } catch (err) {
+      console.log("Could not fetch user name:", err);
+    }
+    return userName;
+  }
+
+  // EmailJS Security Alert Helper
+  async function sendSecurityAlertEmail(userEmail) {
+    const userName = await getUserFullName(userEmail);
+    const templateParams = {
+      to_email: userEmail,
+      user_name: userName,
+      to_name: userName,
+      message: 'There were 3 consecutive failed login attempts on your EMBO Access account. Your account is temporarily locked. Reset your password immediately if this was not you.'
+    };
+
+    try {
+      await emailjs.send('service_3x0rgvq', 'template_qezh4jx', templateParams);
+      console.log('Security alert email sent successfully.');
+    } catch (err) {
+      console.error('Failed to send security alert email:', err);
+    }
+  }
+
+  // Automatically revoke authentication session if account is locked
+  onAuthStateChanged(auth, async (user) => {
+    if (user && user.email) {
+      const lockStatus = await checkAccountLockout(user.email);
+      if (lockStatus.locked) {
+        await signOut(auth);
+      }
+    }
+  });
+
+  // Show/Hide Password Toggle
   document.querySelectorAll('.pw-toggle').forEach(btn => {
     btn.addEventListener('click', () => {
       const target = document.getElementById(btn.dataset.target);
@@ -584,7 +694,7 @@
     });
   });
 
-  // 5. Form Elements
+  // DOM Form References
   const form = document.getElementById('login-form');
   const successBanner = document.getElementById('success-banner');
   const errorBanner = document.getElementById('error-banner');
@@ -597,7 +707,7 @@
     if (input) input.classList.toggle('error', hasError);
   }
 
-  // 6. Email & Password Login Handler
+  // Login Submit Event
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
     
@@ -610,8 +720,6 @@
     const passwordVal = passwordInput.value;
 
     let valid = true;
-
-    // Client-side validation checks
     const checks = [
       [emailInput.closest('.field'), /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)],
       [passwordInput.closest('.field'), passwordVal.length > 0],
@@ -624,44 +732,69 @@
 
     if (!valid) return;
 
-    submitBtn.textContent = 'Logging in...';
+    submitBtn.textContent = 'Verifying...';
     submitBtn.setAttribute('disabled', 'true');
 
+    // 1. Check if account is locked in Firestore by Email Query
+    const lockStatus = await checkAccountLockout(emailVal);
+    if (lockStatus.locked) {
+      errorBanner.querySelector('span').textContent = lockStatus.message;
+      errorBanner.classList.add('show');
+      submitBtn.textContent = 'Account Locked';
+      setError(emailInput.closest('.field'), true);
+      setError(passwordInput.closest('.field'), true);
+      return;
+    }
+
+    // 2. Attempt Sign-In
     try {
-      // Authenticate against Firebase
       await signInWithEmailAndPassword(auth, emailVal, passwordVal);
 
-      // Display success message and redirect
+      // Reset counters on successful login
+      failedAttempts = 0;
+      const q = query(collection(db, "users"), where("email", "==", emailVal));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach(async (docSnap) => {
+        await updateDoc(doc(db, "users", docSnap.id), { failedAttempts: 0, isLocked: false });
+      });
+
       successBanner.classList.add('show');
       submitBtn.textContent = 'Logged in ✓';
       
       setTimeout(() => {
-        window.location.href = 'dashboard.html'; // Update destination as needed
+        window.location.href = 'dashboard.html';
       }, 1200);
 
     } catch (error) {
-      let errorMessage = "No account found with those credentials. Please register or try again.";
-      
-      if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
-        errorMessage = "You do not have an account or the credentials are incorrect.";
-      } else if (error.code === 'auth/wrong-password') {
-        errorMessage = "Incorrect password. Please try again or reset your password.";
-      } else if (error.code === 'auth/too-many-requests') {
-        errorMessage = "Access temporarily blocked due to multiple failed attempts.";
-      }
+      failedAttempts++;
+      const remaining = MAX_ATTEMPTS - failedAttempts;
 
-      errorBanner.querySelector('span').textContent = errorMessage;
-      errorBanner.classList.add('show');
-      
       setError(emailInput.closest('.field'), true);
       setError(passwordInput.closest('.field'), true);
 
-      submitBtn.textContent = 'Log in →';
-      submitBtn.removeAttribute('disabled');
+      if (failedAttempts >= MAX_ATTEMPTS) {
+        // LOCKOUT REACHED
+        const lockMsg = "Account is locked out due to multiple failed attempts. Reset your password to restore access.";
+        errorBanner.querySelector('span').textContent = lockMsg;
+        errorBanner.classList.add('show');
+        
+        submitBtn.setAttribute('disabled', 'true');
+        submitBtn.textContent = 'Account Locked';
+
+        await lockAccountInFirestore(emailVal);
+        await sendSecurityAlertEmail(emailVal);
+      } else {
+        // REMAINING ATTEMPTS
+        errorBanner.querySelector('span').textContent = `Invalid credentials. (${remaining} attempt${remaining === 1 ? '' : 's'} remaining)`;
+        errorBanner.classList.add('show');
+        
+        submitBtn.removeAttribute('disabled');
+        submitBtn.textContent = 'Log in →';
+      }
     }
   });
 
-  // 7. Google Sign-In Handler (If Google Button Exists)
+  // Google Sign-In Handler
   if (googleBtn) {
     googleBtn.addEventListener('click', async () => {
       try {
