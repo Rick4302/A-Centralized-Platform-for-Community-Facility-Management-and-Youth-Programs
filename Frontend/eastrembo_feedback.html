@@ -546,15 +546,16 @@
       </span>
     </a>
     <nav class="nav-links">
-      <a href="home_east_rembo.html">Home</a>
-      <a href="facilities.html">Facilities</a>
-      <a href="my_reservations.html">My Reservations</a>
-      <a href="feedback.html" class="active">Feedback</a>
+      <a href="eastrembo_page.html">Home</a>
+      <a href="eastrembo_facilities.html">Facilities</a>
+      <a href="eastrembo_events.html">Events</a>
+      <a href="eastrembo_my_reservations.html">My Reservations</a>
+      <a href="eastrembo_feedback.html" class="active">Feedback</a>
     </nav>
     <div class="nav-right">
-      <div class="user-chip">
-        <span class="avatar">JD</span>
-        Juan Dela Cruz
+      <div class="user-chip" id="user-chip">
+          <span class="avatar" id="user-avatar">--</span>
+          <span id="user-name">Loading...</span>
       </div>
     </div>
   </div>
@@ -708,6 +709,83 @@
     </div>
   </div>
 </footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { 
+    getAuth, 
+    onAuthStateChanged 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { 
+    getFirestore, 
+    collection, 
+    query, 
+    where, 
+    getDocs 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
+    authDomain: "embo-access.firebaseapp.com",
+    projectId: "embo-access",
+    storageBucket: "embo-access.firebasestorage.app",
+    messagingSenderId: "173132109750",
+    appId: "1:173132109750:web:8697b6c0b83676a62a5317",
+    measurementId: "G-3FEJE2LCY9"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const avatarEl = document.getElementById('user-avatar');
+  const nameEl = document.getElementById('user-name');
+
+  // ---------- AUTH GUARD & USER DATA LOADER ----------
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      // 3. Kick out unauthenticated users immediately
+      window.location.href = 'login_page.html';
+      return;
+    }
+
+    try {
+      // Query Firestore for user profile
+      const q = query(collection(db, "users"), where("email", "==", user.email));
+      const querySnapshot = await getDocs(q);
+
+      let firstName = "";
+      let lastName = "";
+
+      querySnapshot.forEach((docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          firstName = data.firstname || "";
+          lastName = data.lastname || "";
+        }
+      });
+
+      if (firstName || lastName) {
+        // 1. Display full firstname and lastname
+        const fullName = `${firstName} ${lastName}`.trim();
+        nameEl.textContent = fullName;
+
+        // 2. Compute Initials (e.g., "Martin" + "Reyes" -> "MR")
+        const fInitial = firstName ? firstName.charAt(0).toUpperCase() : "";
+        const lInitial = lastName ? lastName.charAt(0).toUpperCase() : "";
+        avatarEl.textContent = `${fInitial}${lInitial}` || "U";
+      } else {
+        nameEl.textContent = user.email;
+        avatarEl.textContent = user.email.charAt(0).toUpperCase();
+      }
+
+    } catch (err) {
+      console.error("Error fetching user profile:", err);
+      nameEl.textContent = "Resident";
+      avatarEl.textContent = "R";
+    }
+  });
+</script>
 
 <script>
   // barangay is locked to East Rembo on this page — no picker needed

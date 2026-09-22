@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reserve a Facility · SK Barangay Cembo · EMBO Access</title>
+<title>Reserve a Facility · SK Barangay Pembo · EMBO Access</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -19,10 +19,10 @@
     --line: rgba(36,34,25,0.14);
     --radius: 2px;
 
-    /* per-barangay accent — swap these 3 (+ logo + brand text) to reuse this page for another barangay */
-    --accent: #2A4D78;
-    --accent-deep: #1E3A5C;
-    --accent-tint: rgba(42,77,120,0.14);
+    /* SK Pembo accent */
+    --accent: #8F171B;
+    --accent-deep: #6E1215;
+    --accent-tint: rgba(143,23,27,0.14);
 
     --green:#2E6B4F;
     --amber:#B8862A;
@@ -660,79 +660,34 @@
   .chat-input-row input:focus{border-color:var(--ink);}
   .chat-send{width:38px;height:38px;border-radius:var(--radius);background:var(--accent-deep);border:none;color:var(--paper);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 
-   /* ---------- FOOTER ---------- */
-  footer{
-    padding:50px 0 40px;
-    border-top:1px solid var(--line);
-  }
-  .foot-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    flex-wrap:wrap;
-    gap:30px;
-    margin-bottom:36px;
-  }
-  .foot-brand{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-family:'Fraunces', serif;
-    font-weight:700;
-    font-size:1.1rem;
-  }
-  .foot-brand .mark{
-    width:34px;height:34px;
-    border-radius:50%;
-    background:var(--black);
-    display:flex;align-items:center;justify-content:center;
-    color:var(--paper);
-    font-family:'IBM Plex Mono',monospace;
-    font-size:0.65rem;
-    font-weight:600;
-    border:2px solid var(--accent);
-  }
+  /* ---------- FOOTER ---------- */
+  footer{padding:44px 0 36px;border-top:1px solid var(--line);}
+  .foot-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:26px;margin-bottom:30px;}
+  .foot-brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces', serif;font-weight:700;font-size:1.05rem;}
+  .foot-brand .mark{width:32px;height:32px;border-radius:50%;background:var(--black);display:flex;align-items:center;justify-content:center;color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:0.6rem;font-weight:600;border:2px solid var(--accent);}
   .foot-seals{display:flex;gap:12px;}
-  .foot-seals .imgwrap{
-    width:38px;height:38px;
-    border-radius:50%;
-    border:1px solid var(--line);
-    background:var(--paper-deep);
-    display:flex;align-items:center;justify-content:center;
-    padding:4px;
-  }
+  .foot-seals .imgwrap{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--paper-deep);display:flex;align-items:center;justify-content:center;padding:4px;}
   .foot-seals img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
-  .foot-bottom{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:12px;
-    font-size:0.78rem;
-    color:var(--ink-soft);
-    font-family:'IBM Plex Mono',monospace;
-    padding-top:20px;
-    border-top:1px solid var(--line);
-  }
+  .foot-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:0.78rem;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;padding-top:20px;border-top:1px solid var(--line);}
 </style>
 </head>
 <body>
 
 <header>
   <div class="wrap nav">
-    <a href="cembo_page.html" class="brand">
-      <span class="seal"><img src="../Pics/cembologo.png" alt="Cembo seal" onerror="this.parentElement.textContent='SK'"></span>
+    <a href="home_pembo.html" class="brand">
+      <span class="seal"><img src="../Pics/pembologo.png" alt="Pembo seal" onerror="this.parentElement.textContent='SK'"></span>
       <span class="brand-text">
-        <span class="sk">SK Cembo</span>
+        <span class="sk">SK Pembo</span>
         <span class="brgy">Youth Facility Portal</span>
       </span>
     </a>
     <nav class="nav-links">
-      <a href="cembo_page.html">Home</a>
-      <a href="cembo_facilities.html" class="active">Facilities</a>
-      <a href="cembo_events.html">Events</a>
-      <a href="cembo_my_reservations.html">My Reservations</a>
-      <a href="cembo_feedback.html">Feedback</a>
+      <a href="pembo_page.html">Home</a>
+      <a href="pembo_facilities.html" class="active">Facilities</a>
+      <a href="pembo_events.html">Events</a>
+      <a href="pembo_my_reservations.html">My Reservations</a>
+      <a href="pembo_feedback.html">Feedback</a>
     </nav>
     <div class="nav-right">
       <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
@@ -750,9 +705,9 @@
   <div class="wrap">
     <div class="hero-top">
       <div>
-        <div class="eyebrow">SK Barangay Cembo · Facility Reservation</div>
+        <div class="eyebrow">SK Barangay Pembo · Facility Reservation</div>
         <h1>Reserve a facility, no walk-in required.</h1>
-        <p class="lede">Check real-time availability for every SK Cembo court, hall, and room, then hold your slot in a few taps. You'll get a reference number the moment you submit.</p>
+        <p class="lede">Check real-time availability for every SK Pembo court, hall, and room, then hold your slot in a few taps. You'll get a reference number the moment you submit.</p>
       </div>
       <div class="live-chip"><span class="live-dot"></span> <span id="live-count">6 of 8</span> facilities available right now</div>
     </div>
@@ -929,10 +884,10 @@
           <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
         <h3>Request submitted!</h3>
-        <p>Your reservation request has been sent to the SK Cembo office for approval. You'll be notified once it's confirmed — usually within 24 hours.</p>
+        <p>Your reservation request has been sent to the SK Pembo office for approval. You'll be notified once it's confirmed — usually within 24 hours.</p>
         <div class="ref-box">
           <span class="ref-label">Reference Number</span>
-          <span class="ref-num" id="success-ref">CEMBO-2026-0001</span>
+          <span class="ref-num" id="success-ref">PEMBO-2026-0001</span>
         </div>
         <div class="success-actions">
           <button class="btn btn-outline" id="success-close">Reserve Another</button>
@@ -952,7 +907,7 @@
   <div class="chat-head">
     <div>
       <div class="title">SK Assistant</div>
-      <div class="sub">Barangay Cembo · Online</div>
+      <div class="sub">Barangay Pembo · Online</div>
     </div>
     <button class="chat-close" id="chat-close">✕</button>
   </div>
@@ -1051,7 +1006,6 @@
   });
 </script>
 
-
 <script>
 /* =========================================================
    FACILITY DATA
@@ -1073,13 +1027,13 @@ const SLOTS = [
 ];
 
 const FACILITIES = [
-  {id:"court-1", name:"SK Basketball Court", type:"Sports Court", capacity:64, fee:"Free", feeNote:"for Cembo youth", status:"available", desc:"Newly renovated full-court with professional-grade flooring and lighting for evening games."},
-  {id:"hall-1", name:"Multi-Purpose Hall", type:"Hall", capacity:150, fee:"₱500", feeNote:"per half-day", status:"limited", desc:"Air-conditioned hall for assemblies, fiestas, and large community gatherings."},
-  {id:"plaza-1", name:"Barangay Plaza", type:"Open Space", capacity:300, fee:"Free", feeNote:"permit required", status:"available", desc:"Open-air plaza ideal for fun runs, fiestas, and outdoor community programs."},
-  {id:"lab-1", name:"Computer Laboratory", type:"Function Room", capacity:24, fee:"Free", feeNote:"for SK programs", status:"available", desc:"24-seat lab with desktops and projector — used for digital skills workshops and trainings."},
+  {id:"court-1", name:"Pembo Basketball Court", type:"Sports Court", capacity:60, fee:"Free", feeNote:"for Pembo youth", status:"available", desc:"Full-size outdoor court with fresh markings and floodlights for evening games."},
+  {id:"hall-1", name:"SK Multi-Purpose Hall", type:"Hall", capacity:150, fee:"₱500", feeNote:"per half-day", status:"limited", desc:"Air-conditioned hall for assemblies, fiestas, and large community gatherings."},
+  {id:"plaza-1", name:"Pembo Barangay Plaza", type:"Open Space", capacity:300, fee:"Free", feeNote:"permit required", status:"available", desc:"Open-air plaza ideal for fun runs, fiestas, and outdoor community programs."},
+  {id:"lab-1", name:"Youth Computer Laboratory", type:"Function Room", capacity:22, fee:"Free", feeNote:"for SK programs", status:"available", desc:"22-seat lab with desktops and projector — used for digital skills workshops and trainings."},
   {id:"func-a", name:"Function Room A", type:"Function Room", capacity:30, fee:"₱300", feeNote:"per session", status:"unavailable", desc:"Small meeting room with whiteboard and long table, suited for committee meetings."},
-  {id:"func-b", name:"Function Room B", type:"Function Room", capacity:40, fee:"₱300", feeNote:"per session", status:"available", desc:"Flexible room with movable chairs, good for small trainings or birthday events."},
-  {id:"court-2", name:"Volleyball Court", type:"Sports Court", capacity:24, fee:"Free", feeNote:"for Cembo youth", status:"limited", desc:"Outdoor volleyball court with regulation net, open for league play and practice."},
+  {id:"func-b", name:"Function Room B", type:"Function Room", capacity:38, fee:"₱300", feeNote:"per session", status:"available", desc:"Flexible room with movable chairs, good for small trainings or birthday events."},
+  {id:"court-2", name:"Volleyball Court", type:"Sports Court", capacity:24, fee:"Free", feeNote:"for Pembo youth", status:"limited", desc:"Outdoor volleyball court with regulation net, open for league play and practice."},
   {id:"gym-1", name:"Covered Gymnasium", type:"Hall", capacity:200, fee:"₱800", feeNote:"per half-day", status:"available", desc:"Covered gym used for tournaments, large assemblies, and inter-barangay events."}
 ];
 
@@ -1097,7 +1051,7 @@ const MOCK_BOOKINGS = {};
   MOCK_BOOKINGS[`court-2|${inDays(3)}`] = ["17-19"];
 })();
 
-const STORE_KEY = "emboReservations_cembo";
+const STORE_KEY = "emboReservations_pembo";
 let currentFacility = null;
 let selectedSlot = null;
 
@@ -1143,7 +1097,7 @@ function renderGrid(){
         <p class="desc">${f.desc}</p>
         <div class="facility-meta">
           <span>👥 Up to ${f.capacity}</span>
-          <span>📍 SK Cembo Complex</span>
+          <span>📍 SK Pembo Complex</span>
         </div>
         <div class="facility-footer">
           <span class="facility-fee">${f.fee}<small>${f.feeNote}</small></span>
@@ -1231,8 +1185,8 @@ function renderSlots(){
 dateInput.addEventListener('change', ()=>{ selectedSlot = null; renderSlots(); });
 
 function refCounter(){
-  let n = parseInt(localStorage.getItem('emboRefCounter_cembo') || '0', 10) + 1;
-  localStorage.setItem('emboRefCounter_cembo', n);
+  let n = parseInt(localStorage.getItem('emboRefCounter_pembo') || '0', 10) + 1;
+  localStorage.setItem('emboRefCounter_pembo', n);
   return n;
 }
 
@@ -1275,7 +1229,7 @@ form.addEventListener('submit', function(e){
   }
 
   // build reservation record
-  const refNum = `CEMBO-${new Date().getFullYear()}-${String(refCounter()).padStart(4,'0')}`;
+  const refNum = `PEMBO-${new Date().getFullYear()}-${String(refCounter()).padStart(4,'0')}`;
   const slotLabel = SLOTS.find(s=>s.id===selectedSlot).label;
   const record = {
     ref: refNum,

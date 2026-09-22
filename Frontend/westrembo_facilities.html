@@ -19,7 +19,7 @@
     --line: rgba(36,34,25,0.14);
     --radius: 2px;
 
-    /* per-barangay accent — swap these 3 (+ logo + brand text) to reuse this page for another barangay */
+   
     --accent: #2E6B4F;
     --accent-deep: #1E4A36;
     --accent-tint: rgba(46,107,79,0.14);
@@ -684,17 +684,18 @@
     </a>
     <nav class="nav-links">
       <a href="westrembo_page.html">Home</a>
-      <a href="facilities.html" class="active">Facilities</a>
-      <a href="my_reservations.html">My Reservations</a>
-      <a href="feedback.html">Feedback</a>
+      <a href="westrembo_facilities.html" class="active">Facilities</a>
+      <a href="westrembo_events.html">Events</a>
+      <a href="westrembo_my_reservation.html">My Reservations</a>
+      <a href="westrembo_feedback.html">Feedback</a>
     </nav>
     <div class="nav-right">
       <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
       </button>
-      <div class="user-chip">
-        <span class="avatar">JD</span>
-        Juan Dela Cruz
+      <div class="user-chip" id="user-chip">
+          <span class="avatar" id="user-avatar">--</span>
+          <span id="user-name">Loading...</span>
       </div>
     </div>
   </div>
@@ -927,6 +928,83 @@
 </div>
 
 <div class="toast" id="toast">Reservation request cancelled.</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { 
+    getAuth, 
+    onAuthStateChanged 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { 
+    getFirestore, 
+    collection, 
+    query, 
+    where, 
+    getDocs 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
+    authDomain: "embo-access.firebaseapp.com",
+    projectId: "embo-access",
+    storageBucket: "embo-access.firebasestorage.app",
+    messagingSenderId: "173132109750",
+    appId: "1:173132109750:web:8697b6c0b83676a62a5317",
+    measurementId: "G-3FEJE2LCY9"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const avatarEl = document.getElementById('user-avatar');
+  const nameEl = document.getElementById('user-name');
+
+  // ---------- AUTH GUARD & USER DATA LOADER ----------
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      // 3. Kick out unauthenticated users immediately
+      window.location.href = 'login_page.html';
+      return;
+    }
+
+    try {
+      // Query Firestore for user profile
+      const q = query(collection(db, "users"), where("email", "==", user.email));
+      const querySnapshot = await getDocs(q);
+
+      let firstName = "";
+      let lastName = "";
+
+      querySnapshot.forEach((docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          firstName = data.firstname || "";
+          lastName = data.lastname || "";
+        }
+      });
+
+      if (firstName || lastName) {
+        // 1. Display full firstname and lastname
+        const fullName = `${firstName} ${lastName}`.trim();
+        nameEl.textContent = fullName;
+
+        // 2. Compute Initials (e.g., "Martin" + "Reyes" -> "MR")
+        const fInitial = firstName ? firstName.charAt(0).toUpperCase() : "";
+        const lInitial = lastName ? lastName.charAt(0).toUpperCase() : "";
+        avatarEl.textContent = `${fInitial}${lInitial}` || "U";
+      } else {
+        nameEl.textContent = user.email;
+        avatarEl.textContent = user.email.charAt(0).toUpperCase();
+      }
+
+    } catch (err) {
+      console.error("Error fetching user profile:", err);
+      nameEl.textContent = "Resident";
+      avatarEl.textContent = "R";
+    }
+  });
+</script>
 
 <script>
 /* =========================================================

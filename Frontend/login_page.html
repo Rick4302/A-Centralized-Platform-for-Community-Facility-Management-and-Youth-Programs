@@ -595,6 +595,39 @@
   let failedAttempts = 0;
   const MAX_ATTEMPTS = 3;
 
+  // ---------- BARANGAY DASHBOARD MAPPING ----------
+  const barangayDashboards = {
+    "Cembo": "cembo_page.html",
+    "Comembo": "comembo_page.html",
+    "Pembo": "pembo_page.html",
+    "East Rembo": "eastRembo_page.html",
+    "West Rembo": "westRembo_page.html"
+  };
+
+  // Helper: Query user's Firestore document to find their registered barangay
+  async function getTargetDashboardUrl(email) {
+    try {
+      const q = query(collection(db, "users"), where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+
+      let userBarangay = "";
+      querySnapshot.forEach((docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          userBarangay = data.barangay || data.barangayName || "";
+        }
+      });
+
+      if (userBarangay && barangayDashboards[userBarangay]) {
+        return barangayDashboards[userBarangay];
+      }
+    } catch (err) {
+      console.error("Error fetching user barangay for redirect:", err);
+    }
+    // Default fallback page if barangay isn't set or recognized
+    return "cembo_page.html";
+  }
+
   // ---------- FIRESTORE LOCKOUT HELPERS (QUERY BY EMAIL FIELD) ----------
   async function checkAccountLockout(email) {
     if (!email) return { locked: false };
@@ -758,11 +791,14 @@
         await updateDoc(doc(db, "users", docSnap.id), { failedAttempts: 0, isLocked: false });
       });
 
+      // 3. Look up registered barangay & fetch redirect destination
+      const redirectUrl = await getTargetDashboardUrl(emailVal);
+
       successBanner.classList.add('show');
       submitBtn.textContent = 'Logged in ✓';
       
       setTimeout(() => {
-        window.location.href = 'dashboard.html';
+        window.location.href = redirectUrl;
       }, 1200);
 
     } catch (error) {
@@ -798,8 +834,9 @@
   if (googleBtn) {
     googleBtn.addEventListener('click', async () => {
       try {
-        await signInWithPopup(auth, googleProvider);
-        window.location.href = 'dashboard.html';
+        const result = await signInWithPopup(auth, googleProvider);
+        const redirectUrl = await getTargetDashboardUrl(result.user.email);
+        window.location.href = redirectUrl;
       } catch (error) {
         errorBanner.querySelector('span').textContent = "Failed to sign in with Google. Please try again.";
         errorBanner.classList.add('show');

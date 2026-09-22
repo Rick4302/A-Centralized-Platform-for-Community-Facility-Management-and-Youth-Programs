@@ -734,17 +734,18 @@
     </a>
     <nav class="nav-links">
       <a href="cembo_page.html" class="active">Home</a>
-      <a href="facilities_cembo.html">Facilities</a>
-      <a href="my_reservations.html">My Reservations</a>
-      <a href="feedback.html">Feedback</a>
+      <a href="cembo_facilities.html">Facilities</a>
+      <a href="cembo_events.html">Events</a>
+      <a href="cembo_my_reservations.html">My Reservations</a>
+      <a href="cembo_feedback.html">Feedback</a>
     </nav>
     <div class="nav-right">
       <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
       </button>
-      <div class="user-chip">
-        <span class="avatar">JD</span>
-        Juan Dela Cruz
+      <div class="user-chip" id="user-chip">
+          <span class="avatar" id="user-avatar">--</span>
+          <span id="user-name">Loading...</span>
       </div>
     </div>
   </div>
@@ -758,8 +759,8 @@
         <h1>Welcome to SK Barangay Cembo</h1>
         <p class="lede">Empowering youth through programs, facilities, and community engagement — reserve a court or hall, join upcoming activities, and stay in the loop with Cembo's SK office.</p>
         <div class="hero-actions">
-          <a href="facilities.html" class="btn btn-invert">Reserve a Facility</a>
-          <a href="my_reservations.html" class="btn btn-outline">View My Reservations</a>
+          <a href="cembo_facilities.html" class="btn btn-invert">Reserve a Facility</a>
+          <a href="cembo_my_reservations.html" class="btn btn-outline">View My Reservations</a>
         </div>
       </div>
       <div class="hero-seal">
@@ -923,7 +924,7 @@
           <span class="day blank"></span>
           <span class="day blank"></span>
         </div>
-        <div class="mini-cal-foot"><a href="facilities.html">View Reservation Calendar →</a></div>
+        <div class="mini-cal-foot"><a href="cembo_facilities.html">View Reservation Calendar →</a></div>
       </div>
     </div>
 
@@ -979,6 +980,82 @@
     </button>
   </div>
 </div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { 
+    getAuth, 
+    onAuthStateChanged 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { 
+    getFirestore, 
+    collection, 
+    query, 
+    where, 
+    getDocs 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
+    authDomain: "embo-access.firebaseapp.com",
+    projectId: "embo-access",
+    storageBucket: "embo-access.firebasestorage.app",
+    messagingSenderId: "173132109750",
+    appId: "1:173132109750:web:8697b6c0b83676a62a5317",
+    measurementId: "G-3FEJE2LCY9"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const avatarEl = document.getElementById('user-avatar');
+  const nameEl = document.getElementById('user-name');
+
+  // ---------- AUTH GUARD & USER DATA LOADER ----------
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      // 3. Kick out unauthenticated users immediately
+      window.location.href = 'login_page.html';
+      return;
+    }
+
+    try {
+      // Query Firestore for user profile
+      const q = query(collection(db, "users"), where("email", "==", user.email));
+      const querySnapshot = await getDocs(q);
+
+      let firstName = "";
+      let lastName = "";
+
+      querySnapshot.forEach((docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          firstName = data.firstname || "";
+          lastName = data.lastname || "";
+        }
+      });
+
+      if (firstName || lastName) {
+        // 1. Display full firstname and lastname
+        const fullName = `${firstName} ${lastName}`.trim();
+        nameEl.textContent = fullName;
+
+        // 2. Compute Initials (e.g., "Martin" + "Reyes" -> "MR")
+        const fInitial = firstName ? firstName.charAt(0).toUpperCase() : "";
+        const lInitial = lastName ? lastName.charAt(0).toUpperCase() : "";
+        avatarEl.textContent = `${fInitial}${lInitial}` || "U";
+      } else {
+        nameEl.textContent = user.email;
+        avatarEl.textContent = user.email.charAt(0).toUpperCase();
+      }
+
+    } catch (err) {
+      console.error("Error fetching user profile:", err);
+      nameEl.textContent = "Resident";
+      avatarEl.textContent = "R";
+    }
+  });
+</script>
 
 <script>
   const fab = document.getElementById('chat-fab');
