@@ -595,7 +595,8 @@
   let failedAttempts = 0;
   const MAX_ATTEMPTS = 3;
 
-  // ---------- BARANGAY DASHBOARD MAPPING ----------
+  // ---------- DASHBOARD MAPPINGS ----------
+  // Resident Dashboards
   const barangayDashboards = {
     "Cembo": "cembo_page.html",
     "Comembo": "comembo_page.html",
@@ -604,31 +605,57 @@
     "West Rembo": "westRembo_page.html"
   };
 
-  // Helper: Query user's Firestore document to find their registered barangay
+  // Admin Dashboards
+  const adminDashboards = {
+    "Cembo": "cembo_admin.html",
+    "Comembo": "comembo_admin.html",
+    "Pembo": "pembo_admin.html",
+    "East Rembo": "eastRembo_admin.html",
+    "West Rembo": "westRembo_admin.html"
+  };
+
+  // Helper: Query user's Firestore document to find their role & registered barangay
   async function getTargetDashboardUrl(email) {
     try {
       const q = query(collection(db, "users"), where("email", "==", email));
       const querySnapshot = await getDocs(q);
 
       let userBarangay = "";
+      let userRole = "resident";
+
       querySnapshot.forEach((docSnap) => {
         if (docSnap.exists()) {
           const data = docSnap.data();
           userBarangay = data.barangay || data.barangayName || "";
+          userRole = data.role || "resident";
         }
       });
 
+      // Save role & barangay to sessionStorage
+      sessionStorage.setItem("userRole", userRole);
+      sessionStorage.setItem("userBarangay", userBarangay);
+
+      // Handle ADMIN route logic
+      if (userRole === "admin") {
+        if (userBarangay && adminDashboards[userBarangay]) {
+          return adminDashboards[userBarangay];
+        }
+        return "admin_dashboard.html"; // Generic admin fallback
+      }
+
+      // Handle RESIDENT route logic
       if (userBarangay && barangayDashboards[userBarangay]) {
         return barangayDashboards[userBarangay];
       }
     } catch (err) {
-      console.error("Error fetching user barangay for redirect:", err);
+      console.error("Error fetching user details for redirect:", err);
     }
-    // Default fallback page if barangay isn't set or recognized
+    
+    // Default fallback page
     return "cembo_page.html";
   }
 
-  // ---------- FIRESTORE LOCKOUT HELPERS (QUERY BY EMAIL FIELD) ----------
+  // ---------- FIRESTORE LOCKOUT HELPERS ----------
   async function checkAccountLockout(email) {
     if (!email) return { locked: false };
     try {
@@ -791,7 +818,7 @@
         await updateDoc(doc(db, "users", docSnap.id), { failedAttempts: 0, isLocked: false });
       });
 
-      // 3. Look up registered barangay & fetch redirect destination
+      // 3. Look up user details, role & fetch redirect destination
       const redirectUrl = await getTargetDashboardUrl(emailVal);
 
       successBanner.classList.add('show');
@@ -799,7 +826,7 @@
       
       setTimeout(() => {
         window.location.href = redirectUrl;
-      }, 1200);
+      }, 1000);
 
     } catch (error) {
       failedAttempts++;
