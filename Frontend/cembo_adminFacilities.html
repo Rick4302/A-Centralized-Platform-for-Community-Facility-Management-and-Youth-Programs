@@ -1018,38 +1018,54 @@
       <button class="modal-close" id="modal-close">✕</button>
     </div>
     <form class="modal-form" id="facility-form" novalidate>
-      <div class="field" data-field="name">
-        <label for="f-name">Facility Name <span class="req">*</span></label>
-        <input type="text" id="f-name" placeholder="e.g. Basketball Court A" required>
-        <span class="field-error">Enter a facility name.</span>
-      </div>
-      <div class="field-row">
-        <div class="field" data-field="type">
-          <label for="f-type">Type <span class="req">*</span></label>
-          <select id="f-type" required>
-            <option value="" disabled selected>Select type</option>
-            <option value="Court">Court</option>
-            <option value="Venue">Venue</option>
-            <option value="Resource">Resource</option>
-          </select>
-          <span class="field-error">Select a facility type.</span>
-        </div>
-        <div class="field" data-field="capacity">
-          <label for="f-capacity">Capacity <span class="req">*</span></label>
-          <input type="number" id="f-capacity" min="1" placeholder="e.g. 20" required>
-          <span class="field-error">Enter a capacity.</span>
-        </div>
-      </div>
-      <div class="field" data-field="description">
-        <label for="f-description">Description <span class="req">*</span></label>
-        <textarea id="f-description" rows="3" placeholder="Briefly describe this facility…" required></textarea>
-        <span class="field-error">Enter a short description.</span>
-      </div>
-      <div class="modal-actions">
-        <button type="button" class="btn btn-secondary" id="modal-cancel">Cancel</button>
-        <button type="submit" class="btn">Save Facility →</button>
-      </div>
-    </form>
+  <!-- Hidden ID to know if we are adding or editing -->
+  <input type="hidden" id="f-id" value="">
+
+  <div class="field" data-field="name">
+    <label for="f-name">Facility Name <span class="req">*</span></label>
+    <input type="text" id="f-name" placeholder="e.g. Basketball Court A" required>
+    <span class="field-error">Enter a facility name.</span>
+  </div>
+
+  <div class="field-row">
+    <div class="field" data-field="type">
+      <label for="f-type">Type <span class="req">*</span></label>
+      <select id="f-type" required>
+        <option value="" disabled selected>Select type</option>
+        <option value="Court">Court</option>
+        <option value="Venue">Venue</option>
+        <option value="Resource">Resource</option>
+      </select>
+      <span class="field-error">Select a facility type.</span>
+    </div>
+
+    <div class="field" data-field="capacity">
+      <label for="f-capacity">Capacity / Quantity <span class="req">*</span></label>
+      <input type="text" id="f-capacity" placeholder="e.g. 30 or 5 sets" required>
+      <span class="field-error">Enter capacity or quantity.</span>
+    </div>
+  </div>
+
+  <div class="field" data-field="status">
+    <label for="f-status">Operational Status <span class="req">*</span></label>
+    <select id="f-status" required>
+      <option value="Available">Available</option>
+      <option value="Under Maintenance">Under Maintenance</option>
+      <option value="Hidden">Hidden</option>
+    </select>
+  </div>
+
+  <div class="field" data-field="description">
+    <label for="f-description">Description <span class="req">*</span></label>
+    <textarea id="f-description" rows="3" placeholder="Briefly describe this facility…" required></textarea>
+    <span class="field-error">Enter a short description.</span>
+  </div>
+
+  <div class="modal-actions">
+    <button type="button" class="btn btn-secondary" id="modal-cancel">Cancel</button>
+    <button type="submit" class="btn" id="modal-submit-btn">Save Facility →</button>
+  </div>
+</form>
   </div>
 </div>
 
@@ -1104,168 +1120,27 @@
   </div>
 </div>
 
-<script>
-
-  const overlay = document.getElementById('modal-overlay');
-  const modalTitle = document.getElementById('modal-title');
-  const form = document.getElementById('facility-form');
-  const toast = document.getElementById('toast');
-  const toastText = document.getElementById('toast-text');
-  const tbody = document.getElementById('facilities-tbody');
-
-  function setError(fieldEl, hasError){
-    fieldEl.classList.toggle('has-error', hasError);
-    const input = fieldEl.querySelector('input, select, textarea');
-    if(input) input.classList.toggle('error', hasError);
-  }
-  function showToast(msg, isRed){
-    toastText.textContent = msg;
-    toast.classList.toggle('toast-red', !!isRed);
-    toast.classList.add('show');
-    setTimeout(()=> toast.classList.remove('show'), 3200);
-  }
-
-  document.getElementById('add-facility-btn').addEventListener('click', ()=>{
-    modalTitle.textContent = 'Add Facility';
-    form.reset();
-    form.querySelectorAll('.field').forEach(f=>f.classList.remove('has-error'));
-    overlay.classList.add('show');
-  });
-  document.getElementById('modal-close').addEventListener('click', ()=> overlay.classList.remove('show'));
-  document.getElementById('modal-cancel').addEventListener('click', ()=> overlay.classList.remove('show'));
-  overlay.addEventListener('click', (e)=>{ if(e.target === overlay) overlay.classList.remove('show'); });
-
-  form.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    let valid = true;
-    const name = document.getElementById('f-name');
-    const type = document.getElementById('f-type');
-    const capacity = document.getElementById('f-capacity');
-    const description = document.getElementById('f-description');
-    const checks = [
-      [name.closest('.field'), name.value.trim().length > 0],
-      [type.closest('.field'), !!type.value],
-      [capacity.closest('.field'), Number(capacity.value) > 0],
-      [description.closest('.field'), description.value.trim().length > 0],
-    ];
-    checks.forEach(([fieldEl, ok])=>{ setError(fieldEl, !ok); if(!ok) valid = false; });
-    if(!valid) return;
-
-    const row = document.createElement('tr');
-    row.setAttribute('data-row','');
-    row.innerHTML = `
-      <td class="cell-title">${name.value}</td>
-      <td><span class="type-pill">${type.value}</span></td>
-      <td>${description.value}</td>
-      <td>${capacity.value}</td>
-      <td><span class="status-pill status-available" data-status>Available</span></td>
-      <td>
-        <div class="row-actions">
-          <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-          <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-          <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        </div>
-      </td>`;
-    tbody.appendChild(row);
-    bindRow(row);
-    overlay.classList.remove('show');
-    showToast(`${name.value} added — visible to residents once saved.`);
-  });
-
-  function bindRow(row){
-    const toggleBtn = row.querySelector('[data-toggle]');
-    const deleteBtn = row.querySelector('[data-delete]');
-    const editBtn = row.querySelector('[data-edit]');
-    const statusPill = row.querySelector('[data-status]');
-    const titleCell = row.querySelector('.cell-title');
-
-    toggleBtn.addEventListener('click', ()=>{
-      const hidden = statusPill.classList.contains('status-hidden');
-      if(hidden){
-        statusPill.classList.remove('status-hidden');
-        statusPill.classList.add('status-available');
-        statusPill.textContent = 'Available';
-        showToast(`${titleCell.textContent} is now visible to residents.`);
-      } else {
-        statusPill.classList.remove('status-available');
-        statusPill.classList.add('status-hidden');
-        statusPill.textContent = 'Hidden';
-        showToast(`${titleCell.textContent} is now hidden from residents.`, true);
-      }
-    });
-    editBtn.addEventListener('click', ()=>{
-      showToast(`Editing ${titleCell.textContent} — hook this up to your edit form.`);
-    });
-    deleteBtn.addEventListener('click', ()=>{
-      if(confirm(`Remove ${titleCell.textContent}? This can't be undone.`)){
-        row.remove();
-        showToast(`${titleCell.textContent} removed.`, true);
-      }
-    });
-  }
-  document.querySelectorAll('[data-row]').forEach(bindRow);
-
-</script>
-<script>
-  const fab = document.getElementById('chat-fab');
-  const panel = document.getElementById('chat-panel');
-  const closeBtn = document.getElementById('chat-close');
-  const navChatBtn = document.getElementById('nav-chat-btn');
-  const body = document.getElementById('chat-body');
-  const input = document.getElementById('chat-input');
-  const sendBtn = document.getElementById('chat-send');
-
-  function togglePanel(){ panel.classList.toggle('show'); if(panel.classList.contains('show')) input.focus(); }
-  fab.addEventListener('click', togglePanel);
-  navChatBtn.addEventListener('click', togglePanel);
-  closeBtn.addEventListener('click', ()=> panel.classList.remove('show'));
-
-  const canned = {
-    "is the basketball court free this weekend?": "Let me check the calendar — the Basketball Court has an open slot Saturday 2:00–4:00 PM. Want me to start a reservation request for it?",
-    "what programs are coming up?": "Coming up: our Basketball Tournament and a Digital Skills Workshop this month. Tap \"Join Program\" on the home page to sign up.",
-    "where's my reservation status?": "You can see every request and its status — Pending, Approved, or Rejected — under \"My Reservations\" in the top menu."
-  };
-
-  function addMsg(text, who){
-    const el = document.createElement('div');
-    el.className = 'chat-msg ' + who;
-    el.textContent = text;
-    body.appendChild(el);
-    body.scrollTop = body.scrollHeight;
-  }
-
-  function respond(text){
-    addMsg(text, 'user');
-    const key = text.trim().toLowerCase();
-    const reply = canned[key] || "Thanks — I've noted that. This is a front-end preview, so a real SK Assistant would look this up for you once it's connected to the barangay's system.";
-    setTimeout(()=> addMsg(reply, 'bot'), 500);
-  }
-
-  sendBtn.addEventListener('click', ()=>{
-    const v = input.value.trim();
-    if(!v) return;
-    respond(v);
-    input.value = '';
-  });
-  input.addEventListener('keydown', (e)=>{
-    if(e.key === 'Enter'){
-      const v = input.value.trim();
-      if(!v) return;
-      respond(v);
-      input.value = '';
-    }
-  });
-  document.querySelectorAll('.chat-suggest button').forEach(btn=>{
-    btn.addEventListener('click', ()=> respond(btn.dataset.msg));
-  });
-</script>
-
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { 
+    getFirestore, 
+    doc, 
+    getDoc, 
+    query, 
+    collection, 
+    where, 
+    getDocs, 
+    addDoc, 
+    updateDoc, 
+    deleteDoc, 
+    onSnapshot 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // Your Firebase Configuration
+  // CHANGE THIS FOR EACH BARANGAY FILE AS A FALLBACK (e.g. "Cembo", "Comembo", "East Rembo", "Pembo", "West Rembo")
+  const DEFAULT_BARANGAY = "Cembo"; 
+
+  // Firebase Configuration
   const firebaseConfig = {
     apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
     authDomain: "embo-access.firebaseapp.com",
@@ -1279,39 +1154,73 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // Listen for active authentication state
+  let currentAdminBarangay = DEFAULT_BARANGAY;
+  let unsubscribeFacilities = null;
+
+  // UI Elements
+  const overlay = document.getElementById('modal-overlay');
+  const modalTitle = document.getElementById('modal-title');
+  const form = document.getElementById('facility-form');
+  const toast = document.getElementById('toast');
+  const toastText = document.getElementById('toast-text');
+  const tbody = document.getElementById('facilities-tbody');
+
+  // Input Elements
+  const facilityIdInput = document.getElementById('f-id');
+  const nameInput = document.getElementById('f-name');
+  const typeInput = document.getElementById('f-type');
+  const capacityInput = document.getElementById('f-capacity');
+  const statusInput = document.getElementById('f-status');
+  const descInput = document.getElementById('f-description');
+
+  function showToast(msg, isRed = false) {
+    if (!toastText || !toast) return;
+    toastText.textContent = msg;
+    toast.classList.toggle('toast-red', isRed);
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3200);
+  }
+
+  function setError(fieldEl, hasError) {
+    if (!fieldEl) return;
+    fieldEl.classList.toggle('has-error', hasError);
+    const input = fieldEl.querySelector('input, select, textarea');
+    if (input) input.classList.toggle('error', hasError);
+  }
+
+  // --- AUTH & INITIALIZATION ---
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       try {
         let fullName = "";
 
-        // 1. First try fetching document by Document ID (User UID)
+        // 1. Get user profile
         const userDocRef = doc(db, "users", user.uid);
         const userDocSnap = await getDoc(userDocRef);
 
         if (userDocSnap.exists()) {
           const data = userDocSnap.data();
           fullName = data.fullName || data.name || data.firstName;
+          if (data.barangay) currentAdminBarangay = data.barangay;
         } else {
-          // 2. Fallback: Query users collection by Email if doc ID isn't UID
           const q = query(collection(db, "users"), where("email", "==", user.email));
           const querySnapshot = await getDocs(q);
           querySnapshot.forEach((docSnap) => {
             if (docSnap.exists()) {
               const data = docSnap.data();
               fullName = data.fullName || data.name || data.firstName;
+              if (data.barangay) currentAdminBarangay = data.barangay;
             }
           });
         }
 
-        // 3. Display name in UI
+        // Display Admin Name & Avatar
         const nameElement = document.getElementById("admin-name");
         if (nameElement && fullName) {
           nameElement.textContent = `Admin - ${fullName}`;
         }
 
-        // Optional: Update avatar initials (e.g., "MS")
-        const avatarElement = document.querySelector(".user-pill .avatar");
+        const avatarElement = document.querySelector(".user-chip .avatar");
         if (avatarElement && fullName) {
           const initials = fullName
             .split(" ")
@@ -1322,15 +1231,235 @@
           avatarElement.textContent = initials;
         }
 
+        // Start listening to live facilities from Firestore
+        listenToFacilities(currentAdminBarangay);
+
       } catch (err) {
-        console.error("Error fetching admin name:", err);
+        console.error("Error fetching admin profile:", err);
+        listenToFacilities(DEFAULT_BARANGAY);
       }
     } else {
-      // Redirect to login if not authenticated
       window.location.href = "login_page.html";
     }
   });
-</script>
 
+  // --- REAL-TIME VIEW / LISTEN FROM FIRESTORE ---
+  function listenToFacilities(barangay) {
+    if (unsubscribeFacilities) unsubscribeFacilities();
+
+    const q = query(collection(db, "facilities"), where("barangay", "==", barangay));
+
+    unsubscribeFacilities = onSnapshot(q, (snapshot) => {
+      tbody.innerHTML = ""; 
+
+      if (snapshot.empty) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 20px;">No facilities found for Barangay ${barangay}. Click "+ Add Facility" to create one.</td></tr>`;
+        return;
+      }
+
+      snapshot.forEach((docSnap) => {
+        const item = docSnap.data();
+        const docId = docSnap.id;
+        const row = createTableRow(docId, item);
+        tbody.appendChild(row);
+      });
+    }, (error) => {
+      console.error("Firestore Read Error: ", error);
+      showToast("Error loading facilities.", true);
+    });
+  }
+
+  // --- RENDER TABLE ROWS (WITH EDIT, REMOVE & STATUS TOGGLE) ---
+  function createTableRow(id, data) {
+    const tr = document.createElement('tr');
+    tr.setAttribute('data-id', id);
+
+    let statusClass = 'status-available';
+    if (data.status === 'Under Maintenance' || data.status === 'Hidden') {
+      statusClass = 'status-hidden';
+    }
+
+    tr.innerHTML = `
+      <td class="cell-title">${data.name}</td>
+      <td><span class="type-pill">${data.type}</span></td>
+      <td>${data.description}</td>
+      <td>${data.capacity}</td>
+      <td><span class="status-pill ${statusClass}" data-status>${data.status}</span></td>
+      <td>
+        <div class="row-actions">
+          <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
+          <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
+          <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </td>
+    `;
+
+    const toggleBtn = tr.querySelector('[data-toggle]');
+    const editBtn = tr.querySelector('[data-edit]');
+    const deleteBtn = tr.querySelector('[data-delete]');
+
+    // Quick Status Toggle
+    toggleBtn.addEventListener('click', async () => {
+      const newStatus = data.status === 'Available' ? 'Hidden' : 'Available';
+      try {
+        await updateDoc(doc(db, "facilities", id), { status: newStatus });
+        showToast(`${data.name} status updated to ${newStatus}.`, newStatus === 'Hidden');
+      } catch (e) {
+        console.error("Update status error:", e);
+        showToast("Permission denied or error updating status.", true);
+      }
+    });
+
+    // Populate Modal for EDITING
+    editBtn.addEventListener('click', () => {
+      modalTitle.textContent = 'Edit Facility';
+      facilityIdInput.value = id;
+      nameInput.value = data.name;
+      typeInput.value = data.type;
+      capacityInput.value = data.capacity;
+      statusInput.value = data.status || 'Available';
+      descInput.value = data.description;
+
+      form.querySelectorAll('.field').forEach(f => f.classList.remove('has-error'));
+      overlay.classList.add('show');
+    });
+
+    // REMOVE / DELETE Facility from Firestore
+    deleteBtn.addEventListener('click', async () => {
+      if (confirm(`Remove ${data.name}? This action cannot be undone.`)) {
+        try {
+          await deleteDoc(doc(db, "facilities", id));
+          showToast(`${data.name} removed successfully.`, true);
+        } catch (e) {
+          console.error("Delete error:", e);
+          showToast("Failed to delete facility. Check rules.", true);
+        }
+      }
+    });
+
+    return tr;
+  }
+
+  // --- MODAL CONTROLS ---
+  document.getElementById('add-facility-btn').addEventListener('click', () => {
+    modalTitle.textContent = 'Add Facility';
+    facilityIdInput.value = '';
+    form.reset();
+    form.querySelectorAll('.field').forEach(f => f.classList.remove('has-error'));
+    overlay.classList.add('show');
+  });
+
+  const closeModal = () => overlay.classList.remove('show');
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal-cancel').addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+
+  // --- SAVE FORM (ADD OR UPDATE FIRESTORE DOCUMENT) ---
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    let valid = true;
+    const checks = [
+      [nameInput.closest('.field'), nameInput.value.trim().length > 0],
+      [typeInput.closest('.field'), !!typeInput.value],
+      [capacityInput.closest('.field'), capacityInput.value.trim().length > 0],
+      [statusInput.closest('.field'), !!statusInput.value],
+      [descInput.closest('.field'), descInput.value.trim().length > 0],
+    ];
+
+    checks.forEach(([fieldEl, ok]) => { setError(fieldEl, !ok); if (!ok) valid = false; });
+    if (!valid) return;
+
+    const payload = {
+      name: nameInput.value.trim(),
+      type: typeInput.value,
+      capacity: capacityInput.value.trim(),
+      status: statusInput.value,
+      description: descInput.value.trim(),
+      barangay: currentAdminBarangay || DEFAULT_BARANGAY,
+      updatedAt: new Date()
+    };
+
+    try {
+      const docId = facilityIdInput.value;
+      if (docId) {
+        // Edit existing document
+        await updateDoc(doc(db, "facilities", docId), payload);
+        showToast(`${payload.name} updated successfully.`);
+      } else {
+        // Add new document
+        await addDoc(collection(db, "facilities"), payload);
+        showToast(`${payload.name} added to Barangay ${payload.barangay}.`);
+      }
+      closeModal();
+    } catch (err) {
+      console.error("Firestore Save Error:", err);
+      showToast("Error saving facility. Check console for rules error.", true);
+    }
+  });
+
+  // --- SK ASSISTANT CHATBOT LOGIC ---
+  const fab = document.getElementById('chat-fab');
+  const panel = document.getElementById('chat-panel');
+  const closeBtn = document.getElementById('chat-close');
+  const navChatBtn = document.getElementById('nav-chat-btn');
+  const chatBody = document.getElementById('chat-body');
+  const chatInput = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('chat-send');
+
+  function togglePanel() { 
+    if (!panel) return;
+    panel.classList.toggle('show'); 
+    if (panel.classList.contains('show') && chatInput) chatInput.focus(); 
+  }
+
+  if (fab) fab.addEventListener('click', togglePanel);
+  if (navChatBtn) navChatBtn.addEventListener('click', togglePanel);
+  if (closeBtn) closeBtn.addEventListener('click', () => panel.classList.remove('show'));
+
+  const canned = {
+    "is the basketball court free this weekend?": "Let me check the calendar — the Basketball Court has an open slot Saturday 2:00–4:00 PM. Want me to start a reservation request for it?",
+    "what programs are coming up?": "Coming up: our Basketball Tournament and a Digital Skills Workshop this month. Tap \"Join Program\" on the home page to sign up.",
+    "where's my reservation status?": "You can see every request and its status — Pending, Approved, or Rejected — under \"My Reservations\" in the top menu."
+  };
+
+  function addMsg(text, who) {
+    if (!chatBody) return;
+    const el = document.createElement('div');
+    el.className = 'chat-msg ' + who;
+    el.textContent = text;
+    chatBody.appendChild(el);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function respond(text) {
+    addMsg(text, 'user');
+    const key = text.trim().toLowerCase();
+    const reply = canned[key] || "Thanks — I've noted that.";
+    setTimeout(() => addMsg(reply, 'bot'), 500);
+  }
+
+  if (sendBtn && chatInput) {
+    sendBtn.addEventListener('click', () => {
+      const v = chatInput.value.trim();
+      if (!v) return;
+      respond(v);
+      chatInput.value = '';
+    });
+
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const v = chatInput.value.trim();
+        if (!v) return;
+        respond(v);
+        chatInput.value = '';
+      }
+    });
+  }
+
+  document.querySelectorAll('.chat-suggest button').forEach(btn => {
+    btn.addEventListener('click', () => respond(btn.dataset.msg));
+  });
+</script>
 </body>
 </html>
