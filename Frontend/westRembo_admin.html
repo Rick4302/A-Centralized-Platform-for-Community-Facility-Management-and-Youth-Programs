@@ -1402,5 +1402,77 @@
   });
 </script>
 
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // Your Firebase Configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
+    authDomain: "embo-access.firebaseapp.com",
+    projectId: "embo-access",
+    storageBucket: "embo-access.firebasestorage.app",
+    messagingSenderId: "173132109750",
+    appId: "1:173132109750:web:8697b6c0b83676a62a5317"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Listen for active authentication state
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      try {
+        let fullName = "";
+
+        // 1. First try fetching document by Document ID (User UID)
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          const data = userDocSnap.data();
+          fullName = data.fullName || data.name || data.firstName;
+        } else {
+          // 2. Fallback: Query users collection by Email if doc ID isn't UID
+          const q = query(collection(db, "users"), where("email", "==", user.email));
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach((docSnap) => {
+            if (docSnap.exists()) {
+              const data = docSnap.data();
+              fullName = data.fullName || data.name || data.firstName;
+            }
+          });
+        }
+
+        // 3. Display name in UI
+        const nameElement = document.getElementById("admin-name");
+        if (nameElement && fullName) {
+          nameElement.textContent = `Admin - ${fullName}`;
+        }
+
+        // Optional: Update avatar initials (e.g., "MS")
+        const avatarElement = document.querySelector(".user-pill .avatar");
+        if (avatarElement && fullName) {
+          const initials = fullName
+            .split(" ")
+            .map(n => n[0])
+            .join("")
+            .substring(0, 2)
+            .toUpperCase();
+          avatarElement.textContent = initials;
+        }
+
+      } catch (err) {
+        console.error("Error fetching admin name:", err);
+      }
+    } else {
+      // Redirect to login if not authenticated
+      window.location.href = "login_page.html";
+    }
+  });
+</script>
+
 </body>
 </html>

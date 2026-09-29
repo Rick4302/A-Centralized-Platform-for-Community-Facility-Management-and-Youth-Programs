@@ -675,7 +675,7 @@
 
 <header>
   <div class="wrap nav">
-    <a href="home_pembo.html" class="brand">
+    <a href="pembo_admin.html" class="brand">
       <span class="seal"><img src="../Pics/pembologo.png" alt="Pembo seal" onerror="this.parentElement.textContent='SK'"></span>
       <span class="brand-text">
         <span class="sk">SK Pembo</span>
@@ -928,7 +928,6 @@
 </div>
 
 <div class="toast" id="toast">Reservation request cancelled.</div>
-
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { 
@@ -940,8 +939,15 @@
     collection, 
     query, 
     where, 
-    getDocs 
+    getDocs,
+    doc,
+    getDoc,
+    addDoc,
+    onSnapshot
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // CHANGE THIS VARIABLE FOR OTHER RESIDENT PAGES (e.g. "Comembo", "East Rembo", "West Rembo", "Pembo")
+  const PAGE_BARANGAY = "Pembo";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
@@ -960,18 +966,42 @@
   const avatarEl = document.getElementById('user-avatar');
   const nameEl = document.getElementById('user-name');
 
-  // ---------- AUTH GUARD & USER DATA LOADER ----------
+  let currentUser = null;
+  let currentUserFullName = "Juan Dela Cruz";
+  let rawFacilities = [];
+  let currentFacility = null;
+  let selectedSlot = null;
+
+  const ICONS = {
+    "Sports Court": '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 3a9 9 0 0 0 0 18M3 12h18M5.5 6.5c2 1.8 4.2 2.8 6.5 2.8s4.5-1 6.5-2.8M5.5 17.5c2-1.8 4.2-2.8 6.5-2.8s4.5 1 6.5 2.8" stroke="currentColor" stroke-width="1.3"/></svg>',
+    "Hall": '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 21V10l8-6 8 6v11" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 21v-6h6v6M4 21h16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
+    "Function Room": '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M4 10h16M9 4v6" stroke="currentColor" stroke-width="1.4"/></svg>',
+    "Open Space": '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 20c2-5 4-8 9-8s7 3 9 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="7" r="3.2" stroke="currentColor" stroke-width="1.6"/></svg>'
+  };
+
+  const SLOTS = [
+    {id:"08-10", label:"8:00 – 10:00 AM"},
+    {id:"10-12", label:"10:00 AM – 12:00 PM"},
+    {id:"13-15", label:"1:00 – 3:00 PM"},
+    {id:"15-17", label:"3:00 – 5:00 PM"},
+    {id:"17-19", label:"5:00 – 7:00 PM"},
+    {id:"19-21", label:"7:00 – 9:00 PM"}
+  ];
+
+  /* =========================================================
+     AUTH GUARD & USER DATA LOADER
+     ========================================================= */
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
-      // 3. Kick out unauthenticated users immediately
       window.location.href = 'login_page.html';
       return;
     }
 
+    currentUser = user;
+
     try {
-      // Query Firestore for user profile
-      const q = query(collection(db, "users"), where("email", "==", user.email));
-      const querySnapshot = await getDocs(q);
+      const qUser = query(collection(db, "users"), where("email", "==", user.email));
+      const querySnapshot = await getDocs(qUser);
 
       let firstName = "";
       let lastName = "";
@@ -985,370 +1015,415 @@
       });
 
       if (firstName || lastName) {
-        // 1. Display full firstname and lastname
-        const fullName = `${firstName} ${lastName}`.trim();
-        nameEl.textContent = fullName;
+        currentUserFullName = `${firstName} ${lastName}`.trim();
+        if (nameEl) nameEl.textContent = currentUserFullName;
 
-        // 2. Compute Initials (e.g., "Martin" + "Reyes" -> "MR")
         const fInitial = firstName ? firstName.charAt(0).toUpperCase() : "";
         const lInitial = lastName ? lastName.charAt(0).toUpperCase() : "";
-        avatarEl.textContent = `${fInitial}${lInitial}` || "U";
+        if (avatarEl) avatarEl.textContent = `${fInitial}${lInitial}` || "U";
       } else {
-        nameEl.textContent = user.email;
-        avatarEl.textContent = user.email.charAt(0).toUpperCase();
+        currentUserFullName = user.email;
+        if (nameEl) nameEl.textContent = user.email;
+        if (avatarEl) avatarEl.textContent = user.email.charAt(0).toUpperCase();
       }
+
+      // Load user's recent reservations
+      listenToUserReservations();
 
     } catch (err) {
       console.error("Error fetching user profile:", err);
-      nameEl.textContent = "Resident";
-      avatarEl.textContent = "R";
+      if (nameEl) nameEl.textContent = "Resident";
+      if (avatarEl) avatarEl.textContent = "R";
     }
   });
-</script>
 
-<script>
-/* =========================================================
-   FACILITY DATA
-   ========================================================= */
-const ICONS = {
-  "Sports Court": '<svg width="30" height="30" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 3a9 9 0 0 0 0 18M3 12h18M5.5 6.5c2 1.8 4.2 2.8 6.5 2.8s4.5-1 6.5-2.8M5.5 17.5c2-1.8 4.2-2.8 6.5-2.8s4.5 1 6.5 2.8" stroke="currentColor" stroke-width="1.3"/></svg>',
-  "Hall": '<svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M4 21V10l8-6 8 6v11" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 21v-6h6v6M4 21h16" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>',
-  "Function Room": '<svg width="30" height="30" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M4 10h16M9 4v6" stroke="currentColor" stroke-width="1.4"/></svg>',
-  "Open Space": '<svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M3 20c2-5 4-8 9-8s7 3 9 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="7" r="3.2" stroke="currentColor" stroke-width="1.6"/></svg>'
-};
+  /* =========================================================
+     FIRESTORE LIVE FACILITIES LISTENER
+     ========================================================= */
+  const grid = document.getElementById('facility-grid');
+  const resultCount = document.getElementById('result-count');
+  const liveCount = document.getElementById('live-count');
 
-const SLOTS = [
-  {id:"08-10", label:"8:00 – 10:00 AM"},
-  {id:"10-12", label:"10:00 AM – 12:00 PM"},
-  {id:"13-15", label:"1:00 – 3:00 PM"},
-  {id:"15-17", label:"3:00 – 5:00 PM"},
-  {id:"17-19", label:"5:00 – 7:00 PM"},
-  {id:"19-21", label:"7:00 – 9:00 PM"}
-];
+  const facQuery = query(
+    collection(db, "facilities"), 
+    where("barangay", "==", PAGE_BARANGAY)
+  );
 
-const FACILITIES = [
-  {id:"court-1", name:"Pembo Basketball Court", type:"Sports Court", capacity:60, fee:"Free", feeNote:"for Pembo youth", status:"available", desc:"Full-size outdoor court with fresh markings and floodlights for evening games."},
-  {id:"hall-1", name:"SK Multi-Purpose Hall", type:"Hall", capacity:150, fee:"₱500", feeNote:"per half-day", status:"limited", desc:"Air-conditioned hall for assemblies, fiestas, and large community gatherings."},
-  {id:"plaza-1", name:"Pembo Barangay Plaza", type:"Open Space", capacity:300, fee:"Free", feeNote:"permit required", status:"available", desc:"Open-air plaza ideal for fun runs, fiestas, and outdoor community programs."},
-  {id:"lab-1", name:"Youth Computer Laboratory", type:"Function Room", capacity:22, fee:"Free", feeNote:"for SK programs", status:"available", desc:"22-seat lab with desktops and projector — used for digital skills workshops and trainings."},
-  {id:"func-a", name:"Function Room A", type:"Function Room", capacity:30, fee:"₱300", feeNote:"per session", status:"unavailable", desc:"Small meeting room with whiteboard and long table, suited for committee meetings."},
-  {id:"func-b", name:"Function Room B", type:"Function Room", capacity:38, fee:"₱300", feeNote:"per session", status:"available", desc:"Flexible room with movable chairs, good for small trainings or birthday events."},
-  {id:"court-2", name:"Volleyball Court", type:"Sports Court", capacity:24, fee:"Free", feeNote:"for Pembo youth", status:"limited", desc:"Outdoor volleyball court with regulation net, open for league play and practice."},
-  {id:"gym-1", name:"Covered Gymnasium", type:"Hall", capacity:200, fee:"₱800", feeNote:"per half-day", status:"available", desc:"Covered gym used for tournaments, large assemblies, and inter-barangay events."}
-];
-
-const STATUS_LABEL = {available:"Available", limited:"Limited slots", unavailable:"Fully booked today"};
-
-// simulated existing bookings: "facilityId|YYYY-MM-DD" -> [slotIds]
-const MOCK_BOOKINGS = {};
-(function seedBookings(){
-  const today = new Date();
-  const fmt = d => d.toISOString().slice(0,10);
-  const inDays = n => { const d = new Date(today); d.setDate(d.getDate()+n); return fmt(d); };
-  MOCK_BOOKINGS[`court-1|${inDays(1)}`] = ["08-10","10-12"];
-  MOCK_BOOKINGS[`hall-1|${inDays(2)}`] = ["13-15","15-17","17-19"];
-  MOCK_BOOKINGS[`func-a|${inDays(0)}`] = ["08-10","10-12","13-15","15-17","17-19","19-21"];
-  MOCK_BOOKINGS[`court-2|${inDays(3)}`] = ["17-19"];
-})();
-
-const STORE_KEY = "emboReservations_pembo";
-let currentFacility = null;
-let selectedSlot = null;
-
-/* =========================================================
-   RENDER FACILITY GRID
-   ========================================================= */
-const grid = document.getElementById('facility-grid');
-const resultCount = document.getElementById('result-count');
-const liveCount = document.getElementById('live-count');
-
-function renderGrid(){
-  const query = document.getElementById('search-input').value.trim().toLowerCase();
-  const activeType = document.querySelector('#type-filters .chip.active').dataset.type;
-  const sortBy = document.getElementById('sort-select').value;
-
-  let list = FACILITIES.filter(f=>{
-    const matchesType = activeType === 'all' || f.type === activeType;
-    const matchesQuery = !query || f.name.toLowerCase().includes(query) || f.type.toLowerCase().includes(query);
-    return matchesType && matchesQuery;
+  onSnapshot(facQuery, (snapshot) => {
+    rawFacilities = [];
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      // Completely hide facilities marked as "Hidden"
+      if (data.status !== "Hidden") {
+        rawFacilities.push({ id: docSnap.id, ...data });
+      }
+    });
+    renderGrid();
+  }, (err) => {
+    console.error("Error fetching live facilities:", err);
   });
 
-  const rank = {available:0, limited:1, unavailable:2};
-  if(sortBy === 'name') list.sort((a,b)=> a.name.localeCompare(b.name));
-  if(sortBy === 'capacity') list.sort((a,b)=> b.capacity - a.capacity);
-  if(sortBy === 'availability') list.sort((a,b)=> rank[a.status]-rank[b.status]);
+  /* =========================================================
+     RENDER FACILITY GRID
+     ========================================================= */
+  function renderGrid() {
+    if (!grid) return;
 
-  resultCount.textContent = `${list.length} facilit${list.length===1?'y':'ies'}`;
+    const searchVal = document.getElementById('search-input')?.value.trim().toLowerCase() || '';
+    const activeChip = document.querySelector('#type-filters .chip.active');
+    const activeType = activeChip ? activeChip.dataset.type : 'all';
+    const sortBy = document.getElementById('sort-select')?.value || 'name';
 
-  if(list.length === 0){
-    grid.innerHTML = `<div class="empty-state"><h3>No facilities match your search</h3><p>Try a different keyword or clear the filters.</p></div>`;
-    return;
+    // 1. Filter
+    let list = rawFacilities.filter(f => {
+      const matchesType = (activeType === 'all') || (f.type && f.type.toLowerCase().trim() === activeType.toLowerCase().trim());
+      const matchesSearch = !searchVal || 
+                            f.name.toLowerCase().includes(searchVal) || 
+                            (f.type && f.type.toLowerCase().includes(searchVal)) ||
+                            (f.description && f.description.toLowerCase().includes(searchVal));
+      return matchesType && matchesSearch;
+    });
+
+    // 2. Sort Logic: Always prioritize Available items first
+    list.sort((a, b) => {
+      const isAAvail = (a.status === 'Available');
+      const isBAvail = (b.status === 'Available');
+
+      if (isAAvail && !isBAvail) return -1;
+      if (!isAAvail && isBAvail) return 1;
+
+      if (sortBy === 'capacity') {
+        return parseInt(b.capacity || 0) - parseInt(a.capacity || 0);
+      }
+      return a.name.localeCompare(b.name);
+    });
+
+    // Update Counts
+    const availCount = rawFacilities.filter(f => f.status === 'Available').length;
+    if (liveCount) liveCount.textContent = `${availCount} of ${rawFacilities.length}`;
+    if (resultCount) resultCount.textContent = `${list.length} facilit${list.length === 1 ? 'y' : 'ies'}`;
+
+    if (list.length === 0) {
+      grid.innerHTML = `<div class="empty-state" style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;"><h3>No facilities match your search</h3><p>Try a different keyword or clear the filters.</p></div>`;
+      return;
+    }
+
+    // Output cards without photo header boxes
+    grid.innerHTML = list.map(f => {
+      const isAvailable = (f.status === 'Available');
+      const statusClass = isAvailable ? 'available' : 'unavailable';
+      const statusLabel = f.status || 'Available';
+      const iconSvg = ICONS[f.type] || ICONS["Sports Court"];
+
+      return `
+        <div class="facility-card" style="display:flex; flex-direction:column; justify-content:space-between; padding:20px; border:1px solid #e0e0e0; border-radius:12px; background:#fff;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <span class="facility-type" style="display:inline-flex; align-items:center; gap:6px; font-weight:600; font-size:0.85rem; color:#555;">
+                ${iconSvg} ${f.type}
+              </span>
+              <span class="status-badge ${statusClass}">● ${statusLabel.toUpperCase()}</span>
+            </div>
+            <h3 style="margin:0 0 8px; font-size:1.15rem; font-weight:700;">${f.name}</h3>
+            <p class="desc" style="font-size:0.88rem; color:#666; margin-bottom:16px; line-height:1.4;">${f.description || f.desc || ''}</p>
+            <div class="facility-meta" style="font-size:0.85rem; color:#777; margin-bottom:16px;">
+              <span>👥 Up to ${f.capacity} people</span>
+            </div>
+          </div>
+          <div class="facility-footer" style="display:flex; align-items:center; justify-content:space-between; padding-top:12px; border-top:1px solid #f0f0f0;">
+            <span class="facility-fee" style="font-weight:600; font-size:0.95rem;">${f.fee || 'Free'}</span>
+            <button class="btn btn-small ${!isAvailable ? 'btn-disabled' : ''}" data-fac-id="${f.id}">
+              ${isAvailable ? 'Reserve →' : 'Unavailable'}
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Attach Click Handlers
+    grid.querySelectorAll('[data-fac-id]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const facId = btn.dataset.facId;
+        const facItem = rawFacilities.find(item => item.id === facId);
+        if (facItem) {
+          if (facItem.status !== 'Available') {
+            showToast(`"${facItem.name}" is currently ${facItem.status.toLowerCase()} and cannot be reserved.`, true);
+            return;
+          }
+          openModal(facItem);
+        }
+      });
+    });
   }
 
-  grid.innerHTML = list.map(f => `
-    <div class="facility-card">
-      <div class="facility-thumb">
-        ${ICONS[f.type]}
-        <span class="status-badge ${f.status}">${STATUS_LABEL[f.status]}</span>
-      </div>
-      <div class="facility-body">
-        <div class="facility-type">${f.type}</div>
-        <h3>${f.name}</h3>
-        <p class="desc">${f.desc}</p>
-        <div class="facility-meta">
-          <span>👥 Up to ${f.capacity}</span>
-          <span>📍 SK Pembo Complex</span>
-        </div>
-        <div class="facility-footer">
-          <span class="facility-fee">${f.fee}<small>${f.feeNote}</small></span>
-          <button class="btn btn-small" ${f.status==='unavailable' ? 'disabled' : ''} onclick="openModal('${f.id}')">
-            ${f.status==='unavailable' ? 'Fully Booked' : 'Reserve →'}
-          </button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function updateLiveCount(){
-  const avail = FACILITIES.filter(f=>f.status!=='unavailable').length;
-  liveCount.textContent = `${avail} of ${FACILITIES.length}`;
-}
-
-document.getElementById('search-input').addEventListener('input', renderGrid);
-document.getElementById('sort-select').addEventListener('change', renderGrid);
-document.querySelectorAll('#type-filters .chip').forEach(chip=>{
-  chip.addEventListener('click', ()=>{
-    document.querySelectorAll('#type-filters .chip').forEach(c=>c.classList.remove('active'));
-    chip.classList.add('active');
-    renderGrid();
-  });
-});
-
-/* =========================================================
-   MODAL / RESERVATION FLOW
-   ========================================================= */
-const overlay = document.getElementById('modal-overlay');
-const formView = document.getElementById('form-view');
-const successView = document.getElementById('success-view');
-const form = document.getElementById('reservation-form');
-const dateInput = document.getElementById('res-date');
-const slotGrid = document.getElementById('slot-grid');
-const errorBanner = document.getElementById('form-error-banner');
-
-// min date = today
-const todayStr = new Date().toISOString().slice(0,10);
-dateInput.min = todayStr;
-
-function openModal(facilityId){
-  currentFacility = FACILITIES.find(f=>f.id === facilityId);
-  if(!currentFacility) return;
-  selectedSlot = null;
-
-  document.getElementById('modal-title').textContent = `Reserve: ${currentFacility.name}`;
-  document.getElementById('summary-thumb').innerHTML = ICONS[currentFacility.type];
-  document.getElementById('summary-name').textContent = currentFacility.name;
-  document.getElementById('summary-type').textContent = `${currentFacility.type} · Up to ${currentFacility.capacity} people`;
-
-  form.reset();
-  document.getElementById('res-name').value = "Juan Dela Cruz";
-  dateInput.value = todayStr;
-  errorBanner.classList.remove('show');
-  document.querySelectorAll('.field').forEach(f=>f.classList.remove('has-error'));
-
-  renderSlots();
-  formView.style.display = 'block';
-  successView.style.display = 'none';
-  overlay.classList.add('show');
-}
-
-function closeModal(){ overlay.classList.remove('show'); }
-document.getElementById('modal-close').addEventListener('click', closeModal);
-overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeModal(); });
-
-function renderSlots(){
-  const key = `${currentFacility.id}|${dateInput.value}`;
-  const booked = MOCK_BOOKINGS[key] || [];
-  slotGrid.innerHTML = SLOTS.map(s => `
-    <button type="button" class="slot ${selectedSlot===s.id?'selected':''}" data-slot="${s.id}" ${booked.includes(s.id) ? 'disabled' : ''}>
-      ${s.label}
-    </button>
-  `).join('');
-  slotGrid.querySelectorAll('.slot:not(:disabled)').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      selectedSlot = btn.dataset.slot;
-      slotGrid.querySelectorAll('.slot').forEach(b=>b.classList.remove('selected'));
-      btn.classList.add('selected');
+  // Filter Event Listeners
+  document.getElementById('search-input')?.addEventListener('input', renderGrid);
+  document.getElementById('sort-select')?.addEventListener('change', renderGrid);
+  document.querySelectorAll('#type-filters .chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('#type-filters .chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      renderGrid();
     });
   });
-}
-dateInput.addEventListener('change', ()=>{ selectedSlot = null; renderSlots(); });
 
-function refCounter(){
-  let n = parseInt(localStorage.getItem('emboRefCounter_pembo') || '0', 10) + 1;
-  localStorage.setItem('emboRefCounter_pembo', n);
-  return n;
-}
+  /* =========================================================
+     MODAL / RESERVATION FLOW
+     ========================================================= */
+  const overlay = document.getElementById('modal-overlay');
+  const formView = document.getElementById('form-view');
+  const successView = document.getElementById('success-view');
+  const form = document.getElementById('reservation-form');
+  const dateInput = document.getElementById('res-date');
+  const slotGrid = document.getElementById('slot-grid');
+  const errorBanner = document.getElementById('form-error-banner');
 
-form.addEventListener('submit', function(e){
-  e.preventDefault();
-  let valid = true;
-  const markError = (id) => { document.getElementById(id).closest('.field').classList.add('has-error'); document.getElementById(id).classList.add('error'); valid = false; };
-  const clearError = (id) => { document.getElementById(id).closest('.field').classList.remove('has-error'); document.getElementById(id).classList.remove('error'); };
+  const todayStr = new Date().toISOString().slice(0,10);
+  if (dateInput) dateInput.min = todayStr;
 
-  ['res-name','res-contact','res-date','res-attendees','res-purpose'].forEach(clearError);
+  function openModal(facility) {
+    currentFacility = facility;
+    selectedSlot = null;
 
-  const name = document.getElementById('res-name').value.trim();
-  const contact = document.getElementById('res-contact').value.trim();
-  const attendees = document.getElementById('res-attendees').value;
-  const purpose = document.getElementById('res-purpose').value;
-  const terms = document.getElementById('res-terms').checked;
+    document.getElementById('modal-title').textContent = `Reserve: ${currentFacility.name}`;
+    document.getElementById('summary-thumb').innerHTML = ICONS[currentFacility.type] || '';
+    document.getElementById('summary-name').textContent = currentFacility.name;
+    document.getElementById('summary-type').textContent = `${currentFacility.type} · Up to ${currentFacility.capacity} people`;
 
-  if(!name) markError('res-name');
-  if(!/^[\d+\s()-]{7,}$/.test(contact)) markError('res-contact');
-  if(!dateInput.value) markError('res-date');
-  if(!attendees || attendees < 1) markError('res-attendees');
-  if(!purpose) markError('res-purpose');
+    form.reset();
+    document.getElementById('res-name').value = currentUserFullName;
+    if (dateInput) dateInput.value = todayStr;
+    if (errorBanner) errorBanner.classList.remove('show');
+    document.querySelectorAll('.field').forEach(f => f.classList.remove('has-error'));
 
-  errorBanner.classList.remove('show');
-  document.getElementById('form-error-text').textContent = 'Please complete the required fields below.';
-
-  if(!selectedSlot){
-    errorBanner.classList.add('show');
-    document.getElementById('form-error-text').textContent = 'Please choose an available time slot.';
-    valid = false;
-  }
-  if(!terms){
-    errorBanner.classList.add('show');
-    document.getElementById('form-error-text').textContent = 'Please confirm the cancellation policy checkbox.';
-    valid = false;
-  }
-  if(!valid){
-    if(!document.getElementById('form-error-banner').classList.contains('show')) errorBanner.classList.add('show');
-    return;
+    renderSlots();
+    if (formView) formView.style.display = 'block';
+    if (successView) successView.style.display = 'none';
+    if (overlay) overlay.classList.add('show');
   }
 
-  // build reservation record
-  const refNum = `PEMBO-${new Date().getFullYear()}-${String(refCounter()).padStart(4,'0')}`;
-  const slotLabel = SLOTS.find(s=>s.id===selectedSlot).label;
-  const record = {
-    ref: refNum,
-    facility: currentFacility.name,
-    date: dateInput.value,
-    slot: slotLabel,
-    purpose,
-    attendees,
-    name,
-    contact,
-    notes: document.getElementById('res-notes').value.trim(),
-    status: 'pending',
-    submitted: new Date().toISOString()
+  function closeModal() { if (overlay) overlay.classList.remove('show'); }
+  document.getElementById('modal-close')?.addEventListener('click', closeModal);
+  overlay?.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+
+  function renderSlots() {
+    if (!slotGrid) return;
+    slotGrid.innerHTML = SLOTS.map(s => `
+      <button type="button" class="slot ${selectedSlot === s.id ? 'selected' : ''}" data-slot="${s.id}">
+        ${s.label}
+      </button>
+    `).join('');
+
+    slotGrid.querySelectorAll('.slot').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedSlot = btn.dataset.slot;
+        slotGrid.querySelectorAll('.slot').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+      });
+    });
+  }
+
+  dateInput?.addEventListener('change', () => { selectedSlot = null; renderSlots(); });
+
+  // Handle Reservation Submission
+  if (form) {
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      let valid = true;
+
+      const markError = (id) => { 
+        const el = document.getElementById(id);
+        if (el) {
+          el.closest('.field')?.classList.add('has-error'); 
+          el.classList.add('error');
+        }
+        valid = false; 
+      };
+
+      const clearError = (id) => { 
+        const el = document.getElementById(id);
+        if (el) {
+          el.closest('.field')?.classList.remove('has-error'); 
+          el.classList.remove('error');
+        }
+      };
+
+      ['res-name','res-contact','res-date','res-attendees','res-purpose'].forEach(clearError);
+
+      const name = document.getElementById('res-name').value.trim();
+      const contact = document.getElementById('res-contact').value.trim();
+      const attendees = document.getElementById('res-attendees').value;
+      const purpose = document.getElementById('res-purpose').value;
+      const terms = document.getElementById('res-terms').checked;
+
+      if (!name) markError('res-name');
+      if (!/^[\d+\s()-]{7,}$/.test(contact)) markError('res-contact');
+      if (!dateInput.value) markError('res-date');
+      if (!attendees || attendees < 1) markError('res-attendees');
+      if (!purpose) markError('res-purpose');
+
+      if (errorBanner) errorBanner.classList.remove('show');
+
+      if (!selectedSlot) {
+        if (errorBanner) {
+          errorBanner.classList.add('show');
+          document.getElementById('form-error-text').textContent = 'Please choose an available time slot.';
+        }
+        valid = false;
+      }
+
+      if (!terms) {
+        if (errorBanner) {
+          errorBanner.classList.add('show');
+          document.getElementById('form-error-text').textContent = 'Please confirm the cancellation policy checkbox.';
+        }
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      const refNum = `${PAGE_BARANGAY.toUpperCase().replace(/\s+/g, '')}-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+      const slotLabel = SLOTS.find(s => s.id === selectedSlot)?.label || selectedSlot;
+
+      const record = {
+        referenceNumber: refNum,
+        facilityId: currentFacility.id,
+        facilityName: currentFacility.name,
+        barangay: PAGE_BARANGAY,
+        applicantName: name,
+        contact: contact,
+        date: dateInput.value,
+        timeSlot: slotLabel,
+        purpose: purpose,
+        attendees: attendees,
+        notes: document.getElementById('res-notes').value.trim(),
+        status: 'Pending',
+        userId: currentUser ? currentUser.uid : 'guest',
+        userEmail: currentUser ? currentUser.email : '',
+        createdAt: new Date()
+      };
+
+      try {
+        await addDoc(collection(db, "reservations"), record);
+
+        document.getElementById('success-ref').textContent = refNum;
+        if (formView) formView.style.display = 'none';
+        if (successView) successView.style.display = 'block';
+      } catch (err) {
+        console.error("Error submitting reservation to Firebase:", err);
+        showToast("Error submitting reservation request.", true);
+      }
+    });
+  }
+
+  document.getElementById('success-close')?.addEventListener('click', closeModal);
+
+  /* =========================================================
+     RECENT REQUESTS PANEL (FIRESTORE REAL-TIME)
+     ========================================================= */
+  const reqTbody = document.getElementById('req-tbody');
+  const reqEmpty = document.getElementById('req-empty');
+  const reqTable = document.getElementById('req-table');
+
+  function listenToUserReservations() {
+    if (!currentUser) return;
+
+    const resQuery = query(
+      collection(db, "reservations"),
+      where("userId", "==", currentUser.uid)
+    );
+
+    onSnapshot(resQuery, (snapshot) => {
+      const userResList = [];
+      snapshot.forEach(docSnap => {
+        userResList.push({ id: docSnap.id, ...docSnap.data() });
+      });
+
+      // Sort newest first
+      userResList.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+
+      if (userResList.length === 0) {
+        if (reqTable) reqTable.style.display = 'none';
+        if (reqEmpty) reqEmpty.style.display = 'block';
+        return;
+      }
+
+      if (reqTable) reqTable.style.display = 'table';
+      if (reqEmpty) reqEmpty.style.display = 'none';
+
+      if (reqTbody) {
+        reqTbody.innerHTML = userResList.map(r => `
+          <tr>
+            <td class="req-ref">${r.referenceNumber || r.ref || 'N/A'}</td>
+            <td>${r.facilityName || r.facility}</td>
+            <td>${r.date} · ${r.timeSlot || r.slot}</td>
+            <td><span class="req-status ${(r.status || 'pending').toLowerCase()}">${r.status}</span></td>
+            <td></td>
+          </tr>
+        `).join('');
+      }
+    });
+  }
+
+  function showToast(msg, isError = false) {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.style.backgroundColor = isError ? "#a82323" : "#1a1a1a";
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3200);
+  }
+
+  /* =========================================================
+     CHATBOT
+     ========================================================= */
+  const fab = document.getElementById('chat-fab');
+  const panel = document.getElementById('chat-panel');
+  const closeBtn = document.getElementById('chat-close');
+  const navChatBtn = document.getElementById('nav-chat-btn');
+  const chatBody = document.getElementById('chat-body');
+  const chatInput = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('chat-send');
+
+  function togglePanel() { 
+    if (panel) {
+      panel.classList.toggle('show'); 
+      if (panel.classList.contains('show') && chatInput) chatInput.focus(); 
+    }
+  }
+
+  if (fab) fab.addEventListener('click', togglePanel);
+  if (navChatBtn) navChatBtn.addEventListener('click', togglePanel);
+  if (closeBtn) closeBtn.addEventListener('click', () => panel.classList.remove('show'));
+
+  const canned = {
+    "is the basketball court free this weekend?": "The Basketball Court has open slots this weekend outside 8–10 AM and 10 AM–12 PM. Want me to open a reservation for it?",
+    "how long until my request is approved?": "Most requests are reviewed within 24 hours. You'll see the status change from Pending to Approved under \"Your Recent Requests.\"",
+    "can i cancel a reservation?": "Yes — open \"Your Recent Requests\" below the facility grid or visit My Reservations. Approved bookings require a 48-hour notice."
   };
 
-  const all = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
-  all.unshift(record);
-  localStorage.setItem(STORE_KEY, JSON.stringify(all));
-
-  // lock the slot in mock bookings so it can't be double-booked in this session
-  const key = `${currentFacility.id}|${dateInput.value}`;
-  MOCK_BOOKINGS[key] = [...(MOCK_BOOKINGS[key]||[]), selectedSlot];
-
-  document.getElementById('success-ref').textContent = refNum;
-  formView.style.display = 'none';
-  successView.style.display = 'block';
-  renderRequests();
-});
-
-document.getElementById('success-close').addEventListener('click', closeModal);
-
-/* =========================================================
-   RECENT REQUESTS PANEL
-   ========================================================= */
-const reqTbody = document.getElementById('req-tbody');
-const reqEmpty = document.getElementById('req-empty');
-const reqTable = document.getElementById('req-table');
-
-function renderRequests(){
-  const all = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
-  if(all.length === 0){
-    reqTable.style.display = 'none';
-    reqEmpty.style.display = 'block';
-    return;
+  function addMsg(text, who) {
+    if (!chatBody) return;
+    const el = document.createElement('div');
+    el.className = 'chat-msg ' + who;
+    el.textContent = text;
+    chatBody.appendChild(el);
+    chatBody.scrollTop = chatBody.scrollHeight;
   }
-  reqTable.style.display = 'table';
-  reqEmpty.style.display = 'none';
-  reqTbody.innerHTML = all.map((r,i) => `
-    <tr>
-      <td class="req-ref">${r.ref}</td>
-      <td>${r.facility}</td>
-      <td>${r.date} · ${r.slot}</td>
-      <td><span class="req-status ${r.status}">${r.status}</span></td>
-      <td>${r.status==='pending' ? `<button class="req-cancel" onclick="cancelRequest(${i})">Cancel</button>` : ''}</td>
-    </tr>
-  `).join('');
-}
 
-function cancelRequest(index){
-  const all = JSON.parse(localStorage.getItem(STORE_KEY) || '[]');
-  all.splice(index, 1);
-  localStorage.setItem(STORE_KEY, JSON.stringify(all));
-  renderRequests();
-  showToast('Reservation request cancelled.');
-}
+  function respond(text) {
+    addMsg(text, 'user');
+    const key = text.trim().toLowerCase();
+    const reply = canned[key] || "Thanks — I've noted that. An SK representative will double-check your request shortly!";
+    setTimeout(() => addMsg(reply, 'bot'), 500);
+  }
 
-function showToast(msg){
-  const toast = document.getElementById('toast');
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(()=> toast.classList.remove('show'), 2600);
-}
+  if (sendBtn && chatInput) {
+    sendBtn.addEventListener('click', () => { const v = chatInput.value.trim(); if (!v) return; respond(v); chatInput.value = ''; });
+    chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { const v = chatInput.value.trim(); if (!v) return; respond(v); chatInput.value = ''; } });
+  }
 
-/* =========================================================
-   CHATBOT (reused pattern)
-   ========================================================= */
-const fab = document.getElementById('chat-fab');
-const panel = document.getElementById('chat-panel');
-const closeBtn = document.getElementById('chat-close');
-const navChatBtn = document.getElementById('nav-chat-btn');
-const chatBody = document.getElementById('chat-body');
-const chatInput = document.getElementById('chat-input');
-const sendBtn = document.getElementById('chat-send');
-
-function togglePanel(){ panel.classList.toggle('show'); if(panel.classList.contains('show')) chatInput.focus(); }
-fab.addEventListener('click', togglePanel);
-navChatBtn.addEventListener('click', togglePanel);
-closeBtn.addEventListener('click', ()=> panel.classList.remove('show'));
-
-const canned = {
-  "is the basketball court free this weekend?": "The Basketball Court has open slots this weekend outside 8–10 AM and 10 AM–12 PM. Want me to open a reservation for it?",
-  "how long until my request is approved?": "Most requests are reviewed within 24 hours. You'll see the status change from Pending to Approved under \"My Reservations.\"",
-  "can i cancel a reservation?": "Yes — open \"Your Recent Requests\" below the facility grid and tap Cancel next to any pending request. Approved bookings need a 48-hour notice."
-};
-
-function addMsg(text, who){
-  const el = document.createElement('div');
-  el.className = 'chat-msg ' + who;
-  el.textContent = text;
-  chatBody.appendChild(el);
-  chatBody.scrollTop = chatBody.scrollHeight;
-}
-function respond(text){
-  addMsg(text, 'user');
-  const key = text.trim().toLowerCase();
-  const reply = canned[key] || "Thanks — I've noted that. This is a front-end preview, so a real SK Assistant would look this up once it's connected to the barangay's system.";
-  setTimeout(()=> addMsg(reply, 'bot'), 500);
-}
-sendBtn.addEventListener('click', ()=>{ const v = chatInput.value.trim(); if(!v) return; respond(v); chatInput.value=''; });
-chatInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ const v = chatInput.value.trim(); if(!v) return; respond(v); chatInput.value=''; } });
-document.querySelectorAll('.chat-suggest button').forEach(btn=> btn.addEventListener('click', ()=> respond(btn.dataset.msg)));
-
-/* =========================================================
-   INIT
-   ========================================================= */
-renderGrid();
-updateLiveCount();
-renderRequests();
+  document.querySelectorAll('.chat-suggest button').forEach(btn => btn.addEventListener('click', () => respond(btn.dataset.msg)));
 </script>
-
 </body>
 </html>

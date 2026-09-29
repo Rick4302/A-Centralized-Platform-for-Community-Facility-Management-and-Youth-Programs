@@ -1128,6 +1128,7 @@
     onSnapshot 
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+  // CHANGE THIS FOR EACH BARANGAY FILE AS A FALLBACK (e.g. "Cembo", "Comembo", "East Rembo", "Pembo", "West Rembo")
   const DEFAULT_BARANGAY = "Comembo"; 
 
   // Firebase Configuration
@@ -1191,7 +1192,7 @@
         if (userDocSnap.exists()) {
           const data = userDocSnap.data();
           fullName = data.fullName || data.name || data.firstName;
-          currentAdminBarangay = DEFAULT_BARANGAY;
+          if (data.barangay) currentAdminBarangay = DEFAULT_BARANGAY; // Use default if not set
         } else {
           const q = query(collection(db, "users"), where("email", "==", user.email));
           const querySnapshot = await getDocs(q);
@@ -1199,7 +1200,7 @@
             if (docSnap.exists()) {
               const data = docSnap.data();
               fullName = data.fullName || data.name || data.firstName;
-              currentAdminBarangay = DEFAULT_BARANGAY;
+              if (data.barangay) currentAdminBarangay = data.barangay;
             }
           });
         }

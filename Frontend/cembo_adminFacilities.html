@@ -1201,7 +1201,7 @@
         if (userDocSnap.exists()) {
           const data = userDocSnap.data();
           fullName = data.fullName || data.name || data.firstName;
-          if (data.barangay) currentAdminBarangay = data.barangay;
+          if (data.barangay) currentAdminBarangay = DEFAULT_BARANGAY;
         } else {
           const q = query(collection(db, "users"), where("email", "==", user.email));
           const querySnapshot = await getDocs(q);
