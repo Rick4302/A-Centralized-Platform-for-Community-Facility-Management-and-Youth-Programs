@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account · SK Barangay Comembo · EMBO Access</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. Design tokens
+       ========================================================================== */
+    :root {
+      /* Base palette */
+      --paper: #F5F0E4;
+      --paper-deep: #EDE5D2;
+      --ink: #242219;
+      --ink-soft: #5B564A;
+      --line: rgba(36, 34, 25, 0.14);
+      --red: #C22026;
+      --red-deep: #8F171B;
+      --green: #2E6B4F;
+      --amber: #B8862A;
+
+      /* Barangay accent */
+      --accent: #A14E2A;
+      --accent-deep: #7A3B1F;
+
+      --radius: 2px;
+      --shadow-card: 0 8px 0 0 rgba(36, 34, 25, 0.08);
+    }
+
+    /* ==========================================================================
+       2. Base
+       ========================================================================== */
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'IBM Plex Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: 'Fraunces', serif;
+      letter-spacing: -0.01em;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    input,
+    select {
+      font-family: inherit;
+    }
+
+    .wrap {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 22px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    /* ==========================================================================
+       3. Header
+       ========================================================================== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 500;
+      background: rgba(245, 240, 228, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      flex-shrink: 0;
+      text-decoration: none;
+    }
+
+    .brand-seal {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      padding: 3px;
+      border: 1.5px solid var(--ink);
+      border-radius: 50%;
+      background: var(--paper);
+      font: 500 0.7rem 'IBM Plex Mono', monospace;
+    }
+
+    .brand-seal img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+
+    .brand-name {
+      font: 700 1.02rem 'Fraunces', serif;
+    }
+
+    .brand-sub {
+      font: 0.66rem 'IBM Plex Mono', monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+    }
+
+    .nav-links {
+      display: flex;
+      flex: 1;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+    }
+
+    .nav-links a {
+      padding: 8px 14px;
+      border-radius: var(--radius);
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      background: var(--paper-deep);
+      color: var(--ink);
+    }
+
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 6px 12px 6px 6px;
+      border: 1.5px solid var(--accent-deep);
+      border-radius: 999px;
+      background: var(--paper-deep);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .user-chip-avatar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--accent-deep);
+      color: var(--paper);
+      font: 0.66rem 'IBM Plex Mono', monospace;
+    }
+
+    /* ==========================================================================
+       4. Page banner
+       ========================================================================== */
+    .banner {
+      padding: 52px 0 64px;
+      background: var(--accent);
+      background-image: radial-gradient(circle at 88% -10%, rgba(255, 255, 255, 0.16), transparent 55%);
+      color: var(--paper);
+    }
+
+    .banner .eyebrow {
+      color: rgba(245, 240, 228, 0.85);
+    }
+
+    .banner h1 {
+      margin: 12px 0 10px;
+      font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--paper);
+    }
+
+    .banner-lede {
+      max-width: 46ch;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: rgba(245, 240, 228, 0.88);
+    }
+
+    /* ==========================================================================
+       5. Layout and cards
+       ========================================================================== */
+    .layout {
+      position: relative;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 24px;
+      align-items: start;
+      max-width: 960px;
+      margin: -32px auto 60px;
+      padding: 0 32px;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .card {
+      padding: 26px;
+      border: 1.5px solid var(--ink);
+      border-radius: var(--radius);
+      background: var(--paper-deep);
+      box-shadow: var(--shadow-card);
+    }
+
+    .card h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .card-lede {
+      max-width: 52ch;
+      margin: 8px 0 20px;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--ink-soft);
+    }
+
+    .card.is-locked form {
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    /* ==========================================================================
+       6. Profile card
+       ========================================================================== */
+    .profile {
+      text-align: center;
+    }
+
+    .profile-avatar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      background: var(--accent-deep);
+      outline: 2px solid var(--accent-deep);
+      outline-offset: 3px;
+      color: var(--paper);
+      font: 700 1.2rem 'Fraunces', serif;
+    }
+
+    .profile h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .profile-email {
+      margin: 4px 0 10px;
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+      word-break: break-all;
+    }
+
+    .profile-details {
+      margin: 18px 0;
+      text-align: left;
+    }
+
+    .profile-details div {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 11px 0;
+      border-top: 1px solid var(--line);
+      font-size: 0.8rem;
+    }
+
+    .profile-details dt {
+      color: var(--ink-soft);
+    }
+
+    .profile-details dd {
+      margin: 0;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    /* ==========================================================================
+       7. Status badge
+       ========================================================================== */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(194, 32, 38, 0.12);
+      color: var(--red-deep);
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .badge::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .badge.is-pending {
+      background: rgba(184, 134, 42, 0.18);
+      color: #7A5A16;
+    }
+
+    .badge.is-verified {
+      background: rgba(46, 107, 79, 0.16);
+      color: var(--green);
+    }
+
+    /* ==========================================================================
+       8. Buttons
+       ========================================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border: 1.5px solid var(--ink);
+      border-radius: var(--radius);
+      background: var(--ink);
+      color: var(--paper);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+    }
+
+    .btn:hover {
+      border-color: var(--accent-deep);
+      background: var(--accent-deep);
+      box-shadow: 0 6px 0 0 var(--ink);
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      box-shadow: none;
+      transform: none;
+      cursor: not-allowed;
+    }
+
+    .btn-danger {
+      width: 100%;
+      border-color: var(--red-deep);
+      background: transparent;
+      color: var(--red-deep);
+    }
+
+    .btn-danger:hover {
+      border-color: var(--red-deep);
+      background: rgba(194, 32, 38, 0.08);
+      box-shadow: none;
+    }
+
+    /* ==========================================================================
+       9. Verification progress
+       ========================================================================== */
+    .progress {
+      display: flex;
+      margin: 6px 0 26px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .progress-step {
+      position: relative;
+      flex: 1;
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+    }
+
+    .progress-step strong {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--ink);
+    }
+
+    .progress-step::before {
+      content: "";
+      position: absolute;
+      top: 15px;
+      left: -50%;
+      width: 100%;
+      height: 2px;
+      background: var(--green);
+    }
+
+    .progress-step:first-child::before {
+      display: none;
+    }
+
+    .progress-marker {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      margin: 0 auto 8px;
+      border-radius: 50%;
+      background: var(--green);
+      color: #fff;
+      font-size: 0.8rem;
+    }
+
+    .progress-step.is-current .progress-marker {
+      background: #C9C6BD;
+      outline: 1.5px solid var(--ink-soft);
+      outline-offset: -1.5px;
+      color: var(--ink-soft);
+    }
+
+    .progress-step.is-pending .progress-marker {
+      background: var(--amber);
+    }
+
+    /* ==========================================================================
+       10. Forms
+       ========================================================================== */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+    }
+
+    .field-hint {
+      margin-top: 8px;
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+    }
+
+    input[type="text"],
+    input[type="password"],
+    select {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1.5px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 0.85rem;
+    }
+
+    input:focus,
+    select:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: -1px;
+    }
+
+    /* File upload */
+    .file-drop {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border: 1.5px dashed rgba(36, 34, 25, 0.35);
+      border-radius: var(--radius);
+      background: var(--paper);
+      cursor: pointer;
+    }
+
+    .file-drop:hover,
+    .file-drop.has-file {
+      border-color: var(--accent-deep);
+    }
+
+    .file-drop input {
+      display: none;
+    }
+
+    .file-drop-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--paper-deep);
+    }
+
+    .file-drop-title {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .file-drop-meta {
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+    }
+
+    /* Notice and consent */
+    .notice {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 16px 0;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      font-size: 0.76rem;
+      color: var(--ink-soft);
+    }
+
+    .consent {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 18px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .consent input {
+      margin-top: 3px;
+      accent-color: var(--accent-deep);
+    }
+
+    /* Password input */
+    .password-input {
+      position: relative;
+    }
+
+    .password-input input {
+      padding-right: 60px;
+    }
+
+    .password-toggle {
+      position: absolute;
+      top: 1px;
+      right: 1px;
+      bottom: 1px;
+      padding: 0 14px;
+      border: none;
+      background: none;
+      color: var(--ink-soft);
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .strength {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      margin: 8px 0;
+    }
+
+    .strength i {
+      height: 3px;
+      background: rgba(36, 34, 25, 0.14);
+    }
+
+    .strength.level-1 i:nth-child(1) {
+      background: var(--red);
+    }
+
+    .strength.level-2 i:nth-child(-n+2) {
+      background: var(--amber);
+    }
+
+    .strength.level-3 i {
+      background: var(--green);
+    }
+
+    /* Feedback message */
+    .message {
+      display: none;
+      margin-top: 14px;
+      padding: 10px 12px;
+      border-left: 3px solid;
+      font-size: 0.8rem;
+    }
+
+    .message.is-visible {
+      display: block;
+    }
+
+    .message.is-error {
+      border-color: var(--red);
+      background: rgba(194, 32, 38, 0.08);
+      color: var(--red-deep);
+    }
+
+    .message.is-success {
+      border-color: var(--green);
+      background: rgba(46, 107, 79, 0.1);
+      color: var(--green);
+    }
+
+    /* ==========================================================================
+       11. Responsive
+       ========================================================================== */
+    @media (max-width: 820px) {
+      .wrap {
+        padding: 0 18px;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+        padding: 0 18px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ======================= Header ======================= -->
+  <header class="site-header">
+    <div class="wrap nav">
+      <a href="comembo_page.html" class="brand">
+        <span class="brand-seal">
+          <img src="../Pics/Barangay_Comembo_Seal.png" alt="Comembo seal" onerror="this.parentElement.textContent='SK'">
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">SK Comembo</span>
+          <span class="brand-sub">Youth Facility Portal</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="comembo_page.html">Home</a>
+        <a href="comembo_facilities.html">Facilities</a>
+        <a href="comembo_events.html">Events</a>
+        <a href="comembo_my_reservations.html">My Reservations</a>
+        <a href="comembo_feedback.html">Feedback</a>
+      </nav>
+
+      <a href="#" class="user-chip">
+        <span class="user-chip-avatar" id="chipAvatar"></span>
+        <span id="chipName">Loading…</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ======================= Banner ======================= -->
+  <section class="banner">
+    <div class="wrap">
+      <div class="eyebrow">SK Barangay Comembo</div>
+      <h1>My Account</h1>
+      <p class="banner-lede">Manage your profile, verify that you live in Comembo, and keep your account secure.</p>
+    </div>
+  </section>
+
+  <main class="layout">
+
+    <!-- ======================= Account information ======================= -->
+    <aside class="column">
+      <section class="card profile" aria-labelledby="profileName">
+        <div class="profile-avatar" id="profileAvatar"></div>
+        <h3 id="profileName">Loading…</h3>
+        <p class="profile-email" id="profileEmail"></p>
+        <span class="badge" id="badgeSide">Not verified</span>
+
+        <dl class="profile-details">
+          <div><dt>Barangay</dt><dd id="detailBarangay">Comembo</dd></div>
+          <div><dt>Mobile</dt><dd id="detailMobile">—</dd></div>
+          <div><dt>Address</dt><dd id="detailAddress">—</dd></div>
+          <div><dt>Member since</dt><dd id="detailSince">—</dd></div>
+        </dl>
+
+        <button type="button" class="btn btn-danger" id="logoutBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" /></svg>
+          Log out
+        </button>
+      </section>
+    </aside>
+
+    <div class="column">
+
+      <!-- ======================= Residency verification ======================= -->
+      <section class="card" id="verifyCard" aria-labelledby="verifyTitle">
+        <div class="card-header">
+          <h2 id="verifyTitle">Residency verification</h2>
+          <span class="badge" id="badgeMain">Not verified</span>
+        </div>
+        <p class="card-lede" id="verifyLede">Verification confirms that you really live in Comembo. Verified residents can reserve facilities and join programs of the Comembo SK. Your documents are only seen by Comembo SK officials.</p>
+
+        <ol class="progress">
+          <li class="progress-step">
+            <div class="progress-marker">✓</div>
+            <strong>Account created</strong>Registered
+          </li>
+          <li class="progress-step">
+            <div class="progress-marker">✓</div>
+            <strong>Email confirmed</strong>Code verified
+          </li>
+          <li class="progress-step is-current" id="stepResidency">
+            <div class="progress-marker" id="stepMarker">3</div>
+            <strong>Residency verified</strong>
+            <span id="stepCaption">Upload your documents</span>
+          </li>
+        </ol>
+
+        <form id="verifyForm" novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label class="field-label" for="idType">Type of valid ID</label>
+              <select id="idType">
+                <option value="">Select ID type</option>
+                <option>Philippine National ID (PhilSys)</option>
+                <option>Driver's License</option>
+                <option>Passport</option>
+                <option>UMID</option>
+                <option>Voter's ID</option>
+                <option>Postal ID</option>
+                <option>PRC ID</option>
+                <option>School ID</option>
+                <option>Barangay ID</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field-label" for="idNumber">ID number</label>
+              <input type="text" id="idNumber" placeholder="e.g. 1234-5678-9012" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Photo or scan of your valid ID</span>
+            <label class="file-drop" id="dropId">
+              <input type="file" id="fileId" accept=".jpg,.jpeg,.png,.pdf">
+              <span class="file-drop-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
+              </span>
+              <span>
+                <span class="file-drop-title">Choose a file</span>
+                <span class="file-drop-meta">JPG, PNG or PDF · up to 5 MB</span>
+              </span>
+            </label>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Proof that you live in Comembo</span>
+            <label class="file-drop" id="dropProof">
+              <input type="file" id="fileProof" accept=".jpg,.jpeg,.png,.pdf">
+              <span class="file-drop-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
+              </span>
+              <span>
+                <span class="file-drop-title">Choose a file</span>
+                <span class="file-drop-meta">JPG, PNG or PDF · up to 5 MB</span>
+              </span>
+            </label>
+            <p class="field-hint">A certificate of residency, barangay clearance, or a recent utility bill showing your name and Comembo address.</p>
+          </div>
+
+          <div class="notice">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 8h.01M11 12h1v5h1" /></svg>
+            Make sure the photo is clear, uncropped, and all four corners are visible. Reviews usually take 2–3 working days.
+          </div>
+
+          <label class="consent">
+            <input type="checkbox" id="certify">
+            <span>I certify that I am a resident of Barangay Comembo and the documents I am submitting are true and mine.</span>
+          </label>
+
+          <button type="submit" class="btn" id="verifyBtn">Submit for verification →</button>
+          <div class="message" id="verifyMsg" role="status"></div>
+        </form>
+      </section>
+
+      <!-- ======================= Change password ======================= -->
+      <section class="card" aria-labelledby="passwordTitle">
+        <h2 id="passwordTitle">Change password</h2>
+        <p class="card-lede">Pick a password you don't use anywhere else. You will stay logged in on this device after changing it.</p>
+
+        <form id="passwordForm" novalidate>
+          <div class="field">
+            <label class="field-label" for="currentPassword">Current password</label>
+            <div class="password-input">
+              <input type="password" id="currentPassword" autocomplete="current-password">
+              <button type="button" class="password-toggle" data-target="currentPassword">Show</button>
+            </div>
+          </div>
+
+          <div class="field" style="margin-bottom: 0;">
+            <label class="field-label" for="newPassword">New password</label>
+            <div class="password-input">
+              <input type="password" id="newPassword" autocomplete="new-password">
+              <button type="button" class="password-toggle" data-target="newPassword">Show</button>
+            </div>
+          </div>
+          <div class="strength" id="strength"><i></i><i></i><i></i></div>
+          <p class="field-hint" style="margin: 0 0 16px;">Use at least 8 characters. Mixing upper and lower case, numbers and symbols makes it stronger.</p>
+
+          <div class="field">
+            <label class="field-label" for="confirmPassword">Confirm new password</label>
+            <div class="password-input">
+              <input type="password" id="confirmPassword" autocomplete="new-password">
+              <button type="button" class="password-toggle" data-target="confirmPassword">Show</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn" id="passwordBtn">Update password</button>
+          <div class="message" id="passwordMsg" role="status"></div>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import {
+      getAuth, onAuthStateChanged, signOut,
+      EmailAuthProvider, reauthenticateWithCredential, updatePassword
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import {
+      getFirestore, doc, getDoc, updateDoc, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import {
+      getStorage, ref, uploadBytes, getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+    /* ------------------------------------------------------------------
+       Configuration
+       ------------------------------------------------------------------ */
+    const BARANGAY = "Comembo";
+    const LOGIN_PAGE = "login_page.html";
+    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+    const ALLOWED_FILE_TYPES = /\.(jpe?g|png|pdf)$/i;
+
+    const app = initializeApp({
+      apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
+      authDomain: "embo-access.firebaseapp.com",
+      projectId: "embo-access",
+      storageBucket: "embo-access.firebasestorage.app",
+      messagingSenderId: "173132109750",
+      appId: "1:173132109750:web:8697b6c0b83676a62a5317"
+    });
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    /* ------------------------------------------------------------------
+       Helpers
+       ------------------------------------------------------------------ */
+    const $ = (id) => document.getElementById(id);
+    let currentUser = null;
+
+    function showMessage(element, text, type) {
+      element.textContent = text;
+      element.className = `message is-visible is-${type}`;
+    }
+
+    /* ------------------------------------------------------------------
+       Verification status display
+       ------------------------------------------------------------------ */
+    const STATUS_LABELS = {
+      none: { text: "Not verified", badge: "" },
+      pending: { text: "Pending review", badge: "is-pending" },
+      verified: { text: "Verified", badge: "is-verified" },
+      rejected: { text: "Rejected — resubmit", badge: "" }
+    };
+
+    function renderVerificationStatus(status) {
+      const label = STATUS_LABELS[status] || STATUS_LABELS.none;
+
+      ["badgeSide", "badgeMain"].forEach((id) => {
+        $(id).textContent = label.text;
+        $(id).className = `badge ${label.badge}`.trim();
+      });
+
+      const step = $("stepResidency");
+      step.className = "progress-step " + (status === "pending" ? "is-pending" : status === "verified" ? "" : "is-current");
+      $("stepMarker").textContent = status === "verified" ? "✓" : status === "pending" ? "…" : "3";
+      $("stepCaption").textContent = status === "verified" ? "Verified" : status === "pending" ? "Under review" : "Upload your documents";
+
+      const locked = status === "verified" || status === "pending";
+      $("verifyCard").classList.toggle("is-locked", locked);
+      if (status === "verified") {
+        $("verifyLede").textContent = `You are a verified resident of ${BARANGAY}. You can reserve facilities and join SK programs.`;
+      } else if (status === "pending") {
+        $("verifyLede").textContent = `Your documents were submitted. ${BARANGAY} SK officials usually review them within 2–3 working days.`;
+      }
+    }
+
+    /* ------------------------------------------------------------------
+       Load account information
+       ------------------------------------------------------------------ */
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = LOGIN_PAGE;
+        return;
+      }
+      currentUser = user;
+
+      let profile = {};
+      try {
+        const snapshot = await getDoc(doc(db, "users", user.uid));
+        if (snapshot.exists()) profile = snapshot.data();
+      } catch (error) {
+        console.error("Failed to load profile:", error);
+      }
+
+      const fullName = `${profile.firstname || ""} ${profile.lastname || ""}`.trim() || user.email;
+      const initials = (
+        (profile.firstname || "").charAt(0) + (profile.lastname || "").charAt(0)
+      ).toUpperCase() || user.email.charAt(0).toUpperCase();
+      const memberSince = profile.createdAt?.toDate
+        ? profile.createdAt.toDate()
+        : new Date(user.metadata.creationTime);
+
+      $("chipAvatar").textContent = initials;
+      $("chipName").textContent = profile.firstname || fullName;
+      $("profileAvatar").textContent = initials;
+      $("profileName").textContent = fullName;
+      $("profileEmail").textContent = user.email;
+      $("detailBarangay").textContent = profile.barangay || BARANGAY;
+      $("detailMobile").textContent = profile.mobile || "—";
+      $("detailAddress").textContent = profile.address || "—";
+      $("detailSince").textContent = memberSince.toLocaleDateString("en-PH", { month: "long", year: "numeric" });
+
+      renderVerificationStatus(profile.verification?.status || "none");
+    });
+
+    /* ------------------------------------------------------------------
+       Log out
+       ------------------------------------------------------------------ */
+    $("logoutBtn").addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = LOGIN_PAGE;
+    });
+
+    /* ------------------------------------------------------------------
+       Residency verification form
+       ------------------------------------------------------------------ */
+    [["fileId", "dropId"], ["fileProof", "dropProof"]].forEach(([inputId, dropId]) => {
+      $(inputId).addEventListener("change", (event) => {
+        const file = event.target.files[0];
+        const drop = $(dropId);
+        drop.classList.toggle("has-file", Boolean(file));
+        drop.querySelector(".file-drop-title").textContent = file ? file.name : "Choose a file";
+      });
+    });
+
+    async function uploadDocument(file, kind) {
+      const path = `verifications/${currentUser.uid}/${kind}_${Date.now()}_${file.name}`;
+      const fileRef = ref(storage, path);
+      await uploadBytes(fileRef, file);
+      return getDownloadURL(fileRef);
+    }
+
+    $("verifyForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const message = $("verifyMsg");
+      const idFile = $("fileId").files[0];
+      const proofFile = $("fileProof").files[0];
+
+      if (!$("idType").value || !$("idNumber").value.trim()) {
+        return showMessage(message, "Select your ID type and enter the ID number.", "error");
+      }
+      if (!idFile || !proofFile) {
+        return showMessage(message, "Please upload both your valid ID and your proof of residency.", "error");
+      }
+      for (const file of [idFile, proofFile]) {
+        if (file.size > MAX_FILE_SIZE) {
+          return showMessage(message, `"${file.name}" is larger than 5 MB.`, "error");
+        }
+        if (!ALLOWED_FILE_TYPES.test(file.name)) {
+          return showMessage(message, "Only JPG, PNG or PDF files are accepted.", "error");
+        }
+      }
+      if (!$("certify").checked) {
+        return showMessage(message, "Please tick the certification box before submitting.", "error");
+      }
+
+      const button = $("verifyBtn");
+      button.disabled = true;
+      button.textContent = "Uploading…";
+
+      try {
+        const [idUrl, proofUrl] = await Promise.all([
+          uploadDocument(idFile, "id"),
+          uploadDocument(proofFile, "proof")
+        ]);
+        await updateDoc(doc(db, "users", currentUser.uid), {
+          verification: {
+            status: "pending",
+            idType: $("idType").value,
+            idNumber: $("idNumber").value.trim(),
+            idUrl,
+            proofUrl,
+            submittedAt: serverTimestamp()
+          }
+        });
+        renderVerificationStatus("pending");
+        showMessage(message, "Submitted! We'll review your documents in 2–3 working days.", "success");
+      } catch (error) {
+        console.error("Verification upload failed:", error);
+        showMessage(message, "Something went wrong while uploading. Please try again.", "error");
+      }
+
+      button.disabled = false;
+      button.textContent = "Submit for verification →";
+    });
+
+    /* ------------------------------------------------------------------
+       Change password
+       ------------------------------------------------------------------ */
+    document.querySelectorAll(".password-toggle").forEach((toggle) => {
+      toggle.addEventListener("click", () => {
+        const input = $(toggle.dataset.target);
+        const isHidden = input.type === "password";
+        input.type = isHidden ? "text" : "password";
+        toggle.textContent = isHidden ? "Hide" : "Show";
+      });
+    });
+
+    function passwordStrength(value) {
+      let score = 0;
+      if (value.length >= 8) score++;
+      if (/[a-z]/.test(value) && /[A-Z]/.test(value) && /\d/.test(value)) score++;
+      if (/[^A-Za-z0-9]/.test(value) && value.length >= 10) score++;
+      return value ? Math.max(score, 1) : 0;
+    }
+
+    $("newPassword").addEventListener("input", (event) => {
+      const level = passwordStrength(event.target.value);
+      $("strength").className = level ? `strength level-${level}` : "strength";
+    });
+
+    $("passwordForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const message = $("passwordMsg");
+      const current = $("currentPassword").value;
+      const next = $("newPassword").value;
+      const confirm = $("confirmPassword").value;
+
+      if (!current || !next || !confirm) {
+        return showMessage(message, "Please fill in all three fields.", "error");
+      }
+      if (next.length < 8) {
+        return showMessage(message, "New password must be at least 8 characters.", "error");
+      }
+      if (next !== confirm) {
+        return showMessage(message, "New password and confirmation don't match.", "error");
+      }
+      if (next === current) {
+        return showMessage(message, "New password must be different from your current one.", "error");
+      }
+
+      const button = $("passwordBtn");
+      button.disabled = true;
+
+      try {
+        const credential = EmailAuthProvider.credential(currentUser.email, current);
+        await reauthenticateWithCredential(currentUser, credential);
+        await updatePassword(currentUser, next);
+        showMessage(message, "Password updated. You're still logged in on this device.", "success");
+        event.target.reset();
+        $("strength").className = "strength";
+      } catch (error) {
+        const wrongPassword = ["auth/wrong-password", "auth/invalid-credential"].includes(error.code);
+        showMessage(
+          message,
+          wrongPassword ? "Your current password is incorrect."
+            : error.code === "auth/too-many-requests" ? "Too many attempts. Try again later."
+            : "Couldn't update your password. Please try again.",
+          "error"
+        );
+      }
+      button.disabled = false;
+    });
+  </script>
+</body>
+
+</html>
