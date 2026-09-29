@@ -653,6 +653,86 @@
   .event-actions button:hover{border-color:var(--ink);color:var(--ink);}
   .event-actions button.act-delete:hover{border-color:var(--red-deep);color:var(--red-deep);}
 
+  /* Date & Month Filter Controls Bar */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  background: #ffffff;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.filter-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.filter-btn {
+  background-color: #ffffff;
+  color: #1e293b;
+  border: 1px solid #cbd5e1;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.filter-btn:hover {
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.filter-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.filter-month-picker {
+  padding: 0.45rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: #0f172a;
+  background-color: #ffffff;
+}
+
+.filter-month-picker:disabled {
+  background-color: #f1f5f9;
+  cursor: not-allowed;
+}
+
+.filter-month-label {
+  margin-left: 0.5rem;
+  font-size: 1.05rem;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.filter-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #334155;
+}
+
+.filter-toggle-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #0f172a;
+}
+
   @media (max-width: 980px){
     .tool-grid{grid-template-columns:1fr 1fr;}
     .event-meta{grid-template-columns:1fr 1fr;}
@@ -903,12 +983,20 @@
 
 
 <section class="wrap page-sub">
-  <div class="tab-row" id="tab-row">
-    <button class="tab-btn active" data-filter="all">All (5)</button>
-    <button class="tab-btn" data-filter="pending">Pending (2)</button>
-    <button class="tab-btn" data-filter="approved">Approved (2)</button>
-    <button class="tab-btn" data-filter="rejected">Rejected (1)</button>
+  <!-- MONTH & DATE FILTER CONTROLS -->
+<div class="filter-bar">
+  <div class="filter-controls">
+    <button type="button" class="btn btn-small filter-btn" id="prev-month-btn">‹ Prev Month</button>
+    <input type="month" id="month-picker" class="filter-month-picker">
+    <button type="button" class="btn btn-small filter-btn" id="next-month-btn">Next Month ›</button>
+    <strong id="month-display" class="filter-month-label">—</strong>
   </div>
+
+  <label class="filter-toggle-label">
+    <input type="checkbox" id="all-dates-toggle" class="filter-toggle-checkbox">
+    Show All Dates
+  </label>
+</div>
 
   <div class="table-card">
     <table class="admin-table">
@@ -916,57 +1004,12 @@
         <tr><th>Facility</th><th>Requestor</th><th>Date &amp; Time</th><th>Purpose</th><th>Status</th><th>Actions</th></tr>
       </thead>
       <tbody id="res-tbody">
-        <tr data-row data-status="pending">
-          <td class="cell-title">Function Hall</td>
-          <td>Ana Reyes<div class="cell-sub">0917 123 4567</div></td>
-          <td>2026-04-22<div class="cell-sub">9:00 AM – 12:00 PM</div></td>
-          <td>Youth Leadership Workshop</td>
-          <td><span class="status-pill status-pending" data-status-pill>Pending</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Approve" class="act-approve" data-approve><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <button title="Reject" class="act-reject" data-reject><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
-        <tr data-row data-status="pending">
-          <td class="cell-title">Covered Court</td>
-          <td>Mark Villanueva<div class="cell-sub">0917 555 2211</div></td>
-          <td>2026-04-27<div class="cell-sub">5:00 PM – 8:00 PM</div></td>
-          <td>Chess &amp; Board Games Night</td>
-          <td><span class="status-pill status-pending" data-status-pill>Pending</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Approve" class="act-approve" data-approve><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-              <button title="Reject" class="act-reject" data-reject><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
-        <tr data-row data-status="approved">
-          <td class="cell-title">Comembo Covered Court</td>
-          <td>Josh Fernandez<div class="cell-sub">0917 888 3344</div></td>
-          <td>2026-04-18<div class="cell-sub">2:00 PM – 4:00 PM</div></td>
-          <td>Practice for the SK Tournament</td>
-          <td><span class="status-pill status-approved" data-status-pill>Approved</span></td>
-          <td><span class="cell-sub">Approved by Maria Santos</span></td>
-        </tr>
-        <tr data-row data-status="approved">
-          <td class="cell-title">Computer Lab</td>
-          <td>Liza Ramos<div class="cell-sub">0917 222 9981</div></td>
-          <td>2026-04-24<div class="cell-sub">1:00 PM – 3:00 PM</div></td>
-          <td>Digital Skills Training</td>
-          <td><span class="status-pill status-approved" data-status-pill>Approved</span></td>
-          <td><span class="cell-sub">Approved by Juan Cruz</span></td>
-        </tr>
-        <tr data-row data-status="rejected">
-          <td class="cell-title">Multi-Purpose Area</td>
-          <td>Carlo Mendoza<div class="cell-sub">0917 333 7765</div></td>
-          <td>2026-04-19<div class="cell-sub">6:00 AM – 10:00 AM</div></td>
-          <td>Community Clean-Up Drive</td>
-          <td><span class="status-pill status-rejected" data-status-pill>Rejected</span></td>
-          <td><span class="cell-sub">Conflicts with a barangay assembly</span></td>
-        </tr>
-      </tbody>
+  <tr>
+    <td colspan="6" style="text-align: center; padding: 2rem; color: #777;">
+      Loading reservations...
+    </td>
+  </tr>
+</tbody>
     </table>
   </div>
 </section>
@@ -985,20 +1028,28 @@
       </div>
       <button class="modal-close" id="reject-close">✕</button>
     </div>
-    <form class="modal-form" id="reject-form" novalidate>
-      <div class="reject-context" id="reject-context">
-        Rejecting: <strong id="reject-facility-name">Facility</strong>
-      </div>
-      <div class="field" data-field="reason">
-        <label for="reject-reason">Reason for Rejection <span class="req">*</span></label>
-        <textarea id="reject-reason" rows="3" placeholder="e.g. Conflicts with a barangay assembly on the same date." required></textarea>
-        <span class="field-error">A reason is required so the resident understands why.</span>
-      </div>
-      <div class="modal-actions">
-        <button type="button" class="btn btn-secondary" id="reject-cancel">Cancel</button>
-        <button type="submit" class="btn btn-danger">Reject Reservation →</button>
-      </div>
-    </form>
+   <form class="modal-form" id="reject-form" novalidate>
+  <div class="reject-context" id="reject-context">
+    Rejecting: <strong id="reject-facility-name">Facility</strong>
+  </div>
+  <div class="field" data-field="reason">
+    <label for="reject-reason">Reason for Rejection <span class="req">*</span></label>
+    <textarea id="reject-reason" rows="3" placeholder="e.g. Conflicts with a barangay assembly on the same date." required></textarea>
+    <span class="field-error" id="reject-error" style="display: none; color: #c0392b; font-size: 0.8rem; margin-top: 0.25rem;">A reason is required so the resident understands why.</span>
+  </div>
+
+  <!-- QUICK PRESET BUTTONS -->
+  <div style="margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem;">
+    <button type="button" class="chip-preset btn btn-small btn-outline" data-preset="Conflicts with a scheduled barangay event">Schedule Conflict</button>
+    <button type="button" class="chip-preset btn btn-small btn-outline" data-preset="Facility undergoes scheduled maintenance">Maintenance</button>
+    <button type="button" class="chip-preset btn btn-small btn-outline" data-preset="Incomplete or invalid contact information">Invalid Info</button>
+  </div>
+
+  <div class="modal-actions">
+    <button type="button" class="btn btn-secondary" id="reject-cancel">Cancel</button>
+    <button type="submit" class="btn btn-danger">Reject Reservation →</button>
+  </div>
+</form>
   </div>
 </div>
 
@@ -1053,93 +1104,479 @@
   </div>
 </div>
 
-<script>
+<!-- EmailJS SDK (Add this inside your <head> or right before this script block) -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript">
+  (function(){
+    emailjs.init("f6uf6xRJONYS2voLO");
+  })();
+</script>
 
-  const tabBtns = document.querySelectorAll('.tab-btn');
-  const rows = Array.from(document.querySelectorAll('[data-row]'));
-  tabBtns.forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      tabBtns.forEach(b=>b.classList.remove('active'));
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { 
+    getAuth, 
+    onAuthStateChanged 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { 
+    getFirestore, 
+    collection, 
+    query, 
+    where, 
+    doc,
+    getDoc,
+    getDocs,
+    updateDoc,
+    onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // BARANGAY IDENTIFIER (Change this for each barangay page e.g., "Comembo", "Pembo")
+  const BARANGAY_NAME = "Comembo";
+
+  // EmailJS Configuration Keys
+  const EMAILJS_SERVICE_ID = "service_u8asokk";
+  const EMAILJS_TEMPLATE_ID = "template_c0ej12h";
+
+  // Firebase Configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
+    authDomain: "embo-access.firebaseapp.com",
+    projectId: "embo-access",
+    storageBucket: "embo-access.firebasestorage.app",
+    messagingSenderId: "173132109750",
+    appId: "1:173132109750:web:8697b6c0b83676a62a5317"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // App State
+  let adminFullName = "Admin";
+  let allReservations = [];
+  let activeStatusFilter = "all";
+  let activeRejectDocId = null;
+
+  // Date/Month Filtering State
+  let showAllDates = false;
+  let currentDate = new Date();
+
+  // DOM References
+  const tableBody = document.getElementById('res-tbody');
+  const monthPicker = document.getElementById('month-picker');
+  const monthDisplay = document.getElementById('month-display');
+  const prevMonthBtn = document.getElementById('prev-month-btn');
+  const nextMonthBtn = document.getElementById('next-month-btn');
+  const allDatesCheckbox = document.getElementById('all-dates-toggle');
+
+  // Rejection Modal DOM References
+  const rejectOverlay = document.getElementById('reject-overlay');
+  const rejectForm = document.getElementById('reject-form');
+  const rejectReasonInput = document.getElementById('reject-reason');
+  const rejectError = document.getElementById('reject-error');
+
+  // ==========================================
+  // 1. AUTH & ADMIN PROFILE FETCHING
+  // ==========================================
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.href = "login_page.html";
+      return;
+    }
+
+    try {
+      let fetchedName = "";
+
+      const userDocRef = doc(db, "users", user.uid);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (userDocSnap.exists()) {
+        const data = userDocSnap.data();
+        fetchedName = data.fullName || data.name || data.firstName;
+      } else {
+        const q = query(collection(db, "users"), where("email", "==", user.email));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((docSnap) => {
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            fetchedName = data.fullName || data.name || data.firstName;
+          }
+        });
+      }
+
+      if (fetchedName) {
+        adminFullName = fetchedName;
+        const nameElement = document.getElementById("admin-name");
+        if (nameElement) nameElement.textContent = `Admin - ${adminFullName}`;
+
+        const avatarElement = document.querySelector(".user-chip .avatar");
+        if (avatarElement) {
+          const initials = adminFullName
+            .split(" ")
+            .map(n => n[0])
+            .join("")
+            .substring(0, 2)
+            .toUpperCase();
+          avatarElement.textContent = initials;
+        }
+      }
+    } catch (err) {
+      console.error("Error fetching admin profile:", err);
+    }
+
+    syncMonthUI();
+    subscribeToReservations();
+  });
+
+  // ==========================================
+  // 2. FIRESTORE REAL-TIME LISTENER
+  // ==========================================
+  function subscribeToReservations() {
+    const q = query(
+      collection(db, "reservations"),
+      where("barangay", "==", BARANGAY_NAME)
+    );
+
+    onSnapshot(q, (snapshot) => {
+      allReservations = snapshot.docs.map(docSnap => ({
+        docId: docSnap.id,
+        ...docSnap.data()
+      }));
+      updateCounters();
+      renderTable();
+    }, (error) => {
+      console.error("Error fetching reservations:", error);
+    });
+  }
+
+  // ==========================================
+  // 3. MONTH & DATE CONTROLS
+  // ==========================================
+  function syncMonthUI() {
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    
+    if (monthPicker) monthPicker.value = `${year}-${month}`;
+    if (monthDisplay) {
+      monthDisplay.textContent = currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    }
+  }
+
+  if (prevMonthBtn) {
+    prevMonthBtn.addEventListener('click', () => {
+      currentDate.setMonth(currentDate.getMonth() - 1);
+      syncMonthUI();
+      renderTable();
+    });
+  }
+
+  if (nextMonthBtn) {
+    nextMonthBtn.addEventListener('click', () => {
+      currentDate.setMonth(currentDate.getMonth() + 1);
+      syncMonthUI();
+      renderTable();
+    });
+  }
+
+  if (monthPicker) {
+    monthPicker.addEventListener('change', (e) => {
+      if (!e.target.value) return;
+      const [y, m] = e.target.value.split('-');
+      currentDate = new Date(parseInt(y), parseInt(m) - 1, 1);
+      syncMonthUI();
+      renderTable();
+    });
+  }
+
+  if (allDatesCheckbox) {
+    allDatesCheckbox.addEventListener('change', (e) => {
+      showAllDates = e.target.checked;
+      if (monthPicker) monthPicker.disabled = showAllDates;
+      if (prevMonthBtn) prevMonthBtn.disabled = showAllDates;
+      if (nextMonthBtn) nextMonthBtn.disabled = showAllDates;
+      renderTable();
+    });
+  }
+
+  // ==========================================
+  // 4. TAB FILTERS & COUNTERS
+  // ==========================================
+  function updateCounters() {
+    const pendingCount = allReservations.filter(r => (r.status || '').toLowerCase() === 'pending').length;
+    const approvedCount = allReservations.filter(r => (r.status || '').toLowerCase() === 'approved').length;
+    const rejectedCount = allReservations.filter(r => ['rejected', 'cancelled'].includes((r.status || '').toLowerCase())).length;
+
+    const elAll = document.getElementById('count-all');
+    const elPending = document.getElementById('count-pending');
+    const elApproved = document.getElementById('count-approved');
+    const elRejected = document.getElementById('count-rejected');
+
+    if (elAll) elAll.textContent = allReservations.length;
+    if (elPending) elPending.textContent = pendingCount;
+    if (elApproved) elApproved.textContent = approvedCount;
+    if (elRejected) elRejected.textContent = rejectedCount;
+  }
+
+  document.querySelectorAll('#tab-row .tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#tab-row .tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const filter = btn.dataset.filter;
-      rows.forEach(row=>{
-        row.style.display = (filter === 'all' || row.dataset.status === filter) ? '' : 'none';
-      });
+      activeStatusFilter = btn.dataset.filter;
+      renderTable();
     });
   });
 
-  const toast = document.getElementById('toast');
-  const toastText = document.getElementById('toast-text');
-  function showToast(msg, isRed){
-    toastText.textContent = msg;
-    toast.classList.toggle('toast-red', !!isRed);
-    toast.classList.add('show');
-    setTimeout(()=> toast.classList.remove('show'), 3400);
+  // ==========================================
+  // 5. RENDER DYNAMIC TABLE ROWS
+  // ==========================================
+  function renderTable() {
+    if (!tableBody) return;
+
+    const targetYear = currentDate.getFullYear();
+    const targetMonth = currentDate.getMonth();
+
+    let filtered = allReservations.filter(r => {
+      const statusLower = (r.status || 'pending').toLowerCase();
+      let matchesStatus = false;
+      
+      if (activeStatusFilter === 'all') {
+        matchesStatus = true;
+      } else if (activeStatusFilter === 'rejected') {
+        matchesStatus = statusLower === 'rejected' || statusLower === 'cancelled';
+      } else {
+        matchesStatus = statusLower === activeStatusFilter;
+      }
+
+      let matchesDate = true;
+      if (!showAllDates && r.date) {
+        const resDate = new Date(r.date + 'T00:00:00');
+        matchesDate = resDate.getFullYear() === targetYear && resDate.getMonth() === targetMonth;
+      }
+
+      return matchesStatus && matchesDate;
+    });
+
+    filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    if (filtered.length === 0) {
+      tableBody.innerHTML = `
+        <tr>
+          <td colspan="6" style="text-align: center; padding: 2rem; color: #777;">
+            No reservations found for the selected month and filter.
+          </td>
+        </tr>`;
+      return;
+    }
+
+    tableBody.innerHTML = filtered.map(r => {
+      const statusLower = (r.status || 'pending').toLowerCase();
+      
+      let actionColumn = '';
+      if (statusLower === 'pending') {
+        actionColumn = `
+          <div class="row-actions">
+            <button title="Approve" class="act-approve js-approve-btn" data-docid="${r.docId}">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button title="Reject" class="act-reject js-reject-btn" data-docid="${r.docId}">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+          </div>`;
+      } else if (statusLower === 'approved') {
+        actionColumn = `<span class="cell-sub">Approved by ${r.approvedBy || adminFullName}</span>`;
+      } else if (statusLower === 'rejected') {
+        actionColumn = `<span class="cell-sub" title="${r.reason || ''}">${r.reason || 'Rejected'}</span>`;
+      } else if (statusLower === 'cancelled') {
+        actionColumn = `<span class="cell-sub">Cancelled by resident</span>`;
+      }
+
+      return `
+        <tr data-row data-status="${statusLower}">
+          <td class="cell-title">
+            ${r.facilityName || 'Facility'}
+            <div class="cell-sub" style="font-size:0.75rem;">Ref: ${r.referenceNumber || r.docId}</div>
+          </td>
+          <td>
+            ${r.applicantName || '—'}
+            <div class="cell-sub">${r.contact || '—'}</div>
+          </td>
+          <td>
+            ${r.date || '—'}
+            <div class="cell-sub">${r.timeSlot || '—'}</div>
+          </td>
+          <td>${r.purpose || '—'}</td>
+          <td><span class="status-pill status-${statusLower}">${r.status}</span></td>
+          <td>${actionColumn}</td>
+        </tr>`;
+    }).join('');
+
+    document.querySelectorAll('.js-approve-btn').forEach(btn => {
+      btn.addEventListener('click', () => handleApprove(btn.dataset.docid));
+    });
+    document.querySelectorAll('.js-reject-btn').forEach(btn => {
+      btn.addEventListener('click', () => openRejectModal(btn.dataset.docid));
+    });
   }
 
-  const rejectOverlay = document.getElementById('reject-overlay');
-  const rejectForm = document.getElementById('reject-form');
-  const rejectReason = document.getElementById('reject-reason');
-  const rejectFacilityName = document.getElementById('reject-facility-name');
-  let rowPendingRejection = null;
+  // ==========================================
+  // 6. SINGLE-TEMPLATE EMAILJS SENDER
+  // ==========================================
+ async function sendReservationEmail(reservationData, status, rejectionReason = "") {
+  // 1. Fetch email from 'userEmail' or fallback to 'email' / 'applicantEmail'
+  let targetEmail = reservationData.userEmail || reservationData.email || reservationData.applicantEmail;
 
-  function bindRow(row){
-    const approveBtn = row.querySelector('[data-approve]');
-    const rejectBtn = row.querySelector('[data-reject]');
-    const statusPill = row.querySelector('[data-status-pill]');
-    const titleCell = row.querySelector('.cell-title');
-    const actionsCell = row.querySelector('td:last-child');
-
-    if(approveBtn){
-      approveBtn.addEventListener('click', ()=>{
-        statusPill.className = 'status-pill status-approved';
-        statusPill.setAttribute('data-status-pill','');
-        statusPill.textContent = 'Approved';
-        row.dataset.status = 'approved';
-        actionsCell.innerHTML = '<span class="cell-sub">Approved by Admin Maria Santos</span>';
-        showToast(`${titleCell.textContent} reservation approved.`);
-      });
-    }
-    if(rejectBtn){
-      rejectBtn.addEventListener('click', ()=>{
-        rowPendingRejection = row;
-        rejectFacilityName.textContent = titleCell.textContent;
-        rejectReason.value = '';
-        rejectForm.querySelector('.field').classList.remove('has-error');
-        rejectOverlay.classList.add('show');
-      });
+  // 2. Fallback: If missing, look up user document in 'users' collection using 'userId'
+  if (!targetEmail && reservationData.userId) {
+    try {
+      const userDocRef = doc(db, "users", reservationData.userId);
+      const userDocSnap = await getDoc(userDocRef);
+      if (userDocSnap.exists()) {
+        targetEmail = userDocSnap.data().email || userDocSnap.data().userEmail;
+      }
+    } catch (e) {
+      console.error("Could not fetch user document for email:", e);
     }
   }
-  rows.forEach(bindRow);
 
-  document.getElementById('reject-close').addEventListener('click', ()=> rejectOverlay.classList.remove('show'));
-  document.getElementById('reject-cancel').addEventListener('click', ()=> rejectOverlay.classList.remove('show'));
-  rejectOverlay.addEventListener('click', (e)=>{ if(e.target === rejectOverlay) rejectOverlay.classList.remove('show'); });
+  // If still no email found, exit safely
+  if (!targetEmail) {
+    console.warn("No resident email found for reservation:", reservationData.docId);
+    return;
+  }
 
-  rejectForm.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    const fieldEl = rejectReason.closest('.field');
-    const ok = rejectReason.value.trim().length > 0;
-    fieldEl.classList.toggle('has-error', !ok);
-    rejectReason.classList.toggle('error', !ok);
-    if(!ok) return;
+  let emailSubject = "";
+  let emailBody = "";
 
-    if(rowPendingRejection){
-      const statusPill = rowPendingRejection.querySelector('[data-status-pill]');
-      const titleCell = rowPendingRejection.querySelector('.cell-title');
-      const actionsCell = rowPendingRejection.querySelector('td:last-child');
-      statusPill.className = 'status-pill status-rejected';
-      statusPill.setAttribute('data-status-pill','');
-      statusPill.textContent = 'Rejected';
-      rowPendingRejection.dataset.status = 'rejected';
-      actionsCell.innerHTML = `<span class="cell-sub">${rejectReason.value}</span>`;
-      showToast(`${titleCell.textContent} reservation rejected.`, true);
+  if (status === "Approved") {
+    emailSubject = `Reservation Approved - ${reservationData.referenceNumber || reservationData.facilityName}`;
+    emailBody = `Good news! Your reservation request for ${reservationData.facilityName || "the facility"} on ${reservationData.date} has been APPROVED by Barangay ${BARANGAY_NAME}.`;
+  } else if (status === "Rejected") {
+    emailSubject = `Reservation Request Update - ${reservationData.referenceNumber || reservationData.facilityName}`;
+    emailBody = `Your reservation request for ${reservationData.facilityName || "the facility"} on ${reservationData.date} was not approved.\n\nReason: ${rejectionReason}\n\nPlease visit the website to view the full request details.`;
+  }
+
+  const templateParams = {
+    to_email: targetEmail,
+    email_subject: emailSubject,
+    email_body: emailBody,
+    applicant_name: reservationData.applicantName || "Resident",
+    facility_name: reservationData.facilityName || "Facility",
+    reservation_date: reservationData.date || "N/A",
+    time_slot: reservationData.timeSlot || "N/A",
+    reference_number: reservationData.referenceNumber || reservationData.docId,
+    barangay_name: BARANGAY_NAME
+  };
+
+  try {
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+    console.log(`Notification email successfully sent to ${targetEmail}`);
+  } catch (err) {
+    console.error("Failed to send EmailJS notification:", err);
+  }
+}
+
+  // ==========================================
+  // 7. APPROVAL & REJECTION ACTIONS
+  // ==========================================
+  async function handleApprove(docId) {
+    const r = allReservations.find(x => x.docId === docId);
+    if (!r) return;
+
+    if (!confirm("Are you sure you want to approve this reservation?")) return;
+
+    try {
+      const docRef = doc(db, "reservations", docId);
+      await updateDoc(docRef, {
+        status: "Approved",
+        approvedBy: adminFullName
+      });
+
+      // Trigger Email Notification
+      sendReservationEmail(r, "Approved");
+
+      showToast("Reservation approved.", false);
+    } catch (err) {
+      console.error("Error approving reservation:", err);
+      alert("Failed to approve reservation.");
     }
-    rejectOverlay.classList.remove('show');
+  }
+
+  function openRejectModal(docId) {
+    const r = allReservations.find(x => x.docId === docId);
+    if (!r) return;
+    activeRejectDocId = docId;
+
+    const refTitle = document.getElementById('reject-ref-title');
+    const facilityNameEl = document.getElementById('reject-facility-name');
+    
+    if (refTitle) refTitle.textContent = r.referenceNumber || 'Provide a Reason';
+    if (facilityNameEl) facilityNameEl.textContent = `${r.facilityName || 'Facility'} (${r.date})`;
+    
+    rejectReasonInput.value = '';
+    if (rejectError) rejectError.style.display = 'none';
+    rejectOverlay.classList.add('show');
+  }
+
+  document.querySelectorAll('.chip-preset').forEach(btn => {
+    btn.addEventListener('click', () => {
+      rejectReasonInput.value = btn.dataset.preset;
+      if (rejectError) rejectError.style.display = 'none';
+    });
   });
 
-</script>
-<script>
+  const closeRejectModal = () => rejectOverlay.classList.remove('show');
+  document.getElementById('reject-close').addEventListener('click', closeRejectModal);
+  document.getElementById('reject-cancel').addEventListener('click', closeRejectModal);
+
+  rejectForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const reasonText = rejectReasonInput.value.trim();
+
+    if (!reasonText) {
+      if (rejectError) rejectError.style.display = 'block';
+      return;
+    }
+
+    const r = allReservations.find(x => x.docId === activeRejectDocId);
+
+    try {
+      const docRef = doc(db, "reservations", activeRejectDocId);
+      await updateDoc(docRef, {
+        status: "Rejected",
+        reason: reasonText,
+        rejectedBy: adminFullName
+      });
+
+      // Trigger Email Notification with Reason
+      if (r) {
+        sendReservationEmail(r, "Rejected", reasonText);
+      }
+
+      closeRejectModal();
+      showToast("Reservation rejected.", true);
+    } catch (err) {
+      console.error("Error rejecting reservation:", err);
+      alert("Failed to reject reservation.");
+    }
+  });
+
+  // ==========================================
+  // 8. TOAST NOTIFICATION
+  // ==========================================
+  function showToast(msg, isRed) {
+    const toast = document.getElementById('toast');
+    const toastText = document.getElementById('toast-text');
+    if (toastText) toastText.textContent = msg;
+    if (toast) {
+      toast.classList.toggle('toast-red', !!isRed);
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+  }
+
+  // ==========================================
+  // 9. CHATBOT ASSISTANT
+  // ==========================================
   const fab = document.getElementById('chat-fab');
   const panel = document.getElementById('chat-panel');
   const closeBtn = document.getElementById('chat-close');
@@ -1148,18 +1585,18 @@
   const input = document.getElementById('chat-input');
   const sendBtn = document.getElementById('chat-send');
 
-  function togglePanel(){ panel.classList.toggle('show'); if(panel.classList.contains('show')) input.focus(); }
-  fab.addEventListener('click', togglePanel);
-  navChatBtn.addEventListener('click', togglePanel);
-  closeBtn.addEventListener('click', ()=> panel.classList.remove('show'));
-
   const canned = {
     "is the basketball court free this weekend?": "Let me check the calendar — the Basketball Court has an open slot Saturday 2:00–4:00 PM. Want me to start a reservation request for it?",
     "what programs are coming up?": "Coming up: our Basketball Tournament and a Digital Skills Workshop this month. Tap \"Join Program\" on the home page to sign up.",
     "where's my reservation status?": "You can see every request and its status — Pending, Approved, or Rejected — under \"My Reservations\" in the top menu."
   };
 
-  function addMsg(text, who){
+  function togglePanel() { panel.classList.toggle('show'); if (panel.classList.contains('show')) input.focus(); }
+  if (fab) fab.addEventListener('click', togglePanel);
+  if (navChatBtn) navChatBtn.addEventListener('click', togglePanel);
+  if (closeBtn) closeBtn.addEventListener('click', () => panel.classList.remove('show'));
+
+  function addMsg(text, who) {
     const el = document.createElement('div');
     el.className = 'chat-msg ' + who;
     el.textContent = text;
@@ -1167,29 +1604,17 @@
     body.scrollTop = body.scrollHeight;
   }
 
-  function respond(text){
+  function respond(text) {
     addMsg(text, 'user');
     const key = text.trim().toLowerCase();
-    const reply = canned[key] || "Thanks — I've noted that. This is a front-end preview, so a real SK Assistant would look this up for you once it's connected to the barangay's system.";
-    setTimeout(()=> addMsg(reply, 'bot'), 500);
+    const reply = canned[key] || "Thanks — I've noted that. Live updates made in the admin panel are saved directly to Firestore.";
+    setTimeout(() => addMsg(reply, 'bot'), 500);
   }
 
-  sendBtn.addEventListener('click', ()=>{
-    const v = input.value.trim();
-    if(!v) return;
-    respond(v);
-    input.value = '';
-  });
-  input.addEventListener('keydown', (e)=>{
-    if(e.key === 'Enter'){
-      const v = input.value.trim();
-      if(!v) return;
-      respond(v);
-      input.value = '';
-    }
-  });
-  document.querySelectorAll('.chat-suggest button').forEach(btn=>{
-    btn.addEventListener('click', ()=> respond(btn.dataset.msg));
+  if (sendBtn) sendBtn.addEventListener('click', () => { const v = input.value.trim(); if (!v) return; respond(v); input.value = ''; });
+  if (input) input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { const v = input.value.trim(); if (!v) return; respond(v); input.value = ''; } });
+  document.querySelectorAll('.chat-suggest button').forEach(btn => {
+    btn.addEventListener('click', () => respond(btn.dataset.msg));
   });
 </script>
 

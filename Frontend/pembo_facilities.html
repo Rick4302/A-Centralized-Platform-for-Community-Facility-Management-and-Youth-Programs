@@ -869,9 +869,9 @@
             <textarea id="res-notes" placeholder="Equipment needed, setup preferences, or anything else the SK office should know."></textarea>
           </div>
 
-          <label class="terms-row">
-            <input type="checkbox" id="res-terms" required>
-            <span>I confirm the details above are accurate and I agree to the facility's <strong>48-hour cancellation notice</strong> and general use guidelines.</span>
+          <label for="res-terms" style="font-size: 0.88rem; color: #555;">
+            I agree to the cancellation policy of <strong>48 hours</strong> and promise to return all borrowed resources/equipment 
+            <strong style="color: #c0392b;">at least 5 minutes before the end of my time slot</strong> so they can be inspected and prepared for the next youth.
           </label>
 
           <button type="submit" class="btn btn-block" id="submit-btn">Submit Reservation Request →</button>
@@ -928,6 +928,7 @@
 </div>
 
 <div class="toast" id="toast">Reservation request cancelled.</div>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { 
@@ -971,6 +972,7 @@
   let rawFacilities = [];
   let currentFacility = null;
   let selectedSlot = null;
+  let bookedSlotsForDate = []; // Store approved time slots for the selected date
 
   const ICONS = {
     "Sports Court": '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 3a9 9 0 0 0 0 18M3 12h18M5.5 6.5c2 1.8 4.2 2.8 6.5 2.8s4.5-1 6.5-2.8M5.5 17.5c2-1.8 4.2-2.8 6.5-2.8s4.5 1 6.5 2.8" stroke="currentColor" stroke-width="1.3"/></svg>',
@@ -1178,12 +1180,16 @@
   const slotGrid = document.getElementById('slot-grid');
   const errorBanner = document.getElementById('form-error-banner');
 
-  const todayStr = new Date().toISOString().slice(0,10);
-  if (dateInput) dateInput.min = todayStr;
+  // REQUIRE AT LEAST 1 DAY IN ADVANCE (SAME-DAY RESERVATIONS DISALLOWED)
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const tomorrowStr = tomorrow.toISOString().slice(0, 10);
+  if (dateInput) dateInput.min = tomorrowStr;
 
   function openModal(facility) {
     currentFacility = facility;
     selectedSlot = null;
+    bookedSlotsForDate = [];
 
     document.getElementById('modal-title').textContent = `Reserve: ${currentFacility.name}`;
     document.getElementById('summary-thumb').innerHTML = ICONS[currentFacility.type] || '';
@@ -1192,11 +1198,13 @@
 
     form.reset();
     document.getElementById('res-name').value = currentUserFullName;
-    if (dateInput) dateInput.value = todayStr;
+    if (dateInput) dateInput.value = tomorrowStr;
     if (errorBanner) errorBanner.classList.remove('show');
     document.querySelectorAll('.field').forEach(f => f.classList.remove('has-error'));
 
-    renderSlots();
+    // Check existing approved bookings for tomorrow by default
+    fetchAndRenderSlots();
+
     if (formView) formView.style.display = 'block';
     if (successView) successView.style.display = 'none';
     if (overlay) overlay.classList.add('show');
@@ -1206,15 +1214,54 @@
   document.getElementById('modal-close')?.addEventListener('click', closeModal);
   overlay?.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
 
+  /* FETCH APPROVED RESERVATIONS FOR THE SELECTED DATE & FACILITY */
+  async function fetchAndRenderSlots() {
+    if (!currentFacility || !dateInput.value) {
+      renderSlots();
+      return;
+    }
+
+    try {
+      const qBooked = query(
+        collection(db, "reservations"),
+        where("facilityId", "==", currentFacility.id),
+        where("date", "==", dateInput.value),
+        where("status", "==", "Approved")
+      );
+
+      const snap = await getDocs(qBooked);
+      bookedSlotsForDate = [];
+      snap.forEach(docSnap => {
+        const data = docSnap.data();
+        if (data.timeSlot) bookedSlotsForDate.push(data.timeSlot);
+      });
+    } catch (err) {
+      console.error("Error fetching booked slots:", err);
+      bookedSlotsForDate = [];
+    }
+
+    renderSlots();
+  }
+
   function renderSlots() {
     if (!slotGrid) return;
-    slotGrid.innerHTML = SLOTS.map(s => `
-      <button type="button" class="slot ${selectedSlot === s.id ? 'selected' : ''}" data-slot="${s.id}">
-        ${s.label}
-      </button>
-    `).join('');
 
-    slotGrid.querySelectorAll('.slot').forEach(btn => {
+    slotGrid.innerHTML = SLOTS.map(s => {
+      // Check if slot label matches any approved reservation slot
+      const isBooked = bookedSlotsForDate.includes(s.label);
+      const isSelected = selectedSlot === s.id;
+
+      return `
+        <button type="button" 
+                class="slot ${isSelected ? 'selected' : ''} ${isBooked ? 'disabled' : ''}" 
+                data-slot="${s.id}" 
+                ${isBooked ? 'disabled style="opacity: 0.4; cursor: not-allowed; background: #e0e0e0; border-color: #ccc; text-decoration: line-through;"' : ''}>
+          ${s.label} ${isBooked ? ' (Booked)' : ''}
+        </button>
+      `;
+    }).join('');
+
+    slotGrid.querySelectorAll('.slot:not([disabled])').forEach(btn => {
       btn.addEventListener('click', () => {
         selectedSlot = btn.dataset.slot;
         slotGrid.querySelectorAll('.slot').forEach(b => b.classList.remove('selected'));
@@ -1223,98 +1270,146 @@
     });
   }
 
-  dateInput?.addEventListener('change', () => { selectedSlot = null; renderSlots(); });
+  dateInput?.addEventListener('change', () => { 
+    selectedSlot = null; 
+    fetchAndRenderSlots(); 
+  });
 
   // Handle Reservation Submission
-  if (form) {
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      let valid = true;
+if (form) {
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    let valid = true;
 
-      const markError = (id) => { 
-        const el = document.getElementById(id);
-        if (el) {
-          el.closest('.field')?.classList.add('has-error'); 
-          el.classList.add('error');
-        }
-        valid = false; 
-      };
+    const markError = (id) => { 
+      const el = document.getElementById(id);
+      if (el) {
+        el.closest('.field')?.classList.add('has-error'); 
+        el.classList.add('error');
+      }
+      valid = false; 
+    };
 
-      const clearError = (id) => { 
-        const el = document.getElementById(id);
-        if (el) {
-          el.closest('.field')?.classList.remove('has-error'); 
-          el.classList.remove('error');
-        }
-      };
+    const clearError = (id) => { 
+      const el = document.getElementById(id);
+      if (el) {
+        el.closest('.field')?.classList.remove('has-error'); 
+        el.classList.remove('error');
+      }
+    };
 
-      ['res-name','res-contact','res-date','res-attendees','res-purpose'].forEach(clearError);
+    ['res-name','res-contact','res-date','res-attendees','res-purpose'].forEach(clearError);
 
-      const name = document.getElementById('res-name').value.trim();
-      const contact = document.getElementById('res-contact').value.trim();
-      const attendees = document.getElementById('res-attendees').value;
-      const purpose = document.getElementById('res-purpose').value;
-      const terms = document.getElementById('res-terms').checked;
+    const name = document.getElementById('res-name').value.trim();
+    const contact = document.getElementById('res-contact').value.trim();
+    const attendees = document.getElementById('res-attendees').value;
+    const purpose = document.getElementById('res-purpose').value;
+    const terms = document.getElementById('res-terms').checked;
+    const selectedDate = dateInput.value;
 
-      if (!name) markError('res-name');
-      if (!/^[\d+\s()-]{7,}$/.test(contact)) markError('res-contact');
-      if (!dateInput.value) markError('res-date');
-      if (!attendees || attendees < 1) markError('res-attendees');
-      if (!purpose) markError('res-purpose');
+    if (!name) markError('res-name');
+    if (!/^[\d+\s()-]{7,}$/.test(contact)) markError('res-contact');
+    if (!selectedDate) markError('res-date');
+    if (!attendees || attendees < 1) markError('res-attendees');
+    if (!purpose) markError('res-purpose');
 
-      if (errorBanner) errorBanner.classList.remove('show');
+    if (errorBanner) errorBanner.classList.remove('show');
 
-      if (!selectedSlot) {
+    // 1. Enforce No Same-Day Reservation Check
+    const todayStr = new Date().toISOString().slice(0, 10);
+    if (selectedDate <= todayStr) {
+      if (errorBanner) {
+        errorBanner.classList.add('show');
+        document.getElementById('form-error-text').textContent = 'Same-day reservations are not permitted. Please choose a date at least 24 hours in advance.';
+      }
+      valid = false;
+      return;
+    }
+
+    if (!selectedSlot) {
+      if (errorBanner) {
+        errorBanner.classList.add('show');
+        document.getElementById('form-error-text').textContent = 'Please choose an available time slot.';
+      }
+      valid = false;
+    }
+
+    if (!terms) {
+      if (errorBanner) {
+        errorBanner.classList.add('show');
+        document.getElementById('form-error-text').textContent = 'Please confirm the cancellation policy checkbox.';
+      }
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    // 2. Prevent the same user from booking the same facility multiple times on the same date
+    try {
+      const userExistingBookingQuery = query(
+        collection(db, "reservations"),
+        where("userId", "==", currentUser ? currentUser.uid : 'guest'),
+        where("facilityId", "==", currentFacility.id),
+        where("date", "==", selectedDate),
+        where("status", "in", ["Pending", "Approved"])
+      );
+
+      const existingDocs = await getDocs(userExistingBookingQuery);
+
+      if (!existingDocs.empty) {
         if (errorBanner) {
           errorBanner.classList.add('show');
-          document.getElementById('form-error-text').textContent = 'Please choose an available time slot.';
+          document.getElementById('form-error-text').textContent = 
+            'You already have an active reservation for this facility on this date. Please leave room for other residents!';
         }
-        valid = false;
+        return;
       }
+    } catch (checkErr) {
+      console.error("Error verifying user daily limit:", checkErr);
+    }
 
-      if (!terms) {
-        if (errorBanner) {
-          errorBanner.classList.add('show');
-          document.getElementById('form-error-text').textContent = 'Please confirm the cancellation policy checkbox.';
-        }
-        valid = false;
+    const refNum = `${PAGE_BARANGAY.toUpperCase().replace(/\s+/g, '')}-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+    const slotLabel = SLOTS.find(s => s.id === selectedSlot)?.label || selectedSlot;
+
+    // Double-check if the slot was booked by someone else while filing
+    if (bookedSlotsForDate.includes(slotLabel)) {
+      if (errorBanner) {
+        errorBanner.classList.add('show');
+        document.getElementById('form-error-text').textContent = 'This time slot was just approved for another resident. Please select a different slot.';
       }
+      return;
+    }
 
-      if (!valid) return;
+    const record = {
+      referenceNumber: refNum,
+      facilityId: currentFacility.id,
+      facilityName: currentFacility.name,
+      barangay: PAGE_BARANGAY,
+      applicantName: name,
+      contact: contact,
+      date: selectedDate,
+      timeSlot: slotLabel,
+      purpose: purpose,
+      attendees: attendees,
+      notes: document.getElementById('res-notes').value.trim(),
+      status: 'Pending',
+      userId: currentUser ? currentUser.uid : 'guest',
+      userEmail: currentUser ? currentUser.email : '',
+      createdAt: new Date()
+    };
 
-      const refNum = `${PAGE_BARANGAY.toUpperCase().replace(/\s+/g, '')}-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
-      const slotLabel = SLOTS.find(s => s.id === selectedSlot)?.label || selectedSlot;
+    try {
+      await addDoc(collection(db, "reservations"), record);
 
-      const record = {
-        referenceNumber: refNum,
-        facilityId: currentFacility.id,
-        facilityName: currentFacility.name,
-        barangay: PAGE_BARANGAY,
-        applicantName: name,
-        contact: contact,
-        date: dateInput.value,
-        timeSlot: slotLabel,
-        purpose: purpose,
-        attendees: attendees,
-        notes: document.getElementById('res-notes').value.trim(),
-        status: 'Pending',
-        userId: currentUser ? currentUser.uid : 'guest',
-        userEmail: currentUser ? currentUser.email : '',
-        createdAt: new Date()
-      };
-
-      try {
-        await addDoc(collection(db, "reservations"), record);
-
-        document.getElementById('success-ref').textContent = refNum;
-        if (formView) formView.style.display = 'none';
-        if (successView) successView.style.display = 'block';
-      } catch (err) {
-        console.error("Error submitting reservation to Firebase:", err);
-        showToast("Error submitting reservation request.", true);
-      }
-    });
-  }
+      document.getElementById('success-ref').textContent = refNum;
+      if (formView) formView.style.display = 'none';
+      if (successView) successView.style.display = 'block';
+    } catch (err) {
+      console.error("Error submitting reservation to Firebase:", err);
+      showToast("Error submitting reservation request.", true);
+    }
+  });
+}
 
   document.getElementById('success-close')?.addEventListener('click', closeModal);
 
@@ -1425,5 +1520,6 @@
 
   document.querySelectorAll('.chat-suggest button').forEach(btn => btn.addEventListener('click', () => respond(btn.dataset.msg)));
 </script>
+
 </body>
 </html>
