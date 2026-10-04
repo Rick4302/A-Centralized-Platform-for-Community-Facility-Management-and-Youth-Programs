@@ -869,10 +869,15 @@
             <textarea id="res-notes" placeholder="Equipment needed, setup preferences, or anything else the SK office should know."></textarea>
           </div>
 
-          <label for="res-terms" style="font-size: 0.88rem; color: #555;">
-            I agree to the cancellation policy of <strong>48 hours</strong> and promise to return all borrowed resources/equipment 
-            <strong style="color: #c0392b;">at least 5 minutes before the end of my time slot</strong> so they can be inspected and prepared for the next youth.
+          <div class="field" style="margin-top: 15px; margin-bottom: 15px;">
+          <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 0.88rem; color: #555; cursor: pointer;">
+            <input type="checkbox" id="res-terms" style="margin-top: 3px; width: auto;">
+            <span>
+              I AGREE TO THE CANCELLATION POLICY OF <strong>48 HOURS</strong> AND PROMISE TO RETURN ALL BORROWED RESOURCES/EQUIPMENT <strong style="color: #c0392b;">AT LEAST 5 MINUTES BEFORE THE END OF MY TIME SLOT</strong> SO THEY CAN BE INSPECTED AND PREPARED FOR THE NEXT YOUTH.
+            </span>
           </label>
+          <span class="field-error">You must agree to the terms and cancellation policy.</span>
+        </div>
 
           <button type="submit" class="btn btn-block" id="submit-btn">Submit Reservation Request →</button>
         </form>
@@ -1276,41 +1281,70 @@
   });
 
   // Handle Reservation Submission
+// Handle Reservation Submission
 if (form) {
   form.addEventListener('submit', async function(e) {
     e.preventDefault();
     let valid = true;
 
-    const markError = (id) => { 
-      const el = document.getElementById(id);
-      if (el) {
-        el.closest('.field')?.classList.add('has-error'); 
-        el.classList.add('error');
+    const markError = (id, message = null) => { 
+  const el = document.getElementById(id);
+  if (el) {
+    const fieldWrapper = el.closest('.field');
+    if (fieldWrapper) {
+      fieldWrapper.classList.add('has-error');
+      if (message) {
+        const errorSpan = fieldWrapper.querySelector('.field-error');
+        if (errorSpan) errorSpan.textContent = message;
       }
-      valid = false; 
-    };
+    }
+    el.classList.add('error');
+  }
+  valid = false; 
+};
 
     const clearError = (id) => { 
-      const el = document.getElementById(id);
-      if (el) {
-        el.closest('.field')?.classList.remove('has-error'); 
-        el.classList.remove('error');
+  const el = document.getElementById(id);
+  if (el) {
+    const fieldWrapper = el.closest('.field');
+    if (fieldWrapper) {
+      fieldWrapper.classList.remove('has-error');
+      // Reset default messages for specific fields
+      const errorSpan = fieldWrapper.querySelector('.field-error');
+      if (errorSpan) {
+        if (id === 'res-attendees') errorSpan.textContent = 'Enter the number of participants.';
       }
-    };
+    }
+    el.classList.remove('error');
+  }
+};
 
-    ['res-name','res-contact','res-date','res-attendees','res-purpose'].forEach(clearError);
+    ['res-name','res-contact','res-date','res-attendees','res-purpose','res-terms'].forEach(clearError);
 
-    const name = document.getElementById('res-name').value.trim();
-    const contact = document.getElementById('res-contact').value.trim();
-    const attendees = document.getElementById('res-attendees').value;
-    const purpose = document.getElementById('res-purpose').value;
-    const terms = document.getElementById('res-terms').checked;
-    const selectedDate = dateInput.value;
+    const name = document.getElementById('res-name')?.value.trim() || '';
+    const contact = document.getElementById('res-contact')?.value.trim() || '';
+    const attendees = document.getElementById('res-attendees')?.value || '';
+    const purpose = document.getElementById('res-purpose')?.value || '';
+    const termsEl = document.getElementById('res-terms');
+    const terms = termsEl ? termsEl.checked : false;
+    const selectedDate = dateInput?.value || '';
+    const maxCapacity = parseInt(currentFacility?.capacity, 10) || 0;
 
     if (!name) markError('res-name');
     if (!/^[\d+\s()-]{7,}$/.test(contact)) markError('res-contact');
     if (!selectedDate) markError('res-date');
-    if (!attendees || attendees < 1) markError('res-attendees');
+
+if (!attendees || attendees < 1) {
+  markError('res-attendees', 'Enter the number of participants.');
+} else if (maxCapacity > 0 && attendees > maxCapacity) {
+  markError('res-attendees', `Exceeds capacity limit of ${maxCapacity} people.`);
+  if (errorBanner) {
+    errorBanner.classList.add('show');
+    document.getElementById('form-error-text').textContent = 
+      `This facility can only accommodate up to ${maxCapacity} people.`;
+  }
+  valid = false;
+}
     if (!purpose) markError('res-purpose');
 
     if (errorBanner) errorBanner.classList.remove('show');
@@ -1335,6 +1369,7 @@ if (form) {
     }
 
     if (!terms) {
+      markError('res-terms');
       if (errorBanner) {
         errorBanner.classList.add('show');
         document.getElementById('form-error-text').textContent = 'Please confirm the cancellation policy checkbox.';
@@ -1391,7 +1426,7 @@ if (form) {
       timeSlot: slotLabel,
       purpose: purpose,
       attendees: attendees,
-      notes: document.getElementById('res-notes').value.trim(),
+      notes: document.getElementById('res-notes')?.value.trim() || '',
       status: 'Pending',
       userId: currentUser ? currentUser.uid : 'guest',
       userEmail: currentUser ? currentUser.email : '',
