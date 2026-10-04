@@ -1517,6 +1517,7 @@ if (!attendees || attendees < 1) {
 
       // Sort newest first
       userResList.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+      const recentFive = userResList.slice(0, 5);
 
       if (userResList.length === 0) {
         if (reqTable) reqTable.style.display = 'none';
@@ -1528,7 +1529,7 @@ if (!attendees || attendees < 1) {
       if (reqEmpty) reqEmpty.style.display = 'none';
 
       if (reqTbody) {
-        reqTbody.innerHTML = userResList.map(r => `
+        reqTbody.innerHTML = recentFive.map(r => `
           <tr>
             <td class="req-ref">${r.referenceNumber || r.ref || 'N/A'}</td>
             <td>${r.facilityName || r.facility}</td>

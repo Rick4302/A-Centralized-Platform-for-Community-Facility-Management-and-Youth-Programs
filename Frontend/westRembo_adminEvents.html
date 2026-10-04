@@ -464,6 +464,88 @@
     padding:40px 18px;
   }
 
+   /* Date & Month Filter Controls Bar */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  background: #ffffff;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.filter-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.filter-btn {
+  background-color: #ffffff;
+  color: #1e293b;
+  border: 1px solid #cbd5e1;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.filter-btn:hover {
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+}
+
+.filter-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.filter-month-picker {
+  padding: 0.45rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: #0f172a;
+  background-color: #ffffff;
+}
+
+.filter-month-picker:disabled {
+  background-color: #f1f5f9;
+  cursor: not-allowed;
+}
+
+.filter-month-label {
+  margin-left: 0.5rem;
+  font-size: 1.05rem;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.filter-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #334155;
+}
+
+.filter-toggle-checkbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #0f172a;
+}
+
+
+
   /* ---------- TABS (reservations) ---------- */
   .tab-row{
     display:flex;
@@ -899,110 +981,49 @@
   </div>
 </section>
 
-
-
-
 <section class="wrap page-sub">
   <div class="section-head-row">
     <h2>All Events</h2>
     <button class="btn btn-small" id="add-event-btn">+ Add Event</button>
   </div>
 
-  <div class="event-list" id="event-list">
-
-    <div class="event-card" data-card>
-      <div class="event-top">
-        <div class="event-title-row">
-          <h3>Barangay Basketball League 2026</h3>
-          <span class="type-pill">Sports</span>
-        </div>
-        <div class="event-actions">
-          <button data-view>👁 View</button>
-          <button data-edit>Edit</button>
-          <button class="act-delete" data-delete>Delete</button>
-        </div>
-      </div>
-      <p class="event-desc">Annual basketball tournament for youth aged 15–21.</p>
-      <div class="event-meta">
-        <div>Date<strong>2026-05-15</strong></div>
-        <div>Time<strong>8:00 AM</strong></div>
-        <div>Location<strong>West Rembo Basketball Court</strong></div>
-        <div>Deadline<strong>2026-05-01</strong></div>
-      </div>
-      <div class="event-progress-label"><span>Registrations</span><span data-count>34 / 80 (46 spots left)</span></div>
-      <div class="event-progress-bar"><div class="event-progress-fill" style="width:42.5%;"></div></div>
-    </div>
-
-    <div class="event-card" data-card>
-      <div class="event-top">
-        <div class="event-title-row">
-          <h3>Youth Leadership Summit</h3>
-          <span class="type-pill">Empowerment</span>
-        </div>
-        <div class="event-actions">
-          <button data-view>👁 View</button>
-          <button data-edit>Edit</button>
-          <button class="act-delete" data-delete>Delete</button>
-        </div>
-      </div>
-      <p class="event-desc">One-day workshop on leadership and community service.</p>
-      <div class="event-meta">
-        <div>Date<strong>2026-04-20</strong></div>
-        <div>Time<strong>9:00 AM</strong></div>
-        <div>Location<strong>Function Hall</strong></div>
-        <div>Deadline<strong>2026-04-15</strong></div>
-      </div>
-      <div class="event-progress-label"><span>Registrations</span><span data-count>28 / 60 (32 spots left)</span></div>
-      <div class="event-progress-bar"><div class="event-progress-fill" style="width:46.7%;"></div></div>
-    </div>
-
-    <div class="event-card" data-card>
-      <div class="event-top">
-        <div class="event-title-row">
-          <h3>Arts and Crafts Workshop</h3>
-          <span class="type-pill">Recreational</span>
-        </div>
-        <div class="event-actions">
-          <button data-view>👁 View</button>
-          <button data-edit>Edit</button>
-          <button class="act-delete" data-delete>Delete</button>
-        </div>
-      </div>
-      <p class="event-desc">Learn traditional Filipino crafts and modern art techniques.</p>
-      <div class="event-meta">
-        <div>Date<strong>2026-04-25</strong></div>
-        <div>Time<strong>2:00 PM</strong></div>
-        <div>Location<strong>Computer Lab</strong></div>
-        <div>Deadline<strong>2026-04-22</strong></div>
-      </div>
-      <div class="event-progress-label"><span>Registrations</span><span data-count>15 / 30 (15 spots left)</span></div>
-      <div class="event-progress-bar"><div class="event-progress-fill" style="width:50%;"></div></div>
-    </div>
-
-    <div class="event-card" data-card>
-      <div class="event-top">
-        <div class="event-title-row">
-          <h3>Digital Skills Workshop</h3>
-          <span class="type-pill">Training</span>
-        </div>
-        <div class="event-actions">
-          <button data-view>👁 View</button>
-          <button data-edit>Edit</button>
-          <button class="act-delete" data-delete>Delete</button>
-        </div>
-      </div>
-      <p class="event-desc">Hands-on intro to spreadsheets, docs, and online safety.</p>
-      <div class="event-meta">
-        <div>Date<strong>2026-04-30</strong></div>
-        <div>Time<strong>10:00 AM</strong></div>
-        <div>Location<strong>Computer Lab</strong></div>
-        <div>Deadline<strong>2026-04-27</strong></div>
-      </div>
-      <div class="event-progress-label"><span>Registrations</span><span data-count>13 / 30 (17 spots left)</span></div>
-      <div class="event-progress-bar"><div class="event-progress-fill" style="width:43.3%;"></div></div>
-    </div>
-
+ <!-- Filter & Month Controls Bar -->
+<div class="filter-bar">
+  <div class="filter-controls">
+    <button type="button" id="prev-month-btn" class="filter-btn">&lt; Prev Month</button>
+    <input type="month" id="month-picker" class="filter-month-picker">
+    <button type="button" id="next-month-btn" class="filter-btn">Next Month &gt;</button>
+    <strong id="month-display-label" class="filter-month-label"></strong>
   </div>
+
+  <div class="filter-controls">
+    <!-- Category Filter Dropdown -->
+    <select id="category-filter" class="filter-month-picker">
+  <option value="all">All Categories</option>
+  <option value="Sports">Sports</option>
+  <option value="Empowerment">Empowerment</option>
+  <option value="Recreational">Recreational</option>
+  <option value="Training">Training</option>
+  <option value="Community">Community</option>
+  <option value="Other">Other</option>
+</select>
+    <!-- Status Filter Dropdown -->
+    <select id="status-filter" class="filter-month-picker">
+      <option value="upcoming">Upcoming Events</option>
+      <option value="past">Past / Done Events</option>
+      <option value="all">All Events</option>
+    </select>
+
+    <!-- Show All Dates Checkbox -->
+    <label class="filter-toggle-label">
+      <input type="checkbox" id="show-all-dates-chk" class="filter-toggle-checkbox">
+      <span>Show All Dates</span>
+    </label>
+  </div>
+</div>
+
+  <!-- Dynamic Event Cards List -->
+  <div class="event-list" id="event-list"></div>
 </section>
 
 <div class="toast" id="toast">
@@ -1080,7 +1101,18 @@
     </form>
   </div>
 </div>
-
+<!-- View Registrants Modal -->
+<div id="view-modal-overlay" class="modal-overlay">
+  <div class="modal-card" style="background:#fff; padding:24px; border-radius:12px; width:90%; max-width:500px; max-height:80vh; overflow-y:auto; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+      <h3 id="view-modal-title" style="margin:0; font-size:1.25rem;">Event Registrations</h3>
+      <button id="view-modal-close" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#666;" type="button">&times;</button>
+    </div>
+    <div id="view-modal-body">
+      <!-- Registrant details render here dynamically -->
+    </div>
+  </div>
+</div>
 
 <footer>
   <div class="wrap">
@@ -1112,12 +1144,12 @@
   <div class="chat-head">
     <div>
       <div class="title">SK Assistant</div>
-      <div class="sub">Barangay Cembo · Online</div>
+      <div class="sub">Barangay West Rembo · Online</div>
     </div>
     <button class="chat-close" id="chat-close">✕</button>
   </div>
   <div class="chat-body" id="chat-body">
-    <div class="chat-msg bot">Hi! I'm the SK Cembo assistant. I can help with facility availability, upcoming programs, your reservations, or announcements. What do you need?</div>
+    <div class="chat-msg bot">Hi! I'm the SK West Rembo assistant. I can help with facility availability, upcoming programs, your reservations, or announcements. What do you need?</div>
   </div>
   <div class="chat-suggest">
     <button data-msg="Is the basketball court free this weekend?">Court availability</button>
@@ -1132,8 +1164,43 @@
   </div>
 </div>
 
-<script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { 
+    getFirestore, 
+    doc, 
+    getDoc, 
+    query, 
+    collection, 
+    where, 
+    getDocs, 
+    addDoc, 
+    updateDoc,
+    deleteDoc, 
+    onSnapshot, 
+    serverTimestamp 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+  // Firebase Configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
+    authDomain: "embo-access.firebaseapp.com",
+    projectId: "embo-access",
+    storageBucket: "embo-access.firebasestorage.app",
+    messagingSenderId: "173132109750",
+    appId: "1:173132109750:web:8697b6c0b83676a62a5317"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const PAGE_BARANGAY = "West Rembo";
+  let allFetchedEventDocs = [];
+  let editingEventId = null; // Track if editing an existing event
+
+  // DOM Elements
   const overlay = document.getElementById('modal-overlay');
   const modalTitle = document.getElementById('modal-title');
   const form = document.getElementById('event-form');
@@ -1141,146 +1208,390 @@
   const toastText = document.getElementById('toast-text');
   const eventList = document.getElementById('event-list');
 
-  function setError(fieldEl, hasError){
+  // Filter Elements
+  const categoryFilter = document.getElementById('category-filter');
+  const statusFilter = document.getElementById('status-filter');
+  const monthPicker = document.getElementById('month-picker');
+  const prevMonthBtn = document.getElementById('prev-month-btn');
+  const nextMonthBtn = document.getElementById('next-month-btn');
+  const monthDisplayLabel = document.getElementById('month-display-label');
+  const showAllDatesChk = document.getElementById('show-all-dates-chk');
+
+  // View Modal DOM Elements
+const viewOverlay = document.getElementById('view-modal-overlay');
+const viewTitle = document.getElementById('view-modal-title');
+const viewBody = document.getElementById('view-modal-body');
+const viewClose = document.getElementById('view-modal-close');
+
+// Close handlers
+if (viewClose) {
+  viewClose.onclick = () => {
+    if (viewOverlay) {
+      viewOverlay.classList.remove('active-view-modal');
+    }
+  };
+}
+
+if (viewOverlay) {
+  viewOverlay.onclick = (e) => {
+    if (e.target === viewOverlay) {
+      viewOverlay.classList.remove('active-view-modal');
+    }
+  };
+}
+
+  // Initialize Month Picker
+  const today = new Date();
+  let selectedYear = today.getFullYear();
+  let selectedMonth = String(today.getMonth() + 1).padStart(2, '0');
+  
+  if (monthPicker) {
+    monthPicker.value = `${selectedYear}-${selectedMonth}`;
+    updateMonthLabel(selectedYear, selectedMonth);
+  }
+
+  function updateMonthLabel(yr, mo) {
+    const d = new Date(yr, parseInt(mo, 10) - 1, 1);
+    const labelText = d.toLocaleString('default', { month: 'long', year: 'numeric' });
+    if (monthDisplayLabel) monthDisplayLabel.textContent = labelText;
+  }
+
+  function setError(fieldEl, hasError) {
+    if (!fieldEl) return;
     fieldEl.classList.toggle('has-error', hasError);
     const input = fieldEl.querySelector('input, select, textarea');
-    if(input) input.classList.toggle('error', hasError);
+    if (input) input.classList.toggle('error', hasError);
   }
-  function showToast(msg, isRed){
+
+  function showToast(msg, isRed) {
+    if (!toast || !toastText) return;
     toastText.textContent = msg;
     toast.classList.toggle('toast-red', !!isRed);
     toast.classList.add('show');
-    setTimeout(()=> toast.classList.remove('show'), 3200);
+    setTimeout(() => toast.classList.remove('show'), 3200);
   }
 
-  document.getElementById('add-event-btn').addEventListener('click', ()=>{
+  // Add Event Button Handler
+  document.getElementById('add-event-btn').addEventListener('click', () => {
+    editingEventId = null; // Clear edit state
     modalTitle.textContent = 'Add Event';
     form.reset();
-    form.querySelectorAll('.field').forEach(f=>f.classList.remove('has-error'));
+    form.querySelectorAll('.field').forEach(f => f.classList.remove('has-error'));
     overlay.classList.add('show');
   });
-  document.getElementById('modal-close').addEventListener('click', ()=> overlay.classList.remove('show'));
-  document.getElementById('modal-cancel').addEventListener('click', ()=> overlay.classList.remove('show'));
-  overlay.addEventListener('click', (e)=>{ if(e.target === overlay) overlay.classList.remove('show'); });
 
-  form.addEventListener('submit', (e)=>{
+  document.getElementById('modal-close').addEventListener('click', () => overlay.classList.remove('show'));
+  document.getElementById('modal-cancel').addEventListener('click', () => overlay.classList.remove('show'));
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); });
+
+  // Form Submit Handler (Create or Update)
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     let valid = true;
-    const fields = ['title','description','category','capacity','date','time','location','deadline'].map(id=>{
-      const el = document.getElementById('e-' + id);
-      return [el, el.value && (el.type !== 'number' || Number(el.value) > 0)];
-    });
-    fields.forEach(([el, ok])=>{ setError(el.closest('.field'), !ok); if(!ok) valid = false; });
-    if(!valid) return;
 
-    const title = document.getElementById('e-title').value;
-    const description = document.getElementById('e-description').value;
-    const category = document.getElementById('e-category').value;
-    const capacity = document.getElementById('e-capacity').value;
-    const date = document.getElementById('e-date').value;
-    const time = document.getElementById('e-time').value;
-    const location = document.getElementById('e-location').value;
-    const deadline = document.getElementById('e-deadline').value;
+    const fields = ['title', 'description', 'category', 'capacity', 'date', 'time', 'location', 'deadline'].map(id => {
+      const el = document.getElementById('e-' + id);
+      return [el, el && el.value && (el.type !== 'number' || Number(el.value) > 0)];
+    });
+
+    fields.forEach(([el, ok]) => { 
+      if (el) {
+        setError(el.closest('.field'), !ok); 
+        if (!ok) valid = false; 
+      }
+    });
+
+    if (!valid) return;
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.textContent = editingEventId ? "Updating..." : "Saving...";
+
+    const payload = {
+      barangay: PAGE_BARANGAY,
+      title: document.getElementById('e-title').value.trim(),
+      description: document.getElementById('e-description').value.trim(),
+      category: document.getElementById('e-category').value,
+      slotCapacity: parseInt(document.getElementById('e-capacity').value, 10) || 0,
+      eventDate: document.getElementById('e-date').value,
+      eventTime: document.getElementById('e-time').value,
+      location: document.getElementById('e-location').value.trim(),
+      deadline: document.getElementById('e-deadline').value
+    };
+
+    try {
+      if (editingEventId) {
+        // Update Existing Document
+        const eventDocRef = doc(db, "events", editingEventId);
+        await updateDoc(eventDocRef, payload);
+        showToast(`${payload.title} updated successfully!`);
+      } else {
+        // Create New Document
+        payload.registeredCount = 0;
+        payload.createdAt = serverTimestamp();
+        await addDoc(collection(db, "events"), payload);
+        showToast(`${payload.title} added successfully!`);
+      }
+
+      overlay.classList.remove('show');
+      form.reset();
+      editingEventId = null;
+    } catch (err) {
+      console.error("Error saving/updating event:", err);
+      showToast("Failed to save event.", true);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Save Event →";
+    }
+  });
+
+  // Client-Side Filter Logic (Category, Status, Month)
+  function applyFiltersAndRender() {
+    if (!allFetchedEventDocs.length) {
+      eventList.innerHTML = '<p style="padding: 20px; color: #666;">No events found for Barangay West Rembo.</p>';
+      return;
+    }
+
+    const todayStr = new Date().toISOString().split('T')[0];
+    const selectedCategory = categoryFilter ? categoryFilter.value : 'all';
+    const selectedStatus = statusFilter ? statusFilter.value : 'upcoming';
+    const showAllDates = showAllDatesChk ? showAllDatesChk.checked : false;
+    const currentMonthVal = monthPicker ? monthPicker.value : `${selectedYear}-${selectedMonth}`;
+
+    const filteredDocs = allFetchedEventDocs.filter(docSnap => {
+      const ev = docSnap.data();
+      const evDate = ev.eventDate || "";
+      const isPast = evDate < todayStr;
+
+      // 1. Category Filter
+      if (selectedCategory !== 'all' && ev.category !== selectedCategory) {
+        return false;
+      }
+
+      // 2. Status Filter
+      if (selectedStatus === 'upcoming' && isPast) return false;
+      if (selectedStatus === 'past' && !isPast) return false;
+
+      // 3. Month Filter
+      if (!showAllDates && currentMonthVal) {
+        if (!evDate.startsWith(currentMonthVal)) return false;
+      }
+
+      return true;
+    });
+
+    renderEvents(filteredDocs, todayStr);
+  }
+
+  // Render Events Function
+function renderEvents(docs, todayStr) {
+  eventList.innerHTML = '';
+
+  if (docs.length === 0) {
+    eventList.innerHTML = '<p style="padding: 20px; color: #666;">No events match the selected filters.</p>';
+    return;
+  }
+
+  docs.forEach(docSnap => {
+    const ev = docSnap.data();
+    const eventId = docSnap.id;
+    const registeredCount = ev.registeredCount || 0;
+    const capacity = ev.slotCapacity || 0;
+    const spotsLeft = Math.max(0, capacity - registeredCount);
+    const percentage = capacity > 0 ? Math.min(100, (registeredCount / capacity) * 100).toFixed(1) : 0;
+    
+    const isPast = ev.eventDate < todayStr;
+    const statusTagHtml = isPast 
+      ? '<span style="background:#f8d7da; color:#721c24; padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:600;">Past / Done</span>' 
+      : '<span style="background:#d4edda; color:#155724; padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:600;">Upcoming</span>';
 
     const card = document.createElement('div');
     card.className = 'event-card';
-    card.setAttribute('data-card','');
+
     card.innerHTML = `
       <div class="event-top">
-        <div class="event-title-row">
-          <h3>${title}</h3>
-          <span class="type-pill">${category}</span>
+        <div class="event-title-row" style="display:flex; align-items:center; gap:8px;">
+          <h3>${ev.title}</h3>
+          <span class="type-pill">${ev.category}</span>
+          ${statusTagHtml}
         </div>
         <div class="event-actions">
-          <button data-view>👁 View</button>
-          <button data-edit>Edit</button>
-          <button class="act-delete" data-delete>Delete</button>
+          <button type="button" class="btn-view-card">👁 View</button>
+          <button type="button" class="btn-edit-card">Edit</button>
+          <button type="button" class="btn-delete-card act-delete">Delete</button>
         </div>
       </div>
-      <p class="event-desc">${description}</p>
+      <p class="event-desc">${ev.description}</p>
       <div class="event-meta">
-        <div>Date<strong>${date}</strong></div>
-        <div>Time<strong>${time}</strong></div>
-        <div>Location<strong>${location}</strong></div>
-        <div>Deadline<strong>${deadline}</strong></div>
+        <div>Date<strong>${ev.eventDate}</strong></div>
+        <div>Time<strong>${ev.eventTime}</strong></div>
+        <div>Location<strong>${ev.location}</strong></div>
+        <div>Deadline<strong>${ev.deadline}</strong></div>
       </div>
-      <div class="event-progress-label"><span>Registrations</span><span data-count>0 / ${capacity} (${capacity} spots left)</span></div>
-      <div class="event-progress-bar"><div class="event-progress-fill" style="width:0%;"></div></div>
+      <div class="event-progress-label"><span>Registrations</span><span>${registeredCount} / ${capacity} (${spotsLeft} spots left)</span></div>
+      <div class="event-progress-bar"><div class="event-progress-fill" style="width:${percentage}%;"></div></div>
     `;
-    eventList.prepend(card);
-    bindCard(card);
-    overlay.classList.remove('show');
-    showToast(`${title} added to the events list.`);
-  });
 
-  function bindCard(card){
-    const deleteBtn = card.querySelector('[data-delete]');
-    const editBtn = card.querySelector('[data-edit]');
-    const viewBtn = card.querySelector('[data-view]');
-    const titleEl = card.querySelector('h3');
-    deleteBtn.addEventListener('click', ()=>{
-      if(confirm(`Remove "${titleEl.textContent}"? This can't be undone.`)){
-        card.remove();
-        showToast(`${titleEl.textContent} removed.`, true);
+// 1. VIEW BUTTON
+const viewBtn = card.querySelector('.btn-view-card');
+viewBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  console.log("View clicked for:", ev.title);
+
+  if (viewOverlay && viewTitle && viewBody) {
+    viewTitle.textContent = `${ev.title} - Details`;
+    viewBody.innerHTML = `
+      <div style="font-size:0.95rem; line-height:1.6; color:#1e293b;">
+        <p style="margin:4px 0;"><strong>Category:</strong> ${ev.category}</p>
+        <p style="margin:4px 0;"><strong>Location:</strong> ${ev.location}</p>
+        <p style="margin:4px 0;"><strong>Date & Time:</strong> ${ev.eventDate} at ${ev.eventTime}</p>
+        <p style="margin:4px 0;"><strong>Deadline:</strong> ${ev.deadline}</p>
+        <p style="margin:4px 0;"><strong>Registrations:</strong> ${registeredCount} / ${capacity} (${spotsLeft} spots remaining)</p>
+      </div>
+      <hr style="margin:16px 0; border:0; border-top:1px solid #cbd5e1;">
+      <p style="color:#64748b; font-size:0.9rem; text-align:center; font-style:italic;">No registrants recorded yet.</p>
+    `;
+
+    // Toggle dedicated active class
+    viewOverlay.classList.add('active-view-modal');
+  } else {
+    alert(`Event Details:\n\nTitle: ${ev.title}\nCategory: ${ev.category}\nLocation: ${ev.location}\nDate: ${ev.eventDate}`);
+  }
+});
+
+    // 2. EDIT BUTTON
+    const editBtn = card.querySelector('.btn-edit-card');
+    editBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      editingEventId = eventId;
+      modalTitle.textContent = 'Edit Event';
+
+      document.getElementById('e-title').value = ev.title || '';
+      document.getElementById('e-description').value = ev.description || '';
+      document.getElementById('e-category').value = ev.category || '';
+      document.getElementById('e-capacity').value = ev.slotCapacity || '';
+      document.getElementById('e-date').value = ev.eventDate || '';
+      document.getElementById('e-time').value = ev.eventTime || '';
+      document.getElementById('e-location').value = ev.location || '';
+      document.getElementById('e-deadline').value = ev.deadline || '';
+
+      overlay.classList.add('show');
+    });
+
+    // 3. DELETE BUTTON
+    const deleteBtn = card.querySelector('.btn-delete-card');
+    deleteBtn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      if (confirm(`Delete "${ev.title}"?`)) {
+        try {
+          await deleteDoc(doc(db, "events", eventId));
+          showToast(`${ev.title} deleted.`, true);
+        } catch (err) {
+          console.error("Delete error:", err);
+          showToast("Failed to delete event.", true);
+        }
       }
     });
-    editBtn.addEventListener('click', ()=> showToast(`Editing ${titleEl.textContent} — hook this up to your edit form.`));
-    viewBtn.addEventListener('click', ()=> showToast(`Opening registrant list for ${titleEl.textContent}.`));
-  }
-  document.querySelectorAll('[data-card]').forEach(bindCard);
 
-</script>
-<script>
-  const fab = document.getElementById('chat-fab');
-  const panel = document.getElementById('chat-panel');
-  const closeBtn = document.getElementById('chat-close');
-  const navChatBtn = document.getElementById('nav-chat-btn');
-  const body = document.getElementById('chat-body');
-  const input = document.getElementById('chat-input');
-  const sendBtn = document.getElementById('chat-send');
-
-  function togglePanel(){ panel.classList.toggle('show'); if(panel.classList.contains('show')) input.focus(); }
-  fab.addEventListener('click', togglePanel);
-  navChatBtn.addEventListener('click', togglePanel);
-  closeBtn.addEventListener('click', ()=> panel.classList.remove('show'));
-
-  const canned = {
-    "is the basketball court free this weekend?": "Let me check the calendar — the Basketball Court has an open slot Saturday 2:00–4:00 PM. Want me to start a reservation request for it?",
-    "what programs are coming up?": "Coming up: our Basketball Tournament and a Digital Skills Workshop this month. Tap \"Join Program\" on the home page to sign up.",
-    "where's my reservation status?": "You can see every request and its status — Pending, Approved, or Rejected — under \"My Reservations\" in the top menu."
-  };
-
-  function addMsg(text, who){
-    const el = document.createElement('div');
-    el.className = 'chat-msg ' + who;
-    el.textContent = text;
-    body.appendChild(el);
-    body.scrollTop = body.scrollHeight;
-  }
-
-  function respond(text){
-    addMsg(text, 'user');
-    const key = text.trim().toLowerCase();
-    const reply = canned[key] || "Thanks — I've noted that. This is a front-end preview, so a real SK Assistant would look this up for you once it's connected to the barangay's system.";
-    setTimeout(()=> addMsg(reply, 'bot'), 500);
-  }
-
-  sendBtn.addEventListener('click', ()=>{
-    const v = input.value.trim();
-    if(!v) return;
-    respond(v);
-    input.value = '';
+    eventList.appendChild(card);
   });
-  input.addEventListener('keydown', (e)=>{
-    if(e.key === 'Enter'){
-      const v = input.value.trim();
-      if(!v) return;
-      respond(v);
-      input.value = '';
+}
+
+  // Realtime Listener
+  function listenToEvents() {
+    const q = query(
+      collection(db, "events"),
+      where("barangay", "==", PAGE_BARANGAY)
+    );
+
+    onSnapshot(q, (snapshot) => {
+      allFetchedEventDocs = [];
+      snapshot.forEach(docSnap => allFetchedEventDocs.push(docSnap));
+      allFetchedEventDocs.sort((a, b) => new Date(b.data().eventDate) - new Date(a.data().eventDate));
+      applyFiltersAndRender();
+    }, (err) => {
+      console.error("Firestore events snapshot error:", err);
+    });
+  }
+
+  // Event Listeners for Filters
+  if (categoryFilter) categoryFilter.addEventListener('change', applyFiltersAndRender);
+  if (statusFilter) statusFilter.addEventListener('change', applyFiltersAndRender);
+
+  if (showAllDatesChk) {
+    showAllDatesChk.addEventListener('change', (e) => {
+      const isChecked = e.target.checked;
+      if (monthPicker) monthPicker.disabled = isChecked;
+      if (prevMonthBtn) prevMonthBtn.disabled = isChecked;
+      if (nextMonthBtn) nextMonthBtn.disabled = isChecked;
+      applyFiltersAndRender();
+    });
+  }
+
+  if (monthPicker) {
+    monthPicker.addEventListener('change', (e) => {
+      const [yr, mo] = e.target.value.split('-');
+      updateMonthLabel(yr, mo);
+      applyFiltersAndRender();
+    });
+  }
+
+  if (prevMonthBtn && nextMonthBtn && monthPicker) {
+    prevMonthBtn.addEventListener('click', () => {
+      let [yr, mo] = monthPicker.value.split('-').map(Number);
+      mo--;
+      if (mo < 1) { mo = 12; yr--; }
+      const newMoStr = String(mo).padStart(2, '0');
+      monthPicker.value = `${yr}-${newMoStr}`;
+      updateMonthLabel(yr, newMoStr);
+      applyFiltersAndRender();
+    });
+
+    nextMonthBtn.addEventListener('click', () => {
+      let [yr, mo] = monthPicker.value.split('-').map(Number);
+      mo++;
+      if (mo > 12) { mo = 1; yr++; }
+      const newMoStr = String(mo).padStart(2, '0');
+      monthPicker.value = `${yr}-${newMoStr}`;
+      updateMonthLabel(yr, newMoStr);
+      applyFiltersAndRender();
+    });
+  }
+
+  // Auth Guard
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      try {
+        let fullName = "";
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          const data = userDocSnap.data();
+          fullName = data.fullName || data.name || data.firstName;
+        } else {
+          const q = query(collection(db, "users"), where("email", "==", user.email));
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach((docSnap) => {
+            if (docSnap.exists()) {
+              const data = docSnap.data();
+              fullName = data.fullName || data.name || data.firstName;
+            }
+          });
+        }
+
+        const nameElement = document.getElementById("admin-name");
+        if (nameElement && fullName) {
+          nameElement.textContent = `Admin - ${fullName}`;
+        }
+
+        listenToEvents();
+      } catch (err) {
+        console.error("Error fetching admin details:", err);
+      }
+    } else {
+      window.location.href = "login_page.html";
     }
-  });
-  document.querySelectorAll('.chat-suggest button').forEach(btn=>{
-    btn.addEventListener('click', ()=> respond(btn.dataset.msg));
   });
 </script>
 

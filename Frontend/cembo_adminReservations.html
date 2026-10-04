@@ -991,6 +991,25 @@
     <strong id="month-display" class="filter-month-label">—</strong>
   </div>
 
+<div class="filter-controls">
+    <select id="status-filter" class="filter-month-picker">
+      <option value="all">All Statuses</option>
+      <option value="pending">Pending</option>
+      <option value="approved">Approved</option>
+      <option value="rejected">Rejected / Cancelled</option>
+    </select>
+
+<select id="purpose-filter" class="filter-month-picker">
+  <option value="all">All Purposes</option>
+  <option value="Sports practice / friendly game">Sports practice / friendly game</option>
+  <option value="Barangay-organized event">Barangay-organized event</option>
+  <option value="Community meeting">Community meeting</option>
+  <option value="Birthday / personal event">Birthday / personal event</option>
+  <option value="Training / workshop">Training / workshop</option>
+  <option value="Other">Other</option>
+</select>
+  </div>
+
   <label class="filter-toggle-label">
     <input type="checkbox" id="all-dates-toggle" class="filter-toggle-checkbox">
     Show All Dates
@@ -1176,6 +1195,24 @@
   const nextMonthBtn = document.getElementById('next-month-btn');
   const allDatesCheckbox = document.getElementById('all-dates-toggle');
 
+ // Filter DOM References
+const statusFilter = document.getElementById('status-filter');
+const purposeFilter = document.getElementById('purpose-filter');
+
+// Synchronize tab clicks with status dropdown filter
+if (statusFilter) {
+  statusFilter.addEventListener('change', (e) => {
+    activeStatusFilter = e.target.value;
+    // Update active tab button style to match
+    document.querySelectorAll('#tab-row .tab-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.filter === activeStatusFilter);
+    });
+    renderTable();
+  });
+}
+
+if (purposeFilter) purposeFilter.addEventListener('change', renderTable);
+
   // Rejection Modal DOM References
   const rejectOverlay = document.getElementById('reject-overlay');
   const rejectForm = document.getElementById('reject-form');
@@ -1329,6 +1366,8 @@
       document.querySelectorAll('#tab-row .tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       activeStatusFilter = btn.dataset.filter;
+      // Sync dropdown selection with clicked tab
+    if (statusFilter) statusFilter.value = activeStatusFilter;
       renderTable();
     });
   });
@@ -1337,43 +1376,51 @@
   // 5. RENDER DYNAMIC TABLE ROWS
   // ==========================================
   function renderTable() {
-    if (!tableBody) return;
+  if (!tableBody) return;
 
-    const targetYear = currentDate.getFullYear();
-    const targetMonth = currentDate.getMonth();
+  const targetYear = currentDate.getFullYear();
+  const targetMonth = currentDate.getMonth();
+  const selectedPurpose = purposeFilter ? purposeFilter.value : 'all';
 
-    let filtered = allReservations.filter(r => {
-      const statusLower = (r.status || 'pending').toLowerCase();
-      let matchesStatus = false;
-      
-      if (activeStatusFilter === 'all') {
-        matchesStatus = true;
-      } else if (activeStatusFilter === 'rejected') {
-        matchesStatus = statusLower === 'rejected' || statusLower === 'cancelled';
-      } else {
-        matchesStatus = statusLower === activeStatusFilter;
-      }
-
-      let matchesDate = true;
-      if (!showAllDates && r.date) {
-        const resDate = new Date(r.date + 'T00:00:00');
-        matchesDate = resDate.getFullYear() === targetYear && resDate.getMonth() === targetMonth;
-      }
-
-      return matchesStatus && matchesDate;
-    });
-
-    filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    if (filtered.length === 0) {
-      tableBody.innerHTML = `
-        <tr>
-          <td colspan="6" style="text-align: center; padding: 2rem; color: #777;">
-            No reservations found for the selected month and filter.
-          </td>
-        </tr>`;
-      return;
+  let filtered = allReservations.filter(r => {
+    // 1. Status Filter (Handles both tab clicks and status dropdown)
+    const statusLower = (r.status || 'pending').toLowerCase();
+    let matchesStatus = false;
+    
+    if (activeStatusFilter === 'all') {
+      matchesStatus = true;
+    } else if (activeStatusFilter === 'rejected') {
+      matchesStatus = statusLower === 'rejected' || statusLower === 'cancelled';
+    } else {
+      matchesStatus = statusLower === activeStatusFilter;
     }
+
+    // 2. Date Filter
+    let matchesDate = true;
+    if (!showAllDates && r.date) {
+      const resDate = new Date(r.date + 'T00:00:00');
+      matchesDate = resDate.getFullYear() === targetYear && resDate.getMonth() === targetMonth;
+    }
+
+    // 3. Purpose Filter
+    const resPurpose = r.purpose || '';
+    let matchesPurpose = (selectedPurpose === 'all') || 
+      (resPurpose.toLowerCase() === selectedPurpose.toLowerCase());
+
+    return matchesStatus && matchesDate && matchesPurpose;
+  });
+
+  filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  if (filtered.length === 0) {
+    tableBody.innerHTML = `
+      <tr>
+        <td colspan="6" style="text-align: center; padding: 2rem; color: #777;">
+          No reservations found matching the selected filters.
+        </td>
+      </tr>`;
+    return;
+  }
 
     tableBody.innerHTML = filtered.map(r => {
       const statusLower = (r.status || 'pending').toLowerCase();
