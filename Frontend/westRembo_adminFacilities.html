@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Manage Reservations · SK Barangay West Rembo · EMBO Access</title>
+<title>Manage Facilities · SK Barangay West Rembo · EMBO Access</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -653,86 +653,6 @@
   .event-actions button:hover{border-color:var(--ink);color:var(--ink);}
   .event-actions button.act-delete:hover{border-color:var(--red-deep);color:var(--red-deep);}
 
-  /* Date & Month Filter Controls Bar */
-.filter-bar {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  background: #ffffff;
-  padding: 1rem 1.25rem;
-  border-radius: 10px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.filter-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.filter-btn {
-  background-color: #ffffff;
-  color: #1e293b;
-  border: 1px solid #cbd5e1;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-
-.filter-btn:hover {
-  background-color: #f8fafc;
-  border-color: #94a3b8;
-}
-
-.filter-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.filter-month-picker {
-  padding: 0.45rem 0.75rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font-family: inherit;
-  font-size: 0.9rem;
-  color: #0f172a;
-  background-color: #ffffff;
-}
-
-.filter-month-picker:disabled {
-  background-color: #f1f5f9;
-  cursor: not-allowed;
-}
-
-.filter-month-label {
-  margin-left: 0.5rem;
-  font-size: 1.05rem;
-  color: #0f172a;
-  font-weight: 600;
-}
-
-.filter-toggle-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #334155;
-}
-
-.filter-toggle-checkbox {
-  width: 16px;
-  height: 16px;
-  accent-color: #0f172a;
-}
-
   @media (max-width: 980px){
     .tool-grid{grid-template-columns:1fr 1fr;}
     .event-meta{grid-template-columns:1fr 1fr;}
@@ -987,8 +907,8 @@
     </a>
     <nav class="nav-links">
       <a href="westRembo_admin.html" class="">Dashboard</a>
-      <a href="westRembo_adminFacilities.html" class="">Facilities</a>
-      <a href="westRembo_adminReservations.html" class="active">Reservations</a>
+      <a href="westRembo_adminFacilities.html" class="active">Facilities</a>
+      <a href="westRembo_adminReservations.html" class="">Reservations</a>
       <a href="westRembo_adminEvents.html" class="">Events</a>
     </nav>
     <div class="nav-right">
@@ -1017,8 +937,8 @@
   <div class="wrap hero-top">
     <div class="hero-copy">
       <div class="eyebrow">SK Barangay West Rembo · Admin</div>
-      <h1>Manage Reservations</h1>
-      <p class="lede">Review and approve or reject facility reservation requests.</p>
+      <h1>Manage Facilities</h1>
+      <p class="lede">Add, edit, or remove facilities available for reservation in West Rembo.</p>
     </div>
     <div class="hero-seal">
       <img src="../Pics/West_Rembo_Logo.png" alt="West Rembo seal">
@@ -1030,71 +950,167 @@
 
 
 <section class="wrap page-sub">
-  <!-- MONTH & DATE FILTER CONTROLS -->
-<div class="filter-bar">
-  <div class="filter-controls">
-    <button type="button" class="btn btn-small filter-btn" id="prev-month-btn">‹ Prev Month</button>
-    <input type="month" id="month-picker" class="filter-month-picker">
-    <button type="button" class="btn btn-small filter-btn" id="next-month-btn">Next Month ›</button>
-    <strong id="month-display" class="filter-month-label">—</strong>
+  <div class="section-head-row">
+    <h2>All Facilities</h2>
+    <button class="btn btn-small" id="add-facility-btn">+ Add Facility</button>
   </div>
-
-  <label class="filter-toggle-label">
-    <input type="checkbox" id="all-dates-toggle" class="filter-toggle-checkbox">
-    Show All Dates
-  </label>
-</div>
 
   <div class="table-card">
     <table class="admin-table">
       <thead>
-        <tr><th>Facility</th><th>Requestor</th><th>Date &amp; Time</th><th>Purpose</th><th>Status</th><th>Actions</th></tr>
+        <tr><th>Name</th><th>Type</th><th>Description</th><th>Capacity</th><th>Status</th><th>Actions</th></tr>
       </thead>
-      <tbody id="res-tbody">
-  <tr>
-    <td colspan="6" style="text-align: center; padding: 2rem; color: #777;">
-      Loading reservations...
-    </td>
-  </tr>
-</tbody>
+      <tbody id="facilities-tbody">
+        <tr data-row>
+          <td class="cell-title">West Rembo Basketball Court</td>
+          <td><span class="type-pill">Court</span></td>
+          <td>Full-size outdoor basketball court with floodlights</td>
+          <td>30</td>
+          <td><span class="status-pill status-available" data-status>Available</span></td>
+          <td>
+            <div class="row-actions">
+              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
+              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
+              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </td>
+        </tr>
+        <tr data-row>
+          <td class="cell-title">Multi-Purpose Area</td>
+          <td><span class="type-pill">Court</span></td>
+          <td>Roofed, all-weather court for volleyball and badminton</td>
+          <td>40</td>
+          <td><span class="status-pill status-available" data-status>Available</span></td>
+          <td>
+            <div class="row-actions">
+              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
+              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
+              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </td>
+        </tr>
+        <tr data-row>
+          <td class="cell-title">Function Hall</td>
+          <td><span class="type-pill">Venue</span></td>
+          <td>Large multi-purpose hall suitable for meetings and events</td>
+          <td>100</td>
+          <td><span class="status-pill status-available" data-status>Available</span></td>
+          <td>
+            <div class="row-actions">
+              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
+              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
+              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </td>
+        </tr>
+        <tr data-row>
+          <td class="cell-title">Computer Lab</td>
+          <td><span class="type-pill">Venue</span></td>
+          <td>Air-conditioned lab with Wi-Fi and printer access</td>
+          <td>20</td>
+          <td><span class="status-pill status-hidden" data-status>Under Maintenance</span></td>
+          <td>
+            <div class="row-actions">
+              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
+              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
+              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </td>
+        </tr>
+        <tr data-row>
+          <td class="cell-title">Sports Equipment Set</td>
+          <td><span class="type-pill">Resource</span></td>
+          <td>Basketballs, volleyballs, cones, and training equipment</td>
+          <td>5 sets</td>
+          <td><span class="status-pill status-available" data-status>Available</span></td>
+          <td>
+            <div class="row-actions">
+              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
+              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
+              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </td>
+        </tr>
+        <tr data-row>
+          <td class="cell-title">Sound System</td>
+          <td><span class="type-pill">Resource</span></td>
+          <td>Professional PA system with microphones and speakers</td>
+          <td>2 sets</td>
+          <td><span class="status-pill status-available" data-status>Available</span></td>
+          <td>
+            <div class="row-actions">
+              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
+              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
+              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </section>
 
 <div class="toast" id="toast">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="#F5F0E4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  <span id="toast-text">Reservation approved.</span>
+  <span id="toast-text">Facility saved.</span>
 </div>
 
-<div class="modal-overlay" id="reject-overlay">
-  <div class="modal-box narrow">
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-box">
     <div class="modal-head">
       <div>
-        <span class="tag">Reject Reservation</span>
-        <h2>Provide a Reason</h2>
+        <span class="tag">Facility Details</span>
+        <h2 id="modal-title">Add Facility</h2>
       </div>
-      <button class="modal-close" id="reject-close">✕</button>
+      <button class="modal-close" id="modal-close">✕</button>
     </div>
-    <form class="modal-form" id="reject-form" novalidate>
-  <div class="reject-context" id="reject-context">
-    Rejecting: <strong id="reject-facility-name">Facility</strong>
-  </div>
-  <div class="field" data-field="reason">
-    <label for="reject-reason">Reason for Rejection <span class="req">*</span></label>
-    <textarea id="reject-reason" rows="3" placeholder="e.g. Conflicts with a barangay assembly on the same date." required></textarea>
-    <span class="field-error" id="reject-error" style="display: none; color: #c0392b; font-size: 0.8rem; margin-top: 0.25rem;">A reason is required so the resident understands why.</span>
+    <form class="modal-form" id="facility-form" novalidate>
+  <!-- Hidden ID to know if we are adding or editing -->
+  <input type="hidden" id="f-id" value="">
+
+  <div class="field" data-field="name">
+    <label for="f-name">Facility Name <span class="req">*</span></label>
+    <input type="text" id="f-name" placeholder="e.g. Basketball Court A" required>
+    <span class="field-error">Enter a facility name.</span>
   </div>
 
-  <!-- QUICK PRESET BUTTONS -->
-  <div style="margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem;">
-    <button type="button" class="chip-preset btn btn-small btn-outline" data-preset="Conflicts with a scheduled barangay event">Schedule Conflict</button>
-    <button type="button" class="chip-preset btn btn-small btn-outline" data-preset="Facility undergoes scheduled maintenance">Maintenance</button>
-    <button type="button" class="chip-preset btn btn-small btn-outline" data-preset="Incomplete or invalid contact information">Invalid Info</button>
+  <div class="field-row">
+    <div class="field" data-field="type">
+      <label for="f-type">Type <span class="req">*</span></label>
+      <select id="f-type" required>
+        <option value="" disabled selected>Select type</option>
+        <option value="Court">Court</option>
+        <option value="Venue">Venue</option>
+        <option value="Resource">Resource</option>
+      </select>
+      <span class="field-error">Select a facility type.</span>
+    </div>
+
+    <div class="field" data-field="capacity">
+      <label for="f-capacity">Capacity / Quantity <span class="req">*</span></label>
+      <input type="text" id="f-capacity" placeholder="e.g. 30 or 5 sets" required>
+      <span class="field-error">Enter capacity or quantity.</span>
+    </div>
+  </div>
+
+  <div class="field" data-field="status">
+    <label for="f-status">Operational Status <span class="req">*</span></label>
+    <select id="f-status" required>
+      <option value="Available">Available</option>
+      <option value="Under Maintenance">Under Maintenance</option>
+      <option value="Hidden">Hidden</option>
+    </select>
+  </div>
+
+  <div class="field" data-field="description">
+    <label for="f-description">Description <span class="req">*</span></label>
+    <textarea id="f-description" rows="3" placeholder="Briefly describe this facility…" required></textarea>
+    <span class="field-error">Enter a short description.</span>
   </div>
 
   <div class="modal-actions">
-    <button type="button" class="btn btn-secondary" id="reject-cancel">Cancel</button>
-    <button type="submit" class="btn btn-danger">Reject Reservation →</button>
+    <button type="button" class="btn btn-secondary" id="modal-cancel">Cancel</button>
+    <button type="submit" class="btn" id="modal-submit-btn">Save Facility →</button>
   </div>
 </form>
   </div>
@@ -1153,25 +1169,23 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { 
-    getAuth, 
-    onAuthStateChanged,
-    signOut
-  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import { 
     getFirestore, 
-    collection, 
+    doc, 
+    getDoc, 
     query, 
+    collection, 
     where, 
-    doc,
-    getDoc,
-    getDocs,
-    updateDoc,
-    onSnapshot
+    getDocs, 
+    addDoc, 
+    updateDoc, 
+    deleteDoc, 
+    onSnapshot 
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // BARANGAY IDENTIFIER
-  const BARANGAY_NAME = "West Rembo";
+  // CHANGE THIS FOR EACH BARANGAY FILE AS A FALLBACK (e.g. "Cembo", "Comembo", "East Rembo", "Pembo", "West Rembo")
+  const DEFAULT_BARANGAY = "West Rembo"; 
 
   // Firebase Configuration
   const firebaseConfig = {
@@ -1187,69 +1201,75 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // App State
-  let adminFullName = "Admin";
-  let allReservations = [];
-  let activeStatusFilter = "all";
-  let activeRejectDocId = null;
+  let currentAdminBarangay = DEFAULT_BARANGAY;
+  let unsubscribeFacilities = null;
 
-  // Date/Month Filtering State
-  let showAllDates = false;
-  let currentDate = new Date(); // Defaults to current date/month
+  // UI Elements
+  const overlay = document.getElementById('modal-overlay');
+  const modalTitle = document.getElementById('modal-title');
+  const form = document.getElementById('facility-form');
+  const toast = document.getElementById('toast');
+  const toastText = document.getElementById('toast-text');
+  const tbody = document.getElementById('facilities-tbody');
 
-  // DOM References
-  const tableBody = document.getElementById('res-tbody');
-  const monthPicker = document.getElementById('month-picker');
-  const monthDisplay = document.getElementById('month-display');
-  const prevMonthBtn = document.getElementById('prev-month-btn');
-  const nextMonthBtn = document.getElementById('next-month-btn');
-  const allDatesCheckbox = document.getElementById('all-dates-toggle');
+  // Input Elements
+  const facilityIdInput = document.getElementById('f-id');
+  const nameInput = document.getElementById('f-name');
+  const typeInput = document.getElementById('f-type');
+  const capacityInput = document.getElementById('f-capacity');
+  const statusInput = document.getElementById('f-status');
+  const descInput = document.getElementById('f-description');
 
-  // Rejection Modal DOM References
-  const rejectOverlay = document.getElementById('reject-overlay');
-  const rejectForm = document.getElementById('reject-form');
-  const rejectReasonInput = document.getElementById('reject-reason');
-  const rejectError = document.getElementById('reject-error');
+  function showToast(msg, isRed = false) {
+    if (!toastText || !toast) return;
+    toastText.textContent = msg;
+    toast.classList.toggle('toast-red', isRed);
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3200);
+  }
 
-  // ==========================================
-  // 1. AUTH & ADMIN PROFILE FETCHING
-  // ==========================================
+  function setError(fieldEl, hasError) {
+    if (!fieldEl) return;
+    fieldEl.classList.toggle('has-error', hasError);
+    const input = fieldEl.querySelector('input, select, textarea');
+    if (input) input.classList.toggle('error', hasError);
+  }
+
+  // --- AUTH & INITIALIZATION ---
   onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      window.location.href = "login_page.html";
-      return;
-    }
+    if (user) {
+      try {
+        let fullName = "";
 
-    try {
-      let fetchedName = "";
+        // 1. Get user profile
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
 
-      // Try fetching user by UID
-      const userDocRef = doc(db, "users", user.uid);
-      const userDocSnap = await getDoc(userDocRef);
+        if (userDocSnap.exists()) {
+          const data = userDocSnap.data();
+          fullName = data.fullName || data.name || data.firstName;
+          if (data.barangay) currentAdminBarangay = DEFAULT_BARANGAY; // Use default if not set
+        } else {
+          const q = query(collection(db, "users"), where("email", "==", user.email));
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach((docSnap) => {
+            if (docSnap.exists()) {
+              const data = docSnap.data();
+              fullName = data.fullName || data.name || data.firstName;
+              if (data.barangay) currentAdminBarangay = data.barangay;
+            }
+          });
+        }
 
-      if (userDocSnap.exists()) {
-        const data = userDocSnap.data();
-        fetchedName = data.fullName || data.name || data.firstName;
-      } else {
-        // Fallback: Query by email
-        const q = query(collection(db, "users"), where("email", "==", user.email));
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((docSnap) => {
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            fetchedName = data.fullName || data.name || data.firstName;
-          }
-        });
-      }
-
-      if (fetchedName) {
-        adminFullName = fetchedName;
+        // Display Admin Name & Avatar
         const nameElement = document.getElementById("admin-name");
-        if (nameElement) nameElement.textContent = `Admin - ${adminFullName}`;
+        if (nameElement && fullName) {
+          nameElement.textContent = `Admin - ${fullName}`;
+        }
 
         const avatarElement = document.querySelector(".user-chip .avatar");
-        if (avatarElement) {
-          const initials = adminFullName
+        if (avatarElement && fullName) {
+          const initials = fullName
             .split(" ")
             .map(n => n[0])
             .join("")
@@ -1257,303 +1277,192 @@
             .toUpperCase();
           avatarElement.textContent = initials;
         }
-      }
-    } catch (err) {
-      console.error("Error fetching admin profile:", err);
-    }
 
-    syncMonthUI();
-    subscribeToReservations();
+        // Start listening to live facilities from Firestore
+        listenToFacilities(currentAdminBarangay);
+
+      } catch (err) {
+        console.error("Error fetching admin profile:", err);
+        listenToFacilities(DEFAULT_BARANGAY);
+      }
+    } else {
+      window.location.href = "login_page.html";
+    }
   });
 
-  // ==========================================
-  // 2. FIRESTORE REAL-TIME RESERVATION LISTENER
-  // ==========================================
-  function subscribeToReservations() {
-    const q = query(
-      collection(db, "reservations"),
-      where("barangay", "==", BARANGAY_NAME)
-    );
+  // --- REAL-TIME VIEW / LISTEN FROM FIRESTORE ---
+  function listenToFacilities(barangay) {
+    if (unsubscribeFacilities) unsubscribeFacilities();
 
-    onSnapshot(q, (snapshot) => {
-      allReservations = snapshot.docs.map(docSnap => ({
-        docId: docSnap.id,
-        ...docSnap.data()
-      }));
-      updateCounters();
-      renderTable();
+    const q = query(collection(db, "facilities"), where("barangay", "==", barangay));
+
+    unsubscribeFacilities = onSnapshot(q, (snapshot) => {
+      tbody.innerHTML = ""; 
+
+      if (snapshot.empty) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 20px;">No facilities found for Barangay ${barangay}. Click "+ Add Facility" to create one.</td></tr>`;
+        return;
+      }
+
+      snapshot.forEach((docSnap) => {
+        const item = docSnap.data();
+        const docId = docSnap.id;
+        const row = createTableRow(docId, item);
+        tbody.appendChild(row);
+      });
     }, (error) => {
-      console.error("Error fetching West Rembo reservations:", error);
+      console.error("Firestore Read Error: ", error);
+      showToast("Error loading facilities.", true);
     });
   }
 
-  // ==========================================
-  // 3. MONTH & DATE CONTROLS
-  // ==========================================
-  function syncMonthUI() {
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    
-    if (monthPicker) monthPicker.value = `${year}-${month}`;
-    if (monthDisplay) {
-      monthDisplay.textContent = currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  // --- RENDER TABLE ROWS (WITH EDIT, REMOVE & STATUS TOGGLE) ---
+  function createTableRow(id, data) {
+    const tr = document.createElement('tr');
+    tr.setAttribute('data-id', id);
+
+    let statusClass = 'status-available';
+    if (data.status === 'Under Maintenance' || data.status === 'Hidden') {
+      statusClass = 'status-hidden';
     }
-  }
 
-  if (prevMonthBtn) {
-    prevMonthBtn.addEventListener('click', () => {
-      currentDate.setMonth(currentDate.getMonth() - 1);
-      syncMonthUI();
-      renderTable();
+    tr.innerHTML = `
+      <td class="cell-title">${data.name}</td>
+      <td><span class="type-pill">${data.type}</span></td>
+      <td>${data.description}</td>
+      <td>${data.capacity}</td>
+      <td><span class="status-pill ${statusClass}" data-status>${data.status}</span></td>
+      <td>
+        <div class="row-actions">
+          <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
+          <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
+          <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </td>
+    `;
+
+    const toggleBtn = tr.querySelector('[data-toggle]');
+    const editBtn = tr.querySelector('[data-edit]');
+    const deleteBtn = tr.querySelector('[data-delete]');
+
+    // Quick Status Toggle
+    toggleBtn.addEventListener('click', async () => {
+      const newStatus = data.status === 'Available' ? 'Hidden' : 'Available';
+      try {
+        await updateDoc(doc(db, "facilities", id), { status: newStatus });
+        showToast(`${data.name} status updated to ${newStatus}.`, newStatus === 'Hidden');
+      } catch (e) {
+        console.error("Update status error:", e);
+        showToast("Permission denied or error updating status.", true);
+      }
     });
-  }
 
-  if (nextMonthBtn) {
-    nextMonthBtn.addEventListener('click', () => {
-      currentDate.setMonth(currentDate.getMonth() + 1);
-      syncMonthUI();
-      renderTable();
+    // Populate Modal for EDITING
+    editBtn.addEventListener('click', () => {
+      modalTitle.textContent = 'Edit Facility';
+      facilityIdInput.value = id;
+      nameInput.value = data.name;
+      typeInput.value = data.type;
+      capacityInput.value = data.capacity;
+      statusInput.value = data.status || 'Available';
+      descInput.value = data.description;
+
+      form.querySelectorAll('.field').forEach(f => f.classList.remove('has-error'));
+      overlay.classList.add('show');
     });
-  }
 
-  if (monthPicker) {
-    monthPicker.addEventListener('change', (e) => {
-      if (!e.target.value) return;
-      const [y, m] = e.target.value.split('-');
-      currentDate = new Date(parseInt(y), parseInt(m) - 1, 1);
-      syncMonthUI();
-      renderTable();
+    // REMOVE / DELETE Facility from Firestore
+    deleteBtn.addEventListener('click', async () => {
+      if (confirm(`Remove ${data.name}? This action cannot be undone.`)) {
+        try {
+          await deleteDoc(doc(db, "facilities", id));
+          showToast(`${data.name} removed successfully.`, true);
+        } catch (e) {
+          console.error("Delete error:", e);
+          showToast("Failed to delete facility. Check rules.", true);
+        }
+      }
     });
+
+    return tr;
   }
 
-  if (allDatesCheckbox) {
-    allDatesCheckbox.addEventListener('change', (e) => {
-      showAllDates = e.target.checked;
-      if (monthPicker) monthPicker.disabled = showAllDates;
-      if (prevMonthBtn) prevMonthBtn.disabled = showAllDates;
-      if (nextMonthBtn) nextMonthBtn.disabled = showAllDates;
-      renderTable();
-    });
-  }
-
-  // ==========================================
-  // 4. TAB FILTERS & COUNTERS
-  // ==========================================
-  function updateCounters() {
-    const pendingCount = allReservations.filter(r => (r.status || '').toLowerCase() === 'pending').length;
-    const approvedCount = allReservations.filter(r => (r.status || '').toLowerCase() === 'approved').length;
-    const rejectedCount = allReservations.filter(r => ['rejected', 'cancelled'].includes((r.status || '').toLowerCase())).length;
-
-    const elAll = document.getElementById('count-all');
-    const elPending = document.getElementById('count-pending');
-    const elApproved = document.getElementById('count-approved');
-    const elRejected = document.getElementById('count-rejected');
-
-    if (elAll) elAll.textContent = allReservations.length;
-    if (elPending) elPending.textContent = pendingCount;
-    if (elApproved) elApproved.textContent = approvedCount;
-    if (elRejected) elRejected.textContent = rejectedCount;
-  }
-
-  document.querySelectorAll('#tab-row .tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('#tab-row .tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      activeStatusFilter = btn.dataset.filter;
-      renderTable();
-    });
+  // --- MODAL CONTROLS ---
+  document.getElementById('add-facility-btn').addEventListener('click', () => {
+    modalTitle.textContent = 'Add Facility';
+    facilityIdInput.value = '';
+    form.reset();
+    form.querySelectorAll('.field').forEach(f => f.classList.remove('has-error'));
+    overlay.classList.add('show');
   });
 
-  // ==========================================
-  // 5. RENDER DYNAMIC TABLE ROWS
-  // ==========================================
-  function renderTable() {
-    if (!tableBody) return;
+  const closeModal = () => overlay.classList.remove('show');
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal-cancel').addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
 
-    const targetYear = currentDate.getFullYear();
-    const targetMonth = currentDate.getMonth();
-
-    let filtered = allReservations.filter(r => {
-      // Status Filter
-      const statusLower = (r.status || 'pending').toLowerCase();
-      let matchesStatus = false;
-      
-      if (activeStatusFilter === 'all') {
-        matchesStatus = true;
-      } else if (activeStatusFilter === 'rejected') {
-        matchesStatus = statusLower === 'rejected' || statusLower === 'cancelled';
-      } else {
-        matchesStatus = statusLower === activeStatusFilter;
-      }
-
-      // Date Filter
-      let matchesDate = true;
-      if (!showAllDates && r.date) {
-        const resDate = new Date(r.date + 'T00:00:00');
-        matchesDate = resDate.getFullYear() === targetYear && resDate.getMonth() === targetMonth;
-      }
-
-      return matchesStatus && matchesDate;
-    });
-
-    // Sort Descending by Date
-    filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    if (filtered.length === 0) {
-      tableBody.innerHTML = `
-        <tr>
-          <td colspan="6" style="text-align: center; padding: 2rem; color: #777;">
-            No reservations found for the selected month and filter.
-          </td>
-        </tr>`;
-      return;
-    }
-
-    tableBody.innerHTML = filtered.map(r => {
-      const statusLower = (r.status || 'pending').toLowerCase();
-      
-      let actionColumn = '';
-      if (statusLower === 'pending') {
-        actionColumn = `
-          <div class="row-actions">
-            <button title="Approve" class="act-approve js-approve-btn" data-docid="${r.docId}">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <button title="Reject" class="act-reject js-reject-btn" data-docid="${r.docId}">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            </button>
-          </div>`;
-      } else if (statusLower === 'approved') {
-        actionColumn = `<span class="cell-sub">Approved by ${r.approvedBy || adminFullName}</span>`;
-      } else if (statusLower === 'rejected') {
-        actionColumn = `<span class="cell-sub" title="${r.reason || ''}">${r.reason || 'Rejected'}</span>`;
-      } else if (statusLower === 'cancelled') {
-        actionColumn = `<span class="cell-sub">Cancelled by resident</span>`;
-      }
-
-      return `
-        <tr data-row data-status="${statusLower}">
-          <td class="cell-title">
-            ${r.facilityName || 'Facility'}
-            <div class="cell-sub" style="font-size:0.75rem;">Ref: ${r.referenceNumber || r.docId}</div>
-          </td>
-          <td>
-            ${r.applicantName || '—'}
-            <div class="cell-sub">${r.contact || '—'}</div>
-          </td>
-          <td>
-            ${r.date || '—'}
-            <div class="cell-sub">${r.timeSlot || '—'}</div>
-          </td>
-          <td>${r.purpose || '—'}</td>
-          <td><span class="status-pill status-${statusLower}">${r.status}</span></td>
-          <td>${actionColumn}</td>
-        </tr>`;
-    }).join('');
-
-    // Attach Event Handlers
-    document.querySelectorAll('.js-approve-btn').forEach(btn => {
-      btn.addEventListener('click', () => handleApprove(btn.dataset.docid));
-    });
-    document.querySelectorAll('.js-reject-btn').forEach(btn => {
-      btn.addEventListener('click', () => openRejectModal(btn.dataset.docid));
-    });
-  }
-
-  // ==========================================
-  // 6. APPROVAL & REJECTION ACTIONS
-  // ==========================================
-  async function handleApprove(docId) {
-    if (!confirm("Are you sure you want to approve this reservation?")) return;
-    try {
-      const docRef = doc(db, "reservations", docId);
-      await updateDoc(docRef, {
-        status: "Approved",
-        approvedBy: adminFullName
-      });
-      showToast("Reservation approved.", false);
-    } catch (err) {
-      console.error("Error approving reservation:", err);
-      alert("Failed to approve reservation.");
-    }
-  }
-
-  function openRejectModal(docId) {
-    const r = allReservations.find(x => x.docId === docId);
-    if (!r) return;
-    activeRejectDocId = docId;
-
-    const refTitle = document.getElementById('reject-ref-title');
-    const facilityNameEl = document.getElementById('reject-facility-name');
-    
-    if (refTitle) refTitle.textContent = r.referenceNumber || 'Provide a Reason';
-    if (facilityNameEl) facilityNameEl.textContent = `${r.facilityName || 'Facility'} (${r.date})`;
-    
-    rejectReasonInput.value = '';
-    if (rejectError) rejectError.style.display = 'none';
-    rejectOverlay.classList.add('show');
-  }
-
-  // Reject Preset Chips
-  document.querySelectorAll('.chip-preset').forEach(btn => {
-    btn.addEventListener('click', () => {
-      rejectReasonInput.value = btn.dataset.preset;
-      if (rejectError) rejectError.style.display = 'none';
-    });
-  });
-
-  const closeRejectModal = () => rejectOverlay.classList.remove('show');
-  document.getElementById('reject-close').addEventListener('click', closeRejectModal);
-  document.getElementById('reject-cancel').addEventListener('click', closeRejectModal);
-
-  rejectForm.addEventListener('submit', async (e) => {
+  // --- SAVE FORM (ADD OR UPDATE FIRESTORE DOCUMENT) ---
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const reasonText = rejectReasonInput.value.trim();
 
-    if (!reasonText) {
-      if (rejectError) rejectError.style.display = 'block';
-      return;
-    }
+    let valid = true;
+    const checks = [
+      [nameInput.closest('.field'), nameInput.value.trim().length > 0],
+      [typeInput.closest('.field'), !!typeInput.value],
+      [capacityInput.closest('.field'), capacityInput.value.trim().length > 0],
+      [statusInput.closest('.field'), !!statusInput.value],
+      [descInput.closest('.field'), descInput.value.trim().length > 0],
+    ];
+
+    checks.forEach(([fieldEl, ok]) => { setError(fieldEl, !ok); if (!ok) valid = false; });
+    if (!valid) return;
+
+    const payload = {
+      name: nameInput.value.trim(),
+      type: typeInput.value,
+      capacity: capacityInput.value.trim(),
+      status: statusInput.value,
+      description: descInput.value.trim(),
+      barangay: currentAdminBarangay || DEFAULT_BARANGAY,
+      updatedAt: new Date()
+    };
 
     try {
-      const docRef = doc(db, "reservations", activeRejectDocId);
-      await updateDoc(docRef, {
-        status: "Rejected",
-        reason: reasonText,
-        rejectedBy: adminFullName
-      });
-      closeRejectModal();
-      showToast("Reservation rejected.", true);
+      const docId = facilityIdInput.value;
+      if (docId) {
+        // Edit existing document
+        await updateDoc(doc(db, "facilities", docId), payload);
+        showToast(`${payload.name} updated successfully.`);
+      } else {
+        // Add new document
+        await addDoc(collection(db, "facilities"), payload);
+        showToast(`${payload.name} added to Barangay ${payload.barangay}.`);
+      }
+      closeModal();
     } catch (err) {
-      console.error("Error rejecting reservation:", err);
-      alert("Failed to reject reservation.");
+      console.error("Firestore Save Error:", err);
+      showToast("Error saving facility. Check console for rules error.", true);
     }
   });
 
-  // ==========================================
-  // 7. TOAST NOTIFICATION
-  // ==========================================
-  function showToast(msg, isRed) {
-    const toast = document.getElementById('toast');
-    const toastText = document.getElementById('toast-text');
-    if (toastText) toastText.textContent = msg;
-    if (toast) {
-      toast.classList.toggle('toast-red', !!isRed);
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-  }
-
-  // ==========================================
-  // 8. CHATBOT ASSISTANT
-  // ==========================================
+  // --- SK ASSISTANT CHATBOT LOGIC ---
   const fab = document.getElementById('chat-fab');
   const panel = document.getElementById('chat-panel');
   const closeBtn = document.getElementById('chat-close');
   const navChatBtn = document.getElementById('nav-chat-btn');
-  const body = document.getElementById('chat-body');
-  const input = document.getElementById('chat-input');
+  const chatBody = document.getElementById('chat-body');
+  const chatInput = document.getElementById('chat-input');
   const sendBtn = document.getElementById('chat-send');
+
+  function togglePanel() { 
+    if (!panel) return;
+    panel.classList.toggle('show'); 
+    if (panel.classList.contains('show') && chatInput) chatInput.focus(); 
+  }
+
+  if (fab) fab.addEventListener('click', togglePanel);
+  if (navChatBtn) navChatBtn.addEventListener('click', togglePanel);
+  if (closeBtn) closeBtn.addEventListener('click', () => panel.classList.remove('show'));
 
   const canned = {
     "is the basketball court free this weekend?": "Let me check the calendar — the Basketball Court has an open slot Saturday 2:00–4:00 PM. Want me to start a reservation request for it?",
@@ -1561,28 +1470,40 @@
     "where's my reservation status?": "You can see every request and its status — Pending, Approved, or Rejected — under \"My Reservations\" in the top menu."
   };
 
-  function togglePanel() { panel.classList.toggle('show'); if (panel.classList.contains('show')) input.focus(); }
-  if (fab) fab.addEventListener('click', togglePanel);
-  if (navChatBtn) navChatBtn.addEventListener('click', togglePanel);
-  if (closeBtn) closeBtn.addEventListener('click', () => panel.classList.remove('show'));
-
   function addMsg(text, who) {
+    if (!chatBody) return;
     const el = document.createElement('div');
     el.className = 'chat-msg ' + who;
     el.textContent = text;
-    body.appendChild(el);
-    body.scrollTop = body.scrollHeight;
+    chatBody.appendChild(el);
+    chatBody.scrollTop = chatBody.scrollHeight;
   }
 
   function respond(text) {
     addMsg(text, 'user');
     const key = text.trim().toLowerCase();
-    const reply = canned[key] || "Thanks — I've noted that. Live updates made in the admin panel are saved directly to Firestore.";
+    const reply = canned[key] || "Thanks — I've noted that.";
     setTimeout(() => addMsg(reply, 'bot'), 500);
   }
 
-  if (sendBtn) sendBtn.addEventListener('click', () => { const v = input.value.trim(); if (!v) return; respond(v); input.value = ''; });
-  if (input) input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { const v = input.value.trim(); if (!v) return; respond(v); input.value = ''; } });
+  if (sendBtn && chatInput) {
+    sendBtn.addEventListener('click', () => {
+      const v = chatInput.value.trim();
+      if (!v) return;
+      respond(v);
+      chatInput.value = '';
+    });
+
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const v = chatInput.value.trim();
+        if (!v) return;
+        respond(v);
+        chatInput.value = '';
+      }
+    });
+  }
+
   document.querySelectorAll('.chat-suggest button').forEach(btn => {
     btn.addEventListener('click', () => respond(btn.dataset.msg));
   });
