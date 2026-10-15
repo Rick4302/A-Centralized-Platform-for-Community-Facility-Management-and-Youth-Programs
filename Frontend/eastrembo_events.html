@@ -599,163 +599,62 @@
     <!-- EVENTS LIST -->
     <div class="events-list" id="eventsContainer">
       
-      <!-- Event 1 -->
-      <article class="event-card" data-category="sports">
-        <div class="event-date-badge">
-          <span class="month">Oct</span>
-          <span class="day">14</span>
-        </div>
-        <div class="event-main">
-          <div class="event-head-row">
-            <div>
-              <span class="event-tag">Sports League</span>
-              <h3>East Rembo Inter-Purok Badminton Tournament</h3>
-            </div>
-            <span class="status-badge open">Open</span>
-          </div>
-          <div class="event-meta">
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 8:00 AM - 4:00 PM</span>
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> East Rembo Covered Court</span>
-          </div>
-          <p class="event-desc">Annual singles and doubles badminton tournament for youth residents aged 15–28. Medals and equipment certificates awarded.</p>
-          <div class="prog-bar-wrap">
-            <div class="prog-bar"><div class="prog-bar-fill" style="width:60%;"></div></div>
-            <div class="prog-bar-label">30/50 Slots Filled</div>
-          </div>
-          <button class="btn btn-small" onclick="openRegisterModal('East Rembo Inter-Purok Badminton Tournament')">Register for Event</button>
-        </div>
-      </article>
-
-      <!-- Event 2 -->
-      <article class="event-card" data-category="education">
-        <div class="event-date-badge">
-          <span class="month">Oct</span>
-          <span class="day">22</span>
-        </div>
-        <div class="event-main">
-          <div class="event-head-row">
-            <div>
-              <span class="event-tag">Education & Career</span>
-              <h3>East Rembo Youth Entrepreneurship Summit</h3>
-            </div>
-            <span class="status-badge limited">Limited</span>
-          </div>
-          <div class="event-meta">
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 1:00 PM - 5:00 PM</span>
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> East Rembo Community Hall</span>
-          </div>
-          <p class="event-desc">Learn startup fundamentals, online branding, and micro-business financing from guest entrepreneurs and SK leaders.</p>
-          <div class="prog-bar-wrap">
-            <div class="prog-bar"><div class="prog-bar-fill" style="width:85%;"></div></div>
-            <div class="prog-bar-label">34/40 Slots Filled</div>
-          </div>
-          <button class="btn btn-small" onclick="openRegisterModal('East Rembo Youth Entrepreneurship Summit')">Register for Event</button>
-        </div>
-      </article>
-
-      <!-- Event 3 -->
-      <article class="event-card" data-category="civic">
-        <div class="event-date-badge">
-          <span class="month">Nov</span>
-          <span class="day">08</span>
-        </div>
-        <div class="event-main">
-          <div class="event-head-row">
-            <div>
-              <span class="event-tag">Civic & Environment</span>
-              <h3>Clean & Green Community Tree Planting Drive</h3>
-            </div>
-            <span class="status-badge open">Open</span>
-          </div>
-          <div class="event-meta">
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 6:30 AM - 11:00 AM</span>
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> East Rembo Linear Park</span>
-          </div>
-          <p class="event-desc">Join your fellow East Rembo youth in tree planting and urban garden maintenance. Certificates and heavy snacks provided.</p>
-          <div class="prog-bar-wrap">
-            <div class="prog-bar"><div class="prog-bar-fill" style="width:30%;"></div></div>
-            <div class="prog-bar-label">18/60 Slots Filled</div>
-          </div>
-          <button class="btn btn-small" onclick="openRegisterModal('Clean & Green Community Tree Planting Drive')">Register for Event</button>
-        </div>
-      </article>
 
     </div>
 
-    <!-- SIDEBAR -->
+<!-- SIDEBAR -->
     <aside>
       <div class="side-card">
         <span class="side-title">Calendar Schedule</span>
         <div class="mini-cal-head">
-          <strong>October 2026</strong>
+          <strong id="calMonthDisplay">October 2026</strong>
         </div>
-        <div class="mini-cal-grid">
-          <div class="dow">S</div><div class="dow">M</div><div class="dow">T</div><div class="dow">W</div><div class="dow">T</div><div class="dow">F</div><div class="dow">S</div>
-          <div class="day"></div><div class="day"></div><div class="day"></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div>
-          <div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div>
-          <div class="day">12</div><div class="day">13</div><div class="day has-event">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day">18</div>
-          <div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day has-event">22</div><div class="day today">23</div><div class="day">24</div><div class="day">25</div>
-          <div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div><div class="day">31</div>
-        </div>
+        <div class="mini-cal-grid" id="miniCalGrid"></div>
       </div>
 
       <div class="side-card">
         <span class="side-title">Program Guidelines</span>
         <div class="feat-item">
-          <h4>Eligibility</h4>
-          <p>Open to all Barangay East Rembo youth residents aged 15–30. Present a valid ID or residency verification upon check-in.</p>
+          <h4>Eligibility Requirements</h4>
+          <p>Must be a Barangay East Rembo youth resident aged 15–30. Bring a valid ID or residency proof for event verification.</p>
         </div>
         <div class="feat-item">
-          <h4>Certificates of Completion</h4>
-          <p>Participants of educational seminars and workshops receive digital certificates issued by SK Barangay East Rembo.</p>
+          <h4>Certificates & Benefits</h4>
+          <p>Certificates of Participation are issued for all tech bootcamps, workshops, and civic leadership events.</p>
         </div>
       </div>
     </aside>
 
-  </div>
-</section>
+
 
 <!-- REGISTRATION MODAL -->
-<div class="modal-overlay" id="regModal">
-  <div class="modal">
-    <div class="modal-head">
-      <div>
-        <div class="eyebrow">SK EAST REMBO · REGISTRATION</div>
-        <h2 id="modalEventTitle">Event Title</h2>
+  <div class="modal-overlay" id="regModal">
+    <div class="modal">
+      <div class="modal-head">
+        <h2 id="modalEventTitle">Event Registration</h2>
+        <button class="modal-close" onclick="closeRegisterModal()">✕</button>
       </div>
-      <button class="modal-close" onclick="closeRegisterModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <form onsubmit="handleRegisterSubmit(event)">
+      <form class="modal-body" onsubmit="handleRegisterSubmit(event)">
         <div class="field">
           <label>Full Name</label>
-          <input type="text" required placeholder="Loading resident name..." readonly style="background:var(--paper); color:var(--ink-soft);">
+          <input type="text" id="regFullName" readonly>
         </div>
         <div class="field">
-          <label>Purok / Zone Location</label>
-          <select required>
-            <option value="">Select Purok...</option>
-            <option value="Purok 1">Purok 1</option>
-            <option value="Purok 2">Purok 2</option>
-            <option value="Purok 3">Purok 3</option>
-            <option value="Purok 4">Purok 4</option>
-            <option value="Purok 5">Purok 5</option>
-            <option value="Purok 6">Purok 6</option>
+          <label>Voter Status / SK Sector</label>
+          <select id="regSector" required>
+            <option value="youth">Youth Resident (15-30 y/o)</option>
+            <option value="student">Student</option>
+            <option value="kk">Katipunan ng Kabataan Member</option>
           </select>
         </div>
         <div class="field">
           <label>Contact Number</label>
-          <input type="tel" required placeholder="0917XXXXXXX">
+          <input type="tel" id="regMobile" placeholder="09XX-XXX-XXXX" required>
         </div>
-        <div class="field">
-          <label>Special Notes / T-Shirt Size (if applicable)</label>
-          <input type="text" placeholder="e.g. Medium size, Dietary restrictions">
-        </div>
-        <button type="submit" class="btn btn-block" style="margin-top:12px;">Confirm Registration</button>
+        <button type="submit" class="btn btn-small" style="width:100%;margin-top:8px;">Confirm Registration</button>
       </form>
     </div>
   </div>
-</div>
 
 <!-- CHATBOT -->
 <button class="chat-fab" onclick="toggleChat()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
@@ -803,11 +702,27 @@
   </div>
 </footer>
 
-<!-- FIREBASE AUTH & USER PROFILE SCRIPT -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { 
+    getAuth, 
+    onAuthStateChanged 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { 
+    getFirestore, 
+    collection, 
+    query, 
+    where, 
+    getDocs,
+    doc,
+    getDoc,
+    updateDoc,
+    addDoc,
+    increment 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // BARANGAY IDENTIFIER (Change this for each barangay page e.g., "Pembo", "Comembo")
+  const BARANGAY_NAME = "East Rembo";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
@@ -825,9 +740,14 @@
 
   const avatarEl = document.getElementById('user-avatar');
   const nameEl = document.getElementById('user-name');
+  const eventsContainer = document.getElementById('eventsContainer');
 
-  window.currentUserFullName = "Resident";
+  let currentUserData = null;
+  let allEvents = [];
+  let selectedEventId = null;
+  let selectedEventTitle = null;
 
+  // ---------- AUTH GUARD & INITIAL DATA LOAD ----------
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
       window.location.href = 'login_page.html';
@@ -835,96 +755,307 @@
     }
 
     try {
-      const q = query(collection(db, "users"), where("email", "==", user.email));
-      const querySnapshot = await getDocs(q);
+      // 1. Fetch user profile from Firestore users collection
+      const userDocRef = doc(db, "users", user.uid);
+      const userDocSnap = await getDoc(userDocRef);
 
-      let firstName = "";
-      let lastName = "";
+      if (userDocSnap.exists()) {
+        currentUserData = { id: user.uid, ...userDocSnap.data() };
+      } else {
+        const q = query(collection(db, "users"), where("email", "==", user.email));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((docSnap) => {
+          if (docSnap.exists()) {
+            currentUserData = { id: docSnap.id, ...docSnap.data() };
+          }
+        });
+      }
 
-      querySnapshot.forEach((docSnap) => {
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          firstName = data.firstname || "";
-          lastName = data.lastname || "";
-        }
-      });
-
-      if (firstName || lastName) {
-        const fullName = `${firstName} ${lastName}`.trim();
+      if (currentUserData) {
+        const firstName = currentUserData.firstname || currentUserData.firstName || "";
+        const lastName = currentUserData.lastname || currentUserData.lastName || "";
+        const fullName = `${firstName} ${lastName}`.trim() || user.email;
+        
         nameEl.textContent = fullName;
-        window.currentUserFullName = fullName;
-
         const fInitial = firstName ? firstName.charAt(0).toUpperCase() : "";
         const lInitial = lastName ? lastName.charAt(0).toUpperCase() : "";
         avatarEl.textContent = `${fInitial}${lInitial}` || "U";
       } else {
         nameEl.textContent = user.email;
         avatarEl.textContent = user.email.charAt(0).toUpperCase();
-        window.currentUserFullName = user.email;
       }
+
+      // 2. Fetch Events for this Barangay from Firestore
+      await fetchBarangayEvents();
+
     } catch (err) {
-      console.error("Error fetching user profile:", err);
+      console.error("Error loading user profile or events:", err);
       nameEl.textContent = "Resident";
       avatarEl.textContent = "R";
     }
   });
-</script>
 
-<!-- PAGE INTERACTION SCRIPT -->
-<script>
+ async function fetchBarangayEvents() {
+    try {
+      const q = query(collection(db, "events"), where("barangay", "==", BARANGAY_NAME));
+      const querySnapshot = await getDocs(q);
+      
+      allEvents = [];
+      querySnapshot.forEach((docSnap) => {
+        allEvents.push({ id: docSnap.id, ...docSnap.data() });
+      });
+
+      renderEvents(allEvents);
+      renderMiniCalendar(); // <-- Add this line here
+    } catch (err) {
+      console.error("Error fetching events:", err);
+    }
+  }
+
+  // ---------- RENDER EVENTS DYNAMICALLY ----------
+  window.renderEvents = function(eventsToRender) {
+    if (!eventsContainer) return;
+
+    if (eventsToRender.length === 0) {
+      eventsContainer.innerHTML = `<p style="padding: 2rem; text-align: center; color: var(--ink-soft);">No upcoming events available for Barangay ${BARANGAY_NAME} at the moment.</p>`;
+      return;
+    }
+
+    eventsContainer.innerHTML = eventsToRender.map(ev => {
+      // Parse Date for Badge Display (e.g. "2026-11-03")[cite: 8]
+      let monthStr = "Nov";
+      let dayStr = "01";
+      if (ev.eventDate) {
+        const dateObj = new Date(ev.eventDate + "T00:00:00");
+        if (!isNaN(dateObj)) {
+          monthStr = dateObj.toLocaleString('en-US', { month: 'short' });
+          dayStr = String(dateObj.getDate()).padStart(2, '0');
+        }
+      }
+
+      const slotCap = Number(ev.slotCapacity) || Number(ev.capacity) || 50;
+      const regCount = Number(ev.registeredCount) || 0;
+      const fillPercentage = Math.min(Math.round((regCount / slotCap) * 100), 100);
+
+      // Map category text to match filter attributes
+      const catLower = (ev.category || "").toLowerCase();
+      let dataCat = "civic";
+      if (catLower.includes("sport")) dataCat = "sports";
+      else if (catLower.includes("educ") || catLower.includes("train")) dataCat = "education";
+
+      return `
+        <article class="event-card" data-category="${dataCat}" data-title="${(ev.title || "").toLowerCase()}">
+          <div class="event-date-badge">
+            <span class="month">${monthStr}</span>
+            <span class="day">${dayStr}</span>
+          </div>
+          <div class="event-main">
+            <div class="event-head-row">
+              <div>
+                <span class="event-tag">${ev.category || 'Community Event'}</span>
+                <h3>${ev.title || 'Untitled Event'}</h3>
+              </div>
+            </div>
+            <div class="event-meta">
+              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${ev.eventTime || 'TBA'}</span>
+              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> ${ev.location || 'Barangay Venue'}</span>
+            </div>
+            <p class="event-desc">${ev.description || 'No description provided.'}</p>
+            <div class="prog-bar-wrap">
+              <div class="prog-bar"><div class="prog-bar-fill" style="width:${fillPercentage}%;"></div></div>
+              <div class="prog-bar-label">${regCount}/${slotCap} Slots Filled</div>
+            </div>
+            <button class="btn btn-small" onclick="window.openRegisterModal('${ev.id}', '${encodeURIComponent(ev.title || '')}')">Register for Event</button>
+          </div>
+        </article>
+      `;
+    }).join('');
+  };
+
+  // ---------- FILTER & SEARCH LOGIC ----------
   let activeCategory = 'all';
 
-  function setCategory(cat, btn) {
+  window.setCategory = function(cat, btn) {
     activeCategory = cat;
     document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
     btn.classList.add('active');
     filterEvents();
-  }
+  };
 
-  function filterEvents() {
-    const query = document.getElementById('eventSearch').value.toLowerCase();
+  window.filterEvents = function() {
+    const searchInput = document.getElementById('eventSearch');
+    const queryText = searchInput ? searchInput.value.toLowerCase() : "";
     const cards = document.querySelectorAll('.event-card');
 
     cards.forEach(card => {
       const cat = card.getAttribute('data-category');
-      const text = card.innerText.toLowerCase();
+      const title = card.getAttribute('data-title');
 
       const matchesCat = (activeCategory === 'all' || cat === activeCategory);
-      const matchesQuery = text.includes(query);
+      const matchesQuery = title.includes(queryText);
 
-      card.style.display = (matchesCat && matchesQuery) ? 'flex' : 'none';
+      if (matchesCat && matchesQuery) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
     });
-  }
+  };
 
-  function openRegisterModal(title) {
-    document.getElementById('modalEventTitle').innerText = title;
-    const nameInput = document.querySelector('#regModal input[type="text"]');
-    if(nameInput && window.currentUserFullName) {
-      nameInput.value = window.currentUserFullName;
+  // ---------- REGISTRATION MODAL & PRE-FILLING ----------
+  window.openRegisterModal = function(eventId, encodedTitle) {
+    selectedEventId = eventId;
+    selectedEventTitle = decodeURIComponent(encodedTitle);
+
+    document.getElementById('modalEventTitle').innerText = `Register: ${selectedEventTitle}`;
+    
+    // Pre-fill user data into form elements if available
+    if (currentUserData) {
+      const nameInput = document.getElementById('regFullName');
+      const mobileInput = document.getElementById('regMobile');
+
+      const fullName = `${currentUserData.firstname || currentUserData.firstName || ''} ${currentUserData.lastname || currentUserData.lastName || ''}`.trim();
+      if (nameInput) nameInput.value = fullName;
+      if (mobileInput) mobileInput.value = currentUserData.mobile || currentUserData.phone || '';
     }
+
     document.getElementById('regModal').classList.add('show');
-  }
+  };
 
-  function closeRegisterModal() {
+  window.closeRegisterModal = function() {
     document.getElementById('regModal').classList.remove('show');
-  }
+    selectedEventId = null;
+    selectedEventTitle = null;
+  };
 
-  function handleRegisterSubmit(e) {
+  // ---------- SUBMIT REGISTRATION & CHECK DUPLICATES ----------
+  window.handleRegisterSubmit = async function(e) {
     e.preventDefault();
-    alert('Registration successful! Check your My Registrations tab for confirmation updates.');
-    closeRegisterModal();
+    if (!selectedEventId || !currentUserData) return;
+
+    const sectorSelect = document.getElementById('regSector');
+    const mobileInput = document.getElementById('regMobile');
+
+    try {
+      // 1. Check if the user is already registered for this event
+      const existingQuery = query(
+        collection(db, "event_registrations"),
+        where("userId", "==", currentUserData.id),
+        where("eventId", "==", selectedEventId)
+      );
+      const existingSnap = await getDocs(existingQuery);
+
+      if (!existingSnap.empty) {
+        alert("You are already registered for this event!");
+        closeRegisterModal();
+        return;
+      }
+
+      const registrationData = {
+        eventId: selectedEventId,
+        eventTitle: selectedEventTitle,
+        userId: currentUserData.id,
+        applicantName: `${currentUserData.firstname || currentUserData.firstName || ''} ${currentUserData.lastname || currentUserData.lastName || ''}`.trim(),
+        email: currentUserData.email || '',
+        mobile: mobileInput ? mobileInput.value : '',
+        sector: sectorSelect ? sectorSelect.value : 'youth',
+        barangay: BARANGAY_NAME,
+        registeredAt: new Date().toISOString()
+      };
+
+      // 2. Save into separate 'event_registrations' collection
+      await addDoc(collection(db, "event_registrations"), registrationData);
+
+      // 3. Increment 'registeredCount' on the event document in Firestore
+      const eventDocRef = doc(db, "events", selectedEventId);
+      await updateDoc(eventDocRef, {
+        registeredCount: increment(1)
+      });
+
+      alert('Registration successful! Your slot has been secured.');
+      closeRegisterModal();
+      
+      // Refresh events list to show updated count
+      await fetchBarangayEvents();
+
+    } catch (err) {
+      console.error("Error submitting registration:", err);
+      alert("Failed to complete registration. Please try again.");
+    }
+  };
+
+  let calendarDate = new Date();
+
+  function renderMiniCalendar() {
+    const grid = document.getElementById('miniCalGrid');
+    const titleEl = document.getElementById('calMonthDisplay');
+    if (!grid) return;
+
+    // Auto-switch to the month of the first loaded event if available
+    let targetDate = new Date();
+    if (allEvents.length > 0 && allEvents[0].eventDate) {
+      const firstEvDate = new Date(allEvents[0].eventDate + "T00:00:00");
+      if (!isNaN(firstEvDate)) {
+        targetDate = firstEvDate;
+      }
+    }
+
+    const year = targetDate.getFullYear();
+    const month = targetDate.getMonth();
+
+    if (titleEl) {
+      titleEl.textContent = targetDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    }
+
+    const firstDayIndex = new Date(year, month, 1).getDay();
+    const totalDays = new Date(year, month + 1, 0).getDate();
+
+    const eventDateSet = new Set();
+    allEvents.forEach(ev => {
+      if (ev.eventDate) {
+        eventDateSet.add(ev.eventDate);
+      }
+    });
+
+    let html = `
+      <div class="dow">S</div><div class="dow">M</div><div class="dow">T</div><div class="dow">W</div><div class="dow">T</div><div class="dow">F</div><div class="dow">S</div>
+    `;
+
+    for (let i = 0; i < firstDayIndex; i++) {
+      html += `<div class="day"></div>`;
+    }
+
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    for (let day = 1; day <= totalDays; day++) {
+      const dayStr = String(day).padStart(2, '0');
+      const monthStr = String(month + 1).padStart(2, '0');
+      const currentFormatted = `${year}-${monthStr}-${dayStr}`;
+
+      const hasEvent = eventDateSet.has(currentFormatted);
+      const isToday = (currentFormatted === todayStr);
+
+      let classes = 'day';
+      if (hasEvent) classes += ' has-event';
+      if (isToday) classes += ' today';
+
+      html += `<div class="${classes}">${day}</div>`;
+    }
+
+    grid.innerHTML = html;
   }
 
-  function toggleChat() {
+  // ---------- CHATBOT FUNCTIONS ----------
+  window.toggleChat = function() {
     document.getElementById('chatPanel').classList.toggle('show');
-  }
+  };
 
-  function quickChat(msg) {
+  window.quickChat = function(msg) {
     document.getElementById('chatInput').value = msg;
-    sendChat();
-  }
+    window.sendChat();
+  };
 
-  function sendChat() {
+  window.sendChat = function() {
     const input = document.getElementById('chatInput');
     const text = input.value.trim();
     if (!text) return;
@@ -941,18 +1072,17 @@
     setTimeout(() => {
       const bMsg = document.createElement('div');
       bMsg.className = 'chat-msg bot';
-      const lowered = text.toLowerCase();
-      if (lowered.includes('badminton') || lowered.includes('tournament')) {
-        bMsg.innerText = "The Badminton Tournament starts Oct 14 at East Rembo Covered Court! You can register directly on the event card.";
-      } else if (lowered.includes('location') || lowered.includes('park') || lowered.includes('linear')) {
-        bMsg.innerText = "East Rembo Linear Park is located along 26th Street near the riverside walkway.";
+      if (text.toLowerCase().includes('basketball') || text.toLowerCase().includes('league')) {
+        bMsg.innerText = `Upcoming sports programs for Barangay ${BARANGAY_NAME} are listed on this page. Tap 'Register for Event' to secure your slot!`;
+      } else if (text.toLowerCase().includes('location') || text.toLowerCase().includes('hall')) {
+        bMsg.innerText = `Barangay ${BARANGAY_NAME} Hall and courts are open for scheduled youth activities.`;
       } else {
-        bMsg.innerText = "Thank you for reaching out! For urgent inquiries, visit the SK Office at the East Rembo Barangay Hall.";
+        bMsg.innerText = "Thank you for reaching out! For urgent assistance, visit the SK Office at the Barangay Hall.";
       }
       body.appendChild(bMsg);
       body.scrollTop = body.scrollHeight;
     }, 600);
-  }
+  };
 </script>
 
 </body>

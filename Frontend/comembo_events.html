@@ -668,89 +668,9 @@
 <section class="body-section">
   <div class="wrap body-grid">
 
-    <!-- EVENTS LIST -->
+     <!-- EVENTS LIST -->
     <div class="events-list" id="eventsContainer">
       
-      <!-- Event 1 -->
-      <article class="event-card" data-category="sports">
-        <div class="event-date-badge">
-          <span class="month">Oct</span>
-          <span class="day">12</span>
-        </div>
-        <div class="event-main">
-          <div class="event-head-row">
-            <div>
-              <span class="event-tag">Sports League</span>
-              <h3>Inter-Purok Basketball & Volleyball League 2026</h3>
-            </div>
-            <span class="status-badge open">Open</span>
-          </div>
-          <div class="event-meta">
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 8:00 AM - 5:00 PM</span>
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> SK Comembo Sports Complex</span>
-          </div>
-          <p class="event-desc">Annual sports league for youth residents aged 15–28. Includes division matches, team uniforms, and championship awards.</p>
-          <div class="prog-bar-wrap">
-            <div class="prog-bar"><div class="prog-bar-fill" style="width:75%;"></div></div>
-            <div class="prog-bar-label">120/160 Slots Filled</div>
-          </div>
-          <button class="btn btn-small" onclick="openRegisterModal('Inter-Purok Basketball & Volleyball League 2026')">Register for Event</button>
-        </div>
-      </article>
-
-      <!-- Event 2 -->
-      <article class="event-card" data-category="education">
-        <div class="event-date-badge">
-          <span class="month">Oct</span>
-          <span class="day">18</span>
-        </div>
-        <div class="event-main">
-          <div class="event-head-row">
-            <div>
-              <span class="event-tag">Education & Tech</span>
-              <h3>Youth Digital Literacy & AI Ethics Workshop</h3>
-            </div>
-            <span class="status-badge limited">Limited</span>
-          </div>
-          <div class="event-meta">
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 1:00 PM - 4:00 PM</span>
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Comembo Multipurpose Hall</span>
-          </div>
-          <p class="event-desc">Interactive seminar covering cybersecurity, digital safety, prompt engineering basics, and productive uses of modern AI tools.</p>
-          <div class="prog-bar-wrap">
-            <div class="prog-bar"><div class="prog-bar-fill" style="width:80%;"></div></div>
-            <div class="prog-bar-label">40/50 Slots Filled</div>
-          </div>
-          <button class="btn btn-small" onclick="openRegisterModal('Youth Digital Literacy & AI Ethics Workshop')">Register for Event</button>
-        </div>
-      </article>
-
-      <!-- Event 3 -->
-      <article class="event-card" data-category="civic">
-        <div class="event-date-badge">
-          <span class="month">Nov</span>
-          <span class="day">05</span>
-        </div>
-        <div class="event-main">
-          <div class="event-head-row">
-            <div>
-              <span class="event-tag">Civic & Health</span>
-              <h3>Comembo Youth Blood Donation & Health Drive</h3>
-            </div>
-            <span class="status-badge open">Open</span>
-          </div>
-          <div class="event-meta">
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 8:00 AM - 2:00 PM</span>
-            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Comembo Health Center Annex</span>
-          </div>
-          <p class="event-desc">Organized with local health officers. Qualified donors receive wellness packs, vitamins, and community participation certificates.</p>
-          <div class="prog-bar-wrap">
-            <div class="prog-bar"><div class="prog-bar-fill" style="width:20%;"></div></div>
-            <div class="prog-bar-label">10/50 Slots Filled</div>
-          </div>
-          <button class="btn btn-small" onclick="openRegisterModal('Comembo Youth Blood Donation & Health Drive')">Register for Event</button>
-        </div>
-      </article>
 
     </div>
 
@@ -759,63 +679,23 @@
       <div class="side-card">
         <span class="side-title">Calendar Schedule</span>
         <div class="mini-cal-head">
-          <strong>October 2026</strong>
+          <strong id="calMonthDisplay">October 2026</strong>
         </div>
-        <div class="mini-cal-grid">
-          <div class="dow">S</div><div class="dow">M</div><div class="dow">T</div><div class="dow">W</div><div class="dow">T</div><div class="dow">F</div><div class="dow">S</div>
-          <div class="day"></div><div class="day"></div><div class="day"></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div>
-          <div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div>
-          <div class="day has-event">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day has-event">18</div>
-          <div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day today">23</div><div class="day">24</div><div class="day">25</div>
-          <div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div><div class="day">31</div>
-        </div>
+        <div class="mini-cal-grid" id="miniCalGrid"></div>
       </div>
 
       <div class="side-card">
         <span class="side-title">Program Guidelines</span>
         <div class="feat-item">
-          <h4>Eligibility</h4>
-          <p>Open to all Barangay Comembo youth residents aged 15–30. Present a valid ID or residency verification upon check-in.</p>
+          <h4>Eligibility Requirements</h4>
+          <p>Must be a Barangay Pembo youth resident aged 15–30. Bring a valid ID or residency proof for event verification.</p>
         </div>
         <div class="feat-item">
-          <h4>Certificates of Completion</h4>
-          <p>Participants of educational seminars and workshops receive digital certificates issued by SK Barangay Comembo.</p>
+          <h4>Certificates & Benefits</h4>
+          <p>Certificates of Participation are issued for all tech bootcamps, workshops, and civic leadership events.</p>
         </div>
       </div>
     </aside>
-        
-        <!-- MINI CALENDAR -->
-        <div class="side-card">
-          <span class="side-title">Calendar Schedule</span>
-          <div class="mini-cal-head">
-            <strong>October 2026</strong>
-          </div>
-          <div class="mini-cal-grid">
-            <div class="dow">S</div><div class="dow">M</div><div class="dow">T</div><div class="dow">W</div><div class="dow">T</div><div class="dow">F</div><div class="dow">S</div>
-            <div class="day"></div><div class="day"></div><div class="day"></div><div class="day">1</div><div class="day">2</div><div class="day">3</div><div class="day">4</div>
-            <div class="day">5</div><div class="day">6</div><div class="day">7</div><div class="day">8</div><div class="day">9</div><div class="day">10</div><div class="day">11</div>
-            <div class="day has-event">12</div><div class="day">13</div><div class="day">14</div><div class="day">15</div><div class="day">16</div><div class="day">17</div><div class="day has-event">18</div>
-            <div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day today">23</div><div class="day">24</div><div class="day">25</div>
-            <div class="day">26</div><div class="day">27</div><div class="day">28</div><div class="day">29</div><div class="day">30</div><div class="day">31</div>
-          </div>
-        </div>
-
-        <!-- HIGHLIGHTS -->
-        <div class="side-card">
-          <span class="side-title">Program Guidelines</span>
-          <div class="feat-item">
-            <h4>Eligibility</h4>
-            <p>Open to all Barangay Cembo residents aged 15-30. Please bring valid proof of residency during registration verification.</p>
-          </div>
-          <div class="feat-item">
-            <h4>Certificates of Completion</h4>
-            <p>Attendees of training seminars and workshops will receive digital certificates issued by SK Barangay Cembo.</p>
-          </div>
-        </div>
-
-      </aside>
-    </div>
-  </section>
 
   <!-- REGISTRATION MODAL -->
   <div class="modal-overlay" id="regModal">
@@ -827,11 +707,11 @@
       <form class="modal-body" onsubmit="handleRegisterSubmit(event)">
         <div class="field">
           <label>Full Name</label>
-          <input type="text" value="Juan Mercado" readonly>
+          <input type="text" id="regFullName" readonly>
         </div>
         <div class="field">
           <label>Voter Status / SK Sector</label>
-          <select required>
+          <select id="regSector" required>
             <option value="youth">Youth Resident (15-30 y/o)</option>
             <option value="student">Student</option>
             <option value="kk">Katipunan ng Kabataan Member</option>
@@ -839,7 +719,7 @@
         </div>
         <div class="field">
           <label>Contact Number</label>
-          <input type="tel" placeholder="09XX-XXX-XXXX" required>
+          <input type="tel" id="regMobile" placeholder="09XX-XXX-XXXX" required>
         </div>
         <button type="submit" class="btn btn-small" style="width:100%;margin-top:8px;">Confirm Registration</button>
       </form>
@@ -891,10 +771,28 @@
     </div>
   </div>
 </footer>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { 
+    getAuth, 
+    onAuthStateChanged 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { 
+    getFirestore, 
+    collection, 
+    query, 
+    where, 
+    getDocs,
+    doc,
+    getDoc,
+    updateDoc,
+    addDoc,
+    increment 
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // BARANGAY IDENTIFIER (Change this for each barangay page e.g., "Pembo", "Comembo")
+  const BARANGAY_NAME = "Comembo";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
@@ -912,9 +810,14 @@
 
   const avatarEl = document.getElementById('user-avatar');
   const nameEl = document.getElementById('user-name');
+  const eventsContainer = document.getElementById('eventsContainer');
 
-  window.currentUserFullName = "Resident";
+  let currentUserData = null;
+  let allEvents = [];
+  let selectedEventId = null;
+  let selectedEventTitle = null;
 
+  // ---------- AUTH GUARD & INITIAL DATA LOAD ----------
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
       window.location.href = 'login_page.html';
@@ -922,95 +825,307 @@
     }
 
     try {
-      const q = query(collection(db, "users"), where("email", "==", user.email));
-      const querySnapshot = await getDocs(q);
+      // 1. Fetch user profile from Firestore users collection
+      const userDocRef = doc(db, "users", user.uid);
+      const userDocSnap = await getDoc(userDocRef);
 
-      let firstName = "";
-      let lastName = "";
+      if (userDocSnap.exists()) {
+        currentUserData = { id: user.uid, ...userDocSnap.data() };
+      } else {
+        const q = query(collection(db, "users"), where("email", "==", user.email));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((docSnap) => {
+          if (docSnap.exists()) {
+            currentUserData = { id: docSnap.id, ...docSnap.data() };
+          }
+        });
+      }
 
-      querySnapshot.forEach((docSnap) => {
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          firstName = data.firstname || "";
-          lastName = data.lastname || "";
-        }
-      });
-
-      if (firstName || lastName) {
-        const fullName = `${firstName} ${lastName}`.trim();
+      if (currentUserData) {
+        const firstName = currentUserData.firstname || currentUserData.firstName || "";
+        const lastName = currentUserData.lastname || currentUserData.lastName || "";
+        const fullName = `${firstName} ${lastName}`.trim() || user.email;
+        
         nameEl.textContent = fullName;
-        window.currentUserFullName = fullName;
-
         const fInitial = firstName ? firstName.charAt(0).toUpperCase() : "";
         const lInitial = lastName ? lastName.charAt(0).toUpperCase() : "";
         avatarEl.textContent = `${fInitial}${lInitial}` || "U";
       } else {
         nameEl.textContent = user.email;
         avatarEl.textContent = user.email.charAt(0).toUpperCase();
-        window.currentUserFullName = user.email;
       }
+
+      // 2. Fetch Events for this Barangay from Firestore
+      await fetchBarangayEvents();
+
     } catch (err) {
-      console.error("Error fetching user profile:", err);
+      console.error("Error loading user profile or events:", err);
       nameEl.textContent = "Resident";
       avatarEl.textContent = "R";
     }
   });
-</script>
 
-<script>
+ async function fetchBarangayEvents() {
+    try {
+      const q = query(collection(db, "events"), where("barangay", "==", BARANGAY_NAME));
+      const querySnapshot = await getDocs(q);
+      
+      allEvents = [];
+      querySnapshot.forEach((docSnap) => {
+        allEvents.push({ id: docSnap.id, ...docSnap.data() });
+      });
+
+      renderEvents(allEvents);
+      renderMiniCalendar(); // <-- Add this line here
+    } catch (err) {
+      console.error("Error fetching events:", err);
+    }
+  }
+
+  // ---------- RENDER EVENTS DYNAMICALLY ----------
+  window.renderEvents = function(eventsToRender) {
+    if (!eventsContainer) return;
+
+    if (eventsToRender.length === 0) {
+      eventsContainer.innerHTML = `<p style="padding: 2rem; text-align: center; color: var(--ink-soft);">No upcoming events available for Barangay ${BARANGAY_NAME} at the moment.</p>`;
+      return;
+    }
+
+    eventsContainer.innerHTML = eventsToRender.map(ev => {
+      // Parse Date for Badge Display (e.g. "2026-11-03")[cite: 8]
+      let monthStr = "Nov";
+      let dayStr = "01";
+      if (ev.eventDate) {
+        const dateObj = new Date(ev.eventDate + "T00:00:00");
+        if (!isNaN(dateObj)) {
+          monthStr = dateObj.toLocaleString('en-US', { month: 'short' });
+          dayStr = String(dateObj.getDate()).padStart(2, '0');
+        }
+      }
+
+      const slotCap = Number(ev.slotCapacity) || Number(ev.capacity) || 50;
+      const regCount = Number(ev.registeredCount) || 0;
+      const fillPercentage = Math.min(Math.round((regCount / slotCap) * 100), 100);
+
+      // Map category text to match filter attributes
+      const catLower = (ev.category || "").toLowerCase();
+      let dataCat = "civic";
+      if (catLower.includes("sport")) dataCat = "sports";
+      else if (catLower.includes("educ") || catLower.includes("train")) dataCat = "education";
+
+      return `
+        <article class="event-card" data-category="${dataCat}" data-title="${(ev.title || "").toLowerCase()}">
+          <div class="event-date-badge">
+            <span class="month">${monthStr}</span>
+            <span class="day">${dayStr}</span>
+          </div>
+          <div class="event-main">
+            <div class="event-head-row">
+              <div>
+                <span class="event-tag">${ev.category || 'Community Event'}</span>
+                <h3>${ev.title || 'Untitled Event'}</h3>
+              </div>
+            </div>
+            <div class="event-meta">
+              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${ev.eventTime || 'TBA'}</span>
+              <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> ${ev.location || 'Barangay Venue'}</span>
+            </div>
+            <p class="event-desc">${ev.description || 'No description provided.'}</p>
+            <div class="prog-bar-wrap">
+              <div class="prog-bar"><div class="prog-bar-fill" style="width:${fillPercentage}%;"></div></div>
+              <div class="prog-bar-label">${regCount}/${slotCap} Slots Filled</div>
+            </div>
+            <button class="btn btn-small" onclick="window.openRegisterModal('${ev.id}', '${encodeURIComponent(ev.title || '')}')">Register for Event</button>
+          </div>
+        </article>
+      `;
+    }).join('');
+  };
+
+  // ---------- FILTER & SEARCH LOGIC ----------
   let activeCategory = 'all';
 
-  function setCategory(cat, btn) {
+  window.setCategory = function(cat, btn) {
     activeCategory = cat;
     document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
     btn.classList.add('active');
     filterEvents();
-  }
+  };
 
-  function filterEvents() {
-    const query = document.getElementById('eventSearch').value.toLowerCase();
+  window.filterEvents = function() {
+    const searchInput = document.getElementById('eventSearch');
+    const queryText = searchInput ? searchInput.value.toLowerCase() : "";
     const cards = document.querySelectorAll('.event-card');
 
     cards.forEach(card => {
       const cat = card.getAttribute('data-category');
-      const text = card.innerText.toLowerCase();
+      const title = card.getAttribute('data-title');
 
       const matchesCat = (activeCategory === 'all' || cat === activeCategory);
-      const matchesQuery = text.includes(query);
+      const matchesQuery = title.includes(queryText);
 
-      card.style.display = (matchesCat && matchesQuery) ? 'flex' : 'none';
+      if (matchesCat && matchesQuery) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
     });
-  }
+  };
 
-  function openRegisterModal(title) {
-    document.getElementById('modalEventTitle').innerText = title;
-    const nameInput = document.querySelector('#regModal input[type="text"]');
-    if(nameInput && window.currentUserFullName) {
-      nameInput.value = window.currentUserFullName;
+  // ---------- REGISTRATION MODAL & PRE-FILLING ----------
+  window.openRegisterModal = function(eventId, encodedTitle) {
+    selectedEventId = eventId;
+    selectedEventTitle = decodeURIComponent(encodedTitle);
+
+    document.getElementById('modalEventTitle').innerText = `Register: ${selectedEventTitle}`;
+    
+    // Pre-fill user data into form elements if available
+    if (currentUserData) {
+      const nameInput = document.getElementById('regFullName');
+      const mobileInput = document.getElementById('regMobile');
+
+      const fullName = `${currentUserData.firstname || currentUserData.firstName || ''} ${currentUserData.lastname || currentUserData.lastName || ''}`.trim();
+      if (nameInput) nameInput.value = fullName;
+      if (mobileInput) mobileInput.value = currentUserData.mobile || currentUserData.phone || '';
     }
+
     document.getElementById('regModal').classList.add('show');
-  }
+  };
 
-  function closeRegisterModal() {
+  window.closeRegisterModal = function() {
     document.getElementById('regModal').classList.remove('show');
-  }
+    selectedEventId = null;
+    selectedEventTitle = null;
+  };
 
-  function handleRegisterSubmit(e) {
+  // ---------- SUBMIT REGISTRATION & CHECK DUPLICATES ----------
+  window.handleRegisterSubmit = async function(e) {
     e.preventDefault();
-    alert('Registration successful! Check your My Registrations tab for confirmation updates.');
-    closeRegisterModal();
+    if (!selectedEventId || !currentUserData) return;
+
+    const sectorSelect = document.getElementById('regSector');
+    const mobileInput = document.getElementById('regMobile');
+
+    try {
+      // 1. Check if the user is already registered for this event
+      const existingQuery = query(
+        collection(db, "event_registrations"),
+        where("userId", "==", currentUserData.id),
+        where("eventId", "==", selectedEventId)
+      );
+      const existingSnap = await getDocs(existingQuery);
+
+      if (!existingSnap.empty) {
+        alert("You are already registered for this event!");
+        closeRegisterModal();
+        return;
+      }
+
+      const registrationData = {
+        eventId: selectedEventId,
+        eventTitle: selectedEventTitle,
+        userId: currentUserData.id,
+        applicantName: `${currentUserData.firstname || currentUserData.firstName || ''} ${currentUserData.lastname || currentUserData.lastName || ''}`.trim(),
+        email: currentUserData.email || '',
+        mobile: mobileInput ? mobileInput.value : '',
+        sector: sectorSelect ? sectorSelect.value : 'youth',
+        barangay: BARANGAY_NAME,
+        registeredAt: new Date().toISOString()
+      };
+
+      // 2. Save into separate 'event_registrations' collection
+      await addDoc(collection(db, "event_registrations"), registrationData);
+
+      // 3. Increment 'registeredCount' on the event document in Firestore
+      const eventDocRef = doc(db, "events", selectedEventId);
+      await updateDoc(eventDocRef, {
+        registeredCount: increment(1)
+      });
+
+      alert('Registration successful! Your slot has been secured.');
+      closeRegisterModal();
+      
+      // Refresh events list to show updated count
+      await fetchBarangayEvents();
+
+    } catch (err) {
+      console.error("Error submitting registration:", err);
+      alert("Failed to complete registration. Please try again.");
+    }
+  };
+
+  let calendarDate = new Date();
+
+  function renderMiniCalendar() {
+    const grid = document.getElementById('miniCalGrid');
+    const titleEl = document.getElementById('calMonthDisplay');
+    if (!grid) return;
+
+    // Auto-switch to the month of the first loaded event if available
+    let targetDate = new Date();
+    if (allEvents.length > 0 && allEvents[0].eventDate) {
+      const firstEvDate = new Date(allEvents[0].eventDate + "T00:00:00");
+      if (!isNaN(firstEvDate)) {
+        targetDate = firstEvDate;
+      }
+    }
+
+    const year = targetDate.getFullYear();
+    const month = targetDate.getMonth();
+
+    if (titleEl) {
+      titleEl.textContent = targetDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    }
+
+    const firstDayIndex = new Date(year, month, 1).getDay();
+    const totalDays = new Date(year, month + 1, 0).getDate();
+
+    const eventDateSet = new Set();
+    allEvents.forEach(ev => {
+      if (ev.eventDate) {
+        eventDateSet.add(ev.eventDate);
+      }
+    });
+
+    let html = `
+      <div class="dow">S</div><div class="dow">M</div><div class="dow">T</div><div class="dow">W</div><div class="dow">T</div><div class="dow">F</div><div class="dow">S</div>
+    `;
+
+    for (let i = 0; i < firstDayIndex; i++) {
+      html += `<div class="day"></div>`;
+    }
+
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    for (let day = 1; day <= totalDays; day++) {
+      const dayStr = String(day).padStart(2, '0');
+      const monthStr = String(month + 1).padStart(2, '0');
+      const currentFormatted = `${year}-${monthStr}-${dayStr}`;
+
+      const hasEvent = eventDateSet.has(currentFormatted);
+      const isToday = (currentFormatted === todayStr);
+
+      let classes = 'day';
+      if (hasEvent) classes += ' has-event';
+      if (isToday) classes += ' today';
+
+      html += `<div class="${classes}">${day}</div>`;
+    }
+
+    grid.innerHTML = html;
   }
 
-  function toggleChat() {
+  // ---------- CHATBOT FUNCTIONS ----------
+  window.toggleChat = function() {
     document.getElementById('chatPanel').classList.toggle('show');
-  }
+  };
 
-  function quickChat(msg) {
+  window.quickChat = function(msg) {
     document.getElementById('chatInput').value = msg;
-    sendChat();
-  }
+    window.sendChat();
+  };
 
-  function sendChat() {
+  window.sendChat = function() {
     const input = document.getElementById('chatInput');
     const text = input.value.trim();
     if (!text) return;
@@ -1027,18 +1142,18 @@
     setTimeout(() => {
       const bMsg = document.createElement('div');
       bMsg.className = 'chat-msg bot';
-      const lowered = text.toLowerCase();
-      if (lowered.includes('basketball') || lowered.includes('league')) {
-        bMsg.innerText = "The Inter-Purok League begins Oct 12 at SK Comembo Sports Complex! You can register directly on the event card.";
-      } else if (lowered.includes('location') || lowered.includes('hall')) {
-        bMsg.innerText = "Comembo Multipurpose Hall is located adjacent to the Barangay Hall along Comembo Main Road.";
+      if (text.toLowerCase().includes('basketball') || text.toLowerCase().includes('league')) {
+        bMsg.innerText = `Upcoming sports programs for Barangay ${BARANGAY_NAME} are listed on this page. Tap 'Register for Event' to secure your slot!`;
+      } else if (text.toLowerCase().includes('location') || text.toLowerCase().includes('hall')) {
+        bMsg.innerText = `Barangay ${BARANGAY_NAME} Hall and courts are open for scheduled youth activities.`;
       } else {
-        bMsg.innerText = "Thank you for reaching out! For urgent inquiries, visit the SK Office at the Comembo Barangay Hall.";
+        bMsg.innerText = "Thank you for reaching out! For urgent assistance, visit the SK Office at the Barangay Hall.";
       }
       body.appendChild(bMsg);
       body.scrollTop = body.scrollHeight;
     }, 600);
-  }
+  };
 </script>
+
 </body>
 </html>
