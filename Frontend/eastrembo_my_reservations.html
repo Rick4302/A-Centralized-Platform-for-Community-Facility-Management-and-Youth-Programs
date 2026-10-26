@@ -93,8 +93,9 @@
   .btn-outline:hover{background:var(--paper-deep);border-color:var(--ink);transform:translateY(-2px);box-shadow:none;}
   .btn-danger{background:transparent;border-color:var(--red-deep);color:var(--red-deep);}
   .btn-danger:hover{background:rgba(194,32,38,0.08);border-color:var(--red-deep);transform:translateY(-2px);box-shadow:none;}
+  .btn-warning{background:#B8862A;border-color:#B8862A;color:var(--paper);}
+  .btn-warning:hover{background:#966E20;border-color:#966E20;}
   .btn-small{padding:9px 16px;font-size:0.82rem;}
-  .btn-block{width:100%;}
 
   /* ---------- PAGE HERO ---------- */
   .hero{
@@ -155,20 +156,41 @@
   .res-top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
   .res-ref{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--ink-soft);margin-bottom:3px;}
   .res-main h3{font-size:1.05rem;line-height:1.3;}
+  
   .res-status{display:inline-flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;padding:5px 11px;border-radius:999px;font-weight:600;flex-shrink:0;}
   .res-status::before{content:"";width:6px;height:6px;border-radius:50%;}
   .res-status.pending{background:rgba(184,134,42,0.16);color:var(--amber);}
   .res-status.pending::before{background:var(--amber);}
   .res-status.approved{background:rgba(46,107,79,0.14);color:var(--green);}
   .res-status.approved::before{background:var(--green);}
-  .res-status.rejected{background:rgba(194,32,38,0.12);color:var(--red-deep);}
-  .res-status.rejected::before{background:var(--red-deep);}
+  .res-status.rescheduled{background:rgba(184,134,42,0.12);color:#8F6B17;}
+  .res-status.rescheduled::before{background:#8F6B17;}
   .res-status.cancelled{background:rgba(91,86,74,0.14);color:var(--ink-soft);}
   .res-status.cancelled::before{background:var(--ink-soft);}
 
   .res-meta{display:flex;flex-wrap:wrap;gap:14px;font-size:0.83rem;color:var(--ink-soft);margin-bottom:12px;}
   .res-meta span{display:flex;align-items:center;gap:5px;}
   .res-actions{display:flex;gap:10px;flex-wrap:wrap;}
+
+  .reschedule-notice{
+    background:rgba(184,134,42,0.1);border:1px solid #B8862A;border-radius:var(--radius);
+    padding:10px 14px;margin-bottom:12px;font-size:0.85rem;color:#7A5A19;
+  }
+
+  /* ---------- CUSTOM MINI CALENDAR CSS ---------- */
+  .cal-container{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px;margin-top:6px;}
+  .cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:600;font-size:0.9rem;}
+  .cal-nav-btn{background:transparent;border:1px solid var(--line);border-radius:var(--radius);padding:2px 8px;font-size:0.8rem;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7, 1fr);gap:4px;text-align:center;}
+  .cal-day-label{font-family:'IBM Plex Mono', monospace;font-size:0.68rem;color:var(--ink-soft);padding-bottom:4px;}
+  .cal-date-cell{padding:8px 0;font-size:0.82rem;border-radius:var(--radius);border:1px solid transparent;cursor:pointer;transition:all 0.15s ease;}
+  .cal-date-cell:hover:not(.disabled):not(.empty){background:var(--paper-deep);border-color:var(--ink);}
+  .cal-date-cell.selected{background:var(--accent-deep)!important;color:var(--paper)!important;font-weight:bold;}
+  .cal-date-cell.disabled{opacity:0.35;background:rgba(0,0,0,0.06);color:var(--ink-soft);cursor:not-allowed;text-decoration:line-through;pointer-events:none;}
+  .cal-date-cell.same-day{opacity:0.4;background:rgba(194,32,38,0.1);color:var(--red-deep);cursor:not-allowed;pointer-events:none;}
+  .cal-legend{display:flex;gap:12px;font-size:0.72rem;color:var(--ink-soft);margin-top:10px;}
+  .cal-legend span{display:flex;align-items:center;gap:4px;}
+  .cal-dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
 
   .empty-state{
     text-align:center;padding:70px 20px;color:var(--ink-soft);
@@ -226,7 +248,7 @@
     .modal-body{padding:20px;}
   }
 
-  /* ---------- CHATBOT (reused) ---------- */
+  /* ---------- CHATBOT ---------- */
   .chat-fab{position:fixed;bottom:26px;right:26px;width:58px;height:58px;border-radius:50%;background:var(--ink);border:2.5px solid var(--accent);color:var(--paper);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 0 0 rgba(36,34,25,0.18);z-index:900;transition:transform .18s ease;}
   .chat-fab:hover{transform:translateY(-3px);}
   .chat-panel{position:fixed;bottom:96px;right:26px;width:340px;max-width:calc(100vw - 40px);background:var(--paper-deep);border:1.5px solid var(--ink);border-radius:var(--radius);box-shadow:0 14px 0 0 rgba(36,34,25,0.12);z-index:900;display:none;flex-direction:column;overflow:hidden;}
@@ -294,7 +316,7 @@
       <div>
         <div class="eyebrow">SK Barangay East Rembo · My Reservations</div>
         <h1>Every request, one place.</h1>
-        <p class="lede">Track the status of every facility reservation you've made — pending, approved, rejected, or cancelled — and manage upcoming bookings without a trip to the SK office.</p>
+        <p class="lede">Track the status of every facility reservation you've made — pending, approved, rescheduled, or cancelled — and manage upcoming bookings without a trip to the SK office.</p>
       </div>
       <a href="eastrembo_facilities.html" class="btn btn-invert">Reserve Another Facility →</a>
     </div>
@@ -315,9 +337,9 @@
       <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       <div><div class="stat-num" id="count-approved">0</div><div class="stat-label">Approved</div></div>
     </div>
-    <div class="stat-card" data-status="rejected">
-      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M9 9l6 6M15 9l-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-      <div><div class="stat-num" id="count-rejected">0</div><div class="stat-label">Rejected / Cancelled</div></div>
+    <div class="stat-card" data-status="rescheduled">
+      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 12v1a8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0-8-8c-1.5 0-2.9.4-4 1.1L4 7m0 0v4h4" stroke="currentColor" stroke-width="1.8"/></svg></span>
+      <div><div class="stat-num" id="count-rescheduled">0</div><div class="stat-label">Rescheduled</div></div>
     </div>
   </div>
 </div>
@@ -334,7 +356,7 @@
         <button class="chip active" data-status="all">All</button>
         <button class="chip" data-status="pending">Pending</button>
         <button class="chip" data-status="approved">Approved</button>
-        <button class="chip" data-status="rejected">Rejected</button>
+        <button class="chip" data-status="rescheduled">Rescheduled</button>
         <button class="chip" data-status="cancelled">Cancelled</button>
       </div>
       <select class="sort-select" id="sort-select">
@@ -373,7 +395,7 @@
   </div>
 </footer>
 
-<!-- ---------- DETAILS / CANCEL MODAL ---------- -->
+<!-- ---------- DETAILS / CANCEL / RESCHEDULE MODAL ---------- -->
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
     <div class="modal-head">
@@ -386,29 +408,72 @@
     <div class="modal-body">
 
       <!-- DETAILS VIEW -->
-<div id="details-view">
-  <div class="detail-grid">
-    <div class="detail-item"><span class="d-label">Facility</span><span class="d-value" id="d-facility">—</span></div>
-    <div class="detail-item"><span class="d-label">Status</span><span class="d-value" id="d-status">—</span></div>
-    <div class="detail-item"><span class="d-label">Date &amp; Time</span><span class="d-value" id="d-datetime">—</span></div>
-    <div class="detail-item"><span class="d-label">Attendees</span><span class="d-value" id="d-attendees">—</span></div>
-    <div class="detail-item"><span class="d-label">Requested By</span><span class="d-value" id="d-name">—</span></div>
-    <div class="detail-item"><span class="d-label">Contact Number</span><span class="d-value" id="d-contact">—</span></div>
-    <div class="detail-item full"><span class="d-label">Purpose</span><span class="d-value" id="d-purpose">—</span></div>
-    <div class="detail-item full"><span class="d-label">Additional Notes</span><span class="d-value" id="d-notes">—</span></div>
-    <!-- NEW FIELD: Reason for Rejection or Cancellation -->
-    <div class="detail-item full" id="d-reason-container" style="display: none;">
-      <span class="d-label" id="d-reason-label">Reason</span>
-      <span class="d-value" id="d-reason" style="color: var(--red-deep, #c0392b); font-weight: 600;">—</span>
-    </div>
-    <div class="detail-item full"><span class="d-label">Submitted On</span><span class="d-value" id="d-submitted">—</span></div>
-  </div>
-  <div class="detail-divider"></div>
-  <div class="modal-actions">
-    <button class="btn btn-danger" id="d-cancel-btn">Cancel Reservation</button>
-    <a href="eastrembo_facilities.html" class="btn btn-outline">Reserve Similar →</a>
-  </div>
-</div>
+      <div id="details-view">
+        <div class="detail-grid">
+          <div class="detail-item"><span class="d-label">Facility</span><span class="d-value" id="d-facility">—</span></div>
+          <div class="detail-item"><span class="d-label">Status</span><span class="d-value" id="d-status">—</span></div>
+          <div class="detail-item"><span class="d-label">Date &amp; Time</span><span class="d-value" id="d-datetime">—</span></div>
+          <div class="detail-item"><span class="d-label">Attendees</span><span class="d-value" id="d-attendees">—</span></div>
+          <div class="detail-item"><span class="d-label">Requested By</span><span class="d-value" id="d-name">—</span></div>
+          <div class="detail-item"><span class="d-label">Contact Number</span><span class="d-value" id="d-contact">—</span></div>
+          <div class="detail-item full"><span class="d-label">Purpose</span><span class="d-value" id="d-purpose">—</span></div>
+          <div class="detail-item full"><span class="d-label">Additional Notes</span><span class="d-value" id="d-notes">—</span></div>
+          
+          <div class="detail-item full" id="d-reason-container" style="display: none;">
+            <span class="d-label" id="d-reason-label">Reason</span>
+            <span class="d-value" id="d-reason" style="color: var(--amber); font-weight: 600;">—</span>
+          </div>
+
+          <div class="detail-item full" id="d-proposal-container" style="display: none;">
+            <span class="d-label">Admin Proposed Reschedule</span>
+            <span class="d-value" id="d-proposal" style="color: var(--accent-deep); font-weight: 600;">—</span>
+          </div>
+
+          <div class="detail-item full"><span class="d-label">Submitted On</span><span class="d-value" id="d-submitted">—</span></div>
+        </div>
+
+        <!-- COUNTER-OFFER SECTION -->
+        <div id="counter-offer-section" style="display: none; background: var(--paper-deep); border: 1.5px solid var(--ink); border-radius: var(--radius); padding: 18px; margin: 16px 0;">
+          <h3 style="font-size: 1.05rem; margin-bottom: 8px;">Propose Your Own Date &amp; Time</h3>
+          <p style="font-size: 0.82rem; color: var(--ink-soft); margin-bottom: 12px;">Greyed-out dates are fully booked or conflict with your original date.</p>
+          
+          <div class="detail-item full" style="margin-bottom: 12px;">
+            <label class="d-label">Select Available Date</label>
+            <div class="cal-container">
+              <div class="cal-header">
+                <button type="button" class="cal-nav-btn" id="cal-prev">‹ Prev</button>
+                <span id="cal-month-year">October 2026</span>
+                <button type="button" class="cal-nav-btn" id="cal-next">Next ›</button>
+              </div>
+              <div class="cal-grid" id="cal-grid"></div>
+              <div class="cal-legend">
+                <span><span class="cal-dot" style="background:#B8862A;"></span> Selected</span>
+                <span><span class="cal-dot" style="background:rgba(0,0,0,0.2);"></span> Fully Booked</span>
+                <span><span class="cal-dot" style="background:rgba(194,32,38,0.4);"></span> Same Day</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-item full" style="margin-bottom: 12px;">
+            <label for="counter-slot" class="d-label">Preferred Time Slot</label>
+            <select id="counter-slot" style="padding: 10px; border: 1.5px solid var(--line); border-radius: var(--radius); width: 100%; font-family: inherit;">
+              <option value="">Select a date first...</option>
+            </select>
+          </div>
+
+          <div style="display: flex; gap: 8px; margin-top: 10px;">
+            <button type="button" class="btn btn-small btn-warning" id="submit-counter-btn">Send Counter-Offer</button>
+            <button type="button" class="btn btn-small btn-outline" id="cancel-counter-btn">Cancel</button>
+          </div>
+        </div>
+
+        <div class="detail-divider"></div>
+        <div class="modal-actions">
+          <button class="btn btn-warning" id="d-accept-proposal-btn" style="display: none;">Accept Proposed Schedule</button>
+          <button class="btn btn-outline" id="d-counter-toggle-btn" style="display: none;">Counter-Offer Schedule</button>
+          <button class="btn btn-danger" id="d-cancel-btn">Cancel Reservation</button>
+        </div>
+      </div>
 
       <!-- CONFIRM CANCEL VIEW -->
       <div id="confirm-view" class="confirm-view" style="display:none;">
@@ -416,7 +481,7 @@
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </div>
         <h3>Cancel this reservation?</h3>
-        <p id="confirm-text">This will cancel your request for the selected facility and time slot. This action can't be undone from here — you'll need to submit a new request if you change your mind.</p>
+        <p id="confirm-text">This will cancel your request for the selected facility and time slot. This action can't be undone from here.</p>
         <div class="confirm-actions">
           <button class="btn btn-outline" id="confirm-no">No, Keep It</button>
           <button class="btn btn-danger" id="confirm-yes" style="background:var(--red-deep);color:var(--paper);">Yes, Cancel Reservation</button>
@@ -437,12 +502,12 @@
     <button class="chat-close" id="chat-close">✕</button>
   </div>
   <div class="chat-body" id="chat-body">
-    <div class="chat-msg bot">Hi! Ask me about a reservation's status, or how to cancel or reschedule one.</div>
+    <div class="chat-msg bot">Hi! Ask me about a reservation's status, or how to cancel or manage rescheduled bookings.</div>
   </div>
   <div class="chat-suggest">
     <button data-msg="How do I cancel a reservation?">Cancel a reservation</button>
-    <button data-msg="Why was my reservation rejected?">Rejected request</button>
-    <button data-msg="Can I reschedule instead of cancelling?">Reschedule</button>
+    <button data-msg="What does Rescheduled mean?">Rescheduled status</button>
+    <button data-msg="Can I propose a new time slot?">Counter-offer time</button>
   </div>
   <div class="chat-input-row">
     <input type="text" id="chat-input" placeholder="Type a message…">
@@ -451,6 +516,8 @@
     </button>
   </div>
 </div>
+
+<div class="toast" id="toast">Action successful.</div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -464,34 +531,42 @@
     query, 
     where, 
     doc,
+    getDoc,
     updateDoc,
     onSnapshot,
     getDocs
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+  const BARANGAY_NAME = "East Rembo";
   const firebaseConfig = {
     apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
     authDomain: "embo-access.firebaseapp.com",
     projectId: "embo-access",
     storageBucket: "embo-access.firebasestorage.app",
     messagingSenderId: "173132109750",
-    appId: "1:173132109750:web:8697b6c0b83676a62a5317",
-    measurementId: "G-3FEJE2LCY9"
+    appId: "1:173132109750:web:8697b6c0b83676a62a5317"
   };
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
 
+  const ALL_SLOTS = [
+    "8:00 – 10:00 AM", "10:00 AM – 12:00 PM", "1:00 – 3:00 PM",
+    "3:00 – 5:00 PM", "5:00 – 7:00 PM", "7:00 – 9:00 PM"
+  ];
+
   const avatarEl = document.getElementById('user-avatar');
   const nameEl = document.getElementById('user-name');
   const listEl = document.getElementById('res-list');
   const resultCount = document.getElementById('result-count');
 
-  let currentUserId = null;
   let userReservations = [];
+  let facilityBookings = [];
   let activeStatus = 'all';
   let currentDocId = null;
+  let calCurrentDate = new Date();
+  let selectedCounterDate = null;
 
   const ICONS = {
     "Sports Court": '<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 3a9 9 0 0 0 0 18M3 12h18M5.5 6.5c2 1.8 4.2 2.8 6.5 2.8s4.5-1 6.5-2.8M5.5 17.5c2-1.8 4.2-2.8 6.5-2.8s4.5 1 6.5 2.8" stroke="currentColor" stroke-width="1.3"/></svg>',
@@ -503,48 +578,54 @@
   const FACILITY_TYPES = {
     "SK Basketball Court": "Sports Court", "Volleyball Court": "Sports Court",
     "Multi-Purpose Hall": "Hall", "Covered Gymnasium": "Hall", "Function Hall": "Hall",
-    "Barangay Plaza": "Open Space",
-    "Computer Laboratory": "Function Room", "Function Room A": "Function Room", "Function Room B": "Function Room"
+    "Barangay Plaza": "Open Space", "Computer Laboratory": "Function Room"
   };
 
-  // ---------- AUTH GUARD & REAL-TIME LISTENER ----------
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
       window.location.href = 'login_page.html';
       return;
     }
-    currentUserId = user.uid;
 
-    // Load User Profile
     try {
-      const qUser = query(collection(db, "users"), where("email", "==", user.email));
-      const querySnapshot = await getDocs(qUser);
-      let firstName = "", lastName = "";
+      let displayNameStr = "";
+      const userDocRef = doc(db, "users", user.uid);
+      const userDocSnap = await getDoc(userDocRef);
 
-      querySnapshot.forEach((docSnap) => {
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          firstName = data.firstname || "";
-          lastName = data.lastname || "";
-        }
-      });
-
-      if (firstName || lastName) {
-        nameEl.textContent = `${firstName} ${lastName}`.trim();
-        avatarEl.textContent = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
-      } else {
-        nameEl.textContent = user.email;
-        avatarEl.textContent = user.email.charAt(0).toUpperCase();
+      if (userDocSnap.exists()) {
+        const data = userDocSnap.data();
+        displayNameStr = data.fullName || data.name || `${data.firstName || data.firstname || ''} ${data.lastName || data.lastname || ''}`.trim();
       }
+
+      if (!displayNameStr) {
+        const qUser = query(collection(db, "users"), where("email", "==", user.email));
+        const querySnapshot = await getDocs(qUser);
+        querySnapshot.forEach((docSnap) => {
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            displayNameStr = data.fullName || data.name || `${data.firstName || data.firstname || ''} ${data.lastName || data.lastname || ''}`.trim();
+          }
+        });
+      }
+
+      if (!displayNameStr) {
+        displayNameStr = user.displayName || user.email;
+      }
+
+      nameEl.textContent = displayNameStr;
+      const parts = displayNameStr.trim().split(" ");
+      avatarEl.textContent = parts.length >= 2 ? `${parts[0][0]}${parts[1][0]}`.toUpperCase() : displayNameStr.substring(0, 2).toUpperCase();
+
     } catch (err) {
-      console.error("Error fetching user profile:", err);
+      console.error("Error loading user profile:", err);
+      nameEl.textContent = user.email || "Resident";
+      avatarEl.textContent = (user.email ? user.email[0] : "R").toUpperCase();
     }
 
-    // Subscribe to Firestore Live Reservations Stream for this User
     const resQuery = query(
       collection(db, "reservations"),
       where("userId", "==", user.uid),
-      where("barangay", "==", "East Rembo")
+      where("barangay", "==", BARANGAY_NAME)
     );
 
     onSnapshot(resQuery, (snapshot) => {
@@ -554,35 +635,28 @@
       }));
       updateStats();
       render();
-    }, (error) => {
-      console.error("Error streaming reservations:", error);
     });
   });
 
-  // ---------- HELPER FORMATTERS ----------
   function fmtDate(dateStr) {
     if (!dateStr) return '—';
     const d = new Date(dateStr + 'T00:00:00');
-    if (isNaN(d)) return dateStr;
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return isNaN(d) ? dateStr : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   }
 
   function fmtDateTime(ts) {
     if (!ts) return '—';
     const d = ts.toDate ? ts.toDate() : new Date(ts);
-    if (isNaN(d)) return '—';
-    return d.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+    return isNaN(d) ? '—' : d.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
   }
 
-  // ---------- UPDATE STATS CARDS ----------
   function updateStats() {
     document.getElementById('count-all').textContent = userReservations.length;
     document.getElementById('count-pending').textContent = userReservations.filter(r => (r.status || '').toLowerCase() === 'pending').length;
     document.getElementById('count-approved').textContent = userReservations.filter(r => (r.status || '').toLowerCase() === 'approved').length;
-    document.getElementById('count-rejected').textContent = userReservations.filter(r => ['rejected', 'cancelled'].includes((r.status || '').toLowerCase())).length;
+    document.getElementById('count-rescheduled').textContent = userReservations.filter(r => (r.status || '').toLowerCase() === 'rescheduled').length;
   }
 
-  // ---------- RENDER RESERVATIONS LIST ----------
   function render() {
     const queryStr = document.getElementById('search-input').value.trim().toLowerCase();
     const sortBy = document.getElementById('sort-select').value;
@@ -592,16 +666,11 @@
       const matchesStatus = activeStatus === 'all' || statusLower === activeStatus;
       const ref = (r.referenceNumber || '').toLowerCase();
       const facility = (r.facilityName || '').toLowerCase();
-      const matchesQuery = !queryStr || facility.includes(queryStr) || ref.includes(queryStr);
-      return matchesStatus && matchesQuery;
+      return matchesStatus && (!queryStr || facility.includes(queryStr) || ref.includes(queryStr));
     });
 
     if (sortBy === 'recent') {
-      list.sort((a, b) => {
-        const tA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
-        const tB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
-        return tB - tA;
-      });
+      list.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
     } else if (sortBy === 'date') {
       list.sort((a, b) => new Date(a.date) - new Date(b.date));
     } else if (sortBy === 'facility') {
@@ -623,6 +692,14 @@
     listEl.innerHTML = list.map(r => {
       const type = FACILITY_TYPES[r.facilityName] || 'Hall';
       const statusLower = (r.status || 'pending').toLowerCase();
+      
+      let rescheduleNoticeHtml = '';
+      if (statusLower === 'rescheduled') {
+        const reason = r.rescheduleReason || 'Admin requested date adjustment.';
+        const proposedInfo = r.proposedDate ? ` (New Date: ${fmtDate(r.proposedDate)} ${r.proposedTimeSlot || ''})` : '';
+        rescheduleNoticeHtml = `<div class="reschedule-notice">⚠️ <strong>Reschedule Proposed:</strong> ${reason}${proposedInfo}</div>`;
+      }
+
       return `
       <div class="res-card">
         <div class="res-thumb">${ICONS[type] || DEFAULT_ICON}</div>
@@ -634,6 +711,7 @@
             </div>
             <span class="res-status ${statusLower}">${r.status}</span>
           </div>
+          ${rescheduleNoticeHtml}
           <div class="res-meta">
             <span>📅 ${fmtDate(r.date)}</span>
             <span>🕒 ${r.timeSlot || '—'}</span>
@@ -641,22 +719,221 @@
           </div>
           <div class="res-actions">
             <button class="btn btn-outline btn-small js-details-btn" data-docid="${r.docId}">View Details</button>
-            ${statusLower === 'pending' ? `<button class="btn btn-danger btn-small js-cancel-btn" data-docid="${r.docId}">Cancel</button>` : ''}
+            ${(statusLower === 'pending' || statusLower === 'rescheduled') ? `<button class="btn btn-danger btn-small js-cancel-btn" data-docid="${r.docId}">Cancel</button>` : ''}
           </div>
         </div>
       </div>`;
     }).join('');
 
-    // Attach Event Listeners to Buttons
-    document.querySelectorAll('.js-details-btn').forEach(btn => {
-      btn.addEventListener('click', () => openDetails(btn.dataset.docid));
-    });
-    document.querySelectorAll('.js-cancel-btn').forEach(btn => {
-      btn.addEventListener('click', () => openConfirm(btn.dataset.docid));
+    document.querySelectorAll('.js-details-btn').forEach(btn => btn.addEventListener('click', () => openDetails(btn.dataset.docid)));
+    document.querySelectorAll('.js-cancel-btn').forEach(btn => btn.addEventListener('click', () => openConfirm(btn.dataset.docid)));
+  }
+
+  async function fetchFacilityBookings(facilityId) {
+    if (!facilityId) return;
+    try {
+      const q = query(collection(db, "reservations"), where("facilityId", "==", facilityId), where("status", "in", ["Approved", "Pending"]));
+      const snap = await getDocs(q);
+      facilityBookings = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    } catch(err) { console.error(err); }
+  }
+
+  function renderCalendar() {
+    const grid = document.getElementById('cal-grid');
+    const monthYear = document.getElementById('cal-month-year');
+    grid.innerHTML = '';
+
+    const currentRes = userReservations.find(x => x.docId === currentDocId);
+    const originalDate = currentRes ? currentRes.date : null;
+    const year = calCurrentDate.getFullYear();
+    const month = calCurrentDate.getMonth();
+
+    monthYear.textContent = calCurrentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d => grid.innerHTML += `<div class="cal-day-label">${d}</div>`);
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const totalDays = new Date(year, month + 1, 0).getDate();
+
+    for(let i=0; i<firstDay; i++) grid.innerHTML += `<div class="cal-date-cell empty"></div>`;
+
+    for(let day=1; day<=totalDays; day++) {
+      const mStr = String(month + 1).padStart(2, '0');
+      const dStr = String(day).padStart(2, '0');
+      const dateKey = `${year}-${mStr}-${dStr}`;
+
+      const dayBookings = facilityBookings.filter(b => b.date === dateKey && b.id !== currentDocId);
+      const bookedSlots = dayBookings.map(b => b.timeSlot);
+      const isFullyBooked = ALL_SLOTS.every(s => bookedSlots.includes(s));
+      const isSameDay = originalDate === dateKey;
+
+      let classes = 'cal-date-cell';
+      if (isSameDay) classes += ' same-day';
+      else if (isFullyBooked) classes += ' disabled';
+      if (selectedCounterDate === dateKey) classes += ' selected';
+
+      grid.innerHTML += `<div class="${classes}" data-date="${dateKey}">${day}</div>`;
+    }
+
+    document.querySelectorAll('.cal-date-cell:not(.disabled):not(.empty):not(.same-day)').forEach(cell => {
+      cell.addEventListener('click', () => {
+        selectedCounterDate = cell.dataset.date;
+        renderCalendar();
+        updateSlotDropdown(cell.dataset.date);
+      });
     });
   }
 
-  // ---------- FILTERS & SORT ----------
+  function updateSlotDropdown(dateKey) {
+    const slotSelect = document.getElementById('counter-slot');
+    slotSelect.innerHTML = '<option value="">Select time slot...</option>';
+    const dayBookings = facilityBookings.filter(b => b.date === dateKey && b.id !== currentDocId);
+    const takenSlots = dayBookings.map(b => b.timeSlot);
+
+    ALL_SLOTS.forEach(slot => {
+      if (!takenSlots.includes(slot)) slotSelect.innerHTML += `<option value="${slot}">${slot}</option>`;
+    });
+  }
+
+  document.getElementById('cal-prev').addEventListener('click', () => { calCurrentDate.setMonth(calCurrentDate.getMonth() - 1); renderCalendar(); });
+  document.getElementById('cal-next').addEventListener('click', () => { calCurrentDate.setMonth(calCurrentDate.getMonth() + 1); renderCalendar(); });
+
+  const overlay = document.getElementById('modal-overlay');
+  const detailsView = document.getElementById('details-view');
+  const confirmView = document.getElementById('confirm-view');
+  const counterSection = document.getElementById('counter-offer-section');
+
+  async function openDetails(docId) {
+    const r = userReservations.find(x => x.docId === docId);
+    if (!r) return;
+    currentDocId = docId;
+    selectedCounterDate = null;
+    const statusLower = (r.status || '').toLowerCase();
+
+    document.getElementById('modal-eyebrow').textContent = 'Reservation Details';
+    document.getElementById('modal-title').textContent = r.referenceNumber || r.docId;
+    document.getElementById('d-facility').textContent = r.facilityName || '—';
+    document.getElementById('d-status').innerHTML = `<span class="res-status ${statusLower}">${r.status}</span>`;
+    document.getElementById('d-datetime').textContent = `${fmtDate(r.date)} · ${r.timeSlot || '—'}`;
+    document.getElementById('d-attendees').textContent = `${r.attendees || '0'} people`;
+    document.getElementById('d-name').textContent = r.applicantName || '—';
+    document.getElementById('d-contact').textContent = r.contact || '—';
+    document.getElementById('d-purpose').textContent = r.purpose || '—';
+    document.getElementById('d-notes').textContent = r.notes || 'None provided.';
+    document.getElementById('d-submitted').textContent = fmtDateTime(r.createdAt);
+
+    counterSection.style.display = 'none';
+
+    if (statusLower === 'rescheduled') {
+      document.getElementById('d-reason-container').style.display = 'block';
+      document.getElementById('d-reason').textContent = r.rescheduleReason || 'Admin requested reschedule.';
+      if (r.proposedDate) {
+        document.getElementById('d-proposal-container').style.display = 'block';
+        document.getElementById('d-proposal').textContent = `${fmtDate(r.proposedDate)} at ${r.proposedTimeSlot || r.timeSlot}`;
+      } else {
+        document.getElementById('d-proposal-container').style.display = 'none';
+      }
+      document.getElementById('d-accept-proposal-btn').style.display = 'inline-flex';
+      document.getElementById('d-counter-toggle-btn').style.display = 'inline-flex';
+    } else {
+      document.getElementById('d-reason-container').style.display = 'none';
+      document.getElementById('d-proposal-container').style.display = 'none';
+      document.getElementById('d-accept-proposal-btn').style.display = 'none';
+      document.getElementById('d-counter-toggle-btn').style.display = 'none';
+    }
+
+    document.getElementById('d-cancel-btn').style.display = (statusLower === 'pending' || statusLower === 'rescheduled') ? 'inline-flex' : 'none';
+
+    detailsView.style.display = 'block';
+    confirmView.style.display = 'none';
+    overlay.classList.add('show');
+  }
+
+  document.getElementById('d-counter-toggle-btn').addEventListener('click', async () => {
+    const currentRes = userReservations.find(x => x.docId === currentDocId);
+    if (currentRes && currentRes.facilityId) await fetchFacilityBookings(currentRes.facilityId);
+    renderCalendar();
+    counterSection.style.display = counterSection.style.display === 'none' ? 'block' : 'none';
+  });
+
+  document.getElementById('cancel-counter-btn').addEventListener('click', () => counterSection.style.display = 'none');
+
+  document.getElementById('submit-counter-btn').addEventListener('click', async () => {
+    const counterSlot = document.getElementById('counter-slot').value;
+    if (!selectedCounterDate || !counterSlot) {
+      alert("Please select both an open date from the calendar and a time slot.");
+      return;
+    }
+    try {
+      await updateDoc(doc(db, "reservations", currentDocId), {
+        date: selectedCounterDate,
+        timeSlot: counterSlot,
+        status: "Pending",
+        rescheduleReason: null,
+        proposedDate: null,
+        proposedTimeSlot: null
+      });
+      overlay.classList.remove('show');
+      showToast("Counter-offer submitted to SK Admin for review!");
+    } catch (err) { alert("Failed to submit counter-offer."); }
+  });
+
+  document.getElementById('d-accept-proposal-btn').addEventListener('click', async () => {
+    const r = userReservations.find(x => x.docId === currentDocId);
+    if (!r) return;
+    try {
+      await updateDoc(doc(db, "reservations", currentDocId), {
+        date: r.proposedDate || r.date,
+        timeSlot: r.proposedTimeSlot || r.timeSlot,
+        status: "Pending",
+        rescheduleReason: null,
+        proposedDate: null,
+        proposedTimeSlot: null
+      });
+      overlay.classList.remove('show');
+      showToast("Proposed schedule accepted! Request is back under review.");
+    } catch (err) { alert("Failed to accept proposal."); }
+  });
+
+  function openConfirm(docId) {
+    const r = userReservations.find(x => x.docId === docId);
+    if (!r) return;
+    currentDocId = docId;
+    document.getElementById('modal-eyebrow').textContent = 'Confirm Cancellation';
+    document.getElementById('modal-title').textContent = r.referenceNumber || r.docId;
+    document.getElementById('confirm-text').textContent = `This will cancel your request for ${r.facilityName} on ${fmtDate(r.date)} (${r.timeSlot}). This action can't be undone from here.`;
+    detailsView.style.display = 'none';
+    confirmView.style.display = 'block';
+    overlay.classList.add('show');
+  }
+
+  document.getElementById('d-cancel-btn').addEventListener('click', () => openConfirm(currentDocId));
+  document.getElementById('confirm-no').addEventListener('click', () => openDetails(currentDocId));
+  
+  document.getElementById('confirm-yes').addEventListener('click', async () => {
+    if (!currentDocId) return;
+    try {
+      await updateDoc(doc(db, "reservations", currentDocId), {
+        status: "Cancelled",
+        reason: "Cancelled by resident"
+      });
+      overlay.classList.remove('show');
+      showToast(`Reservation has been cancelled.`);
+    } catch (err) {
+      console.error("Error cancelling reservation:", err);
+      alert("Failed to cancel reservation. Please try again.");
+    }
+  });
+
+  document.getElementById('modal-close').addEventListener('click', () => overlay.classList.remove('show'));
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); });
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2600);
+  }
+
   document.getElementById('search-input').addEventListener('input', render);
   document.getElementById('sort-select').addEventListener('change', render);
 
@@ -680,98 +957,6 @@
     });
   });
 
-  // ---------- MODAL OPERATIONS ----------
-  const overlay = document.getElementById('modal-overlay');
-  const detailsView = document.getElementById('details-view');
-  const confirmView = document.getElementById('confirm-view');
-
-  function openDetails(docId) {
-    const r = userReservations.find(x => x.docId === docId);
-    if (!r) return;
-    currentDocId = docId;
-
-    const statusLower = (r.status || '').toLowerCase();
-
-    document.getElementById('modal-eyebrow').textContent = 'Reservation Details';
-    document.getElementById('modal-title').textContent = r.referenceNumber || r.docId;
-    document.getElementById('d-facility').textContent = r.facilityName || '—';
-    document.getElementById('d-status').innerHTML = `<span class="res-status ${statusLower}">${r.status}</span>`;
-    document.getElementById('d-datetime').textContent = `${fmtDate(r.date)} · ${r.timeSlot || '—'}`;
-    document.getElementById('d-attendees').textContent = `${r.attendees || '0'} people`;
-    document.getElementById('d-name').textContent = r.applicantName || '—';
-    document.getElementById('d-contact').textContent = r.contact || '—';
-    document.getElementById('d-purpose').textContent = r.purpose || '—';
-    document.getElementById('d-notes').textContent = r.notes && r.notes.length ? r.notes : 'None provided.';
-    document.getElementById('d-submitted').textContent = fmtDateTime(r.createdAt);
-
-    // Show/Hide Reason field for Rejected or Cancelled reservations
-    const reasonContainer = document.getElementById('d-reason-container');
-    const reasonLabel = document.getElementById('d-reason-label');
-    const reasonValue = document.getElementById('d-reason');
-
-    const reasonText = r.reason || r.rejectionReason || r.cancellationReason || '';
-
-    if (statusLower === 'rejected') {
-      reasonContainer.style.display = 'block';
-      reasonLabel.textContent = 'Reason for Rejection';
-      reasonValue.textContent = reasonText || 'No specific reason provided by the SK admin.';
-    } else if (statusLower === 'cancelled') {
-      reasonContainer.style.display = 'block';
-      reasonLabel.textContent = 'Reason for Cancellation';
-      reasonValue.textContent = reasonText || 'Cancelled by resident.';
-    } else {
-      reasonContainer.style.display = 'none';
-    }
-
-    document.getElementById('d-cancel-btn').style.display = statusLower === 'pending' ? 'inline-flex' : 'none';
-
-    detailsView.style.display = 'block';
-    confirmView.style.display = 'none';
-    overlay.classList.add('show');
-  }
-
-  function openConfirm(docId) {
-    const r = userReservations.find(x => x.docId === docId);
-    if (!r) return;
-    currentDocId = docId;
-    document.getElementById('modal-eyebrow').textContent = 'Confirm Cancellation';
-    document.getElementById('modal-title').textContent = r.referenceNumber || r.docId;
-    document.getElementById('confirm-text').textContent = `This will cancel your request for ${r.facilityName} on ${fmtDate(r.date)} (${r.timeSlot}). This action can't be undone from here.`;
-    detailsView.style.display = 'none';
-    confirmView.style.display = 'block';
-    overlay.classList.add('show');
-  }
-
-  document.getElementById('d-cancel-btn').addEventListener('click', () => openConfirm(currentDocId));
-  document.getElementById('confirm-no').addEventListener('click', () => openDetails(currentDocId));
-  
-  // Real Firestore Update on Cancellation
-  document.getElementById('confirm-yes').addEventListener('click', async () => {
-    if (!currentDocId) return;
-    try {
-      const docRef = doc(db, "reservations", currentDocId);
-      await updateDoc(docRef, {
-        status: "Cancelled",
-        reason: "Cancelled by resident"
-      });
-      overlay.classList.remove('show');
-      showToast(`Reservation has been cancelled.`);
-    } catch (err) {
-      console.error("Error cancelling reservation:", err);
-      alert("Failed to cancel reservation. Please try again.");
-    }
-  });
-
-  document.getElementById('modal-close').addEventListener('click', () => overlay.classList.remove('show'));
-  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); });
-
-  function showToast(msg) {
-    const toast = document.getElementById('toast');
-    toast.textContent = msg;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2600);
-  }
-
   // ---------- CHATBOT LOGIC ----------
   const fab = document.getElementById('chat-fab');
   const panel = document.getElementById('chat-panel');
@@ -787,9 +972,9 @@
   closeBtn.addEventListener('click', () => panel.classList.remove('show'));
 
   const canned = {
-    "how do i cancel a reservation?": "Open any pending request and tap \"Cancel\" — or use the Cancel button right on its card. Approved bookings need a 48-hour notice before cancelling.",
-    "why was my reservation rejected?": "Rejections are usually due to a scheduling conflict or incomplete details. Open the request to view the specific reason provided by the SK admin.",
-    "can i reschedule instead of cancelling?": "There's no direct reschedule yet — cancel the current request, then submit a new one on the Facilities page for your preferred date and time."
+    "how do i cancel a reservation?": "Open any pending or rescheduled request and tap \"Cancel\" or use the Cancel button on its card.",
+    "what does rescheduled mean?": "It means the SK Admin proposed a date or time adjustment. You can view their reason, accept their proposal, or propose your own counter-offer date!",
+    "counter-offer time": "Open the rescheduled request, click 'Counter-Offer Schedule', pick an available date on the calendar, and select a free time slot."
   };
 
   function addMsg(text, who) {
@@ -802,7 +987,7 @@
   function respond(text) {
     addMsg(text, 'user');
     const key = text.trim().toLowerCase();
-    const reply = canned[key] || "Thanks — I've noted that. You can view all reservation updates directly in real-time on this page.";
+    const reply = canned[key] || "Thanks — I've noted that. You can view all your reservation updates in real-time on this page.";
     setTimeout(() => addMsg(reply, 'bot'), 500);
   }
   sendBtn.addEventListener('click', () => { const v = chatInput.value.trim(); if (!v) return; respond(v); chatInput.value = ''; });

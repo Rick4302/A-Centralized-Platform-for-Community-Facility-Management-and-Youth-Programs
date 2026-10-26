@@ -576,6 +576,19 @@
     padding:20px;
   }
   .modal-overlay.show{display:flex;}
+
+  /* Custom View Modal Display Fix Added Here */
+  #view-modal-overlay.active-view-modal {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    z-index: 99999 !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+  }
+
   .modal-box{
     background:var(--paper);
     border:1.5px solid var(--ink);
@@ -1479,33 +1492,116 @@ function renderEvents(docs, todayStr) {
       <div class="event-progress-bar"><div class="event-progress-fill" style="width:${percentage}%;"></div></div>
     `;
 
-// 1. VIEW BUTTON
+// 1. VIEW BUTTON (Updated to read `firstname`, `lastname`, and `mobile` from users collection)
 const viewBtn = card.querySelector('.btn-view-card');
-viewBtn.addEventListener('click', (e) => {
+viewBtn.addEventListener('click', async (e) => {
   e.stopPropagation();
   console.log("View clicked for:", ev.title);
 
   if (viewOverlay && viewTitle && viewBody) {
-    viewTitle.textContent = `${ev.title} - Details`;
+    viewTitle.textContent = `${ev.title} - Registrants`;
     viewBody.innerHTML = `
-      <div style="font-size:0.95rem; line-height:1.6; color:#1e293b;">
+      <div style="font-size:0.95rem; line-height:1.6; color:#1e293b; margin-bottom:14px;">
         <p style="margin:4px 0;"><strong>Category:</strong> ${ev.category}</p>
         <p style="margin:4px 0;"><strong>Location:</strong> ${ev.location}</p>
         <p style="margin:4px 0;"><strong>Date & Time:</strong> ${ev.eventDate} at ${ev.eventTime}</p>
-        <p style="margin:4px 0;"><strong>Deadline:</strong> ${ev.deadline}</p>
         <p style="margin:4px 0;"><strong>Registrations:</strong> ${registeredCount} / ${capacity} (${spotsLeft} spots remaining)</p>
       </div>
       <hr style="margin:16px 0; border:0; border-top:1px solid #cbd5e1;">
-      <p style="color:#64748b; font-size:0.9rem; text-align:center; font-style:italic;">No registrants recorded yet.</p>
+      <h4 style="margin:0 0 10px 0; font-size:1rem; color:#0f172a;">List of Registered Residents:</h4>
+      <div id="registrants-list-container">
+        <p style="color:#64748b; font-size:0.9rem; font-style:italic;">Loading registrants...</p>
+      </div>
     `;
 
-    // Toggle dedicated active class
+    // Show modal immediately
     viewOverlay.classList.add('active-view-modal');
-  } else {
-    alert(`Event Details:\n\nTitle: ${ev.title}\nCategory: ${ev.category}\nLocation: ${ev.location}\nDate: ${ev.eventDate}`);
+
+    const container = document.getElementById('registrants-list-container');
+
+    try {
+      let registrantsData = [];
+
+      // Query your Firestore collection `event_registrations`
+      const regQuery = query(collection(db, "event_registrations"), where("eventId", "==", eventId));
+      const regSnapshot = await getDocs(regQuery);
+      
+      regSnapshot.forEach(docSnap => {
+        registrantsData.push({ id: docSnap.id, ...docSnap.data() });
+      });
+
+      if (registrantsData.length === 0) {
+        container.innerHTML = `<p style="color:#64748b; font-size:0.9rem; font-style:italic;">No registrants recorded yet.</p>`;
+        return;
+      }
+
+      // Build list of registrants and fetch user profile details
+      let htmlList = `<div style="display:flex; flex-direction:column; gap:8px;">`;
+      
+      for (let [index, reg] of registrantsData.entries()) {
+        let residentName = "";
+        let residentEmail = reg.email || reg.userEmail || "No email provided";
+        let residentPhone = reg.phoneNumber || reg.contactNumber || reg.phone || "";
+
+        // If registration document references a userId, fetch the exact user profile from `users`
+        if (reg.userId) {
+          try {
+            const userDocSnap = await getDoc(doc(db, "users", reg.userId));
+            if (userDocSnap.exists()) {
+              const uData = userDocSnap.data();
+              // Combine firstname and lastname from your system structure
+              const fName = uData.firstname || uData.firstName || "";
+              const lName = uData.lastname || uData.lastName || "";
+              if (fName || lName) {
+                residentName = `${fName} ${lName}`.trim();
+              }
+              residentEmail = uData.email || residentEmail;
+              residentPhone = uData.mobile || uData.phoneNumber || uData.contactNumber || residentPhone;
+            }
+          } catch (err) {
+            console.error("Error fetching user profile for registrant:", err);
+          }
+        }
+
+        // Fallback name if none found in user doc
+        if (!residentName) {
+          residentName = reg.fullName || reg.name || "Registered Resident";
+        }
+
+        // Safe Date Formatting
+        let registeredAtStr = "";
+        if (reg.registeredAt) {
+          if (typeof reg.registeredAt.toDate === 'function') {
+            registeredAtStr = reg.registeredAt.toDate().toLocaleString();
+          } else if (reg.registeredAt.seconds) {
+            registeredAtStr = new Date(reg.registeredAt.seconds * 1000).toLocaleString();
+          } else {
+            const parsed = new Date(reg.registeredAt);
+            if (!isNaN(parsed)) registeredAtStr = parsed.toLocaleString();
+          }
+        }
+
+        htmlList += `
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; padding:10px 14px; border-radius:6px; font-size:0.88rem;">
+            <div style="display:flex; justify-content:space-between; font-weight:600; color:#0f172a;">
+              <span>${index + 1}. ${residentName}</span>
+              <span style="font-size:0.78rem; color:#64748b; font-weight:normal;">${registeredAtStr}</span>
+            </div>
+            <div style="margin-top:4px; font-size:0.82rem; color:#475569;">
+              📧 ${residentEmail} ${residentPhone ? `| 📱 ${residentPhone}` : ''}
+            </div>
+          </div>
+        `;
+      }
+      htmlList += `</div>`;
+      container.innerHTML = htmlList;
+
+    } catch (err) {
+      console.error("Error fetching registrants:", err);
+      container.innerHTML = `<p style="color:#ef4444; font-size:0.9rem;">Failed to load registrants from database.</p>`;
+    }
   }
 });
-
     // 2. EDIT BUTTON
     const editBtn = card.querySelector('.btn-edit-card');
     editBtn.addEventListener('click', (e) => {

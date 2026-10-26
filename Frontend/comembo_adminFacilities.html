@@ -196,29 +196,6 @@
     box-shadow:0 6px 0 0 var(--ink);
   }
   .btn:active{transform:translateY(0);box-shadow:0 2px 0 0 var(--ink);}
-  .btn-invert{
-    background:var(--paper);
-    border-color:var(--paper);
-    color:var(--ink);
-  }
-  .btn-invert:hover{
-    background:var(--ink);
-    border-color:var(--paper);
-    color:var(--paper);
-    box-shadow:0 6px 0 0 rgba(245,240,228,0.5);
-  }
-  .btn-outline{
-    background:transparent;
-    border-color:var(--paper);
-    color:var(--paper);
-  }
-  .btn-outline:hover{
-    background:rgba(245,240,228,0.14);
-    border-color:var(--paper);
-    color:var(--paper);
-    box-shadow:none;
-    transform:translateY(-2px);
-  }
   .btn-small{padding:9px 16px;font-size:0.82rem;}
 
   /* ---------- HERO ---------- */
@@ -254,7 +231,6 @@
     max-width:52ch;
     margin-bottom:30px;
   }
-  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
   .hero-seal{
     width:96px;height:96px;
     border-radius:50%;
@@ -266,60 +242,13 @@
   }
   .hero-seal img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
 
-  /* ---------- STATS STRIP (overlaps hero/body boundary) ---------- */
-  .stats-strip{
-    margin-top:-54px;
-    position:relative;
-    z-index:10;
-    margin-bottom:52px;
-  }
-  .stats-grid{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:16px;
-  }
-  .stat-card{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:18px 20px;
-    box-shadow:0 8px 0 0 rgba(36,34,25,0.08);
-    display:flex;
-    align-items:center;
-    gap:14px;
-  }
-  .stat-card .stat-icon{
-    width:42px;height:42px;
-    border-radius:50%;
-    background:var(--accent-tint);
-    display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;
-    color:var(--accent-deep);
-  }
-  .stat-card .stat-num{
-    font-family:'Fraunces', serif;
-    font-weight:700;
-    font-size:1.5rem;
-    line-height:1;
-  }
-  .stat-card .stat-label{
-    font-size:0.76rem;
-    color:var(--ink-soft);
-    margin-top:3px;
-  }
-
-
-  /* ---------- SHARED PAGE HERO (compact variant for sub-pages) ---------- */
   .hero-page{padding:40px 0 84px;}
   .hero-page .hero-top{margin-bottom:0;align-items:center;}
   .hero-page h1{font-size:clamp(1.9rem, 3vw, 2.4rem);margin:12px 0 10px;}
   .hero-page p.lede{margin-bottom:0;font-size:0.98rem;}
   .hero-page .hero-seal{width:76px;height:76px;}
-  .stats-strip.compact{margin-top:-48px;margin-bottom:40px;}
-  .stats-strip.compact .stats-grid{grid-template-columns:repeat(3, 1fr);}
-
-
   .page-sub{padding:40px 0 8px;}
+
   .btn-secondary-nav{
     padding:9px 16px;
     font-size:0.82rem;
@@ -336,7 +265,6 @@
     box-shadow:none;
   }
 
-  /* ---------- SECTION HEAD (title + action button row) ---------- */
   .section-head-row{
     display:flex;
     align-items:center;
@@ -347,41 +275,51 @@
   }
   .section-head-row h2{font-size:1.2rem;}
 
-  /* ---------- MANAGEMENT TOOL CARDS (dashboard) ---------- */
-  .tool-grid{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:18px;
-    padding-bottom:80px;
+  /* ---------- FILTER BAR ---------- */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    background: #ffffff;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
-  .tool-card{
+  .filter-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .filter-select {
+    padding: 0.45rem 0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: #0f172a;
+    background-color: #ffffff;
+  }
+  .tab-row{
+    display:flex;
+    gap:6px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+  }
+  .tab-btn{
     background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:22px 24px;
-    text-decoration:none;
-    color:var(--ink);
-    display:block;
-    box-shadow:0 8px 0 0 rgba(36,34,25,0.07);
-    transition:transform .18s ease, box-shadow .18s ease;
-  }
-  .tool-card:hover{transform:translateY(-3px);box-shadow:0 11px 0 0 rgba(36,34,25,0.1);}
-  .tool-icon{
-    width:44px;height:44px;
-    border-radius:50%;
-    background:var(--accent-tint);
-    color:var(--accent-deep);
-    display:flex;align-items:center;justify-content:center;
-    margin-bottom:16px;
-  }
-  .tool-card h3{font-size:1.05rem;margin-bottom:6px;}
-  .tool-card p{font-size:0.84rem;color:var(--ink-soft);line-height:1.5;}
-  .tool-card .go{
-    margin-top:14px;
-    font-size:0.82rem;
+    border:1.5px solid var(--line);
+    padding:9px 16px;
+    border-radius:999px;
+    font-family:'IBM Plex Sans',sans-serif;
     font-weight:600;
-    color:var(--accent-deep);
+    font-size:0.84rem;
+    color:var(--ink-soft);
   }
+  .tab-btn.active{background:var(--accent-deep);border-color:var(--accent-deep);color:var(--paper);}
 
   /* ---------- TABLE ---------- */
   .table-card{
@@ -438,8 +376,6 @@
     transition:border-color .15s ease, color .15s ease;
   }
   .row-actions button:hover{border-color:var(--ink);color:var(--ink);}
-  .row-actions button.act-approve:hover{border-color:#2E6B4F;color:#2E6B4F;}
-  .row-actions button.act-reject:hover{border-color:var(--red-deep);color:var(--red-deep);}
   .row-actions button.act-delete:hover{border-color:var(--red-deep);color:var(--red-deep);}
 
   .status-pill{
@@ -453,37 +389,9 @@
     display:inline-block;
   }
   .status-available{background:rgba(46,107,79,0.14);color:#1E4A36;}
-  .status-approved{background:rgba(46,107,79,0.14);color:#1E4A36;}
-  .status-pending{background:rgba(184,134,42,0.16);color:#7A5A19;}
-  .status-rejected{background:rgba(194,32,38,0.12);color:var(--red-deep);}
   .status-hidden{background:rgba(91,86,74,0.12);color:var(--ink-soft);}
 
-  .empty-row td{
-    text-align:center;
-    color:var(--ink-soft);
-    padding:40px 18px;
-  }
-
-  /* ---------- TABS (reservations) ---------- */
-  .tab-row{
-    display:flex;
-    gap:6px;
-    margin-bottom:24px;
-    flex-wrap:wrap;
-  }
-  .tab-btn{
-    background:var(--paper-deep);
-    border:1.5px solid var(--line);
-    padding:9px 16px;
-    border-radius:999px;
-    font-family:'IBM Plex Sans',sans-serif;
-    font-weight:600;
-    font-size:0.84rem;
-    color:var(--ink-soft);
-  }
-  .tab-btn.active{background:var(--accent-deep);border-color:var(--accent-deep);color:var(--paper);}
-
-  /* ---------- MODAL (shared: add facility / add event / reject reason) ---------- */
+  /* ---------- MODAL ---------- */
   .modal-overlay{
     display:none;
     position:fixed; inset:0;
@@ -504,7 +412,6 @@
     overflow-y:auto;
     box-shadow:0 16px 0 0 rgba(0,0,0,0.15);
   }
-  .modal-box.narrow{max-width:440px;}
   .modal-head{
     display:flex;
     align-items:flex-start;
@@ -555,18 +462,6 @@
   .modal-actions .btn{flex:1;justify-content:center;}
   .btn-secondary{background:transparent;color:var(--ink);}
   .btn-secondary:hover{background:var(--paper-deep);box-shadow:none;transform:none;border-color:var(--ink);}
-  .btn-danger{background:var(--red-deep);border-color:var(--red-deep);}
-  .btn-danger:hover{background:var(--black);border-color:var(--black);}
-  .reject-context{
-    font-size:0.85rem;
-    color:var(--ink-soft);
-    background:var(--paper-deep);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:12px 14px;
-    margin-bottom:18px;
-  }
-  .reject-context strong{color:var(--ink);}
 
   /* ---------- TOAST ---------- */
   .toast{
@@ -588,75 +483,6 @@
   .toast.show{transform:translate(-50%, 0);}
   .toast.toast-red{background:var(--red-deep);}
 
-  /* ---------- EVENT CARDS ---------- */
-  .event-list{display:flex;flex-direction:column;gap:16px;padding-bottom:80px;}
-  .event-card{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:22px 24px;
-    box-shadow:0 6px 0 0 rgba(36,34,25,0.06);
-  }
-  .event-top{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    gap:16px;
-    margin-bottom:6px;
-  }
-  .event-title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-  .event-title-row h3{font-size:1.08rem;}
-  .event-desc{font-size:0.86rem;color:var(--ink-soft);margin-bottom:14px;}
-  .event-meta{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:14px;
-    font-size:0.8rem;
-    color:var(--ink-soft);
-    margin-bottom:14px;
-  }
-  .event-meta strong{display:block;color:var(--ink);font-weight:600;font-size:0.86rem;margin-top:2px;}
-  .event-progress-label{
-    display:flex;
-    justify-content:space-between;
-    font-size:0.78rem;
-    color:var(--ink-soft);
-    margin-bottom:6px;
-  }
-  .event-progress-bar{
-    height:7px;
-    background:var(--line);
-    border-radius:4px;
-    overflow:hidden;
-  }
-  .event-progress-fill{height:100%;background:#2E6B4F;border-radius:4px;}
-  .event-actions{display:flex;gap:10px;flex-shrink:0;}
-  .event-actions button{
-    padding:8px 14px;
-    font-size:0.8rem;
-    font-weight:600;
-    border-radius:var(--radius);
-    border:1.5px solid var(--line);
-    background:var(--paper);
-    color:var(--ink-soft);
-    white-space:nowrap;
-  }
-  .event-actions button:hover{border-color:var(--ink);color:var(--ink);}
-  .event-actions button.act-delete:hover{border-color:var(--red-deep);color:var(--red-deep);}
-
-  @media (max-width: 980px){
-    .tool-grid{grid-template-columns:1fr 1fr;}
-    .event-meta{grid-template-columns:1fr 1fr;}
-  }
-  @media (max-width: 700px){
-    .tool-grid{grid-template-columns:1fr;}
-    .field-row{grid-template-columns:1fr;}
-    table.admin-table{font-size:0.8rem;}
-    .event-meta{grid-template-columns:1fr;}
-  }
-
-
-
   /* ---------- CHATBOT ---------- */
   .chat-fab{
     position:fixed;
@@ -675,7 +501,7 @@
   .chat-panel{
     position:fixed;
     bottom:96px;right:26px;
-    width:340px;
+    width:360px;
     max-width:calc(100vw - 40px);
     background:var(--paper-deep);
     border:1.5px solid var(--ink);
@@ -714,11 +540,11 @@
     display:flex;
     flex-direction:column;
     gap:10px;
-    max-height:320px;
+    max-height:300px;
     overflow-y:auto;
   }
   .chat-msg{
-    max-width:82%;
+    max-width:85%;
     padding:9px 13px;
     border-radius:var(--radius);
     font-size:0.85rem;
@@ -775,20 +601,6 @@
     color:var(--paper);
     display:flex;align-items:center;justify-content:center;
     flex-shrink:0;
-  }
-
-  @media (max-width: 980px){
-    .body-grid{grid-template-columns:1fr;}
-    .stats-grid{grid-template-columns:repeat(2, 1fr);}
-    .nav-links{display:none;}
-    .hero-seal{width:72px;height:72px;}
-  }
-  @media (max-width: 620px){
-    .stats-grid{grid-template-columns:1fr 1fr;}
-    .hero{padding:44px 0 78px;}
-    .hero-top{flex-direction:column-reverse;gap:18px;}
-    .chat-panel{right:14px;bottom:88px;}
-    .chat-fab{right:14px;bottom:18px;}
   }
 
   /* ---------- FOOTER ---------- */
@@ -897,16 +709,16 @@
       </span>
     </a>
     <nav class="nav-links">
-      <a href="comembo_admin.html" class="">Dashboard</a>
+      <a href="comembo_admin.html">Dashboard</a>
       <a href="comembo_adminFacilities.html" class="active">Facilities</a>
-      <a href="comembo_adminReservations.html" class="">Reservations</a>
-      <a href="comembo_adminEvents.html" class="">Events</a>
+      <a href="comembo_adminReservations.html">Reservations</a>
+      <a href="comembo_adminEvents.html">Events</a>
     </nav>
     <div class="nav-right">
       <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
       </button>
-      <a href="comembo_admin.html" class="btn btn-small btn-secondary-nav" style="margin-right:2px;">View Resident Site</a>
+      <a href="comembo_page.html" class="btn btn-small btn-secondary-nav" style="margin-right:2px;">View Resident Site</a>
       <div class="user-menu" id="user-menu">
         <button type="button" class="user-chip" id="user-menu-btn" aria-haspopup="true" aria-expanded="false">
           <span class="avatar">MS</span>
@@ -937,13 +749,27 @@
   </div>
 </section>
 
-
-
-
 <section class="wrap page-sub">
   <div class="section-head-row">
     <h2>All Facilities</h2>
     <button class="btn btn-small" id="add-facility-btn">+ Add Facility</button>
+  </div>
+
+  <!-- FILTER & TAB BAR -->
+  <div class="filter-bar">
+    <div class="tab-row" id="tab-row" style="margin-bottom:0;">
+      <button class="tab-btn active" data-type="all">All Types</button>
+      <button class="tab-btn" data-type="court">Courts</button>
+      <button class="tab-btn" data-type="venue">Venues</button>
+      <button class="tab-btn" data-type="resource">Resources</button>
+    </div>
+    <div class="filter-controls">
+      <select id="status-filter" class="filter-select">
+        <option value="all">All Statuses</option>
+        <option value="available">Available</option>
+        <option value="hidden">Hidden / Maintenance</option>
+      </select>
+    </div>
   </div>
 
   <div class="table-card">
@@ -952,90 +778,7 @@
         <tr><th>Name</th><th>Type</th><th>Description</th><th>Capacity</th><th>Status</th><th>Actions</th></tr>
       </thead>
       <tbody id="facilities-tbody">
-        <tr data-row>
-          <td class="cell-title">Comembo Covered Court</td>
-          <td><span class="type-pill">Court</span></td>
-          <td>Full-size outdoor basketball court with floodlights</td>
-          <td>30</td>
-          <td><span class="status-pill status-available" data-status>Available</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
-        <tr data-row>
-          <td class="cell-title">Covered Court</td>
-          <td><span class="type-pill">Court</span></td>
-          <td>Roofed, all-weather court for volleyball and badminton</td>
-          <td>40</td>
-          <td><span class="status-pill status-available" data-status>Available</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
-        <tr data-row>
-          <td class="cell-title">Function Hall</td>
-          <td><span class="type-pill">Venue</span></td>
-          <td>Large multi-purpose hall suitable for meetings and events</td>
-          <td>100</td>
-          <td><span class="status-pill status-available" data-status>Available</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
-        <tr data-row>
-          <td class="cell-title">Computer Lab</td>
-          <td><span class="type-pill">Venue</span></td>
-          <td>Air-conditioned lab with Wi-Fi and printer access</td>
-          <td>20</td>
-          <td><span class="status-pill status-hidden" data-status>Under Maintenance</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
-        <tr data-row>
-          <td class="cell-title">Sports Equipment Set</td>
-          <td><span class="type-pill">Resource</span></td>
-          <td>Basketballs, volleyballs, cones, and training equipment</td>
-          <td>5 sets</td>
-          <td><span class="status-pill status-available" data-status>Available</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
-        <tr data-row>
-          <td class="cell-title">Sound System</td>
-          <td><span class="type-pill">Resource</span></td>
-          <td>Professional PA system with microphones and speakers</td>
-          <td>2 sets</td>
-          <td><span class="status-pill status-available" data-status>Available</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
+        <tr><td colspan="6" style="text-align: center; padding: 2rem; color: #777;">Loading facilities...</td></tr>
       </tbody>
     </table>
   </div>
@@ -1056,57 +799,84 @@
       <button class="modal-close" id="modal-close">✕</button>
     </div>
     <form class="modal-form" id="facility-form" novalidate>
-  <!-- Hidden ID to know if we are adding or editing -->
-  <input type="hidden" id="f-id" value="">
+      <input type="hidden" id="f-id" value="">
 
-  <div class="field" data-field="name">
-    <label for="f-name">Facility Name <span class="req">*</span></label>
-    <input type="text" id="f-name" placeholder="e.g. Basketball Court A" required>
-    <span class="field-error">Enter a facility name.</span>
-  </div>
+      <div class="field" data-field="name">
+        <label for="f-name">Facility Name <span class="req">*</span></label>
+        <input type="text" id="f-name" placeholder="e.g. Basketball Court A" required>
+        <span class="field-error">Enter a facility name.</span>
+      </div>
 
-  <div class="field-row">
-    <div class="field" data-field="type">
-      <label for="f-type">Type <span class="req">*</span></label>
-      <select id="f-type" required>
-        <option value="" disabled selected>Select type</option>
-        <option value="Court">Court</option>
-        <option value="Venue">Venue</option>
-        <option value="Resource">Resource</option>
-      </select>
-      <span class="field-error">Select a facility type.</span>
-    </div>
+      <div class="field-row">
+        <div class="field" data-field="type">
+          <label for="f-type">Type <span class="req">*</span></label>
+          <select id="f-type" required>
+            <option value="" disabled selected>Select type</option>
+            <option value="Court">Court</option>
+            <option value="Venue">Venue</option>
+            <option value="Resource">Resource</option>
+          </select>
+          <span class="field-error">Select a facility type.</span>
+        </div>
 
-    <div class="field" data-field="capacity">
-      <label for="f-capacity">Capacity / Quantity <span class="req">*</span></label>
-      <input type="text" id="f-capacity" placeholder="e.g. 30 or 5 sets" required>
-      <span class="field-error">Enter capacity or quantity.</span>
-    </div>
-  </div>
+        <div class="field" data-field="capacity">
+          <label for="f-capacity">Capacity / Quantity <span class="req">*</span></label>
+          <input type="text" id="f-capacity" placeholder="e.g. 30 or 5 sets" required>
+          <span class="field-error">Enter capacity or quantity.</span>
+        </div>
+      </div>
 
-  <div class="field" data-field="status">
-    <label for="f-status">Operational Status <span class="req">*</span></label>
-    <select id="f-status" required>
-      <option value="Available">Available</option>
-      <option value="Under Maintenance">Under Maintenance</option>
-      <option value="Hidden">Hidden</option>
-    </select>
-  </div>
+      <div class="field" data-field="status">
+        <label for="f-status">Operational Status <span class="req">*</span></label>
+        <select id="f-status" required>
+          <option value="Available">Available</option>
+          <option value="Under Maintenance">Under Maintenance</option>
+          <option value="Hidden">Hidden</option>
+        </select>
+      </div>
 
-  <div class="field" data-field="description">
-    <label for="f-description">Description <span class="req">*</span></label>
-    <textarea id="f-description" rows="3" placeholder="Briefly describe this facility…" required></textarea>
-    <span class="field-error">Enter a short description.</span>
-  </div>
+      <div class="field" data-field="description">
+        <label for="f-description">Description <span class="req">*</span></label>
+        <textarea id="f-description" rows="3" placeholder="Briefly describe this facility…" required></textarea>
+        <span class="field-error">Enter a short description.</span>
+      </div>
 
-  <div class="modal-actions">
-    <button type="button" class="btn btn-secondary" id="modal-cancel">Cancel</button>
-    <button type="submit" class="btn" id="modal-submit-btn">Save Facility →</button>
-  </div>
-</form>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="modal-cancel">Cancel</button>
+        <button type="submit" class="btn" id="modal-submit-btn">Save Facility →</button>
+      </div>
+    </form>
   </div>
 </div>
 
+<!-- CHATBOT WIDGET -->
+<button class="chat-fab" id="chat-fab" title="SK Assistant">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</button>
+
+<div class="chat-panel" id="chat-panel">
+  <div class="chat-head">
+    <div>
+      <div class="title">SK Assistant (Live Firebase)</div>
+      <div class="sub">Barangay Comembo · Connected</div>
+    </div>
+    <button class="chat-close" id="chat-close">✕</button>
+  </div>
+  <div class="chat-body" id="chat-body">
+    <div class="chat-msg bot">Hello Admin! Ask me anything in your own words—I query live Firebase facility records instantly for Barangay Comembo.</div>
+  </div>
+  <div class="chat-suggest">
+    <button data-msg="How many facilities are there?">Facility count</button>
+    <button data-msg="Which facilities are available?">Available venues</button>
+    <button data-msg="How do I add a new facility?">Help & guidance</button>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" id="chat-input" placeholder="Ask anything in your own words…">
+    <button class="chat-send" id="chat-send">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 20l16-8L4 4l2 8-2 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
 
 <footer>
   <div class="wrap">
@@ -1116,10 +886,10 @@
         EMBO Access
       </div>
       <div class="foot-seals">
-        <div class="imgwrap"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Cembo"></div>
+        <div class="imgwrap"><img src="../Pics/cembologo.png" alt="Cembo"></div>
         <div class="imgwrap"><img src="../Pics/West_Rembo_Logo.png" alt="West Rembo"></div>
         <div class="imgwrap"><img src="../Pics/East_Rembo_Logo.png" alt="East Rembo"></div>
-        <div class="imgwrap"><img src="../Pics/cembologo.png" alt="Comembo"></div>
+        <div class="imgwrap"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Comembo"></div>
         <div class="imgwrap"><img src="../Pics/pembologo.png" alt="Pembo"></div>
       </div>
     </div>
@@ -1129,34 +899,6 @@
     </div>
   </div>
 </footer>
-
-<button class="chat-fab" id="chat-fab" title="SK Assistant">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-</button>
-
-<div class="chat-panel" id="chat-panel">
-  <div class="chat-head">
-    <div>
-      <div class="title">SK Assistant</div>
-      <div class="sub">Barangay Cembo · Online</div>
-    </div>
-    <button class="chat-close" id="chat-close">✕</button>
-  </div>
-  <div class="chat-body" id="chat-body">
-    <div class="chat-msg bot">Hi! I'm the SK Cembo assistant. I can help with facility availability, upcoming programs, your reservations, or announcements. What do you need?</div>
-  </div>
-  <div class="chat-suggest">
-    <button data-msg="Is the basketball court free this weekend?">Court availability</button>
-    <button data-msg="What programs are coming up?">Upcoming programs</button>
-    <button data-msg="Where's my reservation status?">My reservation status</button>
-  </div>
-  <div class="chat-input-row">
-    <input type="text" id="chat-input" placeholder="Type a message…">
-    <button class="chat-send" id="chat-send">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 20l16-8L4 4l2 8-2 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-    </button>
-  </div>
-</div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -1175,10 +917,8 @@
     onSnapshot 
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // CHANGE THIS FOR EACH BARANGAY FILE AS A FALLBACK (e.g. "Cembo", "Comembo", "East Rembo", "Pembo", "West Rembo")
   const DEFAULT_BARANGAY = "Comembo"; 
 
-  // Firebase Configuration
   const firebaseConfig = {
     apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
     authDomain: "embo-access.firebaseapp.com",
@@ -1194,8 +934,10 @@
 
   let currentAdminBarangay = DEFAULT_BARANGAY;
   let unsubscribeFacilities = null;
+  let allFacilities = [];
+  let activeTypeFilter = "all";
+  let activeStatusFilter = "all";
 
-  // UI Elements
   const overlay = document.getElementById('modal-overlay');
   const modalTitle = document.getElementById('modal-title');
   const form = document.getElementById('facility-form');
@@ -1203,13 +945,14 @@
   const toastText = document.getElementById('toast-text');
   const tbody = document.getElementById('facilities-tbody');
 
-  // Input Elements
   const facilityIdInput = document.getElementById('f-id');
   const nameInput = document.getElementById('f-name');
   const typeInput = document.getElementById('f-type');
   const capacityInput = document.getElementById('f-capacity');
   const statusInput = document.getElementById('f-status');
   const descInput = document.getElementById('f-description');
+
+  const statusFilterSelect = document.getElementById('status-filter');
 
   function showToast(msg, isRed = false) {
     if (!toastText || !toast) return;
@@ -1226,20 +969,17 @@
     if (input) input.classList.toggle('error', hasError);
   }
 
-  // --- AUTH & INITIALIZATION ---
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       try {
         let fullName = "";
-
-        // 1. Get user profile
         const userDocRef = doc(db, "users", user.uid);
         const userDocSnap = await getDoc(userDocRef);
 
         if (userDocSnap.exists()) {
           const data = userDocSnap.data();
           fullName = data.fullName || data.name || data.firstName;
-          if (data.barangay) currentAdminBarangay = DEFAULT_BARANGAY; // Use default if not set
+          if (data.barangay) currentAdminBarangay = data.barangay;
         } else {
           const q = query(collection(db, "users"), where("email", "==", user.email));
           const querySnapshot = await getDocs(q);
@@ -1252,24 +992,14 @@
           });
         }
 
-        // Display Admin Name & Avatar
         const nameElement = document.getElementById("admin-name");
-        if (nameElement && fullName) {
-          nameElement.textContent = `Admin - ${fullName}`;
-        }
+        if (nameElement && fullName) nameElement.textContent = `Admin - ${fullName}`;
 
         const avatarElement = document.querySelector(".user-chip .avatar");
         if (avatarElement && fullName) {
-          const initials = fullName
-            .split(" ")
-            .map(n => n[0])
-            .join("")
-            .substring(0, 2)
-            .toUpperCase();
-          avatarElement.textContent = initials;
+          avatarElement.textContent = fullName.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase();
         }
 
-        // Start listening to live facilities from Firestore
         listenToFacilities(currentAdminBarangay);
 
       } catch (err) {
@@ -1281,104 +1011,133 @@
     }
   });
 
-  // --- REAL-TIME VIEW / LISTEN FROM FIRESTORE ---
   function listenToFacilities(barangay) {
     if (unsubscribeFacilities) unsubscribeFacilities();
 
     const q = query(collection(db, "facilities"), where("barangay", "==", barangay));
 
     unsubscribeFacilities = onSnapshot(q, (snapshot) => {
-      tbody.innerHTML = ""; 
-
-      if (snapshot.empty) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 20px;">No facilities found for Barangay ${barangay}. Click "+ Add Facility" to create one.</td></tr>`;
-        return;
-      }
-
+      allFacilities = [];
       snapshot.forEach((docSnap) => {
-        const item = docSnap.data();
-        const docId = docSnap.id;
-        const row = createTableRow(docId, item);
-        tbody.appendChild(row);
+        allFacilities.push({ docId: docSnap.id, ...docSnap.data() });
       });
+      renderTable();
     }, (error) => {
       console.error("Firestore Read Error: ", error);
       showToast("Error loading facilities.", true);
     });
   }
 
-  // --- RENDER TABLE ROWS (WITH EDIT, REMOVE & STATUS TOGGLE) ---
-  function createTableRow(id, data) {
-    const tr = document.createElement('tr');
-    tr.setAttribute('data-id', id);
+  function renderTable() {
+    if (!tbody) return;
 
-    let statusClass = 'status-available';
-    if (data.status === 'Under Maintenance' || data.status === 'Hidden') {
-      statusClass = 'status-hidden';
+    let filtered = allFacilities.filter(f => {
+      const typeMatch = activeTypeFilter === 'all' || (f.type || '').toLowerCase() === activeTypeFilter.toLowerCase();
+      const statusLower = (f.status || 'available').toLowerCase();
+      let statusMatch = true;
+      if (activeStatusFilter === 'available') statusMatch = statusLower === 'available';
+      if (activeStatusFilter === 'hidden') statusMatch = statusLower !== 'available';
+      return typeMatch && statusMatch;
+    });
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #777;">No facilities found matching the selected filter.</td></tr>`;
+      return;
     }
 
-    tr.innerHTML = `
-      <td class="cell-title">${data.name}</td>
-      <td><span class="type-pill">${data.type}</span></td>
-      <td>${data.description}</td>
-      <td>${data.capacity}</td>
-      <td><span class="status-pill ${statusClass}" data-status>${data.status}</span></td>
-      <td>
-        <div class="row-actions">
-          <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-          <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-          <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        </div>
-      </td>
-    `;
-
-    const toggleBtn = tr.querySelector('[data-toggle]');
-    const editBtn = tr.querySelector('[data-edit]');
-    const deleteBtn = tr.querySelector('[data-delete]');
-
-    // Quick Status Toggle
-    toggleBtn.addEventListener('click', async () => {
-      const newStatus = data.status === 'Available' ? 'Hidden' : 'Available';
-      try {
-        await updateDoc(doc(db, "facilities", id), { status: newStatus });
-        showToast(`${data.name} status updated to ${newStatus}.`, newStatus === 'Hidden');
-      } catch (e) {
-        console.error("Update status error:", e);
-        showToast("Permission denied or error updating status.", true);
+    tbody.innerHTML = filtered.map(data => {
+      const id = data.docId;
+      let statusClass = 'status-available';
+      if (data.status === 'Under Maintenance' || data.status === 'Hidden') {
+        statusClass = 'status-hidden';
       }
+
+      return `
+        <tr data-id="${id}">
+          <td class="cell-title">${data.name}</td>
+          <td><span class="type-pill">${data.type}</span></td>
+          <td>${data.description}</td>
+          <td>${data.capacity}</td>
+          <td><span class="status-pill ${statusClass}" data-status>${data.status}</span></td>
+          <td>
+            <div class="row-actions">
+              <button title="Toggle visibility" data-toggle="${id}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
+              <button title="Edit" data-edit="${id}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
+              <button title="Delete" class="act-delete" data-delete="${id}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </td>
+        </tr>`;
+    }).join('');
+
+    // Attach listeners
+    document.querySelectorAll('[data-toggle]').forEach(btn => {
+      const id = btn.dataset.toggle;
+      btn.addEventListener('click', () => toggleFacilityStatus(id));
     });
-
-    // Populate Modal for EDITING
-    editBtn.addEventListener('click', () => {
-      modalTitle.textContent = 'Edit Facility';
-      facilityIdInput.value = id;
-      nameInput.value = data.name;
-      typeInput.value = data.type;
-      capacityInput.value = data.capacity;
-      statusInput.value = data.status || 'Available';
-      descInput.value = data.description;
-
-      form.querySelectorAll('.field').forEach(f => f.classList.remove('has-error'));
-      overlay.classList.add('show');
+    document.querySelectorAll('[data-edit]').forEach(btn => {
+      const id = btn.dataset.edit;
+      btn.addEventListener('click', () => editFacility(id));
     });
-
-    // REMOVE / DELETE Facility from Firestore
-    deleteBtn.addEventListener('click', async () => {
-      if (confirm(`Remove ${data.name}? This action cannot be undone.`)) {
-        try {
-          await deleteDoc(doc(db, "facilities", id));
-          showToast(`${data.name} removed successfully.`, true);
-        } catch (e) {
-          console.error("Delete error:", e);
-          showToast("Failed to delete facility. Check rules.", true);
-        }
-      }
+    document.querySelectorAll('[data-delete]').forEach(btn => {
+      const id = btn.dataset.delete;
+      btn.addEventListener('click', () => deleteFacility(id));
     });
-
-    return tr;
   }
 
-  // --- MODAL CONTROLS ---
+  document.querySelectorAll('#tab-row .tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#tab-row .tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeTypeFilter = btn.dataset.type;
+      renderTable();
+    });
+  });
+
+  if (statusFilterSelect) {
+    statusFilterSelect.addEventListener('change', (e) => {
+      activeStatusFilter = e.target.value;
+      renderTable();
+    });
+  }
+
+  async function toggleFacilityStatus(id) {
+    const f = allFacilities.find(x => x.docId === id);
+    if (!f) return;
+    const newStatus = f.status === 'Available' ? 'Hidden' : 'Available';
+    try {
+      await updateDoc(doc(db, "facilities", id), { status: newStatus });
+      showToast(`${f.name} status updated to ${newStatus}.`, newStatus === 'Hidden');
+    } catch (e) {
+      showToast("Permission denied or error updating status.", true);
+    }
+  }
+
+  function editFacility(id) {
+    const f = allFacilities.find(x => x.docId === id);
+    if (!f) return;
+    modalTitle.textContent = 'Edit Facility';
+    facilityIdInput.value = id;
+    nameInput.value = f.name;
+    typeInput.value = f.type;
+    capacityInput.value = f.capacity;
+    statusInput.value = f.status || 'Available';
+    descInput.value = f.description;
+
+    form.querySelectorAll('.field').forEach(field => field.classList.remove('has-error'));
+    overlay.classList.add('show');
+  }
+
+  async function deleteFacility(id) {
+    const f = allFacilities.find(x => x.docId === id);
+    if (!f || !confirm(`Remove ${f.name}? This action cannot be undone.`)) return;
+    try {
+      await deleteDoc(doc(db, "facilities", id));
+      showToast(`${f.name} removed successfully.`, true);
+    } catch (e) {
+      showToast("Failed to delete facility.", true);
+    }
+  }
+
   document.getElementById('add-facility-btn').addEventListener('click', () => {
     modalTitle.textContent = 'Add Facility';
     facilityIdInput.value = '';
@@ -1392,10 +1151,8 @@
   document.getElementById('modal-cancel').addEventListener('click', closeModal);
   overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
 
-  // --- SAVE FORM (ADD OR UPDATE FIRESTORE DOCUMENT) ---
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-
     let valid = true;
     const checks = [
       [nameInput.closest('.field'), nameInput.value.trim().length > 0],
@@ -1421,22 +1178,19 @@
     try {
       const docId = facilityIdInput.value;
       if (docId) {
-        // Edit existing document
         await updateDoc(doc(db, "facilities", docId), payload);
         showToast(`${payload.name} updated successfully.`);
       } else {
-        // Add new document
         await addDoc(collection(db, "facilities"), payload);
         showToast(`${payload.name} added to Barangay ${payload.barangay}.`);
       }
       closeModal();
     } catch (err) {
-      console.error("Firestore Save Error:", err);
-      showToast("Error saving facility. Check console for rules error.", true);
+      showToast("Error saving facility.", true);
     }
   });
 
-  // --- SK ASSISTANT CHATBOT LOGIC ---
+  // --- UPGRADED UNRESTRICTED AI / FIREBASE CHATBOT LOGIC WITH THINKING PAUSE ---
   const fab = document.getElementById('chat-fab');
   const panel = document.getElementById('chat-panel');
   const closeBtn = document.getElementById('chat-close');
@@ -1455,12 +1209,6 @@
   if (navChatBtn) navChatBtn.addEventListener('click', togglePanel);
   if (closeBtn) closeBtn.addEventListener('click', () => panel.classList.remove('show'));
 
-  const canned = {
-    "is the basketball court free this weekend?": "Let me check the calendar — the Basketball Court has an open slot Saturday 2:00–4:00 PM. Want me to start a reservation request for it?",
-    "what programs are coming up?": "Coming up: our Basketball Tournament and a Digital Skills Workshop this month. Tap \"Join Program\" on the home page to sign up.",
-    "where's my reservation status?": "You can see every request and its status — Pending, Approved, or Rejected — under \"My Reservations\" in the top menu."
-  };
-
   function addMsg(text, who) {
     if (!chatBody) return;
     const el = document.createElement('div');
@@ -1468,37 +1216,103 @@
     el.textContent = text;
     chatBody.appendChild(el);
     chatBody.scrollTop = chatBody.scrollHeight;
+    return el;
   }
 
-  function respond(text) {
+  function handleNaturalLanguageChat(text) {
     addMsg(text, 'user');
-    const key = text.trim().toLowerCase();
-    const reply = canned[key] || "Thanks — I've noted that.";
-    setTimeout(() => addMsg(reply, 'bot'), 500);
+    const q = text.toLowerCase();
+
+    // Show temporary "Thinking..." bubble
+    const thinkingEl = addMsg("Thinking...", 'bot');
+
+    setTimeout(() => {
+      let reply = "";
+      const availableItems = allFacilities.filter(f => (f.status || '').toLowerCase() === 'available');
+      const maintenanceItems = allFacilities.filter(f => (f.status || '').toLowerCase() !== 'available');
+
+      if (q.includes('how many') || q.includes('total') || q.includes('count') || q.includes('list')) {
+        if (allFacilities.length === 0) {
+          reply = `There are currently no facilities registered in Firebase for Barangay ${currentAdminBarangay}.`;
+        } else {
+          const names = allFacilities.map(f => `${f.name} (${f.type}, Status: ${f.status})`).join(', ');
+          reply = `We have ${allFacilities.length} total facility/ies in Firebase for Barangay ${currentAdminBarangay}:\n${names}`;
+        }
+      } else if (q.includes('available') || q.includes('free') || q.includes('open')) {
+        if (availableItems.length === 0) {
+          reply = `No facilities are currently marked as available in Barangay ${currentAdminBarangay}.`;
+        } else {
+          const names = availableItems.map(f => `${f.name} (${f.type}, Cap: ${f.capacity})`).join(', ');
+          reply = `Here are the currently available facilities: ${names}.`;
+        }
+      } else if (q.includes('maintenance') || q.includes('hidden') || q.includes('broken')) {
+        if (maintenanceItems.length === 0) {
+          reply = `All facilities in Barangay ${currentAdminBarangay} are fully operational and available!`;
+        } else {
+          const names = maintenanceItems.map(f => `${f.name} (${f.status})`).join(', ');
+          reply = `Facilities under maintenance or hidden: ${names}.`;
+        }
+      } else if (q.includes('search') || q.includes('find') || q.includes('court') || q.includes('hall') || q.includes('equipment')) {
+        const matches = allFacilities.filter(f => 
+          f.name.toLowerCase().includes(q) || 
+          f.type.toLowerCase().includes(q) || 
+          f.description.toLowerCase().includes(q)
+        );
+        if (matches.length === 0) {
+          reply = `I searched Firebase records for "${text}", but found no matching facility.`;
+        } else {
+          const details = matches.map(m => `• ${m.name} [Type: ${m.type}, Status: ${m.status}, Cap: ${m.capacity}]`).join('\n');
+          reply = `Found ${matches.length} matching facility record(s):\n${details}`;
+        }
+      } else if (q.includes('how') || q.includes('guide') || q.includes('steps') || q.includes('add') || q.includes('help')) {
+        if (q.includes('add')) {
+          reply = `To add a facility: Click the "+ Add Facility" button at the top right of the page, fill in the name, type, capacity, status, and description, then click "Save Facility".`;
+        } else if (q.includes('toggle') || q.includes('hide')) {
+          reply = `You can toggle a facility's visibility instantly by clicking the eye icon on its table row.`;
+        } else {
+          reply = `As your admin assistant, I can check live Firebase facility records for you! You can ask things like "How many facilities?", "Which ones are available?", or search for courts/venues.`;
+        }
+      } else {
+        const tokens = q.split(' ').filter(w => w.length > 2);
+        const results = allFacilities.filter(f => {
+          const blob = `${f.name} ${f.type} ${f.description} ${f.status}`.toLowerCase();
+          return tokens.some(t => blob.includes(t));
+        });
+
+        if (results.length > 0) {
+          const summary = results.map(f => `${f.name} (${f.status})`).join(', ');
+          reply = `Based on your query, I found these matching Firebase facility items: ${summary}.`;
+        } else {
+          reply = `I checked the live Firebase database for Barangay ${currentAdminBarangay}. You have ${allFacilities.length} total facilities recorded (${availableItems.length} available). Feel free to ask about specific equipment, capacities, or management instructions!`;
+        }
+      }
+
+      thinkingEl.textContent = reply;
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }, 800);
   }
 
   if (sendBtn && chatInput) {
     sendBtn.addEventListener('click', () => {
       const v = chatInput.value.trim();
       if (!v) return;
-      respond(v);
+      handleNaturalLanguageChat(v);
       chatInput.value = '';
     });
-
     chatInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         const v = chatInput.value.trim();
         if (!v) return;
-        respond(v);
+        handleNaturalLanguageChat(v);
         chatInput.value = '';
       }
     });
   }
 
   document.querySelectorAll('.chat-suggest button').forEach(btn => {
-    btn.addEventListener('click', () => respond(btn.dataset.msg));
+    btn.addEventListener('click', () => handleNaturalLanguageChat(btn.dataset.msg));
   });
-  // User dropdown + logout
+
   const userMenu = document.getElementById("user-menu");
   const userMenuBtn = document.getElementById("user-menu-btn");
   userMenuBtn.addEventListener("click", (e) => {

@@ -721,8 +721,17 @@
     collection, 
     query, 
     where, 
-    getDocs 
+    getDocs,
+    doc,
+    getDoc,
+    addDoc,
+    orderBy,
+    limit,
+    serverTimestamp 
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  // BARANGAY IDENTIFIER (Change this for Pembo, Comembo, etc.)
+  const BARANGAY_NAME = "Comembo";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
@@ -740,58 +749,66 @@
 
   const avatarEl = document.getElementById('user-avatar');
   const nameEl = document.getElementById('user-name');
+  const nameInput = document.getElementById('fb-name');
+  const emailInput = document.getElementById('fb-email');
+
+  let currentUserData = null;
 
   // ---------- AUTH GUARD & USER DATA LOADER ----------
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
-      // 3. Kick out unauthenticated users immediately
       window.location.href = 'login_page.html';
       return;
     }
 
     try {
-      // Query Firestore for user profile
-      const q = query(collection(db, "users"), where("email", "==", user.email));
-      const querySnapshot = await getDocs(q);
+      // 1. Fetch user profile from Firestore users collection
+      const userDocRef = doc(db, "users", user.uid);
+      const userDocSnap = await getDoc(userDocRef);
 
-      let firstName = "";
-      let lastName = "";
+      if (userDocSnap.exists()) {
+        currentUserData = { id: user.uid, ...userDocSnap.data() };
+      } else {
+        const q = query(collection(db, "users"), where("email", "==", user.email));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((docSnap) => {
+          if (docSnap.exists()) {
+            currentUserData = { id: docSnap.id, ...docSnap.data() };
+          }
+        });
+      }
 
-      querySnapshot.forEach((docSnap) => {
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          firstName = data.firstname || "";
-          lastName = data.lastname || "";
-        }
-      });
-
-      if (firstName || lastName) {
-        // 1. Display full firstname and lastname
-        const fullName = `${firstName} ${lastName}`.trim();
+      if (currentUserData) {
+        const firstName = currentUserData.firstname || currentUserData.firstName || "";
+        const lastName = currentUserData.lastname || currentUserData.lastName || "";
+        const fullName = `${firstName} ${lastName}`.trim() || user.email;
+        
         nameEl.textContent = fullName;
-
-        // 2. Compute Initials (e.g., "Martin" + "Reyes" -> "MR")
         const fInitial = firstName ? firstName.charAt(0).toUpperCase() : "";
         const lInitial = lastName ? lastName.charAt(0).toUpperCase() : "";
         avatarEl.textContent = `${fInitial}${lInitial}` || "U";
+
+        // Pre-fill form inputs
+        if (nameInput) nameInput.value = fullName;
+        if (emailInput) emailInput.value = user.email;
       } else {
         nameEl.textContent = user.email;
         avatarEl.textContent = user.email.charAt(0).toUpperCase();
+        if (nameInput) nameInput.value = user.email;
+        if (emailInput) emailInput.value = user.email;
       }
 
+      // 2. Load Recent Feedback from Firestore
+      await fetchRecentFeedback();
+
     } catch (err) {
-      console.error("Error fetching user profile:", err);
+      console.error("Error loading user profile:", err);
       nameEl.textContent = "Resident";
       avatarEl.textContent = "R";
     }
   });
-</script>
 
-<script>
-  // barangay is locked to Comembo on this page — no picker needed
-  const barangayField = document.getElementById('fb-barangay');
-
-  // ---------- star rating ----------
+  // ---------- STAR RATING SETUP ----------
   const starWrap = document.getElementById('star-rating');
   const starButtons = Array.from(starWrap.querySelectorAll('button'));
   const ratingLabel = document.getElementById('rating-label');
@@ -815,35 +832,46 @@
   });
   starWrap.addEventListener('mouseleave', ()=> paintStars(currentRating));
 
-  // ---------- character counter ----------
+  // ---------- CHARACTER COUNTER ----------
   const message = document.getElementById('fb-message');
   const charUsed = document.getElementById('char-used');
   message.addEventListener('input', ()=>{
     charUsed.textContent = message.value.length;
   });
 
-  // ---------- recent feedback list (persisted in this browser) ----------
+  // ---------- FETCH LAST 3 FEEDBACKS FROM FIRESTORE ----------
   const fbList = document.getElementById('fb-list');
-  const STORAGE_KEY = 'sk_comembo_feedback_v1';
 
-  const seedFeedback = [
-    { name:'Marites A.', barangay:'Comembo', category:'Facility Reservation', rating:5, text:'Booking the covered court took two minutes. Confirmation slip printed on the spot — huge upgrade from the old walk-in process.', date:'2026-04-14' },
-    { name:'Ronnie P.', barangay:'Comembo', category:'Event Registration', rating:4, text:'Registered for the leadership summit easily, but I wish reminders came a day earlier than they do now.', date:'2026-04-09' },
-    { name:'Dianne C.', barangay:'Comembo', category:'Website / System', rating:5, text:'Clean and fast on mobile. Was able to check the mini calendar and reserve a slot between jeepney rides.', date:'2026-04-02' }
-  ];
+  async function fetchRecentFeedback() {
+    try {
+      // Query by barangay only (avoids needing a Firestore index)
+      const q = query(
+        collection(db, "feedback"), 
+        where("barangay", "==", BARANGAY_NAME)
+      );
+      const querySnapshot = await getDocs(q);
+      
+      let feedbackItems = [];
+      querySnapshot.forEach((docSnap) => {
+        feedbackItems.push({ id: docSnap.id, ...docSnap.data() });
+      });
 
-  function loadFeedback(){
-    try{
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : seedFeedback;
-    }catch(e){
-      return seedFeedback;
+      // Sort client-side by createdAt descending (newest first)
+      feedbackItems.sort((a, b) => {
+        const timeA = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
+        const timeB = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
+        return timeB - timeA;
+      });
+
+      // Take only the last 3 most recent
+      renderFeedback(feedbackItems.slice(0, 3));
+
+    } catch (err) {
+      console.error("Error fetching feedback:", err);
+      fbList.innerHTML = `<p style="font-size:0.82rem; color:var(--ink-soft);">Unable to load recent feedback.</p>`;
     }
   }
-  function saveFeedback(list){
-    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }catch(e){}
-  }
-
+  
   function starsSVG(n){
     let out = '';
     for(let i=0;i<5;i++){
@@ -853,23 +881,31 @@
   }
 
   function renderFeedback(list){
-    fbList.innerHTML = list.slice(0, 6).map(item => `
-      <div class="fb-item">
-        <span class="fb-tag">${item.category}</span>
-        <div class="fb-item-head">
-          <span class="fb-name">${item.name}</span>
-          <span class="fb-stars">${starsSVG(item.rating)}</span>
+    if (list.length === 0) {
+      fbList.innerHTML = `<p style="font-size:0.82rem; color:var(--ink-soft);">No feedback submitted yet. Be the first!</p>`;
+      return;
+    }
+
+    fbList.innerHTML = list.map(item => {
+      let dateStr = new Date().toISOString().slice(0,10);
+      if (item.createdAt && item.createdAt.toDate) {
+        dateStr = item.createdAt.toDate().toISOString().slice(0,10);
+      }
+      return `
+        <div class="fb-item">
+          <span class="fb-tag">${item.category}</span>
+          <div class="fb-item-head">
+            <span class="fb-name">${item.name}</span>
+            <span class="fb-stars">${starsSVG(item.rating)}</span>
+          </div>
+          <div class="fb-meta">${item.barangay} · ${dateStr}</div>
+          <p class="fb-text">${item.text}</p>
         </div>
-        <div class="fb-meta">${item.barangay} · ${item.date}</div>
-        <p class="fb-text">${item.text}</p>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 
-  let feedbackList = loadFeedback();
-  renderFeedback(feedbackList);
-
-  // ---------- validation + fake submit ----------
+  // ---------- FORM SUBMISSION TO FIRESTORE ----------
   const form = document.getElementById('feedback-form');
   const successBanner = document.getElementById('success-banner');
   const errorBanner = document.getElementById('error-banner');
@@ -886,17 +922,14 @@
     if(input) input.classList.toggle('error', hasError);
   }
 
-  form.addEventListener('submit', function(e){
+  form.addEventListener('submit', async function(e){
     e.preventDefault();
     successBanner.classList.remove('show');
     errorBanner.classList.remove('show');
 
-    const nameEl = document.getElementById('fb-name');
-    const emailEl = document.getElementById('fb-email');
-
     const checks = [
-      [nameEl.closest('.field'), nameEl.value.trim().length > 0],
-      [emailEl.closest('.field'), /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())],
+      [nameInput.closest('.field'), nameInput.value.trim().length > 0],
+      [emailInput.closest('.field'), /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim())],
       [categorySelect.closest('.field'), categorySelect.value !== ''],
       [starWrap.closest('.field'), currentRating > 0],
       [message.closest('.field'), message.value.trim().length > 0],
@@ -914,37 +947,59 @@
       return;
     }
 
-    // No backend wired up yet — this simulates a successful submission.
-    // Replace this block with a real POST request to your feedback endpoint.
-    const newEntry = {
-      name: nameEl.value.trim(),
-      barangay: 'Comembo',
+    const newFeedbackData = {
+      name: nameInput.value.trim(),
+      email: emailInput.value.trim(),
+      barangay: BARANGAY_NAME,
       category: categoryLabels[categorySelect.value],
       rating: currentRating,
       text: message.value.trim(),
-      date: new Date().toISOString().slice(0,10)
+      createdAt: serverTimestamp()
     };
-    feedbackList = [newEntry, ...feedbackList];
-    saveFeedback(feedbackList);
-    renderFeedback(feedbackList);
 
-    successBanner.classList.add('show');
-    submitBtn.textContent = 'Sent ✓';
-    submitBtn.setAttribute('disabled', 'true');
-    successBanner.scrollIntoView({behavior:'smooth', block:'nearest'});
+    try {
+      submitBtn.textContent = 'Sending...';
+      submitBtn.setAttribute('disabled', 'true');
 
-    setTimeout(()=>{
-      form.reset();
-      currentRating = 0;
-      paintStars(0);
-      ratingLabel.textContent = 'Tap a star to rate';
-      charUsed.textContent = '0';
+      // Save to Firestore 'feedback' collection
+      await addDoc(collection(db, "feedback"), newFeedbackData);
+
+      successBanner.classList.add('show');
+      submitBtn.textContent = 'Sent ✓';
+      successBanner.scrollIntoView({behavior:'smooth', block:'nearest'});
+
+      // Refresh recent feedbacks list
+      await fetchRecentFeedback();
+
+      setTimeout(()=>{
+        form.reset();
+        currentRating = 0;
+        paintStars(0);
+        ratingLabel.textContent = 'Tap a star to rate';
+        charUsed.textContent = '0';
+        submitBtn.removeAttribute('disabled');
+        submitBtn.textContent = 'Send feedback →';
+        successBanner.classList.remove('show');
+        
+        // Restore pre-filled user details after reset
+        if (currentUserData) {
+          const firstName = currentUserData.firstname || currentUserData.firstName || "";
+          const lastName = currentUserData.lastname || currentUserData.lastName || "";
+          nameInput.value = `${firstName} ${lastName}`.trim();
+          emailInput.value = currentUserData.email || "";
+        }
+      }, 2400);
+
+    } catch (err) {
+      console.error("Error submitting feedback:", err);
+      errorBanner.querySelector('span').textContent = "Failed to send feedback. Please check your connection and try again.";
+      errorBanner.classList.add('show');
       submitBtn.removeAttribute('disabled');
       submitBtn.textContent = 'Send feedback →';
-      successBanner.classList.remove('show');
-    }, 2400);
+    }
   });
 </script>
+
 
 </body>
 </html>

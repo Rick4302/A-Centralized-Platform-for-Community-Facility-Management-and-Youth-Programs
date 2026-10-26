@@ -874,7 +874,7 @@
   // 1. FIREBASE IMPORTS
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, serverTimestamp, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   // 2. INITIALIZE SERVICES
   emailjs.init("ikE7jS7FnvkxHB-dY");
@@ -893,7 +893,7 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // 3. FIREBASE REGISTRATION FUNCTION
+  // 3. FIREBASE REGISTRATION FUNCTION WITH RESIDENCY CHECK
   async function registerUserInFirebase() {
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
@@ -904,16 +904,45 @@
     const mobile = document.getElementById('mobile').value.trim();
 
     try {
+      otpDevHint.textContent = "Verifying residency in master list...";
+
+      // 1. Check if resident exists in the validated_residents collection for this barangay
+      const residentQuery = query(
+        collection(db, "validated_residents"),
+        where("barangay", "==", barangay),
+        where("firstname", "==", firstname),
+        where("lastname", "==", lastname)
+      );
+      const residentSnap = await getDocs(residentQuery);
+
+      if (residentSnap.empty) {
+        // Also check by email as a fallback option
+        const emailQuery = query(
+          collection(db, "validated_residents"),
+          where("barangay", "==", barangay),
+          where("email", "==", email)
+        );
+        const emailSnap = await getDocs(emailQuery);
+
+        if (emailSnap.empty) {
+          throw new Error(`Your name and email were not found in the official ${barangay} validated resident master list. Please contact your SK Council office.`);
+        }
+      }
+
+      // 2. If verified, proceed with Firebase Auth creation
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
+      // 3. Save user profile to universal 'users' collection
       await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
         firstname: firstname,
         lastname: lastname,
         barangay: barangay,
         address: address,
         mobile: mobile,
         email: email,
+        role: "resident",
         createdAt: serverTimestamp()
       });
 
@@ -926,16 +955,17 @@
       banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
     } catch (error) {
-      console.error("Firebase Registration Error:", error);
+      console.error("Registration Error:", error);
       otpVerifyBtn.disabled = false;
       otpVerifyBtn.textContent = 'Verify & create account →';
 
       if (error.code === 'auth/email-already-in-use') {
         otpError.textContent = "An account with this email already exists. Please log in instead.";
       } else {
-        otpError.textContent = "Registration failed: " + error.message;
+        otpError.textContent = error.message;
       }
       otpError.style.display = 'block';
+      otpError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   }
 

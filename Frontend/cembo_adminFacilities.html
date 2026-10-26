@@ -196,29 +196,6 @@
     box-shadow:0 6px 0 0 var(--ink);
   }
   .btn:active{transform:translateY(0);box-shadow:0 2px 0 0 var(--ink);}
-  .btn-invert{
-    background:var(--paper);
-    border-color:var(--paper);
-    color:var(--ink);
-  }
-  .btn-invert:hover{
-    background:var(--ink);
-    border-color:var(--paper);
-    color:var(--paper);
-    box-shadow:0 6px 0 0 rgba(245,240,228,0.5);
-  }
-  .btn-outline{
-    background:transparent;
-    border-color:var(--paper);
-    color:var(--paper);
-  }
-  .btn-outline:hover{
-    background:rgba(245,240,228,0.14);
-    border-color:var(--paper);
-    color:var(--paper);
-    box-shadow:none;
-    transform:translateY(-2px);
-  }
   .btn-small{padding:9px 16px;font-size:0.82rem;}
 
   /* ---------- HERO ---------- */
@@ -254,7 +231,6 @@
     max-width:52ch;
     margin-bottom:30px;
   }
-  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
   .hero-seal{
     width:96px;height:96px;
     border-radius:50%;
@@ -266,58 +242,11 @@
   }
   .hero-seal img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
 
-  /* ---------- STATS STRIP (overlaps hero/body boundary) ---------- */
-  .stats-strip{
-    margin-top:-54px;
-    position:relative;
-    z-index:10;
-    margin-bottom:52px;
-  }
-  .stats-grid{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:16px;
-  }
-  .stat-card{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:18px 20px;
-    box-shadow:0 8px 0 0 rgba(36,34,25,0.08);
-    display:flex;
-    align-items:center;
-    gap:14px;
-  }
-  .stat-card .stat-icon{
-    width:42px;height:42px;
-    border-radius:50%;
-    background:var(--accent-tint);
-    display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;
-    color:var(--accent-deep);
-  }
-  .stat-card .stat-num{
-    font-family:'Fraunces', serif;
-    font-weight:700;
-    font-size:1.5rem;
-    line-height:1;
-  }
-  .stat-card .stat-label{
-    font-size:0.76rem;
-    color:var(--ink-soft);
-    margin-top:3px;
-  }
-
-
-  /* ---------- SHARED PAGE HERO (compact variant for sub-pages) ---------- */
   .hero-page{padding:40px 0 84px;}
   .hero-page .hero-top{margin-bottom:0;align-items:center;}
   .hero-page h1{font-size:clamp(1.9rem, 3vw, 2.4rem);margin:12px 0 10px;}
   .hero-page p.lede{margin-bottom:0;font-size:0.98rem;}
   .hero-page .hero-seal{width:76px;height:76px;}
-  .stats-strip.compact{margin-top:-48px;margin-bottom:40px;}
-  .stats-strip.compact .stats-grid{grid-template-columns:repeat(3, 1fr);}
-
 
   .page-sub{padding:40px 0 8px;}
   .btn-secondary-nav{
@@ -336,52 +265,48 @@
     box-shadow:none;
   }
 
-  /* ---------- SECTION HEAD (title + action button row) ---------- */
+  /* ---------- SECTION HEAD & FILTER BAR ---------- */
   .section-head-row{
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:16px;
-    margin-bottom:22px;
+    margin-bottom:16px;
     flex-wrap:wrap;
   }
   .section-head-row h2{font-size:1.2rem;}
 
-  /* ---------- MANAGEMENT TOOL CARDS (dashboard) ---------- */
-  .tool-grid{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:18px;
-    padding-bottom:80px;
+  .filter-bar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 20px;
+    background: #ffffff;
+    padding: 12px 18px;
+    border-radius: var(--radius);
+    border: 1.5px solid var(--ink);
+    box-shadow: 0 4px 0 0 rgba(36,34,25,0.06);
   }
-  .tool-card{
+  .tab-row{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .tab-btn{
     background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:22px 24px;
-    text-decoration:none;
-    color:var(--ink);
-    display:block;
-    box-shadow:0 8px 0 0 rgba(36,34,25,0.07);
-    transition:transform .18s ease, box-shadow .18s ease;
-  }
-  .tool-card:hover{transform:translateY(-3px);box-shadow:0 11px 0 0 rgba(36,34,25,0.1);}
-  .tool-icon{
-    width:44px;height:44px;
-    border-radius:50%;
-    background:var(--accent-tint);
-    color:var(--accent-deep);
-    display:flex;align-items:center;justify-content:center;
-    margin-bottom:16px;
-  }
-  .tool-card h3{font-size:1.05rem;margin-bottom:6px;}
-  .tool-card p{font-size:0.84rem;color:var(--ink-soft);line-height:1.5;}
-  .tool-card .go{
-    margin-top:14px;
-    font-size:0.82rem;
+    border:1.5px solid var(--line);
+    padding:8px 14px;
+    border-radius:999px;
+    font-family:'IBM Plex Sans',sans-serif;
     font-weight:600;
-    color:var(--accent-deep);
+    font-size:0.82rem;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all 0.15s ease;
   }
+  .tab-btn:hover{background:var(--paper);border-color:var(--ink);color:var(--ink);}
+  .tab-btn.active{background:var(--accent-deep);border-color:var(--accent-deep);color:var(--paper);}
 
   /* ---------- TABLE ---------- */
   .table-card{
@@ -415,7 +340,6 @@
   table.admin-table tbody tr:last-child td{border-bottom:none;}
   table.admin-table tbody tr:hover{background:rgba(36,34,25,0.025);}
   .cell-title{font-weight:600;}
-  .cell-sub{font-size:0.78rem;color:var(--ink-soft);margin-top:2px;}
   .type-pill{
     font-family:'IBM Plex Mono',monospace;
     font-size:0.66rem;
@@ -438,8 +362,6 @@
     transition:border-color .15s ease, color .15s ease;
   }
   .row-actions button:hover{border-color:var(--ink);color:var(--ink);}
-  .row-actions button.act-approve:hover{border-color:#2E6B4F;color:#2E6B4F;}
-  .row-actions button.act-reject:hover{border-color:var(--red-deep);color:var(--red-deep);}
   .row-actions button.act-delete:hover{border-color:var(--red-deep);color:var(--red-deep);}
 
   .status-pill{
@@ -453,37 +375,9 @@
     display:inline-block;
   }
   .status-available{background:rgba(46,107,79,0.14);color:#1E4A36;}
-  .status-approved{background:rgba(46,107,79,0.14);color:#1E4A36;}
-  .status-pending{background:rgba(184,134,42,0.16);color:#7A5A19;}
-  .status-rejected{background:rgba(194,32,38,0.12);color:var(--red-deep);}
   .status-hidden{background:rgba(91,86,74,0.12);color:var(--ink-soft);}
 
-  .empty-row td{
-    text-align:center;
-    color:var(--ink-soft);
-    padding:40px 18px;
-  }
-
-  /* ---------- TABS (reservations) ---------- */
-  .tab-row{
-    display:flex;
-    gap:6px;
-    margin-bottom:24px;
-    flex-wrap:wrap;
-  }
-  .tab-btn{
-    background:var(--paper-deep);
-    border:1.5px solid var(--line);
-    padding:9px 16px;
-    border-radius:999px;
-    font-family:'IBM Plex Sans',sans-serif;
-    font-weight:600;
-    font-size:0.84rem;
-    color:var(--ink-soft);
-  }
-  .tab-btn.active{background:var(--accent-deep);border-color:var(--accent-deep);color:var(--paper);}
-
-  /* ---------- MODAL (shared: add facility / add event / reject reason) ---------- */
+  /* ---------- MODAL ---------- */
   .modal-overlay{
     display:none;
     position:fixed; inset:0;
@@ -504,7 +398,6 @@
     overflow-y:auto;
     box-shadow:0 16px 0 0 rgba(0,0,0,0.15);
   }
-  .modal-box.narrow{max-width:440px;}
   .modal-head{
     display:flex;
     align-items:flex-start;
@@ -555,118 +448,8 @@
   .modal-actions .btn{flex:1;justify-content:center;}
   .btn-secondary{background:transparent;color:var(--ink);}
   .btn-secondary:hover{background:var(--paper-deep);box-shadow:none;transform:none;border-color:var(--ink);}
-  .btn-danger{background:var(--red-deep);border-color:var(--red-deep);}
-  .btn-danger:hover{background:var(--black);border-color:var(--black);}
-  .reject-context{
-    font-size:0.85rem;
-    color:var(--ink-soft);
-    background:var(--paper-deep);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:12px 14px;
-    margin-bottom:18px;
-  }
-  .reject-context strong{color:var(--ink);}
 
-  /* ---------- TOAST ---------- */
-  .toast{
-    position:fixed;
-    top:20px; left:50%;
-    transform:translate(-50%, -20px);
-    background:#1E4A36;
-    color:var(--paper);
-    padding:14px 22px;
-    border-radius:var(--radius);
-    font-size:0.9rem;
-    z-index:1100;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    visibility:hidden;
-    opacity:0;
-    pointer-events:none;
-    transition:transform .3s ease, opacity .3s ease, visibility 0s linear .3s;
-    box-shadow:0 8px 0 0 rgba(0,0,0,0.15);
-  }
-  .toast.show{
-    transform:translate(-50%, 0);
-    visibility:visible;
-    opacity:1;
-    pointer-events:auto;
-    transition:transform .3s ease, opacity .3s ease;
-  }
-  .toast.toast-red{background:var(--red-deep);}
-
-  /* ---------- EVENT CARDS ---------- */
-  .event-list{display:flex;flex-direction:column;gap:16px;padding-bottom:80px;}
-  .event-card{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:22px 24px;
-    box-shadow:0 6px 0 0 rgba(36,34,25,0.06);
-  }
-  .event-top{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    gap:16px;
-    margin-bottom:6px;
-  }
-  .event-title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-  .event-title-row h3{font-size:1.08rem;}
-  .event-desc{font-size:0.86rem;color:var(--ink-soft);margin-bottom:14px;}
-  .event-meta{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:14px;
-    font-size:0.8rem;
-    color:var(--ink-soft);
-    margin-bottom:14px;
-  }
-  .event-meta strong{display:block;color:var(--ink);font-weight:600;font-size:0.86rem;margin-top:2px;}
-  .event-progress-label{
-    display:flex;
-    justify-content:space-between;
-    font-size:0.78rem;
-    color:var(--ink-soft);
-    margin-bottom:6px;
-  }
-  .event-progress-bar{
-    height:7px;
-    background:var(--line);
-    border-radius:4px;
-    overflow:hidden;
-  }
-  .event-progress-fill{height:100%;background:#2E6B4F;border-radius:4px;}
-  .event-actions{display:flex;gap:10px;flex-shrink:0;}
-  .event-actions button{
-    padding:8px 14px;
-    font-size:0.8rem;
-    font-weight:600;
-    border-radius:var(--radius);
-    border:1.5px solid var(--line);
-    background:var(--paper);
-    color:var(--ink-soft);
-    white-space:nowrap;
-  }
-  .event-actions button:hover{border-color:var(--ink);color:var(--ink);}
-  .event-actions button.act-delete:hover{border-color:var(--red-deep);color:var(--red-deep);}
-
-  @media (max-width: 980px){
-    .tool-grid{grid-template-columns:1fr 1fr;}
-    .event-meta{grid-template-columns:1fr 1fr;}
-  }
-  @media (max-width: 700px){
-    .tool-grid{grid-template-columns:1fr;}
-    .field-row{grid-template-columns:1fr;}
-    table.admin-table{font-size:0.8rem;}
-    .event-meta{grid-template-columns:1fr;}
-  }
-
-
-
-  /* ---------- CHATBOT ---------- */
+  /* ---------- CHATBOT WIDGET ---------- */
   .chat-fab{
     position:fixed;
     bottom:26px;right:26px;
@@ -786,19 +569,25 @@
     flex-shrink:0;
   }
 
-  @media (max-width: 980px){
-    .body-grid{grid-template-columns:1fr;}
-    .stats-grid{grid-template-columns:repeat(2, 1fr);}
-    .nav-links{display:none;}
-    .hero-seal{width:72px;height:72px;}
+  /* ---------- TOAST ---------- */
+  .toast{
+    position:fixed;
+    top:20px; left:50%;
+    transform:translate(-50%, -140%);
+    background:#1E4A36;
+    color:var(--paper);
+    padding:14px 22px;
+    border-radius:var(--radius);
+    font-size:0.9rem;
+    z-index:1100;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    transition:transform .3s ease;
+    box-shadow:0 8px 0 0 rgba(0,0,0,0.15);
   }
-  @media (max-width: 620px){
-    .stats-grid{grid-template-columns:1fr 1fr;}
-    .hero{padding:44px 0 78px;}
-    .hero-top{flex-direction:column-reverse;gap:18px;}
-    .chat-panel{right:14px;bottom:88px;}
-    .chat-fab{right:14px;bottom:18px;}
-  }
+  .toast.show{transform:translate(-50%, 0);}
+  .toast.toast-red{background:var(--red-deep);}
 
   /* ---------- FOOTER ---------- */
   footer{
@@ -898,7 +687,7 @@
 
 <header>
   <div class="wrap nav">
-    <a href="index.html" class="brand">
+    <a href="cembo_admin.html" class="brand">
       <span class="seal"><img src="../Pics/cembologo.png" alt="Cembo seal"></span>
       <span class="brand-text">
         <span class="sk">SK Cembo</span>
@@ -906,13 +695,14 @@
       </span>
     </a>
     <nav class="nav-links">
-      <a href="cembo_admin.html" class="">Dashboard</a>
+      <a href="cembo_admin.html">Dashboard</a>
       <a href="cembo_adminFacilities.html" class="active">Facilities</a>
-      <a href="cembo_adminReservations.html" class="">Reservations</a>
-      <a href="cembo_adminEvents.html" class="">Events</a>
+      <a href="cembo_adminReservations.html">Reservations</a>
+      <a href="cembo_adminEvents.html">Events</a>
+      <a href="cembo_adminFeedback.html">Feedback</a>
     </nav>
     <div class="nav-right">
-      <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
+      <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn" style="width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);background:var(--paper-deep);display:flex;align-items:center;justify-content:center;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
       </button>
       <a href="home_cembo.html" class="btn btn-small btn-secondary-nav" style="margin-right:2px;">View Resident Site</a>
@@ -946,13 +736,20 @@
   </div>
 </section>
 
-
-
-
 <section class="wrap page-sub">
   <div class="section-head-row">
     <h2>All Facilities</h2>
     <button class="btn btn-small" id="add-facility-btn">+ Add Facility</button>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="tab-row" id="filter-tabs">
+      <button class="tab-btn active" data-filter="all">All Facilities</button>
+      <button class="tab-btn" data-filter="court">Courts</button>
+      <button class="tab-btn" data-filter="venue">Venues</button>
+      <button class="tab-btn" data-filter="resource">Resources</button>
+    </div>
   </div>
 
   <div class="table-card">
@@ -961,90 +758,7 @@
         <tr><th>Name</th><th>Type</th><th>Description</th><th>Capacity</th><th>Status</th><th>Actions</th></tr>
       </thead>
       <tbody id="facilities-tbody">
-        <tr data-row>
-          <td class="cell-title">SK Basketball Court</td>
-          <td><span class="type-pill">Court</span></td>
-          <td>Full-size outdoor basketball court with floodlights</td>
-          <td>30</td>
-          <td><span class="status-pill status-available" data-status>Available</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
-        <tr data-row>
-          <td class="cell-title">Cembo Covered Court</td>
-          <td><span class="type-pill">Court</span></td>
-          <td>Roofed, all-weather court for volleyball and badminton</td>
-          <td>40</td>
-          <td><span class="status-pill status-available" data-status>Available</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
-        <tr data-row>
-          <td class="cell-title">Function Hall</td>
-          <td><span class="type-pill">Venue</span></td>
-          <td>Large multi-purpose hall suitable for meetings and events</td>
-          <td>100</td>
-          <td><span class="status-pill status-available" data-status>Available</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
-        <tr data-row>
-          <td class="cell-title">Computer Lab</td>
-          <td><span class="type-pill">Venue</span></td>
-          <td>Air-conditioned lab with Wi-Fi and printer access</td>
-          <td>20</td>
-          <td><span class="status-pill status-hidden" data-status>Under Maintenance</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
-        <tr data-row>
-          <td class="cell-title">Sports Equipment Set</td>
-          <td><span class="type-pill">Resource</span></td>
-          <td>Basketballs, volleyballs, cones, and training equipment</td>
-          <td>5 sets</td>
-          <td><span class="status-pill status-available" data-status>Available</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
-        <tr data-row>
-          <td class="cell-title">Sound System</td>
-          <td><span class="type-pill">Resource</span></td>
-          <td>Professional PA system with microphones and speakers</td>
-          <td>2 sets</td>
-          <td><span class="status-pill status-available" data-status>Available</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
+        <tr><td colspan="6" style="text-align:center; padding: 20px;">Loading facilities...</td></tr>
       </tbody>
     </table>
   </div>
@@ -1065,80 +779,57 @@
       <button class="modal-close" id="modal-close">✕</button>
     </div>
     <form class="modal-form" id="facility-form" novalidate>
-  <!-- Hidden ID to know if we are adding or editing -->
-  <input type="hidden" id="f-id" value="">
+      <input type="hidden" id="f-id" value="">
 
-  <div class="field" data-field="name">
-    <label for="f-name">Facility Name <span class="req">*</span></label>
-    <input type="text" id="f-name" placeholder="e.g. Basketball Court A" required>
-    <span class="field-error">Enter a facility name.</span>
-  </div>
+      <div class="field" data-field="name">
+        <label for="f-name">Facility Name <span class="req">*</span></label>
+        <input type="text" id="f-name" placeholder="e.g. Basketball Court A" required>
+        <span class="field-error">Enter a facility name.</span>
+      </div>
 
-  <div class="field-row">
-    <div class="field" data-field="type">
-      <label for="f-type">Type <span class="req">*</span></label>
-      <select id="f-type" required>
-        <option value="" disabled selected>Select type</option>
-        <option value="Court">Court</option>
-        <option value="Venue">Venue</option>
-        <option value="Resource">Resource</option>
-      </select>
-      <span class="field-error">Select a facility type.</span>
-    </div>
+      <div class="field-row">
+        <div class="field" data-field="type">
+          <label for="f-type">Type <span class="req">*</span></label>
+          <select id="f-type" required>
+            <option value="" disabled selected>Select type</option>
+            <option value="Court">Court</option>
+            <option value="Venue">Venue</option>
+            <option value="Resource">Resource</option>
+          </select>
+          <span class="field-error">Select a facility type.</span>
+        </div>
 
-    <div class="field" data-field="capacity">
-      <label for="f-capacity">Capacity / Quantity <span class="req">*</span></label>
-      <input type="text" id="f-capacity" placeholder="e.g. 30 or 5 sets" required>
-      <span class="field-error">Enter capacity or quantity.</span>
-    </div>
-  </div>
+        <div class="field" data-field="capacity">
+          <label for="f-capacity">Capacity / Quantity <span class="req">*</span></label>
+          <input type="text" id="f-capacity" placeholder="e.g. 30 or 5 sets" required>
+          <span class="field-error">Enter capacity or quantity.</span>
+        </div>
+      </div>
 
-  <div class="field" data-field="status">
-    <label for="f-status">Operational Status <span class="req">*</span></label>
-    <select id="f-status" required>
-      <option value="Available">Available</option>
-      <option value="Under Maintenance">Under Maintenance</option>
-      <option value="Hidden">Hidden</option>
-    </select>
-  </div>
+      <div class="field" data-field="status">
+        <label for="f-status">Operational Status <span class="req">*</span></label>
+        <select id="f-status" required>
+          <option value="Available">Available</option>
+          <option value="Under Maintenance">Under Maintenance</option>
+          <option value="Hidden">Hidden</option>
+        </select>
+      </div>
 
-  <div class="field" data-field="description">
-    <label for="f-description">Description <span class="req">*</span></label>
-    <textarea id="f-description" rows="3" placeholder="Briefly describe this facility…" required></textarea>
-    <span class="field-error">Enter a short description.</span>
-  </div>
+      <div class="field" data-field="description">
+        <label for="f-description">Description <span class="req">*</span></label>
+        <textarea id="f-description" rows="3" placeholder="Briefly describe this facility…" required></textarea>
+        <span class="field-error">Enter a short description.</span>
+      </div>
 
-  <div class="modal-actions">
-    <button type="button" class="btn btn-secondary" id="modal-cancel">Cancel</button>
-    <button type="submit" class="btn" id="modal-submit-btn">Save Facility →</button>
-  </div>
-</form>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="modal-cancel">Cancel</button>
+        <button type="submit" class="btn" id="modal-submit-btn">Save Facility →</button>
+      </div>
+    </form>
   </div>
 </div>
 
-
-<footer>
-  <div class="wrap">
-    <div class="foot-top">
-      <div class="foot-brand">
-        <span class="mark">5X</span>
-        EMBO Access
-      </div>
-      <div class="foot-seals">
-        <div class="imgwrap"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Cembo"></div>
-        <div class="imgwrap"><img src="../Pics/West_Rembo_Logo.png" alt="West Rembo"></div>
-        <div class="imgwrap"><img src="../Pics/East_Rembo_Logo.png" alt="East Rembo"></div>
-        <div class="imgwrap"><img src="../Pics/cembologo.png" alt="Comembo"></div>
-        <div class="imgwrap"><img src="../Pics/pembologo.png" alt="Pembo"></div>
-      </div>
-    </div>
-    <div class="foot-bottom">
-      <span>Cembo · West Rembo · East Rembo · Comembo · Pembo</span>
-      <span>Facility Reservation &amp; Event Registration System</span>
-    </div>
-  </div>
-</footer>
-
+<!-- CHATBOT WIDGET -->
 <button class="chat-fab" id="chat-fab" title="SK Assistant">
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
 </button>
@@ -1167,6 +858,28 @@
   </div>
 </div>
 
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="mark">5X</span>
+        EMBO Access
+      </div>
+      <div class="foot-seals">
+        <div class="imgwrap"><img src="../Pics/cembologo.png" alt="Cembo"></div>
+        <div class="imgwrap"><img src="../Pics/West_Rembo_Logo.png" alt="West Rembo"></div>
+        <div class="imgwrap"><img src="../Pics/East_Rembo_Logo.png" alt="East Rembo"></div>
+        <div class="imgwrap"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Comembo"></div>
+        <div class="imgwrap"><img src="../Pics/pembologo.png" alt="Pembo"></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>Cembo · West Rembo · East Rembo · Comembo · Pembo</span>
+      <span>Facility Reservation &amp; Event Registration System</span>
+    </div>
+  </div>
+</footer>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -1184,10 +897,8 @@
     onSnapshot 
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // CHANGE THIS FOR EACH BARANGAY FILE AS A FALLBACK (e.g. "Cembo", "Comembo", "East Rembo", "Pembo", "West Rembo")
   const DEFAULT_BARANGAY = "Cembo"; 
 
-  // Firebase Configuration
   const firebaseConfig = {
     apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
     authDomain: "embo-access.firebaseapp.com",
@@ -1203,8 +914,9 @@
 
   let currentAdminBarangay = DEFAULT_BARANGAY;
   let unsubscribeFacilities = null;
+  let allFacilitiesData = [];
+  let currentFilter = 'all';
 
-  // UI Elements
   const overlay = document.getElementById('modal-overlay');
   const modalTitle = document.getElementById('modal-title');
   const form = document.getElementById('facility-form');
@@ -1212,7 +924,6 @@
   const toastText = document.getElementById('toast-text');
   const tbody = document.getElementById('facilities-tbody');
 
-  // Input Elements
   const facilityIdInput = document.getElementById('f-id');
   const nameInput = document.getElementById('f-name');
   const typeInput = document.getElementById('f-type');
@@ -1235,20 +946,16 @@
     if (input) input.classList.toggle('error', hasError);
   }
 
-  // --- AUTH & INITIALIZATION ---
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       try {
         let fullName = "";
-
-        // 1. Get user profile
         const userDocRef = doc(db, "users", user.uid);
         const userDocSnap = await getDoc(userDocRef);
 
         if (userDocSnap.exists()) {
           const data = userDocSnap.data();
           fullName = data.fullName || data.name || data.firstName;
-          if (data.barangay) currentAdminBarangay = DEFAULT_BARANGAY;
         } else {
           const q = query(collection(db, "users"), where("email", "==", user.email));
           const querySnapshot = await getDocs(q);
@@ -1256,12 +963,10 @@
             if (docSnap.exists()) {
               const data = docSnap.data();
               fullName = data.fullName || data.name || data.firstName;
-              if (data.barangay) currentAdminBarangay = data.barangay;
             }
           });
         }
 
-        // Display Admin Name & Avatar
         const nameElement = document.getElementById("admin-name");
         if (nameElement && fullName) {
           nameElement.textContent = `Admin - ${fullName}`;
@@ -1269,16 +974,10 @@
 
         const avatarElement = document.querySelector(".user-chip .avatar");
         if (avatarElement && fullName) {
-          const initials = fullName
-            .split(" ")
-            .map(n => n[0])
-            .join("")
-            .substring(0, 2)
-            .toUpperCase();
+          const initials = fullName.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase();
           avatarElement.textContent = initials;
         }
 
-        // Start listening to live facilities from Firestore
         listenToFacilities(currentAdminBarangay);
 
       } catch (err) {
@@ -1290,33 +989,51 @@
     }
   });
 
-  // --- REAL-TIME VIEW / LISTEN FROM FIRESTORE ---
   function listenToFacilities(barangay) {
     if (unsubscribeFacilities) unsubscribeFacilities();
 
     const q = query(collection(db, "facilities"), where("barangay", "==", barangay));
 
     unsubscribeFacilities = onSnapshot(q, (snapshot) => {
-      tbody.innerHTML = ""; 
-
-      if (snapshot.empty) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 20px;">No facilities found for Barangay ${barangay}. Click "+ Add Facility" to create one.</td></tr>`;
-        return;
-      }
-
+      allFacilitiesData = [];
       snapshot.forEach((docSnap) => {
-        const item = docSnap.data();
-        const docId = docSnap.id;
-        const row = createTableRow(docId, item);
-        tbody.appendChild(row);
+        allFacilitiesData.push({ id: docSnap.id, ...docSnap.data() });
       });
+      renderFacilitiesTable();
     }, (error) => {
       console.error("Firestore Read Error: ", error);
       showToast("Error loading facilities.", true);
     });
   }
 
-  // --- RENDER TABLE ROWS (WITH EDIT, REMOVE & STATUS TOGGLE) ---
+  function renderFacilitiesTable() {
+    tbody.innerHTML = ""; 
+
+    let filtered = allFacilitiesData.filter(item => {
+      if (currentFilter === 'all') return true;
+      return (item.type || '').toLowerCase() === currentFilter;
+    });
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 20px;">No facilities found matching this filter.</td></tr>`;
+      return;
+    }
+
+    filtered.forEach((item) => {
+      const row = createTableRow(item.id, item);
+      tbody.appendChild(row);
+    });
+  }
+
+  document.querySelectorAll('#filter-tabs .tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#filter-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      renderFacilitiesTable();
+    });
+  });
+
   function createTableRow(id, data) {
     const tr = document.createElement('tr');
     tr.setAttribute('data-id', id);
@@ -1345,7 +1062,6 @@
     const editBtn = tr.querySelector('[data-edit]');
     const deleteBtn = tr.querySelector('[data-delete]');
 
-    // Quick Status Toggle
     toggleBtn.addEventListener('click', async () => {
       const newStatus = data.status === 'Available' ? 'Hidden' : 'Available';
       try {
@@ -1357,7 +1073,6 @@
       }
     });
 
-    // Populate Modal for EDITING
     editBtn.addEventListener('click', () => {
       modalTitle.textContent = 'Edit Facility';
       facilityIdInput.value = id;
@@ -1371,7 +1086,6 @@
       overlay.classList.add('show');
     });
 
-    // REMOVE / DELETE Facility from Firestore
     deleteBtn.addEventListener('click', async () => {
       if (confirm(`Remove ${data.name}? This action cannot be undone.`)) {
         try {
@@ -1387,7 +1101,6 @@
     return tr;
   }
 
-  // --- MODAL CONTROLS ---
   document.getElementById('add-facility-btn').addEventListener('click', () => {
     modalTitle.textContent = 'Add Facility';
     facilityIdInput.value = '';
@@ -1401,7 +1114,6 @@
   document.getElementById('modal-cancel').addEventListener('click', closeModal);
   overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
 
-  // --- SAVE FORM (ADD OR UPDATE FIRESTORE DOCUMENT) ---
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -1430,11 +1142,9 @@
     try {
       const docId = facilityIdInput.value;
       if (docId) {
-        // Edit existing document
         await updateDoc(doc(db, "facilities", docId), payload);
         showToast(`${payload.name} updated successfully.`);
       } else {
-        // Add new document
         await addDoc(collection(db, "facilities"), payload);
         showToast(`${payload.name} added to Barangay ${payload.barangay}.`);
       }
@@ -1507,7 +1217,7 @@
   document.querySelectorAll('.chat-suggest button').forEach(btn => {
     btn.addEventListener('click', () => respond(btn.dataset.msg));
   });
-  // User dropdown + logout
+
   const userMenu = document.getElementById("user-menu");
   const userMenuBtn = document.getElementById("user-menu-btn");
   userMenuBtn.addEventListener("click", (e) => {
@@ -1520,9 +1230,6 @@
       userMenu.classList.remove("open");
       userMenuBtn.setAttribute("aria-expanded", "false");
     }
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") userMenu.classList.remove("open");
   });
   document.getElementById("logout-btn").addEventListener("click", async () => {
     try {

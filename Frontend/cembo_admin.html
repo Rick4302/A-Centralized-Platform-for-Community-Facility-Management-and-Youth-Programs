@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
   :root{
     --paper:#F5F0E4;
@@ -196,28 +197,20 @@
     box-shadow:0 6px 0 0 var(--ink);
   }
   .btn:active{transform:translateY(0);box-shadow:0 2px 0 0 var(--ink);}
-  .btn-invert{
-    background:var(--paper);
-    border-color:var(--paper);
-    color:var(--ink);
-  }
-  .btn-invert:hover{
-    background:var(--ink);
-    border-color:var(--paper);
-    color:var(--paper);
-    box-shadow:0 6px 0 0 rgba(245,240,228,0.5);
-  }
-  .btn-outline{
+  .btn-secondary-nav{
+    padding:9px 16px;
+    font-size:0.82rem;
     background:transparent;
-    border-color:var(--paper);
-    color:var(--paper);
-  }
-  .btn-outline:hover{
-    background:rgba(245,240,228,0.14);
-    border-color:var(--paper);
-    color:var(--paper);
+    border:1.5px solid var(--line);
+    color:var(--ink-soft);
     box-shadow:none;
-    transform:translateY(-2px);
+  }
+  .btn-secondary-nav:hover{
+    border-color:var(--accent-deep);
+    color:var(--accent-deep);
+    background:var(--paper-deep);
+    transform:none;
+    box-shadow:none;
   }
   .btn-small{padding:9px 16px;font-size:0.82rem;}
 
@@ -254,19 +247,25 @@
     max-width:52ch;
     margin-bottom:30px;
   }
-  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
   .hero-seal{
-    width:96px;height:96px;
+    width:96px !important;
+    height:96px !important;
+    min-width:96px;
+    min-height:96px;
     border-radius:50%;
     background:var(--paper);
     border:3px solid rgba(245,240,228,0.5);
     padding:8px;
     flex-shrink:0;
     box-shadow:0 8px 0 0 rgba(0,0,0,0.12);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
   }
   .hero-seal img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
 
-  /* ---------- STATS STRIP (overlaps hero/body boundary) ---------- */
+  /* ---------- STATS STRIP (Updated to 3 key analytical cards) ---------- */
   .stats-strip{
     margin-top:-54px;
     position:relative;
@@ -275,7 +274,7 @@
   }
   .stats-grid{
     display:grid;
-    grid-template-columns:repeat(4, 1fr);
+    grid-template-columns:repeat(3, 1fr);
     gap:16px;
   }
   .stat-card{
@@ -299,44 +298,16 @@
   .stat-card .stat-num{
     font-family:'Fraunces', serif;
     font-weight:700;
-    font-size:1.5rem;
-    line-height:1;
+    font-size:1.2rem;
+    line-height:1.2;
   }
   .stat-card .stat-label{
     font-size:0.76rem;
     color:var(--ink-soft);
     margin-top:3px;
   }
-
-
-  /* ---------- SHARED PAGE HERO (compact variant for sub-pages) ---------- */
   .hero-page{padding:40px 0 84px;}
-  .hero-page .hero-top{margin-bottom:0;align-items:center;}
-  .hero-page h1{font-size:clamp(1.9rem, 3vw, 2.4rem);margin:12px 0 10px;}
-  .hero-page p.lede{margin-bottom:0;font-size:0.98rem;}
-  .hero-page .hero-seal{width:76px;height:76px;}
-  .stats-strip.compact{margin-top:-48px;margin-bottom:40px;}
-  .stats-strip.compact .stats-grid{grid-template-columns:repeat(3, 1fr);}
-
-
   .page-sub{padding:40px 0 8px;}
-  .btn-secondary-nav{
-    padding:9px 16px;
-    font-size:0.82rem;
-    background:transparent;
-    border:1.5px solid var(--line);
-    color:var(--ink-soft);
-    box-shadow:none;
-  }
-  .btn-secondary-nav:hover{
-    border-color:var(--accent-deep);
-    color:var(--accent-deep);
-    background:var(--paper-deep);
-    transform:none;
-    box-shadow:none;
-  }
-
-  /* ---------- SECTION HEAD (title + action button row) ---------- */
   .section-head-row{
     display:flex;
     align-items:center;
@@ -347,12 +318,12 @@
   }
   .section-head-row h2{font-size:1.2rem;}
 
-  /* ---------- MANAGEMENT TOOL CARDS (dashboard) ---------- */
+  /* ---------- TOOL GRID ---------- */
   .tool-grid{
     display:grid;
     grid-template-columns:repeat(3, 1fr);
     gap:18px;
-    padding-bottom:80px;
+    padding-bottom:40px;
   }
   .tool-card{
     background:var(--paper-deep);
@@ -381,6 +352,32 @@
     font-size:0.82rem;
     font-weight:600;
     color:var(--accent-deep);
+  }
+
+  /* ---------- RESIDENT VALIDATION SECTION ---------- */
+  .validation-card{
+    background:var(--paper-deep);
+    border:1.5px solid var(--ink);
+    border-radius:var(--radius);
+    padding:26px;
+    box-shadow:0 8px 0 0 rgba(36,34,25,0.07);
+    margin-bottom:50px;
+  }
+  .validation-card h3{font-size:1.15rem;margin-bottom:8px;}
+  .validation-card p{font-size:0.88rem;color:var(--ink-soft);margin-bottom:20px;line-height:1.5;}
+  .upload-box{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    flex-wrap:wrap;
+    background:var(--paper);
+    border:1.5px dashed var(--ink);
+    padding:20px;
+    border-radius:var(--radius);
+  }
+  .upload-box input[type="file"]{
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:0.88rem;
   }
 
   /* ---------- TABLE ---------- */
@@ -426,45 +423,10 @@
     padding:3px 9px;
     border-radius:999px;
     white-space:nowrap;
-  }
-  .row-actions{display:flex;gap:8px;}
-  .row-actions button{
-    width:30px;height:30px;
-    border-radius:var(--radius);
-    border:1.5px solid var(--line);
-    background:var(--paper);
-    display:flex;align-items:center;justify-content:center;
-    color:var(--ink-soft);
-    transition:border-color .15s ease, color .15s ease;
-  }
-  .row-actions button:hover{border-color:var(--ink);color:var(--ink);}
-  .row-actions button.act-approve:hover{border-color:#2E6B4F;color:#2E6B4F;}
-  .row-actions button.act-reject:hover{border-color:var(--red-deep);color:var(--red-deep);}
-  .row-actions button.act-delete:hover{border-color:var(--red-deep);color:var(--red-deep);}
-
-  .status-pill{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:0.66rem;
-    letter-spacing:0.04em;
-    text-transform:uppercase;
-    padding:4px 10px;
-    border-radius:999px;
-    white-space:nowrap;
     display:inline-block;
   }
-  .status-available{background:rgba(46,107,79,0.14);color:#1E4A36;}
-  .status-approved{background:rgba(46,107,79,0.14);color:#1E4A36;}
-  .status-pending{background:rgba(184,134,42,0.16);color:#7A5A19;}
-  .status-rejected{background:rgba(194,32,38,0.12);color:var(--red-deep);}
-  .status-hidden{background:rgba(91,86,74,0.12);color:var(--ink-soft);}
 
-  .empty-row td{
-    text-align:center;
-    color:var(--ink-soft);
-    padding:40px 18px;
-  }
-
-  /* ---------- TABS (reservations) ---------- */
+  /* ---------- TABS ---------- */
   .tab-row{
     display:flex;
     gap:6px;
@@ -482,180 +444,55 @@
     color:var(--ink-soft);
   }
   .tab-btn.active{background:var(--accent-deep);border-color:var(--accent-deep);color:var(--paper);}
-
-  /* ---------- MODAL (shared: add facility / add event / reject reason) ---------- */
-  .modal-overlay{
-    display:none;
-    position:fixed; inset:0;
-    background:rgba(26,22,19,0.5);
-    z-index:1000;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
+  .insights-panel{display:none;}
+  .insights-panel.active{display:block;}
+  .summary-lede{
+    font-size:0.92rem;
+    color:var(--ink-soft);
+    max-width:72ch;
+    line-height:1.6;
+    margin-bottom:22px;
   }
-  .modal-overlay.show{display:flex;}
-  .modal-box{
-    background:var(--paper);
+  .summary-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:16px;
+    margin-bottom:16px;
+  }
+  .summary-card{
+    background:var(--paper-deep);
     border:1.5px solid var(--ink);
     border-radius:var(--radius);
-    max-width:540px;
-    width:100%;
-    max-height:88vh;
-    overflow-y:auto;
-    box-shadow:0 16px 0 0 rgba(0,0,0,0.15);
+    padding:20px 22px;
+    box-shadow:0 6px 0 0 rgba(36,34,25,0.06);
   }
-  .modal-box.narrow{max-width:440px;}
-  .modal-head{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    padding:22px 26px;
-    border-bottom:1px dashed var(--line);
-    background:var(--paper-deep);
-  }
-  .modal-head h2{font-size:1.2rem;}
-  .modal-head .tag{
+  .summary-card .tag{
     font-family:'IBM Plex Mono',monospace;
-    font-size:0.68rem;
+    font-size:0.66rem;
     letter-spacing:0.08em;
     text-transform:uppercase;
     color:var(--accent-deep);
     display:block;
-    margin-bottom:6px;
+    margin-bottom:8px;
   }
-  .modal-close{background:none;border:none;font-size:1.2rem;color:var(--ink-soft);line-height:1;}
-  .modal-form{padding:22px 26px 26px;}
-  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  .field{margin-bottom:16px;display:flex;flex-direction:column;gap:6px;}
-  .field label{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:0.68rem;
-    letter-spacing:0.05em;
-    text-transform:uppercase;
-    color:var(--ink-soft);
-  }
-  .field .req{color:var(--red-deep);}
-  .field input, .field select, .field textarea{
-    font-family:'IBM Plex Sans',sans-serif;
-    font-size:0.92rem;
-    color:var(--ink);
-    background:var(--paper-deep);
-    border:1.5px solid var(--line);
-    border-radius:var(--radius);
-    padding:10px 12px;
-    outline:none;
-    width:100%;
-    resize:vertical;
-  }
-  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--ink);}
-  .field input.error, .field select.error, .field textarea.error{border-color:var(--red-deep);}
-  .field-error{font-size:0.76rem;color:var(--red-deep);display:none;}
-  .field.has-error .field-error{display:block;}
-  .modal-actions{display:flex;gap:12px;margin-top:6px;}
-  .modal-actions .btn{flex:1;justify-content:center;}
-  .btn-secondary{background:transparent;color:var(--ink);}
-  .btn-secondary:hover{background:var(--paper-deep);box-shadow:none;transform:none;border-color:var(--ink);}
-  .btn-danger{background:var(--red-deep);border-color:var(--red-deep);}
-  .btn-danger:hover{background:var(--black);border-color:var(--black);}
-  .reject-context{
-    font-size:0.85rem;
-    color:var(--ink-soft);
-    background:var(--paper-deep);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:12px 14px;
-    margin-bottom:18px;
-  }
-  .reject-context strong{color:var(--ink);}
+  .summary-card p{font-size:0.88rem;line-height:1.55;color:var(--ink);}
+  .summary-card strong{font-weight:700;}
 
-  /* ---------- TOAST ---------- */
-  .toast{
-    position:fixed;
-    top:20px; left:50%;
-    transform:translate(-50%, -140%);
-    background:#1E4A36;
-    color:var(--paper);
-    padding:14px 22px;
-    border-radius:var(--radius);
-    font-size:0.9rem;
-    z-index:1100;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    transition:transform .3s ease;
-    box-shadow:0 8px 0 0 rgba(0,0,0,0.15);
-  }
-  .toast.show{transform:translate(-50%, 0);}
-  .toast.toast-red{background:var(--red-deep);}
-
-  /* ---------- EVENT CARDS ---------- */
-  .event-list{display:flex;flex-direction:column;gap:16px;padding-bottom:80px;}
-  .event-card{
+  .report-list{display:flex;flex-direction:column;gap:12px;padding-bottom:8px;}
+  .report-row{
     background:var(--paper-deep);
     border:1.5px solid var(--ink);
     border-radius:var(--radius);
-    padding:22px 24px;
-    box-shadow:0 6px 0 0 rgba(36,34,25,0.06);
-  }
-  .event-top{
+    padding:16px 20px;
     display:flex;
-    align-items:flex-start;
+    align-items:center;
     justify-content:space-between;
     gap:16px;
-    margin-bottom:6px;
+    flex-wrap:wrap;
+    box-shadow:0 5px 0 0 rgba(36,34,25,0.06);
   }
-  .event-title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-  .event-title-row h3{font-size:1.08rem;}
-  .event-desc{font-size:0.86rem;color:var(--ink-soft);margin-bottom:14px;}
-  .event-meta{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:14px;
-    font-size:0.8rem;
-    color:var(--ink-soft);
-    margin-bottom:14px;
-  }
-  .event-meta strong{display:block;color:var(--ink);font-weight:600;font-size:0.86rem;margin-top:2px;}
-  .event-progress-label{
-    display:flex;
-    justify-content:space-between;
-    font-size:0.78rem;
-    color:var(--ink-soft);
-    margin-bottom:6px;
-  }
-  .event-progress-bar{
-    height:7px;
-    background:var(--line);
-    border-radius:4px;
-    overflow:hidden;
-  }
-  .event-progress-fill{height:100%;background:#2E6B4F;border-radius:4px;}
-  .event-actions{display:flex;gap:10px;flex-shrink:0;}
-  .event-actions button{
-    padding:8px 14px;
-    font-size:0.8rem;
-    font-weight:600;
-    border-radius:var(--radius);
-    border:1.5px solid var(--line);
-    background:var(--paper);
-    color:var(--ink-soft);
-    white-space:nowrap;
-  }
-  .event-actions button:hover{border-color:var(--ink);color:var(--ink);}
-  .event-actions button.act-delete:hover{border-color:var(--red-deep);color:var(--red-deep);}
-
-  @media (max-width: 980px){
-    .tool-grid{grid-template-columns:1fr 1fr;}
-    .event-meta{grid-template-columns:1fr 1fr;}
-  }
-  @media (max-width: 700px){
-    .tool-grid{grid-template-columns:1fr;}
-    .field-row{grid-template-columns:1fr;}
-    table.admin-table{font-size:0.8rem;}
-    .event-meta{grid-template-columns:1fr;}
-  }
-
-
+  .report-row .report-info h3{font-size:0.96rem;margin-bottom:4px;}
+  .report-row .report-info p{font-size:0.8rem;color:var(--ink-soft);}
 
   /* ---------- CHATBOT ---------- */
   .chat-fab{
@@ -675,7 +512,7 @@
   .chat-panel{
     position:fixed;
     bottom:96px;right:26px;
-    width:340px;
+    width:420px;
     max-width:calc(100vw - 40px);
     background:var(--paper-deep);
     border:1.5px solid var(--ink);
@@ -695,45 +532,26 @@
     align-items:center;
     justify-content:space-between;
   }
-  .chat-head .title{
-    font-family:'Fraunces',serif;
-    font-weight:700;
-    font-size:1rem;
-  }
-  .chat-head .sub{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:0.65rem;
-    color:rgba(245,240,228,0.8);
-  }
-  .chat-close{
-    background:none;border:none;color:var(--paper);
-    font-size:1.1rem;line-height:1;
-  }
+  .chat-head .title{font-family:'Fraunces',serif;font-weight:700;font-size:1rem;}
+  .chat-head .sub{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:rgba(245,240,228,0.8);}
+  .chat-close{background:none;border:none;color:var(--paper);font-size:1.1rem;line-height:1;}
   .chat-body{
     padding:16px 18px;
     display:flex;
     flex-direction:column;
     gap:10px;
-    max-height:320px;
+    max-height:380px;
     overflow-y:auto;
   }
   .chat-msg{
-    max-width:82%;
+    max-width:85%;
     padding:9px 13px;
     border-radius:var(--radius);
     font-size:0.85rem;
     line-height:1.45;
   }
-  .chat-msg.bot{
-    background:var(--paper);
-    border:1px solid var(--line);
-    align-self:flex-start;
-  }
-  .chat-msg.user{
-    background:var(--accent-deep);
-    color:var(--paper);
-    align-self:flex-end;
-  }
+  .chat-msg.bot{background:var(--paper);border:1px solid var(--line);align-self:flex-start;}
+  .chat-msg.user{background:var(--accent-deep);color:var(--paper);align-self:flex-end;}
   .chat-suggest{
     display:flex;
     flex-wrap:wrap;
@@ -766,7 +584,6 @@
     background:var(--paper);
     outline:none;
   }
-  .chat-input-row input:focus{border-color:var(--ink);}
   .chat-send{
     width:38px;height:38px;
     border-radius:var(--radius);
@@ -775,165 +592,6 @@
     color:var(--paper);
     display:flex;align-items:center;justify-content:center;
     flex-shrink:0;
-  }
-
-  @media (max-width: 980px){
-    .body-grid{grid-template-columns:1fr;}
-    .stats-grid{grid-template-columns:repeat(2, 1fr);}
-    .nav-links{display:none;}
-    .hero-seal{width:72px;height:72px;}
-  }
-  @media (max-width: 620px){
-    .stats-grid{grid-template-columns:1fr 1fr;}
-    .hero{padding:44px 0 78px;}
-    .hero-top{flex-direction:column-reverse;gap:18px;}
-    .chat-panel{right:14px;bottom:88px;}
-    .chat-fab{right:14px;bottom:18px;}
-  }
-
-  /* ---------- FOOTER ---------- */
-  footer{
-    padding:44px 0 36px;
-    border-top:1px solid var(--line);
-  }
-  .foot-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    flex-wrap:wrap;
-    gap:26px;
-    margin-bottom:30px;
-  }
-  .foot-brand{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-family:'Fraunces', serif;
-    font-weight:700;
-    font-size:1.05rem;
-  }
-  .foot-brand .mark{
-    width:32px;height:32px;
-    border-radius:50%;
-    background:var(--black);
-    display:flex;align-items:center;justify-content:center;
-    color:var(--paper);
-    font-family:'IBM Plex Mono',monospace;
-    font-size:0.6rem;
-    font-weight:600;
-    border:2px solid var(--accent);
-  }
-  .foot-seals{display:flex;gap:12px;}
-  .foot-seals .imgwrap{
-    width:38px;height:38px;
-    border-radius:50%;
-    border:1px solid var(--line);
-    background:var(--paper-deep);
-    display:flex;align-items:center;justify-content:center;
-    padding:4px;
-  }
-  .foot-seals img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
-  .foot-bottom{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:12px;
-    font-size:0.78rem;
-    color:var(--ink-soft);
-    font-family:'IBM Plex Mono',monospace;
-    padding-top:20px;
-    border-top:1px solid var(--line);
-  }
-
-  /* ---------- INSIGHTS (Summary / Statistics / Reports) ---------- */
-  .insights-panel{display:none;}
-  .insights-panel.active{display:block;}
-
-  /* Summary tab */
-  .summary-lede{
-    font-size:0.92rem;
-    color:var(--ink-soft);
-    max-width:72ch;
-    line-height:1.6;
-    margin-bottom:22px;
-  }
-  .summary-grid{
-    display:grid;
-    grid-template-columns:repeat(2, 1fr);
-    gap:16px;
-    margin-bottom:8px;
-  }
-  .summary-card{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:20px 22px;
-    box-shadow:0 6px 0 0 rgba(36,34,25,0.06);
-  }
-  .summary-card .tag{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:0.66rem;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    color:var(--accent-deep);
-    display:block;
-    margin-bottom:8px;
-  }
-  .summary-card p{font-size:0.88rem;line-height:1.55;color:var(--ink);}
-  .summary-card strong{font-weight:700;}
-
-  /* Statistics tab */
-  .chart-grid{
-    display:grid;
-    grid-template-columns:1.3fr 1fr;
-    gap:18px;
-    margin-bottom:18px;
-  }
-  .chart-grid.full{grid-template-columns:1fr;}
-  .chart-card{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:20px 22px 14px;
-    box-shadow:0 6px 0 0 rgba(36,34,25,0.06);
-  }
-  .chart-card h3{font-size:0.98rem;margin-bottom:2px;}
-  .chart-card .chart-sub{font-size:0.78rem;color:var(--ink-soft);margin-bottom:14px;}
-  .chart-card canvas{max-height:240px;}
-  .chart-legend{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px 16px;
-    margin-top:12px;
-    font-size:0.76rem;
-    color:var(--ink-soft);
-  }
-  .chart-legend span{display:inline-flex;align-items:center;gap:6px;}
-  .chart-legend i{width:9px;height:9px;border-radius:50%;display:inline-block;}
-
-  /* Reports tab */
-  .report-list{display:flex;flex-direction:column;gap:12px;padding-bottom:8px;}
-  .report-row{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:16px 20px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:16px;
-    flex-wrap:wrap;
-    box-shadow:0 5px 0 0 rgba(36,34,25,0.06);
-  }
-  .report-row .report-info h3{font-size:0.96rem;margin-bottom:4px;}
-  .report-row .report-info p{font-size:0.8rem;color:var(--ink-soft);}
-  .report-row .report-actions{display:flex;gap:10px;flex-shrink:0;}
-  .report-row .btn-small{padding:8px 14px;font-size:0.78rem;}
-
-  @media (max-width: 980px){
-    .summary-grid{grid-template-columns:1fr;}
-    .chart-grid{grid-template-columns:1fr;}
   }
 
   /* ---------- USER DROPDOWN ---------- */
@@ -973,6 +631,69 @@
   .dropdown-item:hover{background:var(--paper-deep);}
   .dropdown-item.logout{color:var(--red);}
   .dropdown-item.logout:hover{background:var(--red);color:var(--paper);}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:50px 0 40px;
+    border-top:1px solid var(--line);
+  }
+  .foot-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:30px;
+    margin-bottom:36px;
+  }
+  .foot-brand{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:1.15rem;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .foot-brand .mark{
+    width:34px;height:34px;
+    border-radius:50%;
+    background:var(--black);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--paper);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.65rem;
+    font-weight:600;
+    border:2px solid var(--red);
+  }
+  .foot-seals{display:flex;gap:14px;}
+  .foot-seals .imgwrap{
+    width:44px;height:44px;
+    min-width:44px;min-height:44px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--paper-deep);
+    display:flex;align-items:center;justify-content:center;
+    padding:4px;
+    overflow:hidden;
+  }
+  .foot-seals img{width:100%!important;height:100%!important;object-fit:contain;border-radius:50%;}
+  .foot-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:0.8rem;
+    color:var(--ink-soft);
+    font-family:'IBM Plex Mono',monospace;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+  }
+
+  @media (max-width: 980px){
+    .stats-grid{grid-template-columns:1fr;}
+    .tool-grid{grid-template-columns:1fr;}
+    .summary-grid{grid-template-columns:1fr;}
+  }
 </style>
 </head>
 <body>
@@ -988,9 +709,10 @@
     </a>
     <nav class="nav-links">
       <a href="cembo_admin.html" class="active">Dashboard</a>
-      <a href="cembo_adminFacilities.html" class="">Facilities</a>
-      <a href="cembo_adminReservations.html" class="">Reservations</a>
-      <a href="cembo_adminEvents.html" class="">Events</a>
+      <a href="cembo_adminFacilities.html">Facilities</a>
+      <a href="cembo_adminReservations.html">Reservations</a>
+      <a href="cembo_adminEvents.html">Events</a>
+      <a href="cembo_adminFeedback.html">Feedback</a>
     </nav>
     <div class="nav-right">
       <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
@@ -999,8 +721,8 @@
       <a href="home_cembo.html" class="btn btn-small btn-secondary-nav" style="margin-right:2px;">View Resident Site</a>
       <div class="user-menu" id="user-menu">
         <button type="button" class="user-chip" id="user-menu-btn" aria-haspopup="true" aria-expanded="false">
-          <span class="avatar">MS</span>
-          <span id="admin-name">Admin</span>
+          <span class="avatar" id="admin-avatar">--</span>
+          <span id="admin-name">Loading...</span>
           <svg class="caret" width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="user-dropdown" role="menu">
@@ -1019,7 +741,7 @@
     <div class="hero-copy">
       <div class="eyebrow">SK Barangay Cembo · Admin</div>
       <h1>Admin Dashboard</h1>
-      <p class="lede">Manage facilities, reservations, and events for Cembo.</p>
+      <p class="lede">Manage facilities, reservations, events, and resident master lists for Cembo.</p>
     </div>
     <div class="hero-seal">
       <img src="../Pics/cembologo.png" alt="Cembo seal">
@@ -1027,131 +749,94 @@
   </div>
 </section>
 
-
-<div class="wrap stats-strip compact">
-  <div class="stats-grid" style="grid-template-columns:repeat(3, 1fr);">
+<!-- STATS STRIP (Updated to exact 3 requested Firebase analytics cards) -->
+<div class="wrap stats-strip">
+  <div class="stats-grid">
     <div class="stat-card">
       <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M19.4 13.5c.1-.5.1-1 0-1.5l1.8-1.4-2-3.5-2.1.8a7 7 0 0 0-1.3-.8L15.5 5h-4l-.3 2.1c-.5.2-.9.5-1.3.8l-2.1-.8-2 3.5L7.6 12c-.1.5-.1 1 0 1.5l-1.8 1.4 2 3.5 2.1-.8c.4.3.8.6 1.3.8l.3 2.1h4l.3-2.1c.5-.2.9-.5 1.3-.8l2.1.8 2-3.5-1.8-1.4Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.3"/></svg></span>
-      <div><div class="stat-num">6</div><div class="stat-label">Total Facilities</div></div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
-      <div><div class="stat-num">2</div><div class="stat-label">Pending Reservations</div></div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      <div><div class="stat-num">2</div><div class="stat-label">Approved Reservations</div></div>
+      <div><div class="stat-num" id="stat-top-facility">Loading...</div><div class="stat-label">Most Used Facility</div></div>
     </div>
     <div class="stat-card">
       <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M4 9h16M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-      <div><div class="stat-num">4</div><div class="stat-label">Total Events</div></div>
+      <div><div class="stat-num" id="stat-top-event">Loading...</div><div class="stat-label">Most Joined Events</div></div>
     </div>
     <div class="stat-card">
       <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M17 20v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1M10 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-      <div><div class="stat-num">90</div><div class="stat-label">Event Registrations</div></div>
-    </div>
-    <div class="stat-card">
-      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 19V5a1 1 0 0 1 1-1h11l4 4v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 9h6M8 13h8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span>
-      <div><div class="stat-num">5</div><div class="stat-label">Total Reservations</div></div>
+      <div><div class="stat-num" id="stat-validated-residents">0</div><div class="stat-label">Validated Residents</div></div>
     </div>
   </div>
 </div>
-
-
 
 <section class="wrap page-sub">
   <div class="section-head-row">
     <h2>Management Tools</h2>
   </div>
   <div class="tool-grid">
-
     <a href="cembo_adminFacilities.html" class="tool-card">
       <span class="tool-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" stroke-width="1.5"/><path d="M19.4 13.5c.1-.5.1-1 0-1.5l1.8-1.4-2-3.5-2.1.8a7 7 0 0 0-1.3-.8L15.5 5h-4l-.3 2.1c-.5.2-.9.5-1.3.8l-2.1-.8-2 3.5L7.6 12c-.1.5-.1 1 0 1.5l-1.8 1.4 2 3.5 2.1-.8c.4.3.8.6 1.3.8l.3 2.1h4l.3-2.1c.5-.2.9-.5 1.3-.8l2.1.8 2-3.5-1.8-1.4Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>
       <h3>Manage Facilities</h3>
       <p>Add, edit, or remove facilities available for reservation.</p>
       <span class="go">Open →</span>
     </a>
-
     <a href="cembo_adminReservations.html" class="tool-card">
       <span class="tool-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 19V5a1 1 0 0 1 1-1h11l4 4v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 9h6M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg></span>
       <h3>Manage Reservations</h3>
       <p>Review and approve or reject facility reservation requests.</p>
       <span class="go">Open →</span>
     </a>
-
     <a href="cembo_adminEvents.html" class="tool-card">
       <span class="tool-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M4 9h16M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
       <h3>Manage Events</h3>
       <p>Create and manage youth programs and events, and view registrations.</p>
       <span class="go">Open →</span>
     </a>
+  </div>
 
+  <!-- RESIDENT VALIDATION SECTION -->
+  <div class="validation-card">
+    <div class="eyebrow" style="color:var(--accent-deep); margin-bottom:6px;">Master List Verification</div>
+    <h3>Validate Residents (Kabataan Excel/CSV Upload)</h3>
+    <p>Upload a CSV or Excel file containing the official list of Barangay Cembo youth/residents (columns: <strong>First Name, Last Name, Email</strong>). This populates the <code>validated_residents</code> collection to automatically verify accounts upon registration.</p>
+    <div class="upload-box">
+      <input type="file" id="csv-file-input" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+      <button type="button" class="btn btn-small" id="upload-csv-btn">Upload &amp; Validate Residents →</button>
+      <span id="upload-status" style="font-size:0.85rem; font-weight:600; color:#1E4A36;"></span>
+    </div>
   </div>
 </section>
 
+<!-- INSIGHTS SECTION -->
 <section class="wrap page-sub">
   <div class="section-head-row">
     <h2>Insights</h2>
   </div>
-
   <div class="tab-row">
     <button class="tab-btn active" data-tab="summary">Summary</button>
-    <button class="tab-btn" data-tab="statistics">Statistics</button>
     <button class="tab-btn" data-tab="reports">Reports</button>
   </div>
 
-  <!-- SUMMARY -->
   <div class="insights-panel active" id="panel-summary">
-    <p class="summary-lede">A quick read on how Cembo's facilities, reservations, and youth programs are trending this month.</p>
+    <p class="summary-lede">A quick read on how Cembo's facilities, reservations, and youth programs are trending based on live Firestore records.</p>
     <div class="summary-grid">
       <div class="summary-card">
-        <span class="tag">Reservations</span>
-        <p><strong>5 requests</strong> logged this month across <strong>6 facilities</strong> — 2 approved, 2 pending, 1 rejected. The <strong>SK Basketball Court</strong> remains the most requested venue.</p>
+        <span class="tag">Reservations Volume</span>
+        <p id="summary-res-text">Loading reservation insights...</p>
       </div>
       <div class="summary-card">
         <span class="tag">Approval Rate</span>
-        <p><strong>67%</strong> of decided requests were approved. Average time from submission to a decision is currently <strong>~2 days</strong>.</p>
+        <p id="summary-approval-text">Calculating approval rate...</p>
       </div>
       <div class="summary-card">
-        <span class="tag">Events &amp; Programs</span>
-        <p><strong>4 active events</strong> with <strong>90 total registrations</strong>, averaging <strong>23 sign-ups</strong> per program. The Digital Skills Workshop is filling up fastest.</p>
+        <span class="tag">Most Used Facility</span>
+        <p id="summary-top-facility">Analyzing facility usage...</p>
       </div>
       <div class="summary-card">
-        <span class="tag">Attention Needed</span>
-        <p><strong>2 reservations</strong> are still awaiting review. Oldest pending request was submitted <strong>3 days ago</strong> — worth a look under Manage Reservations.</p>
+        <span class="tag">Most Joined Event</span>
+        <p id="summary-top-event">Analyzing event participation...</p>
       </div>
     </div>
   </div>
 
-  <!-- STATISTICS -->
-  <div class="insights-panel" id="panel-statistics">
-    <div class="chart-grid">
-      <div class="chart-card">
-        <h3>Reservations by Facility</h3>
-        <div class="chart-sub">Total requests received per facility, this month</div>
-        <canvas id="chartFacility"></canvas>
-      </div>
-      <div class="chart-card">
-        <h3>Reservation Status</h3>
-        <div class="chart-sub">Breakdown of all requests</div>
-        <canvas id="chartStatus"></canvas>
-      </div>
-    </div>
-    <div class="chart-grid">
-      <div class="chart-card">
-        <h3>Reservation Trend</h3>
-        <div class="chart-sub">Requests submitted, last 6 months</div>
-        <canvas id="chartTrend"></canvas>
-      </div>
-      <div class="chart-card">
-        <h3>Event Registrations</h3>
-        <div class="chart-sub">Sign-ups per active program</div>
-        <canvas id="chartEvents"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <!-- REPORTS -->
   <div class="insights-panel" id="panel-reports">
     <div class="report-list">
       <div class="report-row">
@@ -1159,32 +844,27 @@
           <h3>Facility Utilization Report</h3>
           <p>Reservation counts and approval status broken down by facility.</p>
         </div>
-        <div class="report-actions">
-          <button class="btn btn-small btn-secondary-nav" onclick="downloadReport('facility')">Download CSV</button>
-        </div>
+        <button class="btn btn-small btn-secondary-nav" onclick="downloadReport('facility')">Download CSV</button>
       </div>
       <div class="report-row">
         <div class="report-info">
           <h3>Reservation Summary Report</h3>
-          <p>All facility reservation requests with status and requesting officer.</p>
+          <p>All facility reservation requests with status and details.</p>
         </div>
-        <div class="report-actions">
-          <button class="btn btn-small btn-secondary-nav" onclick="downloadReport('reservations')">Download CSV</button>
-        </div>
+        <button class="btn btn-small btn-secondary-nav" onclick="downloadReport('reservations')">Download CSV</button>
       </div>
       <div class="report-row">
         <div class="report-info">
           <h3>Event Attendance Report</h3>
           <p>Registration totals and capacity for each youth program or event.</p>
         </div>
-        <div class="report-actions">
-          <button class="btn btn-small btn-secondary-nav" onclick="downloadReport('events')">Download CSV</button>
-        </div>
+        <button class="btn btn-small btn-secondary-nav" onclick="downloadReport('events')">Download CSV</button>
       </div>
     </div>
   </div>
 </section>
 
+<!-- RECENT ACTIVITY TABLE -->
 <section class="wrap">
   <div class="section-head-row">
     <h2>Recent Activity</h2>
@@ -1192,32 +872,14 @@
   <div class="table-card" style="margin-bottom:80px;">
     <table class="admin-table">
       <thead>
-        <tr><th>Action</th><th>Facility / Event</th><th>By</th><th>When</th></tr>
+        <tr><th>Type</th><th>Details / Title</th><th>Status / Action</th><th>When</th></tr>
       </thead>
-      <tbody>
-        <tr>
-          <td><span class="type-pill">Approved</span></td>
-          <td class="cell-title">SK Basketball Court — SK Tournament Practice</td>
-          <td>Admin Maria Santos</td>
-          <td class="cell-sub">2026-04-11, 10:42 AM</td>
-        </tr>
-        <tr>
-          <td><span class="type-pill">Rejected</span></td>
-          <td class="cell-title">Multi-Purpose Area — Community Clean-Up Drive</td>
-          <td>Admin Juan Cruz</td>
-          <td class="cell-sub">2026-04-09, 3:15 PM</td>
-        </tr>
-        <tr>
-          <td><span class="type-pill">Event Added</span></td>
-          <td class="cell-title">Digital Skills Workshop</td>
-          <td>Admin Maria Santos</td>
-          <td class="cell-sub">2026-04-05, 9:00 AM</td>
-        </tr>
+      <tbody id="recent-activity-tbody">
+        <tr><td colspan="4" style="text-align:center; color:#5B564A; padding:20px;">Loading recent activity...</td></tr>
       </tbody>
     </table>
   </div>
 </section>
-
 
 <footer>
   <div class="wrap">
@@ -1241,6 +903,7 @@
   </div>
 </footer>
 
+<!-- WIDER AI CHATBOT -->
 <button class="chat-fab" id="chat-fab" title="SK Assistant">
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
 </button>
@@ -1248,37 +911,57 @@
 <div class="chat-panel" id="chat-panel">
   <div class="chat-head">
     <div>
-      <div class="title">SK Assistant</div>
+      <div class="title">SK Assistant (Live AI)</div>
       <div class="sub">Barangay Cembo · Online</div>
     </div>
     <button class="chat-close" id="chat-close">✕</button>
   </div>
   <div class="chat-body" id="chat-body">
-    <div class="chat-msg bot">Hi! I'm the SK Cembo assistant. I can help with facility availability, upcoming programs, your reservations, or announcements. What do you need?</div>
+    <div class="chat-msg bot">Hi! I'm your SK Cembo Assistant. I can help you with Kabataan resident list validation, formatting Excel/CSV files, or checking active facility bookings and events!</div>
   </div>
   <div class="chat-suggest">
-    <button data-msg="Is the basketball court free this weekend?">Court availability</button>
-    <button data-msg="What programs are coming up?">Upcoming programs</button>
-    <button data-msg="Where's my reservation status?">My reservation status</button>
+    <button data-msg="How do I format the Excel/CSV file for validation?">Excel format guide</button>
+    <button data-msg="What is our most used facility?">Most used facility</button>
+    <button data-msg="How many validated residents are there?">Validated residents count</button>
   </div>
   <div class="chat-input-row">
-    <input type="text" id="chat-input" placeholder="Type a message…">
+    <input type="text" id="chat-input" placeholder="Ask about resident validation, files, or reservations…">
     <button class="chat-send" id="chat-send">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 20l16-8L4 4l2 8-2 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
     </button>
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
-<script>
-  /* ---------- INSIGHTS: tabs ---------- */
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc, query, collection, where, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
+    authDomain: "embo-access.firebaseapp.com",
+    projectId: "embo-access",
+    storageBucket: "embo-access.firebasestorage.app",
+    messagingSenderId: "173132109750",
+    appId: "1:173132109750:web:8697b6c0b83676a62a5317"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const PAGE_BARANGAY = "Cembo";
+
+  let cachedReservations = [];
+  let cachedFacilities = [];
+  let cachedEvents = [];
+  let validatedResidentsCount = 0;
+
+  // Tab switcher
   const tabBtns = document.querySelectorAll('.tab-row .tab-btn[data-tab]');
   const panels = {
     summary: document.getElementById('panel-summary'),
-    statistics: document.getElementById('panel-statistics'),
     reports: document.getElementById('panel-reports')
   };
-  let chartsInitialized = false;
 
   tabBtns.forEach(btn=>{
     btn.addEventListener('click', ()=>{
@@ -1286,116 +969,307 @@
       btn.classList.add('active');
       Object.values(panels).forEach(p=>p.classList.remove('active'));
       panels[btn.dataset.tab].classList.add('active');
-      if(btn.dataset.tab === 'statistics' && !chartsInitialized){
-        initCharts();
-        chartsInitialized = true;
-      }
     });
   });
 
-  /* ---------- INSIGHTS: sample data ---------- */
-  const facilityLabels = ['SK Basketball Court','Multi-Purpose Area','Covered Court','Function Hall','Youth Center Hall','Outdoor Plaza'];
-  const facilityData = [2, 1, 1, 1, 0, 0];
+  // Fetch Live Metrics and Compute Analytics for Top Banner & Summary Cards
+  async function loadDashboardData() {
+    try {
+      // 1. Facilities
+      const facSnap = await getDocs(query(collection(db, "facilities"), where("barangay", "==", PAGE_BARANGAY)));
+      cachedFacilities = [];
+      facSnap.forEach(docSnap => cachedFacilities.push({ id: docSnap.id, ...docSnap.data() }));
 
-  const statusLabels = ['Approved','Pending','Rejected'];
-  const statusData = [2, 2, 1];
-  const statusColors = ['#2E6B4F', '#B8862A', '#8F171B'];
+      // 2. Reservations
+      const resSnap = await getDocs(query(collection(db, "reservations"), where("barangay", "==", PAGE_BARANGAY)));
+      cachedReservations = [];
+      resSnap.forEach(docSnap => cachedReservations.push({ id: docSnap.id, ...docSnap.data() }));
+      
+      let approved = 0;
+      let facilityUsage = {};
+      let activityRows = [];
 
-  const trendLabels = ['Nov','Dec','Jan','Feb','Mar','Apr'];
-  const trendData = [1, 2, 3, 2, 4, 5];
+      cachedReservations.forEach(r => {
+        const rStatus = (r.status || "").toLowerCase();
+        if (rStatus === 'approved') approved++;
 
-  const eventLabels = ['Basketball Tournament','Digital Skills Workshop','Youth Assembly','Clean-Up Drive'];
-  const eventData = [28, 32, 18, 12];
+        const facName = r.facilityName || 'General Facility';
+        facilityUsage[facName] = (facilityUsage[facName] || 0) + 1;
+        
+        activityRows.push({
+          type: 'Reservation',
+          title: `${r.facilityName || 'Facility'} — ${r.purpose || 'Booking'}`,
+          status: r.status || 'Pending',
+          time: r.createdAt ? new Date(r.createdAt.seconds * 1000).toLocaleString() : 'Recent'
+        });
+      });
 
-  function initCharts(){
-    const inkSoft = '#5B564A';
-    const accent = '#2A4D78';
-    const accentDeep = '#1E3A5C';
-    Chart.defaults.font.family = "'IBM Plex Sans', sans-serif";
-    Chart.defaults.color = inkSoft;
+      // 3. Events & Registrations
+      const eventSnap = await getDocs(query(collection(db, "events"), where("barangay", "==", PAGE_BARANGAY)));
+      cachedEvents = [];
+      eventSnap.forEach(docSnap => cachedEvents.push({ id: docSnap.id, ...docSnap.data() }));
 
-    new Chart(document.getElementById('chartFacility'), {
-      type: 'bar',
-      data: { labels: facilityLabels, datasets: [{ label:'Reservations', data: facilityData, backgroundColor: accent, borderRadius: 2, maxBarThickness: 32 }] },
-      options: {
-        responsive:true,
-        plugins:{ legend:{ display:false } },
-        scales:{ y:{ beginAtZero:true, ticks:{ precision:0 }, grid:{ color:'rgba(36,34,25,0.08)' } }, x:{ grid:{ display:false } } }
+      let totalRegs = 0;
+      let topEventTitle = "None recorded";
+      let maxRegs = -1;
+
+      cachedEvents.forEach(ev => {
+        const regCount = ev.registeredCount || 0;
+        totalRegs += regCount;
+        if (regCount > maxRegs) {
+          maxRegs = regCount;
+          topEventTitle = ev.title || "Untitled Program";
+        }
+        activityRows.push({
+          type: 'Event',
+          title: ev.title || 'Youth Program',
+          status: 'Active Event',
+          time: ev.eventDate || 'Upcoming'
+        });
+      });
+
+      // 4. Validated Residents Count
+      const residentsSnap = await getDocs(query(collection(db, "validated_residents"), where("barangay", "==", PAGE_BARANGAY)));
+      validatedResidentsCount = residentsSnap.size;
+      document.getElementById('stat-validated-residents').textContent = validatedResidentsCount;
+
+      // Compute Most Used Facility
+      let topFacilityName = "No bookings yet";
+      let maxBookings = -1;
+      for (let [fac, count] of Object.entries(facilityUsage)) {
+        if (count > maxBookings) {
+          maxBookings = count;
+          topFacilityName = fac;
+        }
       }
-    });
 
-    new Chart(document.getElementById('chartStatus'), {
-      type: 'doughnut',
-      data: { labels: statusLabels, datasets: [{ data: statusData, backgroundColor: statusColors, borderColor:'#EDE5D2', borderWidth:2 }] },
-      options: { responsive:true, cutout:'62%', plugins:{ legend:{ position:'bottom', labels:{ boxWidth:10, padding:14, font:{size:11} } } } }
-    });
+      // Update Top Stat Cards Banner
+      document.getElementById('stat-top-facility').textContent = topFacilityName;
+      document.getElementById('stat-top-event').textContent = topEventTitle;
 
-    new Chart(document.getElementById('chartTrend'), {
-      type: 'line',
-      data: { labels: trendLabels, datasets: [{ label:'Requests', data: trendData, borderColor: accentDeep, backgroundColor:'rgba(42,77,120,0.12)', fill:true, tension:0.35, pointRadius:3 }] },
-      options: {
-        responsive:true,
-        plugins:{ legend:{ display:false } },
-        scales:{ y:{ beginAtZero:true, ticks:{ precision:0 }, grid:{ color:'rgba(36,34,25,0.08)' } }, x:{ grid:{ display:false } } }
+      // Update Summary Cards Text
+      document.getElementById('summary-res-text').innerHTML = `<strong>${cachedReservations.length} total requests</strong> logged across <strong>${cachedFacilities.length} facilities</strong>.`;
+      const approvalRate = cachedReservations.length > 0 ? Math.round((approved / cachedReservations.length) * 100) : 0;
+      document.getElementById('summary-approval-text').innerHTML = `<strong>${approvalRate}%</strong> of reservation requests were approved (${approved} approved out of ${cachedReservations.length}).`;
+      
+      document.getElementById('summary-top-facility').innerHTML = `<strong>${topFacilityName}</strong> (${maxBookings >= 0 ? maxBookings : 0} bookings) is currently the most heavily requested facility.`;
+      document.getElementById('summary-top-event').innerHTML = `<strong>${topEventTitle}</strong> leads youth programs with <strong>${maxRegs >= 0 ? maxRegs : 0} participant(s)</strong>.`;
+
+      // Render Recent Activity Table
+      const tbody = document.getElementById('recent-activity-tbody');
+      if (activityRows.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#5B564A; padding:20px;">No recent activity found.</td></tr>`;
+      } else {
+        tbody.innerHTML = activityRows.slice(0, 5).map(act => `
+          <tr>
+            <td><span class="type-pill">${act.type}</span></td>
+            <td class="cell-title">${act.title}</td>
+            <td><strong>${act.status}</strong></td>
+            <td class="cell-sub">${act.time}</td>
+          </tr>
+        `).join('');
       }
-    });
 
-    new Chart(document.getElementById('chartEvents'), {
-      type: 'bar',
-      data: { labels: eventLabels, datasets: [{ label:'Registrations', data: eventData, backgroundColor:'#8F171B', borderRadius: 2, maxBarThickness: 32 }] },
-      options: {
-        indexAxis:'y',
-        responsive:true,
-        plugins:{ legend:{ display:false } },
-        scales:{ x:{ beginAtZero:true, ticks:{ precision:0 }, grid:{ color:'rgba(36,34,25,0.08)' } }, y:{ grid:{ display:false } } }
-      }
-    });
-  }
-
-  /* ---------- INSIGHTS: report export ---------- */
-  function toCSV(rows){
-    return rows.map(r => r.map(cell => {
-      const s = String(cell);
-      return /[",\n]/.test(s) ? '"' + s.replace(/"/g,'""') + '"' : s;
-    }).join(',')).join('\n');
-  }
-
-  function downloadCSV(filename, rows){
-    const csv = toCSV(rows);
-    const blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-  }
-
-  function downloadReport(type){
-    if(type === 'facility'){
-      const rows = [['Facility','Reservations']];
-      facilityLabels.forEach((label,i)=> rows.push([label, facilityData[i]]));
-      downloadCSV('facility_utilization_report.csv', rows);
-    } else if(type === 'reservations'){
-      const rows = [
-        ['Facility','Purpose','Requested By','Status','Date'],
-        ['SK Basketball Court','SK Tournament Practice','Admin Maria Santos','Approved','2026-04-11'],
-        ['Multi-Purpose Area','Community Clean-Up Drive','Admin Juan Cruz','Rejected','2026-04-09'],
-        ['Covered Court','Youth Basketball League','Admin Maria Santos','Approved','2026-04-06'],
-        ['Function Hall','Barangay Assembly','Admin Juan Cruz','Pending','2026-04-14'],
-        ['SK Basketball Court','Weekend Open Play','Admin Maria Santos','Pending','2026-04-15']
-      ];
-      downloadCSV('reservation_summary_report.csv', rows);
-    } else if(type === 'events'){
-      const rows = [['Event','Registrations']];
-      eventLabels.forEach((label,i)=> rows.push([label, eventData[i]]));
-      downloadCSV('event_attendance_report.csv', rows);
+    } catch (err) {
+      console.error("Error loading dashboard data:", err);
     }
   }
-</script>
-<script>
+
+  // Resident Validation Excel / CSV Uploader Handler
+  const uploadBtn = document.getElementById('upload-csv-btn');
+  const fileInput = document.getElementById('csv-file-input');
+  const uploadStatus = document.getElementById('upload-status');
+
+  uploadBtn.addEventListener('click', async () => {
+    const file = fileInput.files[0];
+    if (!file) {
+      alert("Please select an Excel (.xlsx) or CSV file first.");
+      return;
+    }
+
+    uploadStatus.textContent = "Processing file and checking existing records...";
+    const reader = new FileReader();
+
+    reader.onload = async function(e) {
+      try {
+        const data = new Uint8Array(e.target.result);
+        if (typeof XLSX === 'undefined') {
+          throw new Error("SheetJS (XLSX) library is not loaded.");
+        }
+
+        const workbook = XLSX.read(data, { type: 'array' });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        
+        const existingQuery = query(collection(db, "validated_residents"), where("barangay", "==", PAGE_BARANGAY));
+        const existingSnapshot = await getDocs(existingQuery);
+        
+        const existingEmails = new Set();
+        const existingNames = new Set();
+
+        existingSnapshot.forEach(docSnap => {
+          const d = docSnap.data();
+          if (d.email) existingEmails.add(d.email.trim().toLowerCase());
+          if (d.firstname && d.lastname) {
+            existingNames.add(`${d.firstname.trim().toLowerCase()}_${d.lastname.trim().toLowerCase()}`);
+          }
+        });
+
+        let addedCount = 0;
+        let skippedCount = 0;
+        const fileEmails = new Set();
+        const fileNames = new Set();
+
+        uploadStatus.textContent = "Saving new residents...";
+
+        for (let row of rows) {
+          if (!row || row.length === 0) continue;
+          
+          let firstname = "";
+          let lastname = "";
+          let email = "";
+
+          const firstVal = String(row[0] || "").trim();
+          if (firstVal.toLowerCase() === "first name" || firstVal.toLowerCase() === "firstname") continue;
+
+          if (row.length >= 3) {
+            firstname = String(row[0] || "").trim();
+            lastname = String(row[1] || "").trim();
+            email = String(row[2] || "").trim();
+          } else if (row.length === 2) {
+            firstname = String(row[0] || "").trim();
+            lastname = String(row[1] || "").trim();
+          } else if (row.length === 1) {
+            firstname = firstVal;
+          }
+
+          if (firstname) {
+            const emailKey = email ? email.toLowerCase() : "";
+            const nameKey = `${firstname.toLowerCase()}_${lastname.toLowerCase()}`;
+
+            const isAlreadyRegistered = (emailKey && existingEmails.has(emailKey)) || existingNames.has(nameKey);
+            const isDuplicateInFile = (emailKey && fileEmails.has(emailKey)) || fileNames.has(nameKey);
+
+            if (isAlreadyRegistered || isDuplicateInFile) {
+              skippedCount++;
+              continue;
+            }
+
+            if (emailKey) fileEmails.add(emailKey);
+            fileNames.add(nameKey);
+
+            await addDoc(collection(db, "validated_residents"), {
+              barangay: PAGE_BARANGAY,
+              firstname: firstname,
+              lastname: lastname,
+              email: email,
+              validatedAt: serverTimestamp()
+            });
+            addedCount++;
+          }
+        }
+
+        uploadStatus.textContent = `Done! Added ${addedCount}, skipped ${skippedCount} duplicates.`;
+        alert(`Master list upload complete!\n\n• Successfully added: ${addedCount} new resident(s)\n• Skipped duplicates: ${skippedCount}`);
+        fileInput.value = "";
+        loadDashboardData(); // Refresh metrics
+      } catch (err) {
+        console.error("File parse error:", err);
+        uploadStatus.textContent = "Error uploading file.";
+        alert("Error: " + err.message);
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  });
+
+  // Functional CSV Report Generator
+  window.downloadReport = function(type) {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    let filename = `Cembo_${type}_Report.csv`;
+
+    if (type === 'facility') {
+      csvContent += "Facility Name,Total Reservations,Approved,Pending\n";
+      const facMap = {};
+      cachedFacilities.forEach(f => { facMap[f.name || f.facilityName] = { total: 0, approved: 0, pending: 0 }; });
+      cachedReservations.forEach(r => {
+        const name = r.facilityName || 'Unknown';
+        if (!facMap[name]) facMap[name] = { total: 0, approved: 0, pending: 0 };
+        facMap[name].total++;
+        if ((r.status || '').toLowerCase() === 'approved') facMap[name].approved++;
+        if ((r.status || '').toLowerCase() === 'pending') facMap[name].pending++;
+      });
+      for (let [name, stats] of Object.entries(facMap)) {
+        csvContent += `"${name}",${stats.total},${stats.approved},${stats.pending}\n`;
+      }
+    } else if (type === 'reservations') {
+      csvContent += "Reservation ID,Facility,Purpose,Status,Date\n";
+      cachedReservations.forEach(r => {
+        const dateStr = r.createdAt ? new Date(r.createdAt.seconds * 1000).toLocaleDateString() : '';
+        csvContent += `"${r.id}","${r.facilityName || ''}","${r.purpose || ''}","${r.status || 'Pending'}","${dateStr}"\n`;
+      });
+    } else if (type === 'events') {
+      csvContent += "Event Title,Date,Registered Count,Capacity\n";
+      cachedEvents.forEach(ev => {
+        csvContent += `"${ev.title || ''}","${ev.eventDate || ''}",${ev.registeredCount || 0},${ev.slotCapacity || 0}\n`;
+      });
+    }
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Auth Guard
+  onAuthStateChanged(auth, async (user) => {
+    if (user) {
+      try {
+        let fullName = "";
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          const data = userDocSnap.data();
+          const fName = data.firstname || data.firstName || "";
+          const lName = data.lastname || data.lastName || "";
+          fullName = `${fName} ${lName}`.trim() || data.fullName || data.name || "";
+        } else {
+          const q = query(collection(db, "users"), where("email", "==", user.email));
+          const querySnapshot = await getDocs(q);
+          querySnapshot.forEach((docSnap) => {
+            if (docSnap.exists()) {
+              const data = docSnap.data();
+              const fName = data.firstname || data.firstName || "";
+              const lName = data.lastname || data.lastName || "";
+              fullName = `${fName} ${lName}`.trim() || data.fullName || data.name || "";
+            }
+          });
+        }
+
+        if (!fullName) fullName = user.displayName || user.email.split('@')[0] || "Admin";
+
+        document.getElementById("admin-name").textContent = fullName;
+        document.getElementById("admin-avatar").textContent = fullName.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase();
+
+        loadDashboardData();
+      } catch (err) { console.error(err); }
+    } else { window.location.href = "login_page.html"; }
+  });
+
+  const userMenu = document.getElementById("user-menu");
+  const userMenuBtn = document.getElementById("user-menu-btn");
+  userMenuBtn.addEventListener("click", (e) => { e.stopPropagation(); userMenu.classList.toggle("open"); });
+  document.addEventListener("click", () => userMenu.classList.remove("open"));
+  document.getElementById("logout-btn").addEventListener("click", async () => {
+    await signOut(auth);
+    window.location.href = "login_page.html";
+  });
+
+  // AI Chatbot Logic
   const fab = document.getElementById('chat-fab');
   const panel = document.getElementById('chat-panel');
   const closeBtn = document.getElementById('chat-close');
@@ -1409,12 +1283,6 @@
   navChatBtn.addEventListener('click', togglePanel);
   closeBtn.addEventListener('click', ()=> panel.classList.remove('show'));
 
-  const canned = {
-    "is the basketball court free this weekend?": "Let me check the calendar — the Basketball Court has an open slot Saturday 2:00–4:00 PM. Want me to start a reservation request for it?",
-    "what programs are coming up?": "Coming up: our Basketball Tournament and a Digital Skills Workshop this month. Tap \"Join Program\" on the home page to sign up.",
-    "where's my reservation status?": "You can see every request and its status — Pending, Approved, or Rejected — under \"My Reservations\" in the top menu."
-  };
-
   function addMsg(text, who){
     const el = document.createElement('div');
     el.className = 'chat-msg ' + who;
@@ -1425,9 +1293,20 @@
 
   function respond(text){
     addMsg(text, 'user');
-    const key = text.trim().toLowerCase();
-    const reply = canned[key] || "Thanks — I've noted that. This is a front-end preview, so a real SK Assistant would look this up for you once it's connected to the barangay's system.";
-    setTimeout(()=> addMsg(reply, 'bot'), 500);
+    const queryLower = text.trim().toLowerCase();
+    let reply = "I'm your SK Cembo Assistant. You can ask me about uploading resident files, pending reservations, or active youth events.";
+    
+    if(queryLower.includes("format") || queryLower.includes("excel") || queryLower.includes("csv")) {
+      reply = `To validate residents, your Excel or CSV file should have columns structured as: First Name, Last Name, and Email.`;
+    } else if(queryLower.includes("facility") || queryLower.includes("most used")) {
+      reply = `The top most used facility in Barangay Cembo is currently: ${document.getElementById('stat-top-facility').textContent}.`;
+    } else if(queryLower.includes("event") || queryLower.includes("joined")) {
+      reply = `The most joined event in Barangay Cembo is currently: ${document.getElementById('stat-top-event').textContent}.`;
+    } else if(queryLower.includes("resident") || queryLower.includes("validated")) {
+      reply = `Barangay Cembo currently has ${validatedResidentsCount} validated resident(s) in the master list.`;
+    }
+
+    setTimeout(()=> addMsg(reply, 'bot'), 400);
   }
 
   sendBtn.addEventListener('click', ()=>{
@@ -1446,105 +1325,6 @@
   });
   document.querySelectorAll('.chat-suggest button').forEach(btn=>{
     btn.addEventListener('click', ()=> respond(btn.dataset.msg));
-  });
-</script>
-
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, query, collection, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-  // Your Firebase Configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
-    authDomain: "embo-access.firebaseapp.com",
-    projectId: "embo-access",
-    storageBucket: "embo-access.firebasestorage.app",
-    messagingSenderId: "173132109750",
-    appId: "1:173132109750:web:8697b6c0b83676a62a5317"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  // Listen for active authentication state
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      try {
-        let fullName = "";
-
-        // 1. First try fetching document by Document ID (User UID)
-        const userDocRef = doc(db, "users", user.uid);
-        const userDocSnap = await getDoc(userDocRef);
-
-        if (userDocSnap.exists()) {
-          const data = userDocSnap.data();
-          fullName = data.fullName || data.name || data.firstName;
-        } else {
-          // 2. Fallback: Query users collection by Email if doc ID isn't UID
-          const q = query(collection(db, "users"), where("email", "==", user.email));
-          const querySnapshot = await getDocs(q);
-          querySnapshot.forEach((docSnap) => {
-            if (docSnap.exists()) {
-              const data = docSnap.data();
-              fullName = data.fullName || data.name || data.firstName;
-            }
-          });
-        }
-
-        // 3. Display name in UI
-        const nameElement = document.getElementById("admin-name");
-        if (nameElement && fullName) {
-          nameElement.textContent = `Admin - ${fullName}`;
-        }
-
-        // Optional: Update avatar initials (e.g., "MS")
-        const avatarElement = document.querySelector(".user-chip .avatar");
-        if (avatarElement && fullName) {
-          const initials = fullName
-            .split(" ")
-            .map(n => n[0])
-            .join("")
-            .substring(0, 2)
-            .toUpperCase();
-          avatarElement.textContent = initials;
-        }
-
-      } catch (err) {
-        console.error("Error fetching admin name:", err);
-      }
-    } else {
-      // Redirect to login if not authenticated
-      window.location.href = "login_page.html";
-    }
-  });
-
-  // User dropdown + logout
-  const userMenu = document.getElementById("user-menu");
-  const userMenuBtn = document.getElementById("user-menu-btn");
-  userMenuBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    const open = userMenu.classList.toggle("open");
-    userMenuBtn.setAttribute("aria-expanded", open);
-  });
-  document.addEventListener("click", (e) => {
-    if (!userMenu.contains(e.target)) {
-      userMenu.classList.remove("open");
-      userMenuBtn.setAttribute("aria-expanded", "false");
-    }
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") userMenu.classList.remove("open");
-  });
-  document.getElementById("logout-btn").addEventListener("click", async () => {
-    try {
-      await signOut(auth);
-      window.location.href = "login_page.html";
-    } catch (err) {
-      console.error("Logout failed:", err);
-      alert("Could not log out. Please try again.");
-    }
   });
 </script>
 

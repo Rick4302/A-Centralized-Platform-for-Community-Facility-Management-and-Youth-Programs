@@ -336,16 +336,48 @@
     box-shadow:none;
   }
 
-  /* ---------- SECTION HEAD (title + action button row) ---------- */
+  /* ---------- SECTION HEAD & FILTER BAR ---------- */
   .section-head-row{
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:16px;
-    margin-bottom:22px;
+    margin-bottom:16px;
     flex-wrap:wrap;
   }
   .section-head-row h2{font-size:1.2rem;}
+
+  .filter-bar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 20px;
+    background: #ffffff;
+    padding: 12px 18px;
+    border-radius: var(--radius);
+    border: 1.5px solid var(--ink);
+    box-shadow: 0 4px 0 0 rgba(36,34,25,0.06);
+  }
+  .tab-row{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+  }
+  .tab-btn{
+    background:var(--paper-deep);
+    border:1.5px solid var(--line);
+    padding:8px 14px;
+    border-radius:999px;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-weight:600;
+    font-size:0.82rem;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all 0.15s ease;
+  }
+  .tab-btn:hover{background:var(--paper);border-color:var(--ink);color:var(--ink);}
+  .tab-btn.active{background:var(--accent-deep);border-color:var(--accent-deep);color:var(--paper);}
 
   /* ---------- MANAGEMENT TOOL CARDS (dashboard) ---------- */
   .tool-grid{
@@ -464,25 +496,6 @@
     padding:40px 18px;
   }
 
-  /* ---------- TABS (reservations) ---------- */
-  .tab-row{
-    display:flex;
-    gap:6px;
-    margin-bottom:24px;
-    flex-wrap:wrap;
-  }
-  .tab-btn{
-    background:var(--paper-deep);
-    border:1.5px solid var(--line);
-    padding:9px 16px;
-    border-radius:999px;
-    font-family:'IBM Plex Sans',sans-serif;
-    font-weight:600;
-    font-size:0.84rem;
-    color:var(--ink-soft);
-  }
-  .tab-btn.active{background:var(--accent-deep);border-color:var(--accent-deep);color:var(--paper);}
-
   /* ---------- MODAL (shared: add facility / add event / reject reason) ---------- */
   .modal-overlay{
     display:none;
@@ -596,75 +609,6 @@
     transition:transform .3s ease, opacity .3s ease;
   }
   .toast.toast-red{background:var(--red-deep);}
-
-  /* ---------- EVENT CARDS ---------- */
-  .event-list{display:flex;flex-direction:column;gap:16px;padding-bottom:80px;}
-  .event-card{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:22px 24px;
-    box-shadow:0 6px 0 0 rgba(36,34,25,0.06);
-  }
-  .event-top{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    gap:16px;
-    margin-bottom:6px;
-  }
-  .event-title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-  .event-title-row h3{font-size:1.08rem;}
-  .event-desc{font-size:0.86rem;color:var(--ink-soft);margin-bottom:14px;}
-  .event-meta{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:14px;
-    font-size:0.8rem;
-    color:var(--ink-soft);
-    margin-bottom:14px;
-  }
-  .event-meta strong{display:block;color:var(--ink);font-weight:600;font-size:0.86rem;margin-top:2px;}
-  .event-progress-label{
-    display:flex;
-    justify-content:space-between;
-    font-size:0.78rem;
-    color:var(--ink-soft);
-    margin-bottom:6px;
-  }
-  .event-progress-bar{
-    height:7px;
-    background:var(--line);
-    border-radius:4px;
-    overflow:hidden;
-  }
-  .event-progress-fill{height:100%;background:#2E6B4F;border-radius:4px;}
-  .event-actions{display:flex;gap:10px;flex-shrink:0;}
-  .event-actions button{
-    padding:8px 14px;
-    font-size:0.8rem;
-    font-weight:600;
-    border-radius:var(--radius);
-    border:1.5px solid var(--line);
-    background:var(--paper);
-    color:var(--ink-soft);
-    white-space:nowrap;
-  }
-  .event-actions button:hover{border-color:var(--ink);color:var(--ink);}
-  .event-actions button.act-delete:hover{border-color:var(--red-deep);color:var(--red-deep);}
-
-  @media (max-width: 980px){
-    .tool-grid{grid-template-columns:1fr 1fr;}
-    .event-meta{grid-template-columns:1fr 1fr;}
-  }
-  @media (max-width: 700px){
-    .tool-grid{grid-template-columns:1fr;}
-    .field-row{grid-template-columns:1fr;}
-    table.admin-table{font-size:0.8rem;}
-    .event-meta{grid-template-columns:1fr;}
-  }
-
-
 
   /* ---------- CHATBOT ---------- */
   .chat-fab{
@@ -898,7 +842,7 @@
 
 <header>
   <div class="wrap nav">
-    <a href="index.html" class="brand">
+    <a href="pembo_admin.html" class="brand">
       <span class="seal"><img src="../Pics/pembologo.png" alt="Pembo seal"></span>
       <span class="brand-text">
         <span class="sk">SK Pembo</span>
@@ -946,13 +890,20 @@
   </div>
 </section>
 
-
-
-
 <section class="wrap page-sub">
   <div class="section-head-row">
     <h2>All Facilities</h2>
     <button class="btn btn-small" id="add-facility-btn">+ Add Facility</button>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="tab-row" id="filter-tabs">
+      <button class="tab-btn active" data-filter="all">All Facilities</button>
+      <button class="tab-btn" data-filter="court">Courts</button>
+      <button class="tab-btn" data-filter="venue">Venues</button>
+      <button class="tab-btn" data-filter="resource">Resources</button>
+    </div>
   </div>
 
   <div class="table-card">
@@ -961,90 +912,7 @@
         <tr><th>Name</th><th>Type</th><th>Description</th><th>Capacity</th><th>Status</th><th>Actions</th></tr>
       </thead>
       <tbody id="facilities-tbody">
-        <tr data-row>
-          <td class="cell-title">Pembo Basketball Court</td>
-          <td><span class="type-pill">Court</span></td>
-          <td>Full-size outdoor basketball court with floodlights</td>
-          <td>30</td>
-          <td><span class="status-pill status-available" data-status>Available</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
-        <tr data-row>
-          <td class="cell-title">Pembo Covered Court</td>
-          <td><span class="type-pill">Court</span></td>
-          <td>Roofed, all-weather court for volleyball and badminton</td>
-          <td>40</td>
-          <td><span class="status-pill status-available" data-status>Available</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
-        <tr data-row>
-          <td class="cell-title">Function Hall</td>
-          <td><span class="type-pill">Venue</span></td>
-          <td>Large multi-purpose hall suitable for meetings and events</td>
-          <td>100</td>
-          <td><span class="status-pill status-available" data-status>Available</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
-        <tr data-row>
-          <td class="cell-title">Computer Lab</td>
-          <td><span class="type-pill">Venue</span></td>
-          <td>Air-conditioned lab with Wi-Fi and printer access</td>
-          <td>20</td>
-          <td><span class="status-pill status-hidden" data-status>Under Maintenance</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
-        <tr data-row>
-          <td class="cell-title">Sports Equipment Set</td>
-          <td><span class="type-pill">Resource</span></td>
-          <td>Basketballs, volleyballs, cones, and training equipment</td>
-          <td>5 sets</td>
-          <td><span class="status-pill status-available" data-status>Available</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
-        <tr data-row>
-          <td class="cell-title">Sound System</td>
-          <td><span class="type-pill">Resource</span></td>
-          <td>Professional PA system with microphones and speakers</td>
-          <td>2 sets</td>
-          <td><span class="status-pill status-available" data-status>Available</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>
+        <tr><td colspan="6" style="text-align:center; padding: 20px;">Loading facilities...</td></tr>
       </tbody>
     </table>
   </div>
@@ -1065,7 +933,6 @@
       <button class="modal-close" id="modal-close">✕</button>
     </div>
    <form class="modal-form" id="facility-form" novalidate>
-  <!-- Hidden ID to know if we are adding or editing -->
   <input type="hidden" id="f-id" value="">
 
   <div class="field" data-field="name">
@@ -1116,7 +983,6 @@
   </div>
 </div>
 
-
 <footer>
   <div class="wrap">
     <div class="foot-top">
@@ -1147,12 +1013,12 @@
   <div class="chat-head">
     <div>
       <div class="title">SK Assistant</div>
-      <div class="sub">Barangay Cembo · Online</div>
+      <div class="sub">Barangay Pembo · Online</div>
     </div>
     <button class="chat-close" id="chat-close">✕</button>
   </div>
   <div class="chat-body" id="chat-body">
-    <div class="chat-msg bot">Hi! I'm the SK Cembo assistant. I can help with facility availability, upcoming programs, your reservations, or announcements. What do you need?</div>
+    <div class="chat-msg bot">Hi! I'm the SK Pembo assistant. I can help with facility availability, upcoming programs, your reservations, or announcements. What do you need?</div>
   </div>
   <div class="chat-suggest">
     <button data-msg="Is the basketball court free this weekend?">Court availability</button>
@@ -1184,10 +1050,8 @@
     onSnapshot 
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // CHANGE THIS FOR EACH BARANGAY FILE AS A FALLBACK (e.g. "Cembo", "Comembo", "East Rembo", "Pembo", "West Rembo")
   const DEFAULT_BARANGAY = "Pembo"; 
 
-  // Firebase Configuration
   const firebaseConfig = {
     apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
     authDomain: "embo-access.firebaseapp.com",
@@ -1203,8 +1067,9 @@
 
   let currentAdminBarangay = DEFAULT_BARANGAY;
   let unsubscribeFacilities = null;
+  let allFacilitiesData = [];
+  let currentFilter = 'all';
 
-  // UI Elements
   const overlay = document.getElementById('modal-overlay');
   const modalTitle = document.getElementById('modal-title');
   const form = document.getElementById('facility-form');
@@ -1212,7 +1077,6 @@
   const toastText = document.getElementById('toast-text');
   const tbody = document.getElementById('facilities-tbody');
 
-  // Input Elements
   const facilityIdInput = document.getElementById('f-id');
   const nameInput = document.getElementById('f-name');
   const typeInput = document.getElementById('f-type');
@@ -1235,20 +1099,17 @@
     if (input) input.classList.toggle('error', hasError);
   }
 
-  // --- AUTH & INITIALIZATION ---
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       try {
         let fullName = "";
-
-        // 1. Get user profile
         const userDocRef = doc(db, "users", user.uid);
         const userDocSnap = await getDoc(userDocRef);
 
         if (userDocSnap.exists()) {
           const data = userDocSnap.data();
           fullName = data.fullName || data.name || data.firstName;
-          if (data.barangay) currentAdminBarangay = DEFAULT_BARANGAY; // Use default if not set
+          if (data.barangay) currentAdminBarangay = DEFAULT_BARANGAY;
         } else {
           const q = query(collection(db, "users"), where("email", "==", user.email));
           const querySnapshot = await getDocs(q);
@@ -1261,7 +1122,6 @@
           });
         }
 
-        // Display Admin Name & Avatar
         const nameElement = document.getElementById("admin-name");
         if (nameElement && fullName) {
           nameElement.textContent = `Admin - ${fullName}`;
@@ -1278,7 +1138,6 @@
           avatarElement.textContent = initials;
         }
 
-        // Start listening to live facilities from Firestore
         listenToFacilities(currentAdminBarangay);
 
       } catch (err) {
@@ -1290,33 +1149,51 @@
     }
   });
 
-  // --- REAL-TIME VIEW / LISTEN FROM FIRESTORE ---
   function listenToFacilities(barangay) {
     if (unsubscribeFacilities) unsubscribeFacilities();
 
     const q = query(collection(db, "facilities"), where("barangay", "==", barangay));
 
     unsubscribeFacilities = onSnapshot(q, (snapshot) => {
-      tbody.innerHTML = ""; 
-
-      if (snapshot.empty) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 20px;">No facilities found for Barangay ${barangay}. Click "+ Add Facility" to create one.</td></tr>`;
-        return;
-      }
-
+      allFacilitiesData = [];
       snapshot.forEach((docSnap) => {
-        const item = docSnap.data();
-        const docId = docSnap.id;
-        const row = createTableRow(docId, item);
-        tbody.appendChild(row);
+        allFacilitiesData.push({ id: docSnap.id, ...docSnap.data() });
       });
+      renderFacilitiesTable();
     }, (error) => {
       console.error("Firestore Read Error: ", error);
       showToast("Error loading facilities.", true);
     });
   }
 
-  // --- RENDER TABLE ROWS (WITH EDIT, REMOVE & STATUS TOGGLE) ---
+  function renderFacilitiesTable() {
+    tbody.innerHTML = ""; 
+
+    let filtered = allFacilitiesData.filter(item => {
+      if (currentFilter === 'all') return true;
+      return (item.type || '').toLowerCase() === currentFilter;
+    });
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 20px;">No facilities found matching this filter for Barangay ${currentAdminBarangay}.</td></tr>`;
+      return;
+    }
+
+    filtered.forEach((item) => {
+      const row = createTableRow(item.id, item);
+      tbody.appendChild(row);
+    });
+  }
+
+  document.querySelectorAll('#filter-tabs .tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#filter-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      renderFacilitiesTable();
+    });
+  });
+
   function createTableRow(id, data) {
     const tr = document.createElement('tr');
     tr.setAttribute('data-id', id);
@@ -1345,7 +1222,6 @@
     const editBtn = tr.querySelector('[data-edit]');
     const deleteBtn = tr.querySelector('[data-delete]');
 
-    // Quick Status Toggle
     toggleBtn.addEventListener('click', async () => {
       const newStatus = data.status === 'Available' ? 'Hidden' : 'Available';
       try {
@@ -1357,7 +1233,6 @@
       }
     });
 
-    // Populate Modal for EDITING
     editBtn.addEventListener('click', () => {
       modalTitle.textContent = 'Edit Facility';
       facilityIdInput.value = id;
@@ -1371,7 +1246,6 @@
       overlay.classList.add('show');
     });
 
-    // REMOVE / DELETE Facility from Firestore
     deleteBtn.addEventListener('click', async () => {
       if (confirm(`Remove ${data.name}? This action cannot be undone.`)) {
         try {
@@ -1387,7 +1261,6 @@
     return tr;
   }
 
-  // --- MODAL CONTROLS ---
   document.getElementById('add-facility-btn').addEventListener('click', () => {
     modalTitle.textContent = 'Add Facility';
     facilityIdInput.value = '';
@@ -1401,7 +1274,6 @@
   document.getElementById('modal-cancel').addEventListener('click', closeModal);
   overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
 
-  // --- SAVE FORM (ADD OR UPDATE FIRESTORE DOCUMENT) ---
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -1430,11 +1302,9 @@
     try {
       const docId = facilityIdInput.value;
       if (docId) {
-        // Edit existing document
         await updateDoc(doc(db, "facilities", docId), payload);
         showToast(`${payload.name} updated successfully.`);
       } else {
-        // Add new document
         await addDoc(collection(db, "facilities"), payload);
         showToast(`${payload.name} added to Barangay ${payload.barangay}.`);
       }
@@ -1445,7 +1315,6 @@
     }
   });
 
-  // --- SK ASSISTANT CHATBOT LOGIC ---
   const fab = document.getElementById('chat-fab');
   const panel = document.getElementById('chat-panel');
   const closeBtn = document.getElementById('chat-close');
@@ -1507,7 +1376,7 @@
   document.querySelectorAll('.chat-suggest button').forEach(btn => {
     btn.addEventListener('click', () => respond(btn.dataset.msg));
   });
-  // User dropdown + logout
+
   const userMenu = document.getElementById("user-menu");
   const userMenuBtn = document.getElementById("user-menu-btn");
   userMenuBtn.addEventListener("click", (e) => {
@@ -1534,6 +1403,5 @@
     }
   });
 </script>
-
 </body>
 </html>

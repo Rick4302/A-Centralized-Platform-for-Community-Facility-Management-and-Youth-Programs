@@ -148,9 +148,98 @@
   .btn-ghost:hover{background:var(--ink);color:var(--paper);box-shadow:none;}
   .btn-small{padding:9px 18px;font-size:0.85rem;}
 
+  /* ---------- BACKGROUND EVENT SHOWCASE SLIDER (JUST BELOW HEADER) ---------- */
+  .hero-slider-banner{
+    position:relative;
+    width:100%;
+    height:380px;
+    background:var(--black-deep);
+    overflow:hidden;
+    border-bottom:2px solid var(--ink);
+  }
+  .slider-track{
+    display:flex;
+    width:100%;
+    height:100%;
+    transition:transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .slide{
+    min-width:100%;
+    height:100%;
+    position:relative;
+    flex-shrink:0;
+  }
+  .slide img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:brightness(0.75);
+  }
+  .slide-overlay{
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    padding:30px 48px;
+    background:linear-gradient(to top, rgba(14,12,10,0.9) 0%, rgba(14,12,10,0.3) 70%, transparent 100%);
+    color:var(--paper);
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .slide-badge{
+    display:inline-block;
+    align-self:flex-start;
+    padding:4px 12px;
+    background:var(--red-deep);
+    color:var(--paper);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    border-radius:var(--radius);
+    border:1px solid rgba(245,240,228,0.3);
+  }
+  .slide-title{
+    font-family:'Fraunces', serif;
+    font-size:1.8rem;
+    font-weight:700;
+    color:var(--paper);
+    margin-top:2px;
+    text-shadow:0 2px 4px rgba(0,0,0,0.5);
+  }
+  .slide-desc{
+    font-size:0.92rem;
+    color:rgba(245,240,228,0.85);
+  }
+  
+  /* Slider Dots */
+  .slider-dots{
+    position:absolute;
+    bottom:20px;
+    right:48px;
+    display:flex;
+    gap:10px;
+    z-index:10;
+  }
+  .dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    border:1.5px solid var(--paper);
+    background:transparent;
+    cursor:pointer;
+    transition:background .25s ease, transform .25s ease;
+  }
+  .dot.active{
+    background:var(--red-bright);
+    border-color:var(--red-bright);
+    transform:scale(1.25);
+  }
+
   /* ---------- HERO ---------- */
   .hero{
-    padding:96px 0 40px;
+    padding:80px 0 40px;
     position:relative;
   }
   .hero-grid{
@@ -266,6 +355,8 @@
   @media (max-width: 980px){
     .seal-fan{display:none;}
     .hero-grid{grid-template-columns:1fr;}
+    .hero-slider-banner{height:280px;}
+    .slide-title{font-size:1.4rem;}
   }
 
   /* ---------- ORIGIN STRIP ---------- */
@@ -546,6 +637,72 @@
   </div>
 </header>
 
+<!-- ---------- BACKGROUND EVENT SHOWCASE SLIDER (JUST BELOW HEADER) ---------- -->
+<section class="hero-slider-banner">
+  <div class="slider-track" id="slider-track">
+    
+    <!-- Slide 1: Cembo -->
+    <div class="slide">
+      <img src="Pics/cemboballers.jpg" alt="Barangay Cembo Inter-Color League" onerror="this.src='https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1400&q=80'">
+      <div class="slide-overlay">
+        <span class="slide-badge">Barangay Cembo</span>
+        <div class="slide-title">Inter-Color Basketball & Volleyball Tournament</div>
+        <div class="slide-desc">Promoting active lifestyles and sportsmanship among youth residents.</div>
+      </div>
+    </div>
+
+    <!-- Slide 2: West Rembo -->
+    <div class="slide">
+      <img src="Pics/westremboyouth.jpg" alt="Barangay West Rembo Youth Summit" onerror="this.src='https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1400&q=80'">
+      <div class="slide-overlay">
+        <span class="slide-badge">Barangay West Rembo</span>
+        <div class="slide-title">Youth Leadership & Empowerment Summit</div>
+        <div class="slide-desc">Building future leaders through civic engagement and career workshops.</div>
+      </div>
+    </div>
+
+    <!-- Slide 3: East Rembo -->
+    <div class="slide">
+      <img src="Pics/eastremborun.jpg" alt="Barangay East Rembo Community Run" onerror="this.src='https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?auto=format&fit=crop&w=1400&q=80'">
+      <div class="slide-overlay">
+        <span class="slide-badge">Barangay East Rembo</span>
+        <div class="slide-title">Fun Run & Health Drive</div>
+        <div class="slide-desc">Advocating community health awareness and youth fitness.</div>
+      </div>
+    </div>
+
+    <!-- Slide 4: Comembo -->
+    <div class="slide">
+      <img src="Pics/comembocleanup.jpg" alt="Barangay Comembo Community Cleanup" onerror="this.src='https://images.unsplash.com/photo-1618477461853-cf6ed80faba5?auto=format&fit=crop&w=1400&q=80'">
+      <div class="slide-overlay">
+        <span class="slide-badge">Barangay Comembo</span>
+        <div class="slide-title">Green Youth Environmental Drive</div>
+        <div class="slide-desc">Tree planting and urban cleanup initiatives for a sustainable community.</div>
+      </div>
+    </div>
+
+    <!-- Slide 5: Pembo -->
+    <div class="slide">
+      <img src="Pics/pembofest.jpg" alt="Barangay Pembo Youth Cultural Fest" onerror="this.src='https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1400&q=80'">
+      <div class="slide-overlay">
+        <span class="slide-badge">Barangay Pembo</span>
+        <div class="slide-title">Youth Arts & Cultural Festival</div>
+        <div class="slide-desc">Showcasing local talents in music, arts, and performance.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Navigation Dots -->
+  <div class="slider-dots" id="slider-dots">
+    <button class="dot active" aria-label="Slide 1"></button>
+    <button class="dot" aria-label="Slide 2"></button>
+    <button class="dot" aria-label="Slide 3"></button>
+    <button class="dot" aria-label="Slide 4"></button>
+    <button class="dot" aria-label="Slide 5"></button>
+  </div>
+</section>
+
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
@@ -722,11 +879,49 @@
   revealEls.forEach(el=>io.observe(el));
 
   document.querySelectorAll('#nav-login, #hero-login, #cta-login').forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    e.preventDefault(); // Prevents default HTML link jump
-    window.location.href = 'login_page.html';
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = 'login_page.html';
+    });
   });
-});
+
+  // ---------- AUTOMATIC 3-SECOND IMAGE SHOWCASE SLIDER ----------
+  const track = document.getElementById('slider-track');
+  const dots = document.querySelectorAll('#slider-dots .dot');
+  const totalSlides = dots.length;
+  let currentSlide = 0;
+  let slideInterval;
+
+  function updateSlider(index) {
+    currentSlide = index;
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+    dots.forEach((dot, idx) => {
+      dot.classList.toggle('active', idx === currentSlide);
+    });
+  }
+
+  function nextSlide() {
+    let next = (currentSlide + 1) % totalSlides;
+    updateSlider(next);
+  }
+
+  function startSlideTimer() {
+    slideInterval = setInterval(nextSlide, 3000); // 3-second duration
+  }
+
+  function resetSlideTimer() {
+    clearInterval(slideInterval);
+    startSlideTimer();
+  }
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      updateSlider(index);
+      resetSlideTimer();
+    });
+  });
+
+  startSlideTimer();
 </script>
 
 </body>

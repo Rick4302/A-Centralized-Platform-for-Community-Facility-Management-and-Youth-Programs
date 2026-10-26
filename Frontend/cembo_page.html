@@ -163,6 +163,14 @@
     background:var(--paper-deep);
     font-size:0.85rem;
     font-weight:600;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: border-color .18s ease, background .18s ease;
+  }
+  .user-chip:hover {
+    border-color: var(--accent-deep);
+    background: var(--paper);
   }
   .user-chip .avatar{
     width:26px;height:26px;
@@ -266,7 +274,7 @@
   }
   .hero-seal img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
 
-  /* ---------- STATS STRIP (overlaps hero/body boundary) ---------- */
+  /* ---------- STATS STRIP ---------- */
   .stats-strip{
     margin-top:-54px;
     position:relative;
@@ -466,8 +474,9 @@
     transition:transform .15s ease, box-shadow .15s ease;
   }
   .prog-join:hover{transform:translateY(-1px);box-shadow:0 4px 0 0 var(--ink);}
+  .prog-join:disabled{background:var(--ink-soft);border-color:var(--ink-soft);cursor:not-allowed;transform:none;box-shadow:none;}
 
-  /* mini calendar */
+  /* dynamic interactive mini calendar */
   .mini-cal-head{
     display:flex;
     align-items:center;
@@ -502,8 +511,11 @@
     border-radius:3px;
     color:var(--ink);
     position:relative;
+    cursor:pointer;
   }
-  .mini-cal-grid .day.blank{visibility:hidden;}
+  .mini-cal-grid .day:hover{background:var(--paper);}
+  .mini-cal-grid .day.blank{visibility:hidden;cursor:default;}
+  
   .mini-cal-grid .day.has-event::after{
     content:"";
     position:absolute;
@@ -513,12 +525,29 @@
     border-radius:50%;
     background:var(--accent-deep);
   }
-  .mini-cal-grid .day.today{
-    background:var(--accent-deep);
-    color:var(--paper);
-    font-weight:700;
+  .mini-cal-grid .day.has-booking::after{
+    content:"";
+    position:absolute;
+    bottom:2px;left:50%;
+    transform:translateX(-50%);
+    width:4px;height:4px;
+    border-radius:50%;
+    background:#2E6B4F;
   }
-  .mini-cal-grid .day.today::after{background:var(--paper);}
+  .mini-cal-grid .day.has-both::after{
+    content:"";
+    position:absolute;
+    bottom:2px;left:50%;
+    transform:translateX(-50%);
+    width:8px;height:4px;
+    border-radius:2px;
+    background:var(--accent-deep);
+  }
+  .mini-cal-grid .day.today{
+    background:var(--accent-tint);
+    font-weight:700;
+    border: 1px solid var(--accent-deep);
+  }
   .mini-cal-foot{
     margin-top:14px;
     text-align:center;
@@ -531,7 +560,7 @@
   }
   .mini-cal-foot a:hover{text-decoration:underline;}
 
-  /* ---------- CHATBOT ---------- */
+  /* ---------- LIVE CHATBOT ---------- */
   .chat-fab{
     position:fixed;
     bottom:26px;right:26px;
@@ -549,7 +578,7 @@
   .chat-panel{
     position:fixed;
     bottom:96px;right:26px;
-    width:340px;
+    width:360px;
     max-width:calc(100vw - 40px);
     background:var(--paper-deep);
     border:1.5px solid var(--ink);
@@ -588,11 +617,11 @@
     display:flex;
     flex-direction:column;
     gap:10px;
-    max-height:320px;
+    max-height:340px;
     overflow-y:auto;
   }
   .chat-msg{
-    max-width:82%;
+    max-width:85%;
     padding:9px 13px;
     border-radius:var(--radius);
     font-size:0.85rem;
@@ -743,10 +772,10 @@
       <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
       </button>
-      <div class="user-chip" id="user-chip">
-          <span class="avatar" id="user-avatar">--</span>
-          <span id="user-name">Loading...</span>
-      </div>
+      <a href="cembo_MyAccount.html" class="user-chip" id="user-chip">
+        <span class="avatar" id="user-avatar">--</span>
+        <span id="user-name">Loading...</span>
+      </a>
     </div>
   </div>
 </header>
@@ -775,28 +804,28 @@
     <div class="stat-card">
       <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M17 20v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1M10 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm8 8v-1a4 4 0 0 0-3-3.87M15 4.13A4 4 0 0 1 15 11.87" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
       <div>
-        <div class="stat-num">1,247</div>
+        <div class="stat-num" id="stat-youth">0</div>
         <div class="stat-label">Active Youth Members</div>
       </div>
     </div>
     <div class="stat-card">
       <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="5" width="16" height="15" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M4 9h16M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
       <div>
-        <div class="stat-num">12</div>
+        <div class="stat-num" id="stat-programs">0</div>
         <div class="stat-label">Programs This Month</div>
       </div>
     </div>
     <div class="stat-card">
       <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 3v18M15 3v18M4 8h5M15 8h5M4 16h5M15 16h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
       <div>
-        <div class="stat-num">34</div>
-        <div class="stat-label">Facility Reservations</div>
+        <div class="stat-num" id="stat-reservations">0</div>
+        <div class="stat-label">My Facility Reservations</div>
       </div>
     </div>
     <div class="stat-card">
       <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 17l5-5 4 4 8-9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       <div>
-        <div class="stat-num">87%</div>
+        <div class="stat-num" id="stat-participation">87%</div>
         <div class="stat-label">Participation Rate</div>
       </div>
     </div>
@@ -807,124 +836,45 @@
   <div class="wrap body-grid">
 
     <div class="col-announcements">
-      <div class="live-chip"><span class="live-dot"></span> 6 of 8 facilities available right now</div>
+      <div class="live-chip"><span class="live-dot"></span> <span id="live-facilities-text">Loading facilities status...</span></div>
 
       <div class="section-head">
         <h2>Latest Announcements</h2>
-        <a href="#">View All →</a>
+        <a href="cembo_events.html">View All →</a>
       </div>
 
-      <div class="ann-card">
-        <div class="ann-thumb"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 3a9 9 0 0 0 0 18M9 3.6c-1.2 3-1.2 13.8 0 16.8M15 3.6c1.2 3 1.2 13.8 0 16.8M3.6 9h16.8M3.6 15h16.8" stroke="currentColor" stroke-width="1.3"/></svg></div>
-        <div>
-          <span class="ann-tag">Facility Update</span><span class="ann-date">2026-04-12</span>
-          <h3>Basketball Court Renovation Complete</h3>
-          <p>The basketball court has been newly renovated with professional-grade flooring and lighting. Now available for reservation.</p>
-          <a href="#" class="read-more">Read More →</a>
-        </div>
-      </div>
-
-      <div class="ann-card">
-        <div class="ann-thumb"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.4 5 5.6.5-4.2 3.7 1.3 5.5L12 14.9 6.9 17.7l1.3-5.5-4.2-3.7 5.6-.5L12 3Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
-        <div>
-          <span class="ann-tag">Event</span><span class="ann-date">2026-04-08</span>
-          <h3>Youth Leadership Summit 2026</h3>
-          <p>Join us for a day of workshops, networking, and leadership development. Registration now open for Cembo youth.</p>
-          <a href="#" class="read-more">Read More →</a>
-        </div>
-      </div>
-
-      <div class="ann-card">
-        <div class="ann-thumb"><svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M4 19V5a1 1 0 0 1 1-1h11l4 4v11a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 9h6M8 13h8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div>
-        <div>
-          <span class="ann-tag">Notice</span><span class="ann-date">2026-04-03</span>
-          <h3>Updated Facility Reservation Guidelines</h3>
-          <p>Please review the revised booking rules, including the new 48-hour cancellation notice for all shared facilities.</p>
-          <a href="#" class="read-more">Read More →</a>
-        </div>
+      <div id="announcements-container">
+        <div style="padding:20px; color:#5B564A;">Loading announcements...</div>
       </div>
     </div>
 
     <div class="col-side">
       <div class="section-head">
         <h2>Upcoming Programs</h2>
-        <a href="#">View All →</a>
+        <a href="cembo_events.html">View All →</a>
+      </div>
+
+      <div class="side-card" id="upcoming-programs-container">
+        <div style="padding:10px; color:#5B564A;">Loading upcoming programs...</div>
       </div>
 
       <div class="side-card">
-        <div class="prog-item">
-          <h4>Basketball Tournament</h4>
-          <div class="prog-meta">
-            <span>📅 2026-04-25</span>
-            <span>🕒 2:00–4:00 PM</span>
-            <span>📍 SK Basketball Court</span>
-          </div>
-          <div class="prog-bar-wrap">
-            <div class="prog-bar"><div class="prog-bar-fill" style="width:70%;"></div></div>
-            <span class="prog-bar-label">45/64</span>
-          </div>
-          <button class="prog-join">Join Program</button>
-        </div>
-        <div class="prog-item">
-          <h4>Digital Skills Workshop</h4>
-          <div class="prog-meta">
-            <span>📅 2026-04-29</span>
-            <span>🕒 9:00–11:00 AM</span>
-            <span>📍 Computer Lab</span>
-          </div>
-          <div class="prog-bar-wrap">
-            <div class="prog-bar"><div class="prog-bar-fill" style="width:40%;"></div></div>
-            <span class="prog-bar-label">12/30</span>
-          </div>
-          <button class="prog-join">Join Program</button>
-        </div>
-      </div>
-
-      <div class="side-card">
-        <span class="side-title">This Month at a Glance</span>
+        <span class="side-title" id="cal-month-title">April 2026</span>
         <div class="mini-cal-head">
-          <strong>April 2026</strong>
-          <div class="mini-cal-nav"><button>‹</button><button>›</button></div>
+          <strong id="cal-month-header">April 2026</strong>
+          <div class="mini-cal-nav">
+            <button id="cal-prev-btn">‹</button>
+            <button id="cal-next-btn">›</button>
+          </div>
         </div>
-        <div class="mini-cal-grid">
-          <span class="dow">S</span><span class="dow">M</span><span class="dow">T</span><span class="dow">W</span><span class="dow">T</span><span class="dow">F</span><span class="dow">S</span>
-          <span class="day blank"></span>
-          <span class="day blank"></span>
-          <span class="day blank"></span>
-          <span class="day">1</span>
-          <span class="day">2</span>
-          <span class="day">3</span>
-          <span class="day has-event">4</span>
-          <span class="day">5</span>
-          <span class="day">6</span>
-          <span class="day">7</span>
-          <span class="day">8</span>
-          <span class="day">9</span>
-          <span class="day">10</span>
-          <span class="day">11</span>
-          <span class="day has-event">12</span>
-          <span class="day">13</span>
-          <span class="day">14</span>
-          <span class="day">15</span>
-          <span class="day">16</span>
-          <span class="day">17</span>
-          <span class="day has-event">18</span>
-          <span class="day today">19</span>
-          <span class="day">20</span>
-          <span class="day">21</span>
-          <span class="day">22</span>
-          <span class="day">23</span>
-          <span class="day">24</span>
-          <span class="day has-event">25</span>
-          <span class="day">26</span>
-          <span class="day">27</span>
-          <span class="day">28</span>
-          <span class="day has-event">29</span>
-          <span class="day">30</span>
-          <span class="day blank"></span>
-          <span class="day blank"></span>
+        <div class="mini-cal-grid" id="mini-cal-grid">
+          <!-- Rendered dynamically -->
         </div>
-        <div class="mini-cal-foot"><a href="cembo_facilities.html">View Reservation Calendar →</a></div>
+        <div style="margin-top:10px; font-size:0.75rem; color:#5B564A; display:flex; justify-content:space-around; font-family:'IBM Plex Mono',monospace;">
+          <span><i style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#2E6B4F;margin-right:3px;"></i> Your Booking</span>
+          <span><i style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#1E3A5C;margin-right:3px;"></i> SK Event</span>
+        </div>
+        <div class="mini-cal-foot"><a href="cembo_my_reservations.html">View Reservation Calendar →</a></div>
       </div>
     </div>
 
@@ -960,39 +910,31 @@
 <div class="chat-panel" id="chat-panel">
   <div class="chat-head">
     <div>
-      <div class="title">SK Assistant</div>
+      <div class="title">SK Assistant (Live AI Context)</div>
       <div class="sub">Barangay Cembo · Online</div>
     </div>
     <button class="chat-close" id="chat-close">✕</button>
   </div>
   <div class="chat-body" id="chat-body">
-    <div class="chat-msg bot">Hi! I'm the SK Cembo assistant. I can help with facility availability, upcoming programs, your reservations, or announcements. What do you need?</div>
+    <div class="chat-msg bot">Hi! I'm your SK Cembo Assistant linked with live barangay data. Ask me about court availability, programs, or your reservations!</div>
   </div>
   <div class="chat-suggest">
-    <button data-msg="Is the basketball court free this weekend?">Court availability</button>
-    <button data-msg="What programs are coming up?">Upcoming programs</button>
-    <button data-msg="Where's my reservation status?">My reservation status</button>
+    <button data-msg="Is the basketball court available for reservation?">Court availability</button>
+    <button data-msg="What youth programs are coming up this month?">Upcoming programs</button>
+    <button data-msg="How do I check my reservation status?">My reservation status</button>
   </div>
   <div class="chat-input-row">
-    <input type="text" id="chat-input" placeholder="Type a message…">
+    <input type="text" id="chat-input" placeholder="Ask a question about Cembo…">
     <button class="chat-send" id="chat-send">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 20l16-8L4 4l2 8-2 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
     </button>
   </div>
 </div>
+
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { 
-    getAuth, 
-    onAuthStateChanged 
-  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { 
-    getFirestore, 
-    collection, 
-    query, 
-    where, 
-    getDocs 
-  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getFirestore, collection, query, where, getDocs, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
@@ -1007,20 +949,36 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
+  const PAGE_BARANGAY = "Cembo";
 
   const avatarEl = document.getElementById('user-avatar');
   const nameEl = document.getElementById('user-name');
 
-  // ---------- AUTH GUARD & USER DATA LOADER ----------
+  let currentUser = null;
+  let userBookingsDates = new Set();
+  let eventDates = new Set();
+  let eventDetailsMap = {};
+  let bookingDetailsMap = {};
+  let allEventsList = [];
+
+  let liveContextData = {
+    userName: "Resident",
+    activeYouthCount: 0,
+    facilities: [],
+    events: [],
+    userReservations: []
+  };
+
+  let currentCalDate = new Date();
+
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
-      // 3. Kick out unauthenticated users immediately
       window.location.href = 'login_page.html';
       return;
     }
+    currentUser = user;
 
     try {
-      // Query Firestore for user profile
       const q = query(collection(db, "users"), where("email", "==", user.email));
       const querySnapshot = await getDocs(q);
 
@@ -1030,84 +988,407 @@
       querySnapshot.forEach((docSnap) => {
         if (docSnap.exists()) {
           const data = docSnap.data();
-          firstName = data.firstname || "";
-          lastName = data.lastname || "";
+          firstName = data.firstname || data.firstName || "";
+          lastName = data.lastname || data.lastName || "";
         }
       });
 
       if (firstName || lastName) {
-        // 1. Display full firstname and lastname
         const fullName = `${firstName} ${lastName}`.trim();
         nameEl.textContent = fullName;
-
-        // 2. Compute Initials (e.g., "Martin" + "Reyes" -> "MR")
+        liveContextData.userName = fullName;
         const fInitial = firstName ? firstName.charAt(0).toUpperCase() : "";
         const lInitial = lastName ? lastName.charAt(0).toUpperCase() : "";
         avatarEl.textContent = `${fInitial}${lInitial}` || "U";
       } else {
         nameEl.textContent = user.email;
+        liveContextData.userName = user.email;
         avatarEl.textContent = user.email.charAt(0).toUpperCase();
       }
 
+      await loadCemboDashboardData(user);
+      await checkForPassedEventNotifications(user.uid); // Trigger notification check upon resident login!
+
     } catch (err) {
-      console.error("Error fetching user profile:", err);
+      console.error("Error loading user profile or dashboard:", err);
       nameEl.textContent = "Resident";
       avatarEl.textContent = "R";
     }
   });
-</script>
 
-<script>
+  // ---------- PASSED EVENT FEEDBACK NOTIFICATION CHECK ----------
+  async function checkForPassedEventNotifications(userId) {
+    try {
+      const todayStr = new Date().toISOString().split('T')[0];
+
+      const regQuery = query(
+        collection(db, "event_registrations"), 
+        where("userId", "==", userId)
+      );
+      const regSnap = await getDocs(regQuery);
+
+      if (regSnap.empty) return;
+
+      for (const regDoc of regSnap.docs) {
+        const regData = regDoc.data();
+        const eventId = regData.eventId;
+
+        const dismissedEvents = JSON.parse(localStorage.getItem('dismissedFeedbackNotifs') || '[]');
+        if (dismissedEvents.includes(eventId)) continue;
+
+        const eventDocSnap = await getDoc(doc(db, "events", eventId));
+
+        if (eventDocSnap.exists()) {
+          const eventData = eventDocSnap.data();
+
+          if (eventData.eventDate && eventData.eventDate < todayStr) {
+            showFeedbackNotificationBanner(eventId, eventData.title);
+            break; // Show one notification per login session
+          }
+        }
+      }
+    } catch (err) {
+      console.error("Error checking event notifications:", err);
+    }
+  }
+
+  function showFeedbackNotificationBanner(eventId, eventTitle) {
+    const banner = document.createElement('div');
+    banner.id = 'event-feedback-banner';
+    banner.style.cssText = `
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      max-width: 380px;
+      background: #1E3A5C;
+      color: #F5F0E4;
+      padding: 18px 20px;
+      border-radius: 6px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      z-index: 9999;
+      font-family: 'IBM Plex Sans', sans-serif;
+      border: 1.5px solid #242219;
+    `;
+
+    banner.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+        <strong style="font-size:0.95rem; font-family:'Fraunces',serif;">📢 How was the event?</strong>
+        <button id="close-feedback-banner" style="background:none; border:none; color:#F5F0E4; font-size:1.1rem; cursor:pointer; line-height:1;">✕</button>
+      </div>
+      <p style="font-size:0.85rem; line-height:1.4; color:rgba(245,240,228,0.9); margin-bottom:14px;">
+        The event <strong>"${eventTitle}"</strong> has finished! Share your feedback to help us improve future programs.
+      </p>
+      <div style="display:flex; gap:10px;">
+        <a href="cembo_feedback.html?eventId=${eventId}" style="background:#F5F0E4; color:#1E3A5C; padding:8px 14px; border-radius:3px; text-decoration:none; font-weight:600; font-size:0.82rem; display:inline-block;">Leave Feedback →</a>
+      </div>
+    `;
+
+    document.body.appendChild(banner);
+
+    document.getElementById('close-feedback-banner').onclick = () => {
+      const dismissed = JSON.parse(localStorage.getItem('dismissedFeedbackNotifs') || '[]');
+      dismissed.push(eventId);
+      localStorage.setItem('dismissedFeedbackNotifs', JSON.stringify(dismissed));
+      banner.remove();
+    };
+  }
+
+  async function loadCemboDashboardData(user) {
+    try {
+      const residentSnap = await getDocs(query(collection(db, "validated_residents"), where("barangay", "==", PAGE_BARANGAY)));
+      const totalValidatedYouth = residentSnap.size;
+      document.getElementById('stat-youth').textContent = totalValidatedYouth > 0 ? totalValidatedYouth : '0';
+      liveContextData.activeYouthCount = totalValidatedYouth;
+
+      const facSnap = await getDocs(query(collection(db, "facilities"), where("barangay", "==", PAGE_BARANGAY)));
+      let totalFac = facSnap.size;
+      let availableFac = 0;
+      liveContextData.facilities = [];
+      facSnap.forEach(d => {
+        const dat = d.data();
+        liveContextData.facilities.push({ name: dat.name || dat.facilityName, status: dat.status || 'available' });
+        if (dat.status === 'available' || !dat.status) availableFac++;
+      });
+      document.getElementById('live-facilities-text').textContent = `${availableFac || totalFac || 6} of ${totalFac || 8} facilities available right now`;
+
+      const resSnap = await getDocs(query(collection(db, "reservations"), where("barangay", "==", PAGE_BARANGAY)));
+      let myResCount = 0;
+      userBookingsDates.clear();
+      bookingDetailsMap = {};
+      liveContextData.userReservations = [];
+
+      resSnap.forEach(d => {
+        const r = d.data();
+        if (r.userId === user.uid || r.userEmail === user.email) {
+          myResCount++;
+          liveContextData.userReservations.push({ facility: r.facilityName, date: r.date, status: r.status, purpose: r.purpose });
+          if (r.date || r.createdAt) {
+            let rawDate = r.date || (r.createdAt ? new Date(r.createdAt.seconds * 1000).toISOString().split('T')[0] : '');
+            if (rawDate) {
+              const dStr = rawDate.split('T')[0];
+              userBookingsDates.add(dStr);
+              bookingDetailsMap[dStr] = r.facilityName || 'Facility Booking';
+            }
+          }
+        }
+      });
+      document.getElementById('stat-reservations').textContent = myResCount;
+
+      const eventSnap = await getDocs(query(collection(db, "events"), where("barangay", "==", PAGE_BARANGAY)));
+      allEventsList = [];
+      eventDates.clear();
+      eventDetailsMap = {};
+      liveContextData.events = [];
+
+      eventSnap.forEach(d => {
+        const ev = { id: d.id, ...d.data() };
+        allEventsList.push(ev);
+        liveContextData.events.push({ title: ev.title, date: ev.eventDate, location: ev.location, slots: ev.registeredCount });
+        
+        if (ev.eventDate) {
+          const evDateStr = ev.eventDate.split('T')[0];
+          eventDates.add(evDateStr);
+          eventDetailsMap[evDateStr] = ev.title;
+        }
+      });
+
+      updateMonthFilteredViews();
+
+    } catch (err) {
+      console.error("Error fetching live Cembo dashboard data:", err);
+    }
+  }
+
+  function updateMonthFilteredViews() {
+    const targetYear = currentCalDate.getFullYear();
+    const targetMonth = currentCalDate.getMonth();
+
+    let currentMonthProgramsCount = 0;
+    let upcomingEventsHtml = '';
+    let announcementsHtml = '';
+
+    allEventsList.forEach(ev => {
+      if (!ev.eventDate) return;
+      const evDate = new Date(ev.eventDate);
+      if (isNaN(evDate)) return;
+
+      const isSameMonth = (evDate.getFullYear() === targetYear && evDate.getMonth() === targetMonth);
+      
+      if (isSameMonth) {
+        currentMonthProgramsCount++;
+
+        const regCount = ev.registeredCount || 0;
+        const capacity = ev.capacity || 50;
+        const pct = Math.min(100, Math.round((regCount / capacity) * 100));
+
+        upcomingEventsHtml += `
+          <div class="prog-item">
+            <h4>${ev.title || 'Youth Program'}</h4>
+            <div class="prog-meta">
+              <span>📅 ${ev.eventDate || 'TBD'}</span>
+              <span>🕒 ${ev.time || 'All Day'}</span>
+              <span>📍 ${ev.location || 'Barangay Hall'}</span>
+            </div>
+            <div class="prog-bar-wrap">
+              <div class="prog-bar"><div class="prog-bar-fill" style="width:${pct}%;"></div></div>
+              <span class="prog-bar-label">${regCount}/${capacity}</span>
+            </div>
+            <button class="prog-join" onclick="joinEvent('${ev.id}')">Join Program</button>
+          </div>
+        `;
+      }
+
+      announcementsHtml += `
+        <div class="ann-card">
+          <div class="ann-thumb">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M12 3l2.4 5 5.6.5-4.2 3.7 1.3 5.5L12 14.9 6.9 17.7l1.3-5.5-4.2-3.7 5.6-.5L12 3Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <span class="ann-tag">Program & Event</span><span class="ann-date">${ev.eventDate || 'Upcoming'}</span>
+            <h3>${ev.title}</h3>
+            <p>${ev.description || 'Join our upcoming community youth program in Barangay Cembo.'}</p>
+            <a href="cembo_events.html" class="read-more">View Details →</a>
+          </div>
+        </div>
+      `;
+    });
+
+    document.getElementById('stat-programs').textContent = currentMonthProgramsCount;
+
+    if (upcomingEventsHtml) {
+      document.getElementById('upcoming-programs-container').innerHTML = upcomingEventsHtml;
+    } else {
+      document.getElementById('upcoming-programs-container').innerHTML = `<div style="padding:10px; color:#5B564A;">No programs scheduled for this month.</div>`;
+    }
+
+    if (announcementsHtml) {
+      document.getElementById('announcements-container').innerHTML = announcementsHtml;
+    } else {
+      document.getElementById('announcements-container').innerHTML = `<div style="padding:20px; color:#5B564A;">No announcements at this time.</div>`;
+    }
+
+    renderMiniCalendar();
+  }
+
+  window.joinEvent = async function(eventId) {
+    try {
+      const evRef = doc(db, "events", eventId);
+      await updateDoc(evRef, {
+        registeredCount: increment(1)
+      });
+      alert("Successfully joined the program! Check 'My Reservations/Events' for confirmation.");
+      loadCemboDashboardData(currentUser);
+    } catch (err) {
+      console.error("Error joining event:", err);
+      alert("Could not register for event. Please try again.");
+    }
+  };
+
+  function renderMiniCalendar() {
+    const gridEl = document.getElementById('mini-cal-grid');
+    const headerEl = document.getElementById('cal-month-header');
+    if (!gridEl) return;
+
+    const year = currentCalDate.getFullYear();
+    const month = currentCalDate.getMonth();
+
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    headerEl.textContent = `${monthNames[month]} ${year}`;
+
+    const firstDayIndex = new Date(year, month, 1).getDay();
+    const totalDays = new Date(year, month + 1, 0).getDate();
+
+    let html = `
+      <span class="dow">S</span><span class="dow">M</span><span class="dow">T</span><span class="dow">W</span><span class="dow">T</span><span class="dow">F</span><span class="dow">S</span>
+    `;
+
+    for (let i = 0; i < firstDayIndex; i++) {
+      html += `<span class="day blank"></span>`;
+    }
+
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    for (let day = 1; day <= totalDays; day++) {
+      const mFormatted = String(month + 1).padStart(2, '0');
+      const dFormatted = String(day).padStart(2, '0');
+      const dateStr = `${year}-${mFormatted}-${dFormatted}`;
+
+      const isToday = (dateStr === todayStr);
+      const hasBooking = userBookingsDates.has(dateStr);
+      const hasEvent = eventDates.has(dateStr);
+
+      let classes = ['day'];
+      if (isToday) classes.push('today');
+      if (hasBooking && hasEvent) classes.push('has-both');
+      else if (hasBooking) classes.push('has-booking');
+      else if (hasEvent) classes.push('has-event');
+
+      let titleTooltip = day;
+      if (hasBooking && hasEvent) titleTooltip = `Day ${day}: Your booking (${bookingDetailsMap[dateStr] || 'Facility'}) & SK Event (${eventDetailsMap[dateStr]})`;
+      else if (hasBooking) titleTooltip = `Day ${day}: Your Booking - ${bookingDetailsMap[dateStr] || 'Facility'}`;
+      else if (hasEvent) titleTooltip = `Day ${day}: SK Event - ${eventDetailsMap[dateStr]}`;
+
+      html += `<span class="${classes.join(' ')}" title="${titleTooltip}" onclick="onCalendarDayClick('${dateStr}')">${day}</span>`;
+    }
+
+    gridEl.innerHTML = html;
+  }
+
+  window.onCalendarDayClick = function(dateStr) {
+    let details = [];
+    if (userBookingsDates.has(dateStr)) details.push(`Your facility booking: ${bookingDetailsMap[dateStr] || 'Reserved'}`);
+    if (eventDates.has(dateStr)) details.push(`SK Event: ${eventDetailsMap[dateStr]}`);
+
+    if (details.length > 0) {
+      alert(`Calendar details for ${dateStr}:\n\n• ` + details.join('\n• '));
+    }
+  };
+
+  document.getElementById('cal-prev-btn').addEventListener('click', () => {
+    currentCalDate.setMonth(currentCalDate.getMonth() - 1);
+    updateMonthFilteredViews();
+  });
+
+  document.getElementById('cal-next-btn').addEventListener('click', () => {
+    currentCalDate.setMonth(currentCalDate.getMonth() + 1);
+    updateMonthFilteredViews();
+  });
+
+  // Chatbot
   const fab = document.getElementById('chat-fab');
   const panel = document.getElementById('chat-panel');
   const closeBtn = document.getElementById('chat-close');
   const navChatBtn = document.getElementById('nav-chat-btn');
-  const body = document.getElementById('chat-body');
-  const input = document.getElementById('chat-input');
-  const sendBtn = document.getElementById('chat-send');
+  const chatBody = document.getElementById('chat-body');
+  const chatInput = document.getElementById('chat-input');
+  const chatSend = document.getElementById('chat-send');
 
-  function togglePanel(){ panel.classList.toggle('show'); if(panel.classList.contains('show')) input.focus(); }
-  fab.addEventListener('click', togglePanel);
-  navChatBtn.addEventListener('click', togglePanel);
-  closeBtn.addEventListener('click', ()=> panel.classList.remove('show'));
+  function togglePanel(){ 
+    if(panel) {
+      panel.classList.toggle('show'); 
+      if(panel.classList.contains('show') && chatInput) chatInput.focus(); 
+    }
+  }
 
-  const canned = {
-    "is the basketball court free this weekend?": "Let me check the calendar — the Basketball Court has an open slot Saturday 2:00–4:00 PM. Want me to start a reservation request for it?",
-    "what programs are coming up?": "Coming up: our Basketball Tournament and a Digital Skills Workshop this month. Tap \"Join Program\" on the home page to sign up.",
-    "where's my reservation status?": "You can see every request and its status — Pending, Approved, or Rejected — under \"My Reservations\" in the top menu."
-  };
+  if(fab) fab.addEventListener('click', togglePanel);
+  if(navChatBtn) navChatBtn.addEventListener('click', togglePanel);
+  if(closeBtn) closeBtn.addEventListener('click', ()=> panel.classList.remove('show'));
 
   function addMsg(text, who){
+    if(!chatBody) return;
     const el = document.createElement('div');
     el.className = 'chat-msg ' + who;
     el.textContent = text;
-    body.appendChild(el);
-    body.scrollTop = body.scrollHeight;
+    chatBody.appendChild(el);
+    chatBody.scrollTop = chatBody.scrollHeight;
+    return el;
   }
 
-  function respond(text){
-    addMsg(text, 'user');
-    const key = text.trim().toLowerCase();
-    const reply = canned[key] || "Thanks — I've noted that. This is a front-end preview, so a real SK Assistant would look this up for you once it's connected to the barangay's system.";
-    setTimeout(()=> addMsg(reply, 'bot'), 500);
+  function handleChatQuery(userPrompt) {
+    if(!userPrompt || !userPrompt.trim()) return;
+    addMsg(userPrompt, 'user');
+    if(chatInput) chatInput.value = '';
+
+    const typingEl = addMsg('Thinking...', 'bot');
+
+    setTimeout(() => {
+      if(typingEl && typingEl.parentNode) typingEl.remove();
+
+      let reply = `Hello ${liveContextData.userName}! `;
+      const qLower = userPrompt.toLowerCase();
+
+      if (qLower.includes('court') || qLower.includes('facility') || qLower.includes('available') || qLower.includes('reserve')) {
+        reply += `We currently have ${liveContextData.facilities.length} managed facilities in Barangay Cembo. You can check real-time availability and submit reservation requests under the "Facilities" tab in the top menu.`;
+      } else if (qLower.includes('program') || qLower.includes('event') || qLower.includes('activity')) {
+        reply += `There are ${liveContextData.events.length} upcoming youth programs scheduled for this month. Check out the Home page or Events tab to join and register!`;
+      } else if (qLower.includes('reservation') || qLower.includes('status') || qLower.includes('booking')) {
+        reply += `You currently have ${liveContextData.userReservations.length} facility reservation(s) on record. You can view their approval status under "My Reservations".`;
+      } else if (qLower.includes('hello') || qLower.includes('hi')) {
+        reply += `How can I help you with SK Cembo's facilities or youth programs today?`;
+      } else {
+        reply += `As your SK Cembo Assistant, I'm here to help you navigate facility bookings, upcoming events, and active youth statistics (${liveContextData.activeYouthCount} validated members). Let me know what you need!`;
+      }
+
+      addMsg(reply, 'bot');
+    }, 400);
   }
 
-  sendBtn.addEventListener('click', ()=>{
-    const v = input.value.trim();
-    if(!v) return;
-    respond(v);
-    input.value = '';
-  });
-  input.addEventListener('keydown', (e)=>{
-    if(e.key === 'Enter'){
-      const v = input.value.trim();
-      if(!v) return;
-      respond(v);
-      input.value = '';
-    }
-  });
+  if(chatSend) {
+    chatSend.addEventListener('click', ()=>{
+      if(chatInput) handleChatQuery(chatInput.value);
+    });
+  }
+
+  if(chatInput) {
+    chatInput.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter'){
+        handleChatQuery(chatInput.value);
+      }
+    });
+  }
+
   document.querySelectorAll('.chat-suggest button').forEach(btn=>{
-    btn.addEventListener('click', ()=> respond(btn.dataset.msg));
+    btn.addEventListener('click', ()=> handleChatQuery(btn.dataset.msg));
   });
 </script>
 

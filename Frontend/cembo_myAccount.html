@@ -286,11 +286,6 @@
       color: var(--ink-soft);
     }
 
-    .card.is-locked form {
-      opacity: 0.55;
-      pointer-events: none;
-    }
-
     /* ==========================================================================
        6. Profile card
        ========================================================================== */
@@ -372,11 +367,6 @@
       background: currentColor;
     }
 
-    .badge.is-pending {
-      background: rgba(184, 134, 42, 0.18);
-      color: #7A5A16;
-    }
-
     .badge.is-verified {
       background: rgba(46, 107, 79, 0.16);
       color: var(--green);
@@ -429,78 +419,8 @@
     }
 
     /* ==========================================================================
-       9. Verification progress
-       ========================================================================== */
-    .progress {
-      display: flex;
-      margin: 6px 0 26px;
-      padding: 0;
-      list-style: none;
-    }
-
-    .progress-step {
-      position: relative;
-      flex: 1;
-      text-align: center;
-      font-size: 0.72rem;
-      color: var(--ink-soft);
-    }
-
-    .progress-step strong {
-      display: block;
-      font-size: 0.78rem;
-      color: var(--ink);
-    }
-
-    .progress-step::before {
-      content: "";
-      position: absolute;
-      top: 15px;
-      left: -50%;
-      width: 100%;
-      height: 2px;
-      background: var(--green);
-    }
-
-    .progress-step:first-child::before {
-      display: none;
-    }
-
-    .progress-marker {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 30px;
-      height: 30px;
-      margin: 0 auto 8px;
-      border-radius: 50%;
-      background: var(--green);
-      color: #fff;
-      font-size: 0.8rem;
-    }
-
-    .progress-step.is-current .progress-marker {
-      background: #C9C6BD;
-      outline: 1.5px solid var(--ink-soft);
-      outline-offset: -1.5px;
-      color: var(--ink-soft);
-    }
-
-    .progress-step.is-pending .progress-marker {
-      background: var(--amber);
-    }
-
-    /* ==========================================================================
        10. Forms
        ========================================================================== */
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
     .field {
       margin-bottom: 16px;
     }
@@ -534,76 +454,6 @@
     select:focus {
       outline: 2px solid var(--accent);
       outline-offset: -1px;
-    }
-
-    /* File upload */
-    .file-drop {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 16px;
-      border: 1.5px dashed rgba(36, 34, 25, 0.35);
-      border-radius: var(--radius);
-      background: var(--paper);
-      cursor: pointer;
-    }
-
-    .file-drop:hover,
-    .file-drop.has-file {
-      border-color: var(--accent-deep);
-    }
-
-    .file-drop input {
-      display: none;
-    }
-
-    .file-drop-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--paper-deep);
-    }
-
-    .file-drop-title {
-      display: block;
-      font-size: 0.85rem;
-      font-weight: 700;
-    }
-
-    .file-drop-meta {
-      font-size: 0.72rem;
-      color: var(--ink-soft);
-    }
-
-    /* Notice and consent */
-    .notice {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 16px 0;
-      padding: 12px 14px;
-      border: 1px solid var(--line);
-      background: var(--paper);
-      font-size: 0.76rem;
-      color: var(--ink-soft);
-    }
-
-    .consent {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 18px;
-      font-size: 0.8rem;
-      cursor: pointer;
-    }
-
-    .consent input {
-      margin-top: 3px;
-      accent-color: var(--accent-deep);
     }
 
     /* Password input */
@@ -694,10 +544,6 @@
       .nav-links {
         display: none;
       }
-
-      .form-row {
-        grid-template-columns: 1fr;
-      }
     }
   </style>
 </head>
@@ -725,7 +571,7 @@
         <a href="cembo_feedback.html">Feedback</a>
       </nav>
 
-      <a href="#" class="user-chip">
+      <a href="cembo_myAccount.html" class="user-chip">
         <span class="user-chip-avatar" id="chipAvatar"></span>
         <span id="chipName">Loading…</span>
       </a>
@@ -737,7 +583,7 @@
     <div class="wrap">
       <div class="eyebrow">SK Barangay Cembo</div>
       <h1>My Account</h1>
-      <p class="banner-lede">Manage your profile, verify that you live in Cembo, and keep your account secure.</p>
+      <p class="banner-lede">Manage your profile, check your residency validation status, and secure your account credentials.</p>
     </div>
   </section>
 
@@ -770,98 +616,16 @@
       <!-- ======================= Residency verification ======================= -->
       <section class="card" id="verifyCard" aria-labelledby="verifyTitle">
         <div class="card-header">
-          <h2 id="verifyTitle">Residency verification</h2>
+          <h2 id="verifyTitle">Residency Verification Status</h2>
           <span class="badge" id="badgeMain">Not verified</span>
         </div>
-        <p class="card-lede" id="verifyLede">Verification confirms that you really live in Cembo. Verified residents can reserve facilities and join programs of the Cembo SK. Your documents are only seen by Cembo SK officials.</p>
-
-        <ol class="progress">
-          <li class="progress-step">
-            <div class="progress-marker">✓</div>
-            <strong>Account created</strong>Registered
-          </li>
-          <li class="progress-step">
-            <div class="progress-marker">✓</div>
-            <strong>Email confirmed</strong>Code verified
-          </li>
-          <li class="progress-step is-current" id="stepResidency">
-            <div class="progress-marker" id="stepMarker">3</div>
-            <strong>Residency verified</strong>
-            <span id="stepCaption">Upload your documents</span>
-          </li>
-        </ol>
-
-        <form id="verifyForm" novalidate>
-          <div class="form-row">
-            <div class="field">
-              <label class="field-label" for="idType">Type of valid ID</label>
-              <select id="idType">
-                <option value="">Select ID type</option>
-                <option>Philippine National ID (PhilSys)</option>
-                <option>Driver's License</option>
-                <option>Passport</option>
-                <option>UMID</option>
-                <option>Voter's ID</option>
-                <option>Postal ID</option>
-                <option>PRC ID</option>
-                <option>School ID</option>
-                <option>Barangay ID</option>
-              </select>
-            </div>
-            <div class="field">
-              <label class="field-label" for="idNumber">ID number</label>
-              <input type="text" id="idNumber" placeholder="e.g. 1234-5678-9012" autocomplete="off">
-            </div>
-          </div>
-
-          <div class="field">
-            <span class="field-label">Photo or scan of your valid ID</span>
-            <label class="file-drop" id="dropId">
-              <input type="file" id="fileId" accept=".jpg,.jpeg,.png,.pdf">
-              <span class="file-drop-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
-              </span>
-              <span>
-                <span class="file-drop-title">Choose a file</span>
-                <span class="file-drop-meta">JPG, PNG or PDF · up to 5 MB</span>
-              </span>
-            </label>
-          </div>
-
-          <div class="field">
-            <span class="field-label">Proof that you live in Cembo</span>
-            <label class="file-drop" id="dropProof">
-              <input type="file" id="fileProof" accept=".jpg,.jpeg,.png,.pdf">
-              <span class="file-drop-icon">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
-              </span>
-              <span>
-                <span class="file-drop-title">Choose a file</span>
-                <span class="file-drop-meta">JPG, PNG or PDF · up to 5 MB</span>
-              </span>
-            </label>
-            <p class="field-hint">A certificate of residency, barangay clearance, or a recent utility bill showing your name and Cembo address.</p>
-          </div>
-
-          <div class="notice">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 8h.01M11 12h1v5h1" /></svg>
-            Make sure the photo is clear, uncropped, and all four corners are visible. Reviews usually take 2–3 working days.
-          </div>
-
-          <label class="consent">
-            <input type="checkbox" id="certify">
-            <span>I certify that I am a resident of Barangay Cembo and the documents I am submitting are true and mine.</span>
-          </label>
-
-          <button type="submit" class="btn" id="verifyBtn">Submit for verification →</button>
-          <div class="message" id="verifyMsg" role="status"></div>
-        </form>
+        <p class="card-lede" id="verifyLede">Your residency validation status is cross-referenced automatically by the admin based on the official master list of residents imported from the barangay database. Verified residents are authorized to reserve facilities and join SK Cembo youth programs.</p>
       </section>
 
       <!-- ======================= Change password ======================= -->
       <section class="card" aria-labelledby="passwordTitle">
         <h2 id="passwordTitle">Change password</h2>
-        <p class="card-lede">Pick a password you don't use anywhere else. You will stay logged in on this device after changing it.</p>
+        <p class="card-lede">Pick a password you don't use anywhere else. Your session will remain secure and active on this device using your latest credentials.</p>
 
         <form id="passwordForm" novalidate>
           <div class="field">
@@ -904,19 +668,14 @@
       EmailAuthProvider, reauthenticateWithCredential, updatePassword
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import {
-      getFirestore, doc, getDoc, updateDoc, serverTimestamp
+      getFirestore, doc, getDoc, collection, query, where, getDocs
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    import {
-      getStorage, ref, uploadBytes, getDownloadURL
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
     /* ------------------------------------------------------------------
        Configuration
        ------------------------------------------------------------------ */
     const BARANGAY = "Cembo";
     const LOGIN_PAGE = "login_page.html";
-    const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
-    const ALLOWED_FILE_TYPES = /\.(jpe?g|png|pdf)$/i;
 
     const app = initializeApp({
       apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
@@ -928,7 +687,6 @@
     });
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const storage = getStorage(app);
 
     /* ------------------------------------------------------------------
        Helpers
@@ -942,39 +700,29 @@
     }
 
     /* ------------------------------------------------------------------
-       Verification status display
+       Verification status display based on Admin Excel import records
        ------------------------------------------------------------------ */
-    const STATUS_LABELS = {
-      none: { text: "Not verified", badge: "" },
-      pending: { text: "Pending review", badge: "is-pending" },
-      verified: { text: "Verified", badge: "is-verified" },
-      rejected: { text: "Rejected — resubmit", badge: "" }
-    };
-
-    function renderVerificationStatus(status) {
-      const label = STATUS_LABELS[status] || STATUS_LABELS.none;
+    function renderVerificationStatus(isVerified) {
+      const text = isVerified ? "Verified" : "Not verified";
+      const badgeClass = isVerified ? "badge is-verified" : "badge";
 
       ["badgeSide", "badgeMain"].forEach((id) => {
-        $(id).textContent = label.text;
-        $(id).className = `badge ${label.badge}`.trim();
+        if ($(id)) {$(id).textContent = text;
+          $(id).className = badgeClass;
+        }
       });
 
-      const step = $("stepResidency");
-      step.className = "progress-step " + (status === "pending" ? "is-pending" : status === "verified" ? "" : "is-current");
-      $("stepMarker").textContent = status === "verified" ? "✓" : status === "pending" ? "…" : "3";
-      $("stepCaption").textContent = status === "verified" ? "Verified" : status === "pending" ? "Under review" : "Upload your documents";
-
-      const locked = status === "verified" || status === "pending";
-      $("verifyCard").classList.toggle("is-locked", locked);
-      if (status === "verified") {
-        $("verifyLede").textContent = `You are a verified resident of ${BARANGAY}. You can reserve facilities and join SK programs.`;
-      } else if (status === "pending") {
-        $("verifyLede").textContent = `Your documents were submitted. ${BARANGAY} SK officials usually review them within 2–3 working days.`;
+      if ($("verifyLede")) {
+        if (isVerified) {
+          $("verifyLede").textContent = `You are officially validated as a resident of ${BARANGAY} based on the admin master record. You are fully authorized to reserve facilities and join SK programs.`;
+        } else {
+          $("verifyLede").textContent = `Your residency validation status is cross-referenced automatically by the admin based on the official master list of residents imported from the barangay database. Verified residents are authorized to reserve facilities and join SK Cembo youth programs.`;
+        }
       }
     }
 
     /* ------------------------------------------------------------------
-       Load account information
+       Load account information and check validation status
        ------------------------------------------------------------------ */
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
@@ -1009,7 +757,29 @@
       $("detailAddress").textContent = profile.address || "—";
       $("detailSince").textContent = memberSince.toLocaleDateString("en-PH", { month: "long", year: "numeric" });
 
-      renderVerificationStatus(profile.verification?.status || "none");
+      // Check validation against validated_residents collection (excel import match)
+      let isVerified = false;
+      try {
+        const residentsQuery = query(
+          collection(db, "validated_residents"),
+          where("barangay", "==", BARANGAY)
+        );
+        const querySnapshot = await getDocs(residentsQuery);
+        querySnapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          // Match by user email or matching firstname/lastname from excel sheet
+          const residentEmail = (data.email || "").trim().toLowerCase();
+          const userEmail = user.email.trim().toLowerCase();
+          
+          if (residentEmail === userEmail) {
+            isVerified = true;
+          }
+        });
+      } catch (err) {
+        console.error("Error checking residency validation list:", err);
+      }
+
+      renderVerificationStatus(isVerified);
     });
 
     /* ------------------------------------------------------------------
@@ -1018,79 +788,6 @@
     $("logoutBtn").addEventListener("click", async () => {
       await signOut(auth);
       window.location.href = LOGIN_PAGE;
-    });
-
-    /* ------------------------------------------------------------------
-       Residency verification form
-       ------------------------------------------------------------------ */
-    [["fileId", "dropId"], ["fileProof", "dropProof"]].forEach(([inputId, dropId]) => {
-      $(inputId).addEventListener("change", (event) => {
-        const file = event.target.files[0];
-        const drop = $(dropId);
-        drop.classList.toggle("has-file", Boolean(file));
-        drop.querySelector(".file-drop-title").textContent = file ? file.name : "Choose a file";
-      });
-    });
-
-    async function uploadDocument(file, kind) {
-      const path = `verifications/${currentUser.uid}/${kind}_${Date.now()}_${file.name}`;
-      const fileRef = ref(storage, path);
-      await uploadBytes(fileRef, file);
-      return getDownloadURL(fileRef);
-    }
-
-    $("verifyForm").addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const message = $("verifyMsg");
-      const idFile = $("fileId").files[0];
-      const proofFile = $("fileProof").files[0];
-
-      if (!$("idType").value || !$("idNumber").value.trim()) {
-        return showMessage(message, "Select your ID type and enter the ID number.", "error");
-      }
-      if (!idFile || !proofFile) {
-        return showMessage(message, "Please upload both your valid ID and your proof of residency.", "error");
-      }
-      for (const file of [idFile, proofFile]) {
-        if (file.size > MAX_FILE_SIZE) {
-          return showMessage(message, `"${file.name}" is larger than 5 MB.`, "error");
-        }
-        if (!ALLOWED_FILE_TYPES.test(file.name)) {
-          return showMessage(message, "Only JPG, PNG or PDF files are accepted.", "error");
-        }
-      }
-      if (!$("certify").checked) {
-        return showMessage(message, "Please tick the certification box before submitting.", "error");
-      }
-
-      const button = $("verifyBtn");
-      button.disabled = true;
-      button.textContent = "Uploading…";
-
-      try {
-        const [idUrl, proofUrl] = await Promise.all([
-          uploadDocument(idFile, "id"),
-          uploadDocument(proofFile, "proof")
-        ]);
-        await updateDoc(doc(db, "users", currentUser.uid), {
-          verification: {
-            status: "pending",
-            idType: $("idType").value,
-            idNumber: $("idNumber").value.trim(),
-            idUrl,
-            proofUrl,
-            submittedAt: serverTimestamp()
-          }
-        });
-        renderVerificationStatus("pending");
-        showMessage(message, "Submitted! We'll review your documents in 2–3 working days.", "success");
-      } catch (error) {
-        console.error("Verification upload failed:", error);
-        showMessage(message, "Something went wrong while uploading. Please try again.", "error");
-      }
-
-      button.disabled = false;
-      button.textContent = "Submit for verification →";
     });
 
     /* ------------------------------------------------------------------
@@ -1145,7 +842,7 @@
         const credential = EmailAuthProvider.credential(currentUser.email, current);
         await reauthenticateWithCredential(currentUser, credential);
         await updatePassword(currentUser, next);
-        showMessage(message, "Password updated. You're still logged in on this device.", "success");
+        showMessage(message, "Password updated successfully. Your new password is now required for future logins.", "success");
         event.target.reset();
         $("strength").className = "strength";
       } catch (error) {

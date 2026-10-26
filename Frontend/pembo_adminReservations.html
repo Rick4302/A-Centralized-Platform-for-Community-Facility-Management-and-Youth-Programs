@@ -19,7 +19,7 @@
     --line: rgba(36,34,25,0.14);
     --radius: 2px;
 
-    /* per-barangay accent */
+    /* per-barangay accent for Pembo */
     --accent: #8F171B;
     --accent-deep: #6E1215;
     --accent-tint: rgba(143,23,27,0.14);
@@ -196,30 +196,16 @@
     box-shadow:0 6px 0 0 var(--ink);
   }
   .btn:active{transform:translateY(0);box-shadow:0 2px 0 0 var(--ink);}
-  .btn-invert{
-    background:var(--paper);
-    border-color:var(--paper);
-    color:var(--ink);
-  }
-  .btn-invert:hover{
-    background:var(--ink);
-    border-color:var(--paper);
-    color:var(--paper);
-    box-shadow:0 6px 0 0 rgba(245,240,228,0.5);
-  }
+  .btn-small{padding:9px 16px;font-size:0.82rem;}
   .btn-outline{
     background:transparent;
-    border-color:var(--paper);
-    color:var(--paper);
+    border-color:var(--ink);
+    color:var(--ink);
   }
   .btn-outline:hover{
-    background:rgba(245,240,228,0.14);
-    border-color:var(--paper);
-    color:var(--paper);
+    background:var(--paper-deep);
     box-shadow:none;
-    transform:translateY(-2px);
   }
-  .btn-small{padding:9px 16px;font-size:0.82rem;}
 
   /* ---------- HERO ---------- */
   .hero{
@@ -254,7 +240,6 @@
     max-width:52ch;
     margin-bottom:30px;
   }
-  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
   .hero-seal{
     width:96px;height:96px;
     border-radius:50%;
@@ -266,58 +251,11 @@
   }
   .hero-seal img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
 
-  /* ---------- STATS STRIP (overlaps hero/body boundary) ---------- */
-  .stats-strip{
-    margin-top:-54px;
-    position:relative;
-    z-index:10;
-    margin-bottom:52px;
-  }
-  .stats-grid{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:16px;
-  }
-  .stat-card{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:18px 20px;
-    box-shadow:0 8px 0 0 rgba(36,34,25,0.08);
-    display:flex;
-    align-items:center;
-    gap:14px;
-  }
-  .stat-card .stat-icon{
-    width:42px;height:42px;
-    border-radius:50%;
-    background:var(--accent-tint);
-    display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;
-    color:var(--accent-deep);
-  }
-  .stat-card .stat-num{
-    font-family:'Fraunces', serif;
-    font-weight:700;
-    font-size:1.5rem;
-    line-height:1;
-  }
-  .stat-card .stat-label{
-    font-size:0.76rem;
-    color:var(--ink-soft);
-    margin-top:3px;
-  }
-
-
-  /* ---------- SHARED PAGE HERO (compact variant for sub-pages) ---------- */
   .hero-page{padding:40px 0 84px;}
   .hero-page .hero-top{margin-bottom:0;align-items:center;}
   .hero-page h1{font-size:clamp(1.9rem, 3vw, 2.4rem);margin:12px 0 10px;}
   .hero-page p.lede{margin-bottom:0;font-size:0.98rem;}
   .hero-page .hero-seal{width:76px;height:76px;}
-  .stats-strip.compact{margin-top:-48px;margin-bottom:40px;}
-  .stats-strip.compact .stats-grid{grid-template-columns:repeat(3, 1fr);}
-
 
   .page-sub{padding:40px 0 8px;}
   .btn-secondary-nav{
@@ -336,54 +274,83 @@
     box-shadow:none;
   }
 
-  /* ---------- SECTION HEAD (title + action button row) ---------- */
-  .section-head-row{
+  /* ---------- TABLE & FILTER BAR ---------- */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    background: #ffffff;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .filter-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .filter-btn {
+    background-color: #ffffff;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+  }
+  .filter-btn:hover { background-color: #f8fafc; }
+
+  .filter-month-picker, .filter-month-picker select {
+    padding: 0.45rem 0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: #0f172a;
+    background-color: #ffffff;
+  }
+  .filter-month-label {
+    margin-left: 0.5rem;
+    font-size: 1.05rem;
+    color: #0f172a;
+    font-weight: 600;
+  }
+
+  .filter-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #334155;
+  }
+  .filter-toggle-checkbox { width: 16px; height: 16px; accent-color: #0f172a; }
+
+  .tab-row{
     display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:16px;
-    margin-bottom:22px;
+    gap:6px;
+    margin-bottom:24px;
     flex-wrap:wrap;
   }
-  .section-head-row h2{font-size:1.2rem;}
-
-  /* ---------- MANAGEMENT TOOL CARDS (dashboard) ---------- */
-  .tool-grid{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:18px;
-    padding-bottom:80px;
-  }
-  .tool-card{
+  .tab-btn{
     background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:22px 24px;
-    text-decoration:none;
-    color:var(--ink);
-    display:block;
-    box-shadow:0 8px 0 0 rgba(36,34,25,0.07);
-    transition:transform .18s ease, box-shadow .18s ease;
-  }
-  .tool-card:hover{transform:translateY(-3px);box-shadow:0 11px 0 0 rgba(36,34,25,0.1);}
-  .tool-icon{
-    width:44px;height:44px;
-    border-radius:50%;
-    background:var(--accent-tint);
-    color:var(--accent-deep);
-    display:flex;align-items:center;justify-content:center;
-    margin-bottom:16px;
-  }
-  .tool-card h3{font-size:1.05rem;margin-bottom:6px;}
-  .tool-card p{font-size:0.84rem;color:var(--ink-soft);line-height:1.5;}
-  .tool-card .go{
-    margin-top:14px;
-    font-size:0.82rem;
+    border:1.5px solid var(--line);
+    padding:9px 16px;
+    border-radius:999px;
+    font-family:'IBM Plex Sans',sans-serif;
     font-weight:600;
-    color:var(--accent-deep);
+    font-size:0.84rem;
+    color:var(--ink-soft);
   }
+  .tab-btn.active{background:var(--accent-deep);border-color:var(--accent-deep);color:var(--paper);}
 
-  /* ---------- TABLE ---------- */
   .table-card{
     background:var(--paper-deep);
     border:1.5px solid var(--ink);
@@ -416,17 +383,7 @@
   table.admin-table tbody tr:hover{background:rgba(36,34,25,0.025);}
   .cell-title{font-weight:600;}
   .cell-sub{font-size:0.78rem;color:var(--ink-soft);margin-top:2px;}
-  .type-pill{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:0.66rem;
-    text-transform:uppercase;
-    letter-spacing:0.04em;
-    background:var(--accent-tint);
-    color:var(--accent-deep);
-    padding:3px 9px;
-    border-radius:999px;
-    white-space:nowrap;
-  }
+  
   .row-actions{display:flex;gap:8px;}
   .row-actions button{
     width:30px;height:30px;
@@ -439,8 +396,7 @@
   }
   .row-actions button:hover{border-color:var(--ink);color:var(--ink);}
   .row-actions button.act-approve:hover{border-color:#2E6B4F;color:#2E6B4F;}
-  .row-actions button.act-reject:hover{border-color:var(--red-deep);color:var(--red-deep);}
-  .row-actions button.act-delete:hover{border-color:var(--red-deep);color:var(--red-deep);}
+  .row-actions button.act-reschedule:hover{border-color:#B8862A;color:#B8862A;}
 
   .status-pill{
     font-family:'IBM Plex Mono',monospace;
@@ -452,38 +408,12 @@
     white-space:nowrap;
     display:inline-block;
   }
-  .status-available{background:rgba(46,107,79,0.14);color:#1E4A36;}
   .status-approved{background:rgba(46,107,79,0.14);color:#1E4A36;}
   .status-pending{background:rgba(184,134,42,0.16);color:#7A5A19;}
-  .status-rejected{background:rgba(194,32,38,0.12);color:var(--red-deep);}
-  .status-hidden{background:rgba(91,86,74,0.12);color:var(--ink-soft);}
+  .status-rescheduled{background:rgba(184,134,42,0.12);color:#8F6B17;}
+  .status-cancelled{background:rgba(194,32,38,0.12);color:var(--red-deep);}
 
-  .empty-row td{
-    text-align:center;
-    color:var(--ink-soft);
-    padding:40px 18px;
-  }
-
-  /* ---------- TABS (reservations) ---------- */
-  .tab-row{
-    display:flex;
-    gap:6px;
-    margin-bottom:24px;
-    flex-wrap:wrap;
-  }
-  .tab-btn{
-    background:var(--paper-deep);
-    border:1.5px solid var(--line);
-    padding:9px 16px;
-    border-radius:999px;
-    font-family:'IBM Plex Sans',sans-serif;
-    font-weight:600;
-    font-size:0.84rem;
-    color:var(--ink-soft);
-  }
-  .tab-btn.active{background:var(--accent-deep);border-color:var(--accent-deep);color:var(--paper);}
-
-  /* ---------- MODAL (shared: add facility / add event / reject reason) ---------- */
+  /* ---------- MODAL ---------- */
   .modal-overlay{
     display:none;
     position:fixed; inset:0;
@@ -498,13 +428,12 @@
     background:var(--paper);
     border:1.5px solid var(--ink);
     border-radius:var(--radius);
-    max-width:540px;
+    max-width:480px;
     width:100%;
     max-height:88vh;
     overflow-y:auto;
     box-shadow:0 16px 0 0 rgba(0,0,0,0.15);
   }
-  .modal-box.narrow{max-width:440px;}
   .modal-head{
     display:flex;
     align-items:flex-start;
@@ -525,7 +454,6 @@
   }
   .modal-close{background:none;border:none;font-size:1.2rem;color:var(--ink-soft);line-height:1;}
   .modal-form{padding:22px 26px 26px;}
-  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
   .field{margin-bottom:16px;display:flex;flex-direction:column;gap:6px;}
   .field label{
     font-family:'IBM Plex Mono',monospace;
@@ -545,18 +473,14 @@
     padding:10px 12px;
     outline:none;
     width:100%;
-    resize:vertical;
   }
-  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--ink);}
-  .field input.error, .field select.error, .field textarea.error{border-color:var(--red-deep);}
-  .field-error{font-size:0.76rem;color:var(--red-deep);display:none;}
-  .field.has-error .field-error{display:block;}
-  .modal-actions{display:flex;gap:12px;margin-top:6px;}
+  .modal-actions{display:flex;gap:12px;margin-top:16px;}
   .modal-actions .btn{flex:1;justify-content:center;}
   .btn-secondary{background:transparent;color:var(--ink);}
-  .btn-secondary:hover{background:var(--paper-deep);box-shadow:none;transform:none;border-color:var(--ink);}
-  .btn-danger{background:var(--red-deep);border-color:var(--red-deep);}
-  .btn-danger:hover{background:var(--black);border-color:var(--black);}
+  .btn-secondary:hover{background:var(--paper-deep);box-shadow:none;border-color:var(--ink);}
+  .btn-warning{background:#B8862A;border-color:#B8862A;color:var(--paper);}
+  .btn-warning:hover{background:#966E20;border-color:#966E20;}
+  
   .reject-context{
     font-size:0.85rem;
     color:var(--ink-soft);
@@ -568,185 +492,7 @@
   }
   .reject-context strong{color:var(--ink);}
 
-  /* ---------- TOAST ---------- */
-  .toast{
-    position:fixed;
-    top:20px; left:50%;
-    transform:translate(-50%, -20px);
-    background:#1E4A36;
-    color:var(--paper);
-    padding:14px 22px;
-    border-radius:var(--radius);
-    font-size:0.9rem;
-    z-index:1100;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    visibility:hidden;
-    opacity:0;
-    pointer-events:none;
-    transition:transform .3s ease, opacity .3s ease, visibility 0s linear .3s;
-    box-shadow:0 8px 0 0 rgba(0,0,0,0.15);
-  }
-  .toast.show{
-    transform:translate(-50%, 0);
-    visibility:visible;
-    opacity:1;
-    pointer-events:auto;
-    transition:transform .3s ease, opacity .3s ease;
-  }
-  .toast.toast-red{background:var(--red-deep);}
-
-  /* ---------- EVENT CARDS ---------- */
-  .event-list{display:flex;flex-direction:column;gap:16px;padding-bottom:80px;}
-  .event-card{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:22px 24px;
-    box-shadow:0 6px 0 0 rgba(36,34,25,0.06);
-  }
-  .event-top{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    gap:16px;
-    margin-bottom:6px;
-  }
-  .event-title-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-  .event-title-row h3{font-size:1.08rem;}
-  .event-desc{font-size:0.86rem;color:var(--ink-soft);margin-bottom:14px;}
-  .event-meta{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:14px;
-    font-size:0.8rem;
-    color:var(--ink-soft);
-    margin-bottom:14px;
-  }
-  .event-meta strong{display:block;color:var(--ink);font-weight:600;font-size:0.86rem;margin-top:2px;}
-  .event-progress-label{
-    display:flex;
-    justify-content:space-between;
-    font-size:0.78rem;
-    color:var(--ink-soft);
-    margin-bottom:6px;
-  }
-  .event-progress-bar{
-    height:7px;
-    background:var(--line);
-    border-radius:4px;
-    overflow:hidden;
-  }
-  .event-progress-fill{height:100%;background:#2E6B4F;border-radius:4px;}
-  .event-actions{display:flex;gap:10px;flex-shrink:0;}
-  .event-actions button{
-    padding:8px 14px;
-    font-size:0.8rem;
-    font-weight:600;
-    border-radius:var(--radius);
-    border:1.5px solid var(--line);
-    background:var(--paper);
-    color:var(--ink-soft);
-    white-space:nowrap;
-  }
-  .event-actions button:hover{border-color:var(--ink);color:var(--ink);}
-  .event-actions button.act-delete:hover{border-color:var(--red-deep);color:var(--red-deep);}
-
-  /* Date & Month Filter Controls Bar */
-.filter-bar {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  background: #ffffff;
-  padding: 1rem 1.25rem;
-  border-radius: 10px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.filter-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.filter-btn {
-  background-color: #ffffff;
-  color: #1e293b;
-  border: 1px solid #cbd5e1;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-
-.filter-btn:hover {
-  background-color: #f8fafc;
-  border-color: #94a3b8;
-}
-
-.filter-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.filter-month-picker {
-  padding: 0.45rem 0.75rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font-family: inherit;
-  font-size: 0.9rem;
-  color: #0f172a;
-  background-color: #ffffff;
-}
-
-.filter-month-picker:disabled {
-  background-color: #f1f5f9;
-  cursor: not-allowed;
-}
-
-.filter-month-label {
-  margin-left: 0.5rem;
-  font-size: 1.05rem;
-  color: #0f172a;
-  font-weight: 600;
-}
-
-.filter-toggle-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #334155;
-}
-
-.filter-toggle-checkbox {
-  width: 16px;
-  height: 16px;
-  accent-color: #0f172a;
-}
-
-  @media (max-width: 980px){
-    .tool-grid{grid-template-columns:1fr 1fr;}
-    .event-meta{grid-template-columns:1fr 1fr;}
-  }
-  @media (max-width: 700px){
-    .tool-grid{grid-template-columns:1fr;}
-    .field-row{grid-template-columns:1fr;}
-    table.admin-table{font-size:0.8rem;}
-    .event-meta{grid-template-columns:1fr;}
-  }
-
-
-
-  /* ---------- CHATBOT ---------- */
+  /* ---------- CHATBOT WIDGET ---------- */
   .chat-fab{
     position:fixed;
     bottom:26px;right:26px;
@@ -764,7 +510,7 @@
   .chat-panel{
     position:fixed;
     bottom:96px;right:26px;
-    width:340px;
+    width:360px;
     max-width:calc(100vw - 40px);
     background:var(--paper-deep);
     border:1.5px solid var(--ink);
@@ -803,11 +549,11 @@
     display:flex;
     flex-direction:column;
     gap:10px;
-    max-height:320px;
+    max-height:300px;
     overflow-y:auto;
   }
   .chat-msg{
-    max-width:82%;
+    max-width:85%;
     padding:9px 13px;
     border-radius:var(--radius);
     font-size:0.85rem;
@@ -866,19 +612,33 @@
     flex-shrink:0;
   }
 
-  @media (max-width: 980px){
-    .body-grid{grid-template-columns:1fr;}
-    .stats-grid{grid-template-columns:repeat(2, 1fr);}
-    .nav-links{display:none;}
-    .hero-seal{width:72px;height:72px;}
+  /* ---------- TOAST ---------- */
+  .toast{
+    position:fixed;
+    top:20px; left:50%;
+    transform:translate(-50%, -20px);
+    background:#1E4A36;
+    color:var(--paper);
+    padding:14px 22px;
+    border-radius:var(--radius);
+    font-size:0.9rem;
+    z-index:1100;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    visibility:hidden;
+    opacity:0;
+    pointer-events:none;
+    transition:transform .3s ease, opacity .3s ease;
+    box-shadow:0 8px 0 0 rgba(0,0,0,0.15);
   }
-  @media (max-width: 620px){
-    .stats-grid{grid-template-columns:1fr 1fr;}
-    .hero{padding:44px 0 78px;}
-    .hero-top{flex-direction:column-reverse;gap:18px;}
-    .chat-panel{right:14px;bottom:88px;}
-    .chat-fab{right:14px;bottom:18px;}
+  .toast.show{
+    transform:translate(-50%, 0);
+    visibility:visible;
+    opacity:1;
+    pointer-events:auto;
   }
+  .toast.toast-warning{background:#B8862A;}
 
   /* ---------- FOOTER ---------- */
   footer{
@@ -937,10 +697,7 @@
 
   /* ---------- USER DROPDOWN ---------- */
   .user-menu{position:relative;}
-  .user-chip{cursor:pointer;font-family:inherit;color:var(--ink);transition:border-color .18s ease, background .18s ease;}
-  .user-chip:hover,.user-menu.open .user-chip{border-color:var(--accent-deep);background:var(--paper);}
-  .user-chip .caret{transition:transform .18s ease;color:var(--ink-soft);}
-  .user-menu.open .user-chip .caret{transform:rotate(180deg);}
+  .user-chip{cursor:pointer;font-family:inherit;color:var(--ink);}
   .user-dropdown{
     position:absolute;
     right:0;
@@ -978,7 +735,7 @@
 
 <header>
   <div class="wrap nav">
-    <a href="index.html" class="brand">
+    <a href="pembo_admin.html" class="brand">
       <span class="seal"><img src="../Pics/pembologo.png" alt="Pembo seal"></span>
       <span class="brand-text">
         <span class="sk">SK Pembo</span>
@@ -986,27 +743,23 @@
       </span>
     </a>
     <nav class="nav-links">
-      <a href="pembo_admin.html" class="">Dashboard</a>
-      <a href="pembo_adminFacilities.html" class="">Facilities</a>
+      <a href="pembo_admin.html">Dashboard</a>
+      <a href="pembo_adminFacilities.html">Facilities</a>
       <a href="pembo_adminReservations.html" class="active">Reservations</a>
-      <a href="pembo_adminEvents.html" class="">Events</a>
+      <a href="pembo_adminEvents.html">Events</a>
     </nav>
     <div class="nav-right">
       <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
       </button>
-      <a href="pembo_admin.html" class="btn btn-small btn-secondary-nav" style="margin-right:2px;">View Resident Site</a>
+      <a href="pembo_page.html" class="btn btn-small btn-secondary-nav" style="margin-right:2px;">View Resident Site</a>
       <div class="user-menu" id="user-menu">
         <button type="button" class="user-chip" id="user-menu-btn" aria-haspopup="true" aria-expanded="false">
           <span class="avatar">MS</span>
           <span id="admin-name">Admin</span>
-          <svg class="caret" width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="user-dropdown" role="menu">
-          <button type="button" class="dropdown-item logout" id="logout-btn" role="menuitem">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Logout
-          </button>
+          <button type="button" class="dropdown-item logout" id="logout-btn" role="menuitem">Logout</button>
         </div>
       </div>
     </div>
@@ -1018,7 +771,7 @@
     <div class="hero-copy">
       <div class="eyebrow">SK Barangay Pembo · Admin</div>
       <h1>Manage Reservations</h1>
-      <p class="lede">Review and approve or reject facility reservation requests.</p>
+      <p class="lede">Review reservation requests, approve bookings, or propose reschedules.</p>
     </div>
     <div class="hero-seal">
       <img src="../Pics/pembologo.png" alt="Pembo seal">
@@ -1026,11 +779,8 @@
   </div>
 </section>
 
-
-
-
 <section class="wrap page-sub">
-  <!-- MONTH & DATE FILTER CONTROLS -->
+<!-- MONTH & DATE FILTER CONTROLS -->
 <div class="filter-bar">
   <div class="filter-controls">
     <button type="button" class="btn btn-small filter-btn" id="prev-month-btn">‹ Prev Month</button>
@@ -1039,10 +789,37 @@
     <strong id="month-display" class="filter-month-label">—</strong>
   </div>
 
+  <div class="filter-controls">
+    <select id="status-filter" class="filter-month-picker">
+      <option value="all">All Statuses</option>
+      <option value="pending">Pending</option>
+      <option value="approved">Approved</option>
+      <option value="rescheduled">Rescheduled</option>
+    </select>
+
+    <select id="purpose-filter" class="filter-month-picker">
+      <option value="all">All Purposes</option>
+      <option value="Sports practice / friendly game">Sports practice / friendly game</option>
+      <option value="Barangay-organized event">Barangay-organized event</option>
+      <option value="Community meeting">Community meeting</option>
+      <option value="Birthday / personal event">Birthday / personal event</option>
+      <option value="Training / workshop">Training / workshop</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+
   <label class="filter-toggle-label">
     <input type="checkbox" id="all-dates-toggle" class="filter-toggle-checkbox">
     Show All Dates
   </label>
+</div>
+
+<!-- DYNAMIC STATUS TABS -->
+<div class="tab-row" id="tab-row">
+  <button class="tab-btn active" data-filter="all">All (<span id="count-all">0</span>)</button>
+  <button class="tab-btn" data-filter="pending">Pending (<span id="count-pending">0</span>)</button>
+  <button class="tab-btn" data-filter="approved">Approved (<span id="count-approved">0</span>)</button>
+  <button class="tab-btn" data-filter="rescheduled">Rescheduled (<span id="count-rescheduled">0</span>)</button>
 </div>
 
   <div class="table-card">
@@ -1051,55 +828,93 @@
         <tr><th>Facility</th><th>Requestor</th><th>Date &amp; Time</th><th>Purpose</th><th>Status</th><th>Actions</th></tr>
       </thead>
       <tbody id="res-tbody">
-  <tr>
-    <td colspan="6" style="text-align: center; padding: 2rem; color: #777;">
-      Loading reservations...
-    </td>
-  </tr>
-</tbody>
+        <tr>
+          <td colspan="6" style="text-align: center; padding: 2rem; color: #777;">
+            Loading reservations...
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </section>
 
 <div class="toast" id="toast">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="#F5F0E4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  <span id="toast-text">Reservation approved.</span>
+  <span id="toast-text">Action successful.</span>
 </div>
 
-<div class="modal-overlay" id="reject-overlay">
-  <div class="modal-box narrow">
+<!-- RESCHEDULE MODAL -->
+<div class="modal-overlay" id="reschedule-overlay">
+  <div class="modal-box">
     <div class="modal-head">
       <div>
-        <span class="tag">Reject Reservation</span>
-        <h2>Provide a Reason</h2>
+        <span class="tag">Propose Reschedule</span>
+        <h2>Adjust Schedule &amp; Reason</h2>
       </div>
-      <button class="modal-close" id="reject-close">✕</button>
+      <button class="modal-close" id="reschedule-close">✕</button>
     </div>
-    <form class="modal-form" id="reject-form" novalidate>
-  <div class="reject-context" id="reject-context">
-    Rejecting: <strong id="reject-facility-name">Facility</strong>
-  </div>
-  <div class="field" data-field="reason">
-    <label for="reject-reason">Reason for Rejection <span class="req">*</span></label>
-    <textarea id="reject-reason" rows="3" placeholder="e.g. Conflicts with a barangay assembly on the same date." required></textarea>
-    <span class="field-error" id="reject-error" style="display: none; color: #c0392b; font-size: 0.8rem; margin-top: 0.25rem;">A reason is required so the resident understands why.</span>
-  </div>
+    <form class="modal-form" id="reschedule-form" novalidate>
+      <div class="reject-context" id="reschedule-context">
+        Reservation: <strong id="reschedule-facility-name">Facility</strong>
+      </div>
+      <div class="field">
+        <label for="reschedule-reason">Reason for Rescheduling <span class="req">*</span></label>
+        <textarea id="reschedule-reason" rows="3" placeholder="e.g. Conflicts with a sudden barangay assembly on this date." required></textarea>
+      </div>
 
-  <!-- QUICK PRESET BUTTONS -->
-  <div style="margin-bottom: 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem;">
-    <button type="button" class="chip-preset btn btn-small btn-outline" data-preset="Conflicts with a scheduled barangay event">Schedule Conflict</button>
-    <button type="button" class="chip-preset btn btn-small btn-outline" data-preset="Facility undergoes scheduled maintenance">Maintenance</button>
-    <button type="button" class="chip-preset btn btn-small btn-outline" data-preset="Incomplete or invalid contact information">Invalid Info</button>
-  </div>
+      <div class="field">
+        <label for="new-date">Proposed New Date (Optional)</label>
+        <input type="date" id="new-date">
+      </div>
 
-  <div class="modal-actions">
-    <button type="button" class="btn btn-secondary" id="reject-cancel">Cancel</button>
-    <button type="submit" class="btn btn-danger">Reject Reservation →</button>
-  </div>
-</form>
+      <div class="field">
+        <label for="new-timeslot">Proposed New Time Slot (Optional)</label>
+        <select id="new-timeslot">
+          <option value="">Keep original or select new slot...</option>
+          <option value="8:00 – 10:00 AM">8:00 – 10:00 AM</option>
+          <option value="10:00 AM – 12:00 PM">10:00 AM – 12:00 PM</option>
+          <option value="1:00 – 3:00 PM">1:00 – 3:00 PM</option>
+          <option value="3:00 – 5:00 PM">3:00 – 5:00 PM</option>
+          <option value="5:00 – 7:00 PM">5:00 – 7:00 PM</option>
+          <option value="7:00 – 9:00 PM">7:00 – 9:00 PM</option>
+        </select>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="reschedule-cancel">Cancel</button>
+        <button type="submit" class="btn btn-warning">Send Reschedule Request →</button>
+      </div>
+    </form>
   </div>
 </div>
 
+<!-- CHATBOT WIDGET -->
+<button class="chat-fab" id="chat-fab" title="SK Assistant">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</button>
+
+<div class="chat-panel" id="chat-panel">
+  <div class="chat-head">
+    <div>
+      <div class="title">SK Assistant (Live Firebase)</div>
+      <div class="sub">Barangay Pembo · Connected</div>
+    </div>
+    <button class="chat-close" id="chat-close">✕</button>
+  </div>
+  <div class="chat-body" id="chat-body">
+    <div class="chat-msg bot">Hello Admin! Ask me anything in your own words—I query live Firebase reservation records instantly to help you manage bookings in Pembo.</div>
+  </div>
+  <div class="chat-suggest">
+    <button data-msg="Who has pending reservations?">Pending list</button>
+    <button data-msg="Show me approved bookings">Approved bookings</button>
+    <button data-msg="How do I approve or reschedule?">Workflow help</button>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" id="chat-input" placeholder="Ask anything in your own words…">
+    <button class="chat-send" id="chat-send">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 20l16-8L4 4l2 8-2 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
 
 <footer>
   <div class="wrap">
@@ -1109,10 +924,10 @@
         EMBO Access
       </div>
       <div class="foot-seals">
-        <div class="imgwrap"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Cembo"></div>
+        <div class="imgwrap"><img src="../Pics/cembologo.png" alt="Cembo"></div>
         <div class="imgwrap"><img src="../Pics/West_Rembo_Logo.png" alt="West Rembo"></div>
         <div class="imgwrap"><img src="../Pics/East_Rembo_Logo.png" alt="East Rembo"></div>
-        <div class="imgwrap"><img src="../Pics/cembologo.png" alt="Comembo"></div>
+        <div class="imgwrap"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Comembo"></div>
         <div class="imgwrap"><img src="../Pics/pembologo.png" alt="Pembo"></div>
       </div>
     </div>
@@ -1123,35 +938,7 @@
   </div>
 </footer>
 
-<button class="chat-fab" id="chat-fab" title="SK Assistant">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-</button>
-
-<div class="chat-panel" id="chat-panel">
-  <div class="chat-head">
-    <div>
-      <div class="title">SK Assistant</div>
-      <div class="sub">Barangay Cembo · Online</div>
-    </div>
-    <button class="chat-close" id="chat-close">✕</button>
-  </div>
-  <div class="chat-body" id="chat-body">
-    <div class="chat-msg bot">Hi! I'm the SK Cembo assistant. I can help with facility availability, upcoming programs, your reservations, or announcements. What do you need?</div>
-  </div>
-  <div class="chat-suggest">
-    <button data-msg="Is the basketball court free this weekend?">Court availability</button>
-    <button data-msg="What programs are coming up?">Upcoming programs</button>
-    <button data-msg="Where's my reservation status?">My reservation status</button>
-  </div>
-  <div class="chat-input-row">
-    <input type="text" id="chat-input" placeholder="Type a message…">
-    <button class="chat-send" id="chat-send">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 20l16-8L4 4l2 8-2 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-    </button>
-  </div>
-</div>
-
-<!-- EmailJS SDK (Add this inside your <head> or right before this script block) -->
+<!-- EmailJS SDK -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script type="text/javascript">
   (function(){
@@ -1178,14 +965,10 @@
     onSnapshot
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // BARANGAY IDENTIFIER (Change this for each barangay page e.g., "Comembo", "Pembo")
   const BARANGAY_NAME = "Pembo";
-
-  // EmailJS Configuration Keys
   const EMAILJS_SERVICE_ID = "service_u8asokk";
   const EMAILJS_TEMPLATE_ID = "template_c0ej12h";
 
-  // Firebase Configuration
   const firebaseConfig = {
     apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
     authDomain: "embo-access.firebaseapp.com",
@@ -1199,17 +982,14 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // App State
   let adminFullName = "Admin";
   let allReservations = [];
   let activeStatusFilter = "all";
-  let activeRejectDocId = null;
+  let activeRescheduleDocId = null;
 
-  // Date/Month Filtering State
   let showAllDates = false;
   let currentDate = new Date();
 
-  // DOM References
   const tableBody = document.getElementById('res-tbody');
   const monthPicker = document.getElementById('month-picker');
   const monthDisplay = document.getElementById('month-display');
@@ -1217,15 +997,27 @@
   const nextMonthBtn = document.getElementById('next-month-btn');
   const allDatesCheckbox = document.getElementById('all-dates-toggle');
 
-  // Rejection Modal DOM References
-  const rejectOverlay = document.getElementById('reject-overlay');
-  const rejectForm = document.getElementById('reject-form');
-  const rejectReasonInput = document.getElementById('reject-reason');
-  const rejectError = document.getElementById('reject-error');
+  const statusFilter = document.getElementById('status-filter');
+  const purposeFilter = document.getElementById('purpose-filter');
 
-  // ==========================================
-  // 1. AUTH & ADMIN PROFILE FETCHING
-  // ==========================================
+  if (statusFilter) {
+    statusFilter.addEventListener('change', (e) => {
+      activeStatusFilter = e.target.value;
+      document.querySelectorAll('#tab-row .tab-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.filter === activeStatusFilter);
+      });
+      renderTable();
+    });
+  }
+
+  if (purposeFilter) purposeFilter.addEventListener('change', renderTable);
+
+  const rescheduleOverlay = document.getElementById('reschedule-overlay');
+  const rescheduleForm = document.getElementById('reschedule-form');
+  const rescheduleReasonInput = document.getElementById('reschedule-reason');
+  const newDateInput = document.getElementById('new-date');
+  const newTimeslotSelect = document.getElementById('new-timeslot');
+
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
       window.location.href = "login_page.html";
@@ -1234,39 +1026,22 @@
 
     try {
       let fetchedName = "";
-
       const userDocRef = doc(db, "users", user.uid);
       const userDocSnap = await getDoc(userDocRef);
 
       if (userDocSnap.exists()) {
-        const data = userDocSnap.data();
-        fetchedName = data.fullName || data.name || data.firstName;
+        fetchedName = userDocSnap.data().fullName || userDocSnap.data().name || userDocSnap.data().firstName;
       } else {
         const q = query(collection(db, "users"), where("email", "==", user.email));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((docSnap) => {
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            fetchedName = data.fullName || data.name || data.firstName;
-          }
+          if (docSnap.exists()) fetchedName = docSnap.data().fullName || docSnap.data().name || docSnap.data().firstName;
         });
       }
 
       if (fetchedName) {
         adminFullName = fetchedName;
-        const nameElement = document.getElementById("admin-name");
-        if (nameElement) nameElement.textContent = `Admin - ${adminFullName}`;
-
-        const avatarElement = document.querySelector(".user-chip .avatar");
-        if (avatarElement) {
-          const initials = adminFullName
-            .split(" ")
-            .map(n => n[0])
-            .join("")
-            .substring(0, 2)
-            .toUpperCase();
-          avatarElement.textContent = initials;
-        }
+        document.getElementById("admin-name").textContent = `Admin - ${adminFullName}`;
       }
     } catch (err) {
       console.error("Error fetching admin profile:", err);
@@ -1276,15 +1051,8 @@
     subscribeToReservations();
   });
 
-  // ==========================================
-  // 2. FIRESTORE REAL-TIME LISTENER
-  // ==========================================
   function subscribeToReservations() {
-    const q = query(
-      collection(db, "reservations"),
-      where("barangay", "==", BARANGAY_NAME)
-    );
-
+    const q = query(collection(db, "reservations"), where("barangay", "==", BARANGAY_NAME));
     onSnapshot(q, (snapshot) => {
       allReservations = snapshot.docs.map(docSnap => ({
         docId: docSnap.id,
@@ -1292,77 +1060,45 @@
       }));
       updateCounters();
       renderTable();
-    }, (error) => {
-      console.error("Error fetching reservations:", error);
     });
   }
 
-  // ==========================================
-  // 3. MONTH & DATE CONTROLS
-  // ==========================================
   function syncMonthUI() {
     const year = currentDate.getFullYear();
     const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    
     if (monthPicker) monthPicker.value = `${year}-${month}`;
     if (monthDisplay) {
       monthDisplay.textContent = currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
     }
   }
 
-  if (prevMonthBtn) {
-    prevMonthBtn.addEventListener('click', () => {
-      currentDate.setMonth(currentDate.getMonth() - 1);
-      syncMonthUI();
-      renderTable();
-    });
-  }
+  prevMonthBtn?.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); syncMonthUI(); renderTable(); });
+  nextMonthBtn?.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() + 1); syncMonthUI(); renderTable(); });
+  monthPicker?.addEventListener('change', (e) => {
+    if (!e.target.value) return;
+    const [y, m] = e.target.value.split('-');
+    currentDate = new Date(parseInt(y), parseInt(m) - 1, 1);
+    syncMonthUI();
+    renderTable();
+  });
 
-  if (nextMonthBtn) {
-    nextMonthBtn.addEventListener('click', () => {
-      currentDate.setMonth(currentDate.getMonth() + 1);
-      syncMonthUI();
-      renderTable();
-    });
-  }
+  allDatesCheckbox?.addEventListener('change', (e) => {
+    showAllDates = e.target.checked;
+    if (monthPicker) monthPicker.disabled = showAllDates;
+    if (prevMonthBtn) prevMonthBtn.disabled = showAllDates;
+    if (nextMonthBtn) nextMonthBtn.disabled = showAllDates;
+    renderTable();
+  });
 
-  if (monthPicker) {
-    monthPicker.addEventListener('change', (e) => {
-      if (!e.target.value) return;
-      const [y, m] = e.target.value.split('-');
-      currentDate = new Date(parseInt(y), parseInt(m) - 1, 1);
-      syncMonthUI();
-      renderTable();
-    });
-  }
-
-  if (allDatesCheckbox) {
-    allDatesCheckbox.addEventListener('change', (e) => {
-      showAllDates = e.target.checked;
-      if (monthPicker) monthPicker.disabled = showAllDates;
-      if (prevMonthBtn) prevMonthBtn.disabled = showAllDates;
-      if (nextMonthBtn) nextMonthBtn.disabled = showAllDates;
-      renderTable();
-    });
-  }
-
-  // ==========================================
-  // 4. TAB FILTERS & COUNTERS
-  // ==========================================
   function updateCounters() {
     const pendingCount = allReservations.filter(r => (r.status || '').toLowerCase() === 'pending').length;
     const approvedCount = allReservations.filter(r => (r.status || '').toLowerCase() === 'approved').length;
-    const rejectedCount = allReservations.filter(r => ['rejected', 'cancelled'].includes((r.status || '').toLowerCase())).length;
+    const rescheduledCount = allReservations.filter(r => (r.status || '').toLowerCase() === 'rescheduled').length;
 
-    const elAll = document.getElementById('count-all');
-    const elPending = document.getElementById('count-pending');
-    const elApproved = document.getElementById('count-approved');
-    const elRejected = document.getElementById('count-rejected');
-
-    if (elAll) elAll.textContent = allReservations.length;
-    if (elPending) elPending.textContent = pendingCount;
-    if (elApproved) elApproved.textContent = approvedCount;
-    if (elRejected) elRejected.textContent = rejectedCount;
+    document.getElementById('count-all').textContent = allReservations.length;
+    document.getElementById('count-pending').textContent = pendingCount;
+    document.getElementById('count-approved').textContent = approvedCount;
+    document.getElementById('count-rescheduled').textContent = rescheduledCount;
   }
 
   document.querySelectorAll('#tab-row .tab-btn').forEach(btn => {
@@ -1370,72 +1106,48 @@
       document.querySelectorAll('#tab-row .tab-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       activeStatusFilter = btn.dataset.filter;
+      if (statusFilter) statusFilter.value = activeStatusFilter;
       renderTable();
     });
   });
 
-  // ==========================================
-  // 5. RENDER DYNAMIC TABLE ROWS
-  // ==========================================
   function renderTable() {
     if (!tableBody) return;
-
     const targetYear = currentDate.getFullYear();
     const targetMonth = currentDate.getMonth();
+    const selectedPurpose = purposeFilter ? purposeFilter.value : 'all';
 
     let filtered = allReservations.filter(r => {
       const statusLower = (r.status || 'pending').toLowerCase();
-      let matchesStatus = false;
-      
-      if (activeStatusFilter === 'all') {
-        matchesStatus = true;
-      } else if (activeStatusFilter === 'rejected') {
-        matchesStatus = statusLower === 'rejected' || statusLower === 'cancelled';
-      } else {
-        matchesStatus = statusLower === activeStatusFilter;
-      }
-
-      let matchesDate = true;
-      if (!showAllDates && r.date) {
-        const resDate = new Date(r.date + 'T00:00:00');
-        matchesDate = resDate.getFullYear() === targetYear && resDate.getMonth() === targetMonth;
-      }
-
-      return matchesStatus && matchesDate;
+      let matchesStatus = (activeStatusFilter === 'all') ? true : (statusLower === activeStatusFilter);
+      let matchesDate = showAllDates || !r.date || (new Date(r.date + 'T00:00:00').getFullYear() === targetYear && new Date(r.date + 'T00:00:00').getMonth() === targetMonth);
+      let matchesPurpose = (selectedPurpose === 'all') || ((r.purpose || '').toLowerCase() === selectedPurpose.toLowerCase());
+      return matchesStatus && matchesDate && matchesPurpose;
     });
 
     filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     if (filtered.length === 0) {
-      tableBody.innerHTML = `
-        <tr>
-          <td colspan="6" style="text-align: center; padding: 2rem; color: #777;">
-            No reservations found for the selected month and filter.
-          </td>
-        </tr>`;
+      tableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #777;">No reservations found matching the selected filters.</td></tr>`;
       return;
     }
 
     tableBody.innerHTML = filtered.map(r => {
       const statusLower = (r.status || 'pending').toLowerCase();
-      
       let actionColumn = '';
-      if (statusLower === 'pending') {
+
+      if (statusLower === 'pending' || statusLower === 'rescheduled') {
         actionColumn = `
           <div class="row-actions">
             <button title="Approve" class="act-approve js-approve-btn" data-docid="${r.docId}">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
-            <button title="Reject" class="act-reject js-reject-btn" data-docid="${r.docId}">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <button title="Propose Reschedule" class="act-reschedule js-reschedule-btn" data-docid="${r.docId}">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12v1a8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0-8-8c-1.5 0-2.9.4-4 1.1L4 7m0 0v4h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
           </div>`;
       } else if (statusLower === 'approved') {
         actionColumn = `<span class="cell-sub">Approved by ${r.approvedBy || adminFullName}</span>`;
-      } else if (statusLower === 'rejected') {
-        actionColumn = `<span class="cell-sub" title="${r.reason || ''}">${r.reason || 'Rejected'}</span>`;
-      } else if (statusLower === 'cancelled') {
-        actionColumn = `<span class="cell-sub">Cancelled by resident</span>`;
       }
 
       return `
@@ -1451,6 +1163,7 @@
           <td>
             ${r.date || '—'}
             <div class="cell-sub">${r.timeSlot || '—'}</div>
+            ${r.proposedDate ? `<div class="cell-sub" style="color:#B8862A;">Proposed: ${r.proposedDate} (${r.proposedTimeSlot || 'Same slot'})</div>` : ''}
           </td>
           <td>${r.purpose || '—'}</td>
           <td><span class="status-pill status-${statusLower}">${r.status}</span></td>
@@ -1458,237 +1171,236 @@
         </tr>`;
     }).join('');
 
-    document.querySelectorAll('.js-approve-btn').forEach(btn => {
-      btn.addEventListener('click', () => handleApprove(btn.dataset.docid));
-    });
-    document.querySelectorAll('.js-reject-btn').forEach(btn => {
-      btn.addEventListener('click', () => openRejectModal(btn.dataset.docid));
-    });
+    document.querySelectorAll('.js-approve-btn').forEach(btn => btn.addEventListener('click', () => handleApprove(btn.dataset.docid)));
+    document.querySelectorAll('.js-reschedule-btn').forEach(btn => btn.addEventListener('click', () => openRescheduleModal(btn.dataset.docid)));
   }
 
-  // ==========================================
-  // 6. SINGLE-TEMPLATE EMAILJS SENDER
-  // ==========================================
- async function sendReservationEmail(reservationData, status, rejectionReason = "") {
-  // 1. Fetch email from 'userEmail' or fallback to 'email' / 'applicantEmail'
-  let targetEmail = reservationData.userEmail || reservationData.email || reservationData.applicantEmail;
-
-  // 2. Fallback: If missing, look up user document in 'users' collection using 'userId'
-  if (!targetEmail && reservationData.userId) {
-    try {
-      const userDocRef = doc(db, "users", reservationData.userId);
-      const userDocSnap = await getDoc(userDocRef);
-      if (userDocSnap.exists()) {
-        targetEmail = userDocSnap.data().email || userDocSnap.data().userEmail;
-      }
-    } catch (e) {
-      console.error("Could not fetch user document for email:", e);
+  async function sendReservationEmail(reservationData, status, details = {}) {
+    let targetEmail = reservationData.userEmail || reservationData.email || reservationData.applicantEmail;
+    if (!targetEmail && reservationData.userId) {
+      try {
+        const userDocRef = doc(db, "users", reservationData.userId);
+        const userDocSnap = await getDoc(userDocRef);
+        if (userDocSnap.exists()) targetEmail = userDocSnap.data().email;
+      } catch (e) { console.error(e); }
     }
+    if (!targetEmail) return;
+
+    let emailSubject = "";
+    let emailBody = "";
+
+    if (status === "Approved") {
+      emailSubject = `Reservation Approved - ${reservationData.referenceNumber || reservationData.facilityName}`;
+      emailBody = `Good news! Your reservation request for ${reservationData.facilityName} on ${reservationData.date} has been APPROVED by Barangay ${BARANGAY_NAME}.`;
+    } else if (status === "Rescheduled") {
+      emailSubject = `Reschedule Notice - ${reservationData.referenceNumber || reservationData.facilityName}`;
+      emailBody = `Barangay ${BARANGAY_NAME} has requested a reschedule for your reservation at ${reservationData.facilityName}.\n\nReason: ${details.reason}\n${details.newDate ? `Proposed Date: ${details.newDate}` : ''}\n${details.newTimeSlot ? `Proposed Time: ${details.newTimeSlot}` : ''}\n\nPlease check your account dashboard to review and confirm.`;
+    }
+
+    try {
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        to_email: targetEmail,
+        email_subject: emailSubject,
+        email_body: emailBody,
+        applicant_name: reservationData.applicantName || "Resident",
+        facility_name: reservationData.facilityName || "Facility",
+        reservation_date: reservationData.date,
+        barangay_name: BARANGAY_NAME
+      });
+    } catch (err) { console.error("EmailJS error:", err); }
   }
 
-  // If still no email found, exit safely
-  if (!targetEmail) {
-    console.warn("No resident email found for reservation:", reservationData.docId);
-    return;
-  }
-
-  let emailSubject = "";
-  let emailBody = "";
-
-  if (status === "Approved") {
-    emailSubject = `Reservation Approved - ${reservationData.referenceNumber || reservationData.facilityName}`;
-    emailBody = `Good news! Your reservation request for ${reservationData.facilityName || "the facility"} on ${reservationData.date} has been APPROVED by Barangay ${BARANGAY_NAME}.`;
-  } else if (status === "Rejected") {
-    emailSubject = `Reservation Request Update - ${reservationData.referenceNumber || reservationData.facilityName}`;
-    emailBody = `Your reservation request for ${reservationData.facilityName || "the facility"} on ${reservationData.date} was not approved.\n\nReason: ${rejectionReason}\n\nPlease visit the website to view the full request details.`;
-  }
-
-  const templateParams = {
-    to_email: targetEmail,
-    email_subject: emailSubject,
-    email_body: emailBody,
-    applicant_name: reservationData.applicantName || "Resident",
-    facility_name: reservationData.facilityName || "Facility",
-    reservation_date: reservationData.date || "N/A",
-    time_slot: reservationData.timeSlot || "N/A",
-    reference_number: reservationData.referenceNumber || reservationData.docId,
-    barangay_name: BARANGAY_NAME
-  };
-
-  try {
-    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
-    console.log(`Notification email successfully sent to ${targetEmail}`);
-  } catch (err) {
-    console.error("Failed to send EmailJS notification:", err);
-  }
-}
-
-  // ==========================================
-  // 7. APPROVAL & REJECTION ACTIONS
-  // ==========================================
   async function handleApprove(docId) {
     const r = allReservations.find(x => x.docId === docId);
-    if (!r) return;
-
-    if (!confirm("Are you sure you want to approve this reservation?")) return;
+    if (!r || !confirm("Are you sure you want to approve this reservation?")) return;
 
     try {
-      const docRef = doc(db, "reservations", docId);
-      await updateDoc(docRef, {
-        status: "Approved",
-        approvedBy: adminFullName
-      });
-
-      // Trigger Email Notification
+      await updateDoc(doc(db, "reservations", docId), { status: "Approved", approvedBy: adminFullName });
       sendReservationEmail(r, "Approved");
-
-      showToast("Reservation approved.", false);
-    } catch (err) {
-      console.error("Error approving reservation:", err);
-      alert("Failed to approve reservation.");
-    }
+      showToast("Reservation approved successfully.", false);
+    } catch (err) { alert("Failed to approve."); }
   }
 
-  function openRejectModal(docId) {
+  function openRescheduleModal(docId) {
     const r = allReservations.find(x => x.docId === docId);
     if (!r) return;
-    activeRejectDocId = docId;
+    activeRescheduleDocId = docId;
 
-    const refTitle = document.getElementById('reject-ref-title');
-    const facilityNameEl = document.getElementById('reject-facility-name');
-    
-    if (refTitle) refTitle.textContent = r.referenceNumber || 'Provide a Reason';
-    if (facilityNameEl) facilityNameEl.textContent = `${r.facilityName || 'Facility'} (${r.date})`;
-    
-    rejectReasonInput.value = '';
-    if (rejectError) rejectError.style.display = 'none';
-    rejectOverlay.classList.add('show');
+    document.getElementById('reschedule-facility-name').textContent = `${r.facilityName || 'Facility'} (${r.date} · ${r.timeSlot})`;
+    rescheduleReasonInput.value = '';
+    newDateInput.value = '';
+    newTimeslotSelect.value = '';
+    rescheduleOverlay.classList.add('show');
   }
 
-  document.querySelectorAll('.chip-preset').forEach(btn => {
-    btn.addEventListener('click', () => {
-      rejectReasonInput.value = btn.dataset.preset;
-      if (rejectError) rejectError.style.display = 'none';
-    });
-  });
+  const closeRescheduleModal = () => rescheduleOverlay.classList.remove('show');
+  document.getElementById('reschedule-close').addEventListener('click', closeRescheduleModal);
+  document.getElementById('reschedule-cancel').addEventListener('click', closeRescheduleModal);
 
-  const closeRejectModal = () => rejectOverlay.classList.remove('show');
-  document.getElementById('reject-close').addEventListener('click', closeRejectModal);
-  document.getElementById('reject-cancel').addEventListener('click', closeRejectModal);
-
-  rejectForm.addEventListener('submit', async (e) => {
+  rescheduleForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const reasonText = rejectReasonInput.value.trim();
+    const reasonText = rescheduleReasonInput.value.trim();
+    if (!reasonText) { alert("Please provide a reason."); return; }
 
-    if (!reasonText) {
-      if (rejectError) rejectError.style.display = 'block';
-      return;
-    }
-
-    const r = allReservations.find(x => x.docId === activeRejectDocId);
+    const r = allReservations.find(x => x.docId === activeRescheduleDocId);
+    const proposedDate = newDateInput.value || null;
+    const proposedTimeSlot = newTimeslotSelect.value || null;
 
     try {
-      const docRef = doc(db, "reservations", activeRejectDocId);
-      await updateDoc(docRef, {
-        status: "Rejected",
-        reason: reasonText,
-        rejectedBy: adminFullName
+      await updateDoc(doc(db, "reservations", activeRescheduleDocId), {
+        status: "Rescheduled",
+        rescheduleReason: reasonText,
+        proposedDate: proposedDate,
+        proposedTimeSlot: proposedTimeSlot,
+        rescheduledBy: adminFullName
       });
 
-      // Trigger Email Notification with Reason
       if (r) {
-        sendReservationEmail(r, "Rejected", reasonText);
+        sendReservationEmail(r, "Rescheduled", { reason: reasonText, newDate: proposedDate, newTimeSlot: proposedTimeSlot });
       }
 
-      closeRejectModal();
-      showToast("Reservation rejected.", true);
-    } catch (err) {
-      console.error("Error rejecting reservation:", err);
-      alert("Failed to reject reservation.");
-    }
+      closeRescheduleModal();
+      showToast("Reschedule proposal sent to resident.", true);
+    } catch (err) { alert("Failed to save reschedule update."); }
   });
 
-  // ==========================================
-  // 8. TOAST NOTIFICATION
-  // ==========================================
-  function showToast(msg, isRed) {
+  function showToast(msg, isWarning) {
     const toast = document.getElementById('toast');
-    const toastText = document.getElementById('toast-text');
-    if (toastText) toastText.textContent = msg;
-    if (toast) {
-      toast.classList.toggle('toast-red', !!isRed);
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    }
+    document.getElementById('toast-text').textContent = msg;
+    toast.classList.toggle('toast-warning', !!isWarning);
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
   }
 
-  // ==========================================
-  // 9. CHATBOT ASSISTANT
-  // ==========================================
+  // --- UPGRADED UNRESTRICTED AI / FIREBASE CHATBOT LOGIC ---
   const fab = document.getElementById('chat-fab');
   const panel = document.getElementById('chat-panel');
   const closeBtn = document.getElementById('chat-close');
   const navChatBtn = document.getElementById('nav-chat-btn');
-  const body = document.getElementById('chat-body');
-  const input = document.getElementById('chat-input');
+  const chatBody = document.getElementById('chat-body');
+  const chatInput = document.getElementById('chat-input');
   const sendBtn = document.getElementById('chat-send');
 
-  const canned = {
-    "is the basketball court free this weekend?": "Let me check the calendar — the Basketball Court has an open slot Saturday 2:00–4:00 PM. Want me to start a reservation request for it?",
-    "what programs are coming up?": "Coming up: our Basketball Tournament and a Digital Skills Workshop this month. Tap \"Join Program\" on the home page to sign up.",
-    "where's my reservation status?": "You can see every request and its status — Pending, Approved, or Rejected — under \"My Reservations\" in the top menu."
-  };
+  function togglePanel() { 
+    if (!panel) return;
+    panel.classList.toggle('show'); 
+    if (panel.classList.contains('show') && chatInput) chatInput.focus(); 
+  }
 
-  function togglePanel() { panel.classList.toggle('show'); if (panel.classList.contains('show')) input.focus(); }
   if (fab) fab.addEventListener('click', togglePanel);
   if (navChatBtn) navChatBtn.addEventListener('click', togglePanel);
   if (closeBtn) closeBtn.addEventListener('click', () => panel.classList.remove('show'));
 
   function addMsg(text, who) {
+    if (!chatBody) return;
     const el = document.createElement('div');
     el.className = 'chat-msg ' + who;
     el.textContent = text;
-    body.appendChild(el);
-    body.scrollTop = body.scrollHeight;
+    chatBody.appendChild(el);
+    chatBody.scrollTop = chatBody.scrollHeight;
   }
 
-  function respond(text) {
+  function handleNaturalLanguageChat(text) {
     addMsg(text, 'user');
-    const key = text.trim().toLowerCase();
-    const reply = canned[key] || "Thanks — I've noted that. Live updates made in the admin panel are saved directly to Firestore.";
-    setTimeout(() => addMsg(reply, 'bot'), 500);
+    const q = text.toLowerCase();
+
+    setTimeout(() => {
+      let reply = "";
+      const pendingItems = allReservations.filter(r => (r.status || '').toLowerCase() === 'pending');
+      const approvedItems = allReservations.filter(r => (r.status || '').toLowerCase() === 'approved');
+      const rescheduledItems = allReservations.filter(r => (r.status || '').toLowerCase() === 'rescheduled');
+
+      if (q.includes('pending') && (q.includes('who') || q.includes('list') || q.includes('names') || q.includes('show'))) {
+        if (pendingItems.length === 0) {
+          reply = `There are currently no pending reservation requests in Firebase for Barangay ${BARANGAY_NAME}.`;
+        } else {
+          const names = pendingItems.map(r => `${r.applicantName || 'Resident'} (${r.facilityName || 'Facility'} on ${r.date || 'TBD'})`).join(', ');
+          reply = `Here are the ${pendingItems.length} pending request(s) in Firebase: ${names}.`;
+        }
+      }
+      else if (q.includes('approved') && (q.includes('who') || q.includes('list') || q.includes('names') || q.includes('show'))) {
+        if (approvedItems.length === 0) {
+          reply = `There are currently no approved bookings in Firebase for Barangay ${BARANGAY_NAME}.`;
+        } else {
+          const names = approvedItems.map(r => `${r.applicantName || 'Resident'} (${r.facilityName || 'Facility'})`).join(', ');
+          reply = `Here are the approved bookings in Firebase: ${names}.`;
+        }
+      }
+      else if (q.includes('how many') || q.includes('total') || q.includes('count') || q.includes('status') || q.includes('summary')) {
+        reply = `Firebase Live Sync for Barangay ${BARANGAY_NAME}:\n• Total Reservations: ${allReservations.length}\n• Pending: ${pendingItems.length}\n• Approved: ${approvedItems.length}\n• Rescheduled: ${rescheduledItems.length}`;
+      }
+      else if (q.includes('search') || q.includes('find') || q.includes('did') || q.includes('check for') || q.includes('booking by')) {
+        const matches = allReservations.filter(r => 
+          (r.applicantName && r.applicantName.toLowerCase().includes(q)) ||
+          (r.facilityName && r.facilityName.toLowerCase().includes(q)) ||
+          (r.purpose && r.purpose.toLowerCase().includes(q)) ||
+          (r.referenceNumber && r.referenceNumber.toLowerCase().includes(q))
+        );
+        if (matches.length === 0) {
+          reply = `I searched Firebase records for "${text}", but found no matching reservations.`;
+        } else {
+          const details = matches.map(m => `• ${m.applicantName} for ${m.facilityName} on ${m.date} [Status: ${m.status}]`).join('\n');
+          reply = `Found ${matches.length} matching record(s) in Firebase:\n${details}`;
+        }
+      }
+      else if (q.includes('how') || q.includes('guide') || q.includes('steps') || q.includes('what to do') || q.includes('help')) {
+        if (q.includes('approve')) {
+          reply = `To approve a request: Find the booking under the Pending tab in the table and click the green checkmark icon. This updates Firebase immediately and emails the resident via EmailJS.`;
+        } else if (q.includes('reschedule') || q.includes('change date')) {
+          reply = `To reschedule: Click the calendar clock icon on the reservation row, enter your reason, and optionally select a new date and time slot.`;
+        } else {
+          reply = `As your admin assistant, I can query live Firebase data for you! You can ask things like "Who has pending requests?", "Show approved bookings", "Search for court", or ask for approval guidance.`;
+        }
+      }
+      else {
+        const tokens = q.split(' ').filter(w => w.length > 2);
+        const results = allReservations.filter(r => {
+          const blob = `${r.applicantName} ${r.facilityName} ${r.purpose} ${r.status} ${r.date}`.toLowerCase();
+          return tokens.some(t => blob.includes(t));
+        });
+
+        if (results.length > 0) {
+          const summary = results.slice(0, 3).map(r => `${r.applicantName} (${r.facilityName} - ${r.status})`).join(', ');
+          reply = `Based on your query, I found these relevant Firebase records: ${summary}.`;
+        } else {
+          reply = `I checked the live and updated list for Barangay ${BARANGAY_NAME}. You currently have ${pendingItems.length} pending and ${approvedItems.length} approved reservations. Feel free to ask about specific residents, counts, or approval steps!`;
+        }
+      }
+
+      addMsg(reply, 'bot');
+    }, 400);
   }
 
-  if (sendBtn) sendBtn.addEventListener('click', () => { const v = input.value.trim(); if (!v) return; respond(v); input.value = ''; });
-  if (input) input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { const v = input.value.trim(); if (!v) return; respond(v); input.value = ''; } });
+  if (sendBtn && chatInput) {
+    sendBtn.addEventListener('click', () => {
+      const v = chatInput.value.trim();
+      if (!v) return;
+      handleNaturalLanguageChat(v);
+      chatInput.value = '';
+    });
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const v = chatInput.value.trim();
+        if (!v) return;
+        handleNaturalLanguageChat(v);
+        chatInput.value = '';
+      }
+    });
+  }
+
   document.querySelectorAll('.chat-suggest button').forEach(btn => {
-    btn.addEventListener('click', () => respond(btn.dataset.msg));
+    btn.addEventListener('click', () => handleNaturalLanguageChat(btn.dataset.msg));
   });
-  // User dropdown + logout
+
   const userMenu = document.getElementById("user-menu");
-  const userMenuBtn = document.getElementById("user-menu-btn");
-  userMenuBtn.addEventListener("click", (e) => {
+  document.getElementById("user-menu-btn").addEventListener("click", (e) => {
     e.stopPropagation();
-    const open = userMenu.classList.toggle("open");
-    userMenuBtn.setAttribute("aria-expanded", open);
+    userMenu.classList.toggle("open");
   });
-  document.addEventListener("click", (e) => {
-    if (!userMenu.contains(e.target)) {
-      userMenu.classList.remove("open");
-      userMenuBtn.setAttribute("aria-expanded", "false");
-    }
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") userMenu.classList.remove("open");
-  });
+  document.addEventListener("click", () => userMenu.classList.remove("open"));
   document.getElementById("logout-btn").addEventListener("click", async () => {
-    try {
-      await signOut(auth);
-      window.location.href = "login_page.html";
-    } catch (err) {
-      console.error("Logout failed:", err);
-      alert("Could not log out. Please try again.");
-    }
+    await signOut(auth);
+    window.location.href = "login_page.html";
   });
 </script>
 

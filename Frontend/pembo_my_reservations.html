@@ -19,7 +19,7 @@
     --line: rgba(36,34,25,0.14);
     --radius: 2px;
 
-    /* per-barangay accent — swap these 3 (+ logo + brand text) to reuse this page for another barangay */
+    /* Barangay Pembo Accent (Maroon) */
     --accent: #8F171B;
     --accent-deep: #6E1215;
     --accent-tint: rgba(143,23,27,0.14);
@@ -74,8 +74,6 @@
   .nav-links a:hover{background:var(--paper-deep);color:var(--ink);}
   .nav-links a.active{background:var(--accent);color:var(--paper);font-weight:600;}
   .nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
-  .icon-btn{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);background:var(--paper-deep);display:flex;align-items:center;justify-content:center;transition:border-color .18s ease, background .18s ease;}
-  .icon-btn:hover{border-color:var(--accent-deep);background:var(--paper);}
   .user-chip{display:flex;align-items:center;gap:9px;padding:6px 12px 6px 6px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper-deep);font-size:0.85rem;font-weight:600;}
   .user-chip .avatar{width:26px;height:26px;border-radius:50%;background:var(--accent-deep);color:var(--paper);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:0.66rem;}
 
@@ -93,22 +91,18 @@
   .btn-outline:hover{background:var(--paper-deep);border-color:var(--ink);transform:translateY(-2px);box-shadow:none;}
   .btn-danger{background:transparent;border-color:var(--red-deep);color:var(--red-deep);}
   .btn-danger:hover{background:rgba(194,32,38,0.08);border-color:var(--red-deep);transform:translateY(-2px);box-shadow:none;}
+  .btn-warning{background:#B8862A;border-color:#B8862A;color:var(--paper);}
+  .btn-warning:hover{background:#966E20;border-color:#966E20;}
   .btn-small{padding:9px 16px;font-size:0.82rem;}
-  .btn-block{width:100%;}
 
-  /* ---------- PAGE HERO ---------- */
-  .hero{
-    background:var(--accent);
-    background-image:radial-gradient(circle at 88% -10%, rgba(255,255,255,0.16), transparent 55%);
-    color:var(--paper);padding:52px 0 40px;
-  }
+  /* ---------- HERO & STATS ---------- */
+  .hero{background:var(--accent);color:var(--paper);padding:52px 0 40px;}
   .hero-top{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;flex-wrap:wrap;}
   .hero .eyebrow{color:rgba(245,240,228,0.85);}
   .hero .eyebrow::before{background:rgba(245,240,228,0.6);}
   .hero h1{font-size:clamp(1.9rem, 3.2vw, 2.6rem);line-height:1.1;font-weight:700;color:var(--paper);margin:12px 0 10px;}
   .hero p.lede{font-size:1rem;line-height:1.6;color:rgba(245,240,228,0.88);max-width:56ch;}
 
-  /* ---------- STATS STRIP ---------- */
   .stats-strip{margin-top:-26px;position:relative;z-index:10;margin-bottom:36px;}
   .stats-grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:16px;}
   .stat-card{
@@ -122,22 +116,19 @@
   .stat-card .stat-num{font-family:'Fraunces', serif;font-weight:700;font-size:1.5rem;line-height:1;}
   .stat-card .stat-label{font-size:0.76rem;color:var(--ink-soft);margin-top:3px;}
 
-  /* ---------- FILTER BAR ---------- */
+  /* ---------- FILTER & CARDS ---------- */
   .filter-card{
     background:var(--paper-deep);border:1.5px solid var(--ink);border-radius:var(--radius);
     box-shadow:0 8px 0 0 rgba(36,34,25,0.08);padding:16px 18px;
     display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:28px;
   }
   .search-box{display:flex;align-items:center;gap:8px;background:var(--paper);border:1.5px solid var(--line);border-radius:var(--radius);padding:9px 12px;flex:1;min-width:200px;}
-  .search-box svg{flex-shrink:0;color:var(--ink-soft);}
   .search-box input{border:none;outline:none;background:none;font-family:'IBM Plex Sans',sans-serif;font-size:0.9rem;color:var(--ink);width:100%;}
   .chip-group{display:flex;gap:8px;flex-wrap:wrap;}
   .chip{font-family:'IBM Plex Sans',sans-serif;font-size:0.82rem;font-weight:600;padding:8px 15px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink-soft);transition:all .15s ease;}
-  .chip:hover{border-color:var(--accent-deep);color:var(--ink);}
   .chip.active{background:var(--accent-deep);border-color:var(--accent-deep);color:var(--paper);}
   .sort-select{font-family:'IBM Plex Sans',sans-serif;font-size:0.85rem;font-weight:600;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:var(--radius);padding:9px 12px;}
 
-  /* ---------- RESERVATION LIST ---------- */
   .body-section{padding-bottom:70px;}
   .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px;}
   .section-head h2{font-size:1.3rem;}
@@ -154,28 +145,40 @@
   .res-main{flex:1;min-width:0;}
   .res-top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px;}
   .res-ref{font-family:'IBM Plex Mono',monospace;font-size:0.72rem;color:var(--ink-soft);margin-bottom:3px;}
-  .res-main h3{font-size:1.05rem;line-height:1.3;}
+  
   .res-status{display:inline-flex;align-items:center;gap:6px;font-family:'IBM Plex Mono',monospace;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;padding:5px 11px;border-radius:999px;font-weight:600;flex-shrink:0;}
   .res-status::before{content:"";width:6px;height:6px;border-radius:50%;}
   .res-status.pending{background:rgba(184,134,42,0.16);color:var(--amber);}
   .res-status.pending::before{background:var(--amber);}
   .res-status.approved{background:rgba(46,107,79,0.14);color:var(--green);}
   .res-status.approved::before{background:var(--green);}
-  .res-status.rejected{background:rgba(194,32,38,0.12);color:var(--red-deep);}
-  .res-status.rejected::before{background:var(--red-deep);}
+  .res-status.rescheduled{background:rgba(184,134,42,0.12);color:#8F6B17;}
+  .res-status.rescheduled::before{background:#8F6B17;}
   .res-status.cancelled{background:rgba(91,86,74,0.14);color:var(--ink-soft);}
   .res-status.cancelled::before{background:var(--ink-soft);}
 
   .res-meta{display:flex;flex-wrap:wrap;gap:14px;font-size:0.83rem;color:var(--ink-soft);margin-bottom:12px;}
-  .res-meta span{display:flex;align-items:center;gap:5px;}
   .res-actions{display:flex;gap:10px;flex-wrap:wrap;}
 
-  .empty-state{
-    text-align:center;padding:70px 20px;color:var(--ink-soft);
-    border:1.5px dashed var(--line);border-radius:var(--radius);
+  .reschedule-notice{
+    background:rgba(184,134,42,0.1);border:1px solid #B8862A;border-radius:var(--radius);
+    padding:10px 14px;margin-bottom:12px;font-size:0.85rem;color:#7A5A19;
   }
-  .empty-state h3{margin-bottom:8px;color:var(--ink);}
-  .empty-state p{margin-bottom:20px;}
+
+  /* ---------- CUSTOM MINI CALENDAR CSS ---------- */
+  .cal-container{background:var(--paper);border:1.5px solid var(--line);border-radius:var(--radius);padding:12px;margin-top:6px;}
+  .cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-weight:600;font-size:0.9rem;}
+  .cal-nav-btn{background:transparent;border:1px solid var(--line);border-radius:var(--radius);padding:2px 8px;font-size:0.8rem;}
+  .cal-grid{display:grid;grid-template-columns:repeat(7, 1fr);gap:4px;text-align:center;}
+  .cal-day-label{font-family:'IBM Plex Mono', monospace;font-size:0.68rem;color:var(--ink-soft);padding-bottom:4px;}
+  .cal-date-cell{padding:8px 0;font-size:0.82rem;border-radius:var(--radius);border:1px solid transparent;cursor:pointer;transition:all 0.15s ease;}
+  .cal-date-cell:hover:not(.disabled):not(.empty){background:var(--paper-deep);border-color:var(--ink);}
+  .cal-date-cell.selected{background:var(--accent-deep)!important;color:var(--paper)!important;font-weight:bold;}
+  .cal-date-cell.disabled{opacity:0.35;background:rgba(0,0,0,0.06);color:var(--ink-soft);cursor:not-allowed;text-decoration:line-through;pointer-events:none;}
+  .cal-date-cell.same-day{opacity:0.4;background:rgba(194,32,38,0.1);color:var(--red-deep);cursor:not-allowed;pointer-events:none;}
+  .cal-legend{display:flex;gap:12px;font-size:0.72rem;color:var(--ink-soft);margin-top:10px;}
+  .cal-legend span{display:flex;align-items:center;gap:4px;}
+  .cal-dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
 
   /* ---------- MODAL ---------- */
   .modal-overlay{position:fixed;inset:0;background:rgba(14,12,10,0.55);z-index:1000;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;}
@@ -183,11 +186,8 @@
   .modal{background:var(--paper);border:1.5px solid var(--ink);border-radius:var(--radius);width:100%;max-width:560px;box-shadow:0 20px 0 0 rgba(14,12,10,0.14);animation:modalIn .25s ease;}
   @keyframes modalIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
   .modal-head{background:var(--accent);color:var(--paper);padding:20px 26px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;}
-  .modal-head .eyebrow{color:rgba(245,240,228,0.85);margin-bottom:6px;}
-  .modal-head .eyebrow::before{background:rgba(245,240,228,0.6);}
   .modal-head h2{font-size:1.25rem;color:var(--paper);}
-  .modal-close{background:rgba(245,240,228,0.14);border:1px solid rgba(245,240,228,0.4);color:var(--paper);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem;line-height:1;}
-  .modal-close:hover{background:rgba(245,240,228,0.25);}
+  .modal-close{background:rgba(245,240,228,0.14);border:1px solid rgba(245,240,228,0.4);color:var(--paper);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
   .modal-body{padding:24px 26px 26px;max-height:70vh;overflow-y:auto;}
 
   .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
@@ -198,64 +198,18 @@
   .detail-divider{border-top:1px dashed var(--line);margin:4px 0 20px;}
   .modal-actions{display:flex;gap:12px;flex-wrap:wrap;}
 
-  .confirm-view{text-align:center;padding:6px 4px 2px;}
-  .confirm-icon{width:60px;height:60px;border-radius:50%;background:rgba(194,32,38,0.1);color:var(--red-deep);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
-  .confirm-view h3{font-size:1.2rem;margin-bottom:8px;}
-  .confirm-view p{color:var(--ink-soft);font-size:0.9rem;line-height:1.55;margin-bottom:22px;}
-  .confirm-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
-
-  /* toast */
-  .toast{
-    position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);
-    background:var(--ink);color:var(--paper);padding:13px 22px;border-radius:var(--radius);
-    font-size:0.88rem;font-weight:600;display:flex;align-items:center;gap:10px;
-    box-shadow:0 8px 0 0 rgba(0,0,0,0.15);z-index:1200;opacity:0;pointer-events:none;
-    transition:opacity .25s ease, transform .25s ease;
-  }
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-
-  @media (max-width: 980px){
-    .stats-grid{grid-template-columns:repeat(2, 1fr);}
-    .nav-links{display:none;}
-    .res-card{flex-direction:column;}
-  }
-  @media (max-width: 620px){
-    .stats-grid{grid-template-columns:1fr 1fr;}
-    .detail-grid{grid-template-columns:1fr;}
-    .res-top-row{flex-direction:column;}
-    .modal-body{padding:20px;}
-  }
-
-  /* ---------- CHATBOT (reused) ---------- */
-  .chat-fab{position:fixed;bottom:26px;right:26px;width:58px;height:58px;border-radius:50%;background:var(--ink);border:2.5px solid var(--accent);color:var(--paper);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 0 0 rgba(36,34,25,0.18);z-index:900;transition:transform .18s ease;}
-  .chat-fab:hover{transform:translateY(-3px);}
-  .chat-panel{position:fixed;bottom:96px;right:26px;width:340px;max-width:calc(100vw - 40px);background:var(--paper-deep);border:1.5px solid var(--ink);border-radius:var(--radius);box-shadow:0 14px 0 0 rgba(36,34,25,0.12);z-index:900;display:none;flex-direction:column;overflow:hidden;}
-  .chat-panel.show{display:flex;}
-  .chat-head{background:var(--accent);color:var(--paper);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;}
-  .chat-head .title{font-family:'Fraunces',serif;font-weight:700;font-size:1rem;}
-  .chat-head .sub{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:rgba(245,240,228,0.8);}
-  .chat-close{background:none;border:none;color:var(--paper);font-size:1.1rem;line-height:1;}
-  .chat-body{padding:16px 18px;display:flex;flex-direction:column;gap:10px;max-height:320px;overflow-y:auto;}
-  .chat-msg{max-width:82%;padding:9px 13px;border-radius:var(--radius);font-size:0.85rem;line-height:1.45;}
-  .chat-msg.bot{background:var(--paper);border:1px solid var(--line);align-self:flex-start;}
-  .chat-msg.user{background:var(--accent-deep);color:var(--paper);align-self:flex-end;}
-  .chat-suggest{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 12px;}
-  .chat-suggest button{font-size:0.74rem;padding:6px 11px;border-radius:999px;border:1px solid var(--accent-deep);background:transparent;color:var(--accent-deep);font-weight:600;}
-  .chat-suggest button:hover{background:var(--accent-tint);}
-  .chat-input-row{display:flex;gap:8px;padding:12px;border-top:1px dashed var(--line);}
-  .chat-input-row input{flex:1;font-family:'IBM Plex Sans',sans-serif;font-size:0.85rem;padding:10px 12px;border:1.5px solid var(--line);border-radius:var(--radius);background:var(--paper);outline:none;}
-  .chat-input-row input:focus{border-color:var(--ink);}
-  .chat-send{width:38px;height:38px;border-radius:var(--radius);background:var(--accent-deep);border:none;color:var(--paper);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-
-  /* ---------- FOOTER ---------- */
-  footer{padding:44px 0 36px;border-top:1px solid var(--line);}
-  .foot-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:26px;margin-bottom:30px;}
-  .foot-brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces', serif;font-weight:700;font-size:1.05rem;}
-  .foot-brand .mark{width:32px;height:32px;border-radius:50%;background:var(--black);display:flex;align-items:center;justify-content:center;color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:0.6rem;font-weight:600;border:2px solid var(--accent);}
+  /* FOOTER */
+  footer{padding:50px 0 40px;border-top:1px solid var(--line);}
+  .foot-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:30px;margin-bottom:36px;}
+  .foot-brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces', serif;font-weight:700;font-size:1.1rem;}
+  .foot-brand .mark{width:34px;height:34px;border-radius:50%;background:var(--black);display:flex;align-items:center;justify-content:center;color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:0.65rem;border:2px solid var(--accent);}
   .foot-seals{display:flex;gap:12px;}
-  .foot-seals .imgwrap{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--paper-deep);display:flex;align-items:center;justify-content:center;padding:4px;}
+  .foot-seals .imgwrap{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--paper-deep);display:flex;align-items:center;justify-content:center;padding:4px;flex-shrink:0;}
   .foot-seals img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
   .foot-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:0.78rem;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;padding-top:20px;border-top:1px solid var(--line);}
+
+  .toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);padding:13px 22px;border-radius:var(--radius);font-size:0.88rem;font-weight:600;z-index:1200;opacity:0;pointer-events:none;transition:all .25s ease;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
@@ -277,9 +231,6 @@
       <a href="pembo_feedback.html">Feedback</a>
     </nav>
     <div class="nav-right">
-      <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-      </button>
       <div class="user-chip" id="user-chip">
           <span class="avatar" id="user-avatar">--</span>
           <span id="user-name">Loading...</span>
@@ -294,7 +245,7 @@
       <div>
         <div class="eyebrow">SK Barangay Pembo · My Reservations</div>
         <h1>Every request, one place.</h1>
-        <p class="lede">Track the status of every facility reservation you've made — pending, approved, rejected, or cancelled — and manage upcoming bookings without a trip to the SK office.</p>
+        <p class="lede">Track the status of every facility reservation you've made — pending, approved, rescheduled, or cancelled — and manage upcoming bookings easily.</p>
       </div>
       <a href="pembo_facilities.html" class="btn btn-invert">Reserve Another Facility →</a>
     </div>
@@ -304,37 +255,36 @@
 <div class="wrap stats-strip">
   <div class="stats-grid" id="stats-grid">
     <div class="stat-card active" data-status="all">
-      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 3v18M15 3v18M4 8h5M15 8h5M4 16h5M15 16h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 3v18M15 3v18M4 8h5M15 8h5M4 16h5M15 16h5" stroke="currentColor" stroke-width="1.6"/></svg></span>
       <div><div class="stat-num" id="count-all">0</div><div class="stat-label">Total Requests</div></div>
     </div>
     <div class="stat-card" data-status="pending">
-      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.6"/></svg></span>
       <div><div class="stat-num" id="count-pending">0</div><div class="stat-label">Pending Review</div></div>
     </div>
     <div class="stat-card" data-status="approved">
-      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="1.8"/></svg></span>
       <div><div class="stat-num" id="count-approved">0</div><div class="stat-label">Approved</div></div>
     </div>
-    <div class="stat-card" data-status="rejected">
-      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M9 9l6 6M15 9l-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-      <div><div class="stat-num" id="count-rejected">0</div><div class="stat-label">Rejected / Cancelled</div></div>
+    <div class="stat-card" data-status="rescheduled">
+      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 12v1a8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0-8-8c-1.5 0-2.9.4-4 1.1L4 7m0 0v4h4" stroke="currentColor" stroke-width="1.8"/></svg></span>
+      <div><div class="stat-num" id="count-rescheduled">0</div><div class="stat-label">Rescheduled</div></div>
     </div>
   </div>
 </div>
 
 <section class="body-section">
   <div class="wrap">
-
     <div class="filter-card">
       <div class="search-box">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.8"/></svg>
         <input type="text" id="search-input" placeholder="Search by facility or reference number…">
       </div>
       <div class="chip-group" id="status-filters">
         <button class="chip active" data-status="all">All</button>
         <button class="chip" data-status="pending">Pending</button>
         <button class="chip" data-status="approved">Approved</button>
-        <button class="chip" data-status="rejected">Rejected</button>
+        <button class="chip" data-status="rescheduled">Rescheduled</button>
         <button class="chip" data-status="cancelled">Cancelled</button>
       </div>
       <select class="sort-select" id="sort-select">
@@ -350,7 +300,6 @@
     </div>
 
     <div class="res-list" id="res-list"></div>
-
   </div>
 </section>
 
@@ -373,7 +322,7 @@
   </div>
 </footer>
 
-<!-- ---------- DETAILS / CANCEL MODAL ---------- -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal">
     <div class="modal-head">
@@ -384,116 +333,116 @@
       <button class="modal-close" id="modal-close">✕</button>
     </div>
     <div class="modal-body">
+      <div id="details-view">
+        <div class="detail-grid">
+          <div class="detail-item"><span class="d-label">Facility</span><span class="d-value" id="d-facility">—</span></div>
+          <div class="detail-item"><span class="d-label">Status</span><span class="d-value" id="d-status">—</span></div>
+          <div class="detail-item"><span class="d-label">Date &amp; Time</span><span class="d-value" id="d-datetime">—</span></div>
+          <div class="detail-item"><span class="d-label">Attendees</span><span class="d-value" id="d-attendees">—</span></div>
+          <div class="detail-item"><span class="d-label">Requested By</span><span class="d-value" id="d-name">—</span></div>
+          <div class="detail-item"><span class="d-label">Contact Number</span><span class="d-value" id="d-contact">—</span></div>
+          <div class="detail-item full"><span class="d-label">Purpose</span><span class="d-value" id="d-purpose">—</span></div>
+          <div class="detail-item full"><span class="d-label">Additional Notes</span><span class="d-value" id="d-notes">—</span></div>
+          
+          <div class="detail-item full" id="d-reason-container" style="display: none;">
+            <span class="d-label" id="d-reason-label">Reason</span>
+            <span class="d-value" id="d-reason" style="color: var(--amber); font-weight: 600;">—</span>
+          </div>
 
-      <!-- DETAILS VIEW -->
-<div id="details-view">
-  <div class="detail-grid">
-    <div class="detail-item"><span class="d-label">Facility</span><span class="d-value" id="d-facility">—</span></div>
-    <div class="detail-item"><span class="d-label">Status</span><span class="d-value" id="d-status">—</span></div>
-    <div class="detail-item"><span class="d-label">Date &amp; Time</span><span class="d-value" id="d-datetime">—</span></div>
-    <div class="detail-item"><span class="d-label">Attendees</span><span class="d-value" id="d-attendees">—</span></div>
-    <div class="detail-item"><span class="d-label">Requested By</span><span class="d-value" id="d-name">—</span></div>
-    <div class="detail-item"><span class="d-label">Contact Number</span><span class="d-value" id="d-contact">—</span></div>
-    <div class="detail-item full"><span class="d-label">Purpose</span><span class="d-value" id="d-purpose">—</span></div>
-    <div class="detail-item full"><span class="d-label">Additional Notes</span><span class="d-value" id="d-notes">—</span></div>
-    <!-- NEW FIELD: Reason for Rejection or Cancellation -->
-    <div class="detail-item full" id="d-reason-container" style="display: none;">
-      <span class="d-label" id="d-reason-label">Reason</span>
-      <span class="d-value" id="d-reason" style="color: var(--red-deep, #c0392b); font-weight: 600;">—</span>
-    </div>
-    <div class="detail-item full"><span class="d-label">Submitted On</span><span class="d-value" id="d-submitted">—</span></div>
-  </div>
-  <div class="detail-divider"></div>
-  <div class="modal-actions">
-    <button class="btn btn-danger" id="d-cancel-btn">Cancel Reservation</button>
-    <a href="pembo_facilities.html" class="btn btn-outline">Reserve Similar →</a>
-  </div>
-</div>
+          <div class="detail-item full" id="d-proposal-container" style="display: none;">
+            <span class="d-label">Admin Proposed Reschedule</span>
+            <span class="d-value" id="d-proposal" style="color: var(--accent-deep); font-weight: 600;">—</span>
+          </div>
 
-      <!-- CONFIRM CANCEL VIEW -->
-      <div id="confirm-view" class="confirm-view" style="display:none;">
-        <div class="confirm-icon">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <div class="detail-item full"><span class="d-label">Submitted On</span><span class="d-value" id="d-submitted">—</span></div>
         </div>
+
+        <div id="counter-offer-section" style="display: none; background: var(--paper-deep); border: 1.5px solid var(--ink); border-radius: var(--radius); padding: 18px; margin: 16px 0;">
+          <h3 style="font-size: 1.05rem; margin-bottom: 8px;">Propose Your Own Date &amp; Time</h3>
+          <p style="font-size: 0.82rem; color: var(--ink-soft); margin-bottom: 12px;">Greyed-out dates are fully booked or conflict with your original date.</p>
+          
+          <div class="detail-item full" style="margin-bottom: 12px;">
+            <label class="d-label">Select Available Date</label>
+            <div class="cal-container">
+              <div class="cal-header">
+                <button type="button" class="cal-nav-btn" id="cal-prev">‹ Prev</button>
+                <span id="cal-month-year">October 2026</span>
+                <button type="button" class="cal-nav-btn" id="cal-next">Next ›</button>
+              </div>
+              <div class="cal-grid" id="cal-grid"></div>
+              <div class="cal-legend">
+                <span><span class="cal-dot" style="background:#8F171B;"></span> Selected</span>
+                <span><span class="cal-dot" style="background:rgba(0,0,0,0.2);"></span> Fully Booked</span>
+                <span><span class="cal-dot" style="background:rgba(194,32,38,0.4);"></span> Same Day</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-item full" style="margin-bottom: 12px;">
+            <label for="counter-slot" class="d-label">Preferred Time Slot</label>
+            <select id="counter-slot" style="padding: 10px; border: 1.5px solid var(--line); border-radius: var(--radius); width: 100%; font-family: inherit;">
+              <option value="">Select a date first...</option>
+            </select>
+          </div>
+
+          <div style="display: flex; gap: 8px; margin-top: 10px;">
+            <button type="button" class="btn btn-small btn-warning" id="submit-counter-btn">Send Counter-Offer</button>
+            <button type="button" class="btn btn-small btn-outline" id="cancel-counter-btn">Cancel</button>
+          </div>
+        </div>
+
+        <div class="detail-divider"></div>
+        <div class="modal-actions">
+          <button class="btn btn-warning" id="d-accept-proposal-btn" style="display: none;">Accept Proposed Schedule</button>
+          <button class="btn btn-outline" id="d-counter-toggle-btn" style="display: none;">Counter-Offer Schedule</button>
+          <button class="btn btn-danger" id="d-cancel-btn">Cancel Reservation</button>
+        </div>
+      </div>
+
+      <div id="confirm-view" style="display:none; text-align:center;">
         <h3>Cancel this reservation?</h3>
-        <p id="confirm-text">This will cancel your request for the selected facility and time slot. This action can't be undone from here — you'll need to submit a new request if you change your mind.</p>
-        <div class="confirm-actions">
+        <p id="confirm-text" style="margin: 12px 0 20px; color: var(--ink-soft);">This will cancel your request for the selected facility.</p>
+        <div style="display:flex; gap:12px; justify-content:center;">
           <button class="btn btn-outline" id="confirm-no">No, Keep It</button>
           <button class="btn btn-danger" id="confirm-yes" style="background:var(--red-deep);color:var(--paper);">Yes, Cancel Reservation</button>
         </div>
       </div>
-
     </div>
   </div>
 </div>
 
-<!-- ---------- CHATBOT ---------- -->
-<button class="chat-fab" id="chat-fab" title="SK Assistant">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-</button>
-<div class="chat-panel" id="chat-panel">
-  <div class="chat-head">
-    <div><div class="title">SK Assistant</div><div class="sub">Barangay Pembo · Online</div></div>
-    <button class="chat-close" id="chat-close">✕</button>
-  </div>
-  <div class="chat-body" id="chat-body">
-    <div class="chat-msg bot">Hi! Ask me about a reservation's status, or how to cancel or reschedule one.</div>
-  </div>
-  <div class="chat-suggest">
-    <button data-msg="How do I cancel a reservation?">Cancel a reservation</button>
-    <button data-msg="Why was my reservation rejected?">Rejected request</button>
-    <button data-msg="Can I reschedule instead of cancelling?">Reschedule</button>
-  </div>
-  <div class="chat-input-row">
-    <input type="text" id="chat-input" placeholder="Type a message…">
-    <button class="chat-send" id="chat-send">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 20l16-8L4 4l2 8-2 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-    </button>
-  </div>
-</div>
-
-<div class="toast" id="toast">Reservation cancelled.</div>
+<div class="toast" id="toast">Action successful.</div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { 
-    getAuth, 
-    onAuthStateChanged 
-  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { 
-    getFirestore, 
-    collection, 
-    query, 
-    where, 
-    doc,
-    updateDoc,
-    onSnapshot,
-    getDocs
-  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { getFirestore, collection, query, where, doc, getDoc, updateDoc, onSnapshot, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+  const BARANGAY_NAME = "Pembo";
   const firebaseConfig = {
     apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
     authDomain: "embo-access.firebaseapp.com",
     projectId: "embo-access",
     storageBucket: "embo-access.firebasestorage.app",
     messagingSenderId: "173132109750",
-    appId: "1:173132109750:web:8697b6c0b83676a62a5317",
-    measurementId: "G-3FEJE2LCY9"
+    appId: "1:173132109750:web:8697b6c0b83676a62a5317"
   };
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  const avatarEl = document.getElementById('user-avatar');
-  const nameEl = document.getElementById('user-name');
-  const listEl = document.getElementById('res-list');
-  const resultCount = document.getElementById('result-count');
+  const ALL_SLOTS = [
+    "8:00 – 10:00 AM", "10:00 AM – 12:00 PM", "1:00 – 3:00 PM",
+    "3:00 – 5:00 PM", "5:00 – 7:00 PM", "7:00 – 9:00 PM"
+  ];
 
-  let currentUserId = null;
   let userReservations = [];
+  let facilityBookings = [];
   let activeStatus = 'all';
   let currentDocId = null;
+  let calCurrentDate = new Date();
+  let selectedCounterDate = null;
 
   const ICONS = {
     "Sports Court": '<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 3a9 9 0 0 0 0 18M3 12h18M5.5 6.5c2 1.8 4.2 2.8 6.5 2.8s4.5-1 6.5-2.8M5.5 17.5c2-1.8 4.2-2.8 6.5-2.8s4.5 1 6.5 2.8" stroke="currentColor" stroke-width="1.3"/></svg>',
@@ -501,90 +450,72 @@
     "Function Room": '<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M4 10h16M9 4v6" stroke="currentColor" stroke-width="1.4"/></svg>',
     "Open Space": '<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M3 20c2-5 4-8 9-8s7 3 9 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="7" r="3.2" stroke="currentColor" stroke-width="1.6"/></svg>'
   };
-  const DEFAULT_ICON = ICONS["Hall"];
   const FACILITY_TYPES = {
-    "SK Basketball Court": "Sports Court", "Volleyball Court": "Sports Court",
-    "Multi-Purpose Hall": "Hall", "Covered Gymnasium": "Hall", "Function Hall": "Hall",
-    "Barangay Plaza": "Open Space",
-    "Computer Laboratory": "Function Room", "Function Room A": "Function Room", "Function Room B": "Function Room"
+    "Pembo Covered Court": "Sports Court", "Pembo Multi-Purpose Hall": "Hall",
+    "Pembo Youth Center": "Function Room", "Pembo Plaza": "Open Space"
   };
 
-  // ---------- AUTH GUARD & REAL-TIME LISTENER ----------
   onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      window.location.href = 'login_page.html';
-      return;
-    }
-    currentUserId = user.uid;
-
-    // Load User Profile
+    if (!user) { window.location.href = 'login_page.html'; return; }
+    
+    // User Profile Lookup with Safe Fallbacks
     try {
-      const qUser = query(collection(db, "users"), where("email", "==", user.email));
-      const querySnapshot = await getDocs(qUser);
-      let firstName = "", lastName = "";
+      let displayNameStr = "";
+      const userDocRef = doc(db, "users", user.uid);
+      const userDocSnap = await getDoc(userDocRef);
 
-      querySnapshot.forEach((docSnap) => {
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          firstName = data.firstname || "";
-          lastName = data.lastname || "";
-        }
-      });
-
-      if (firstName || lastName) {
-        nameEl.textContent = `${firstName} ${lastName}`.trim();
-        avatarEl.textContent = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
-      } else {
-        nameEl.textContent = user.email;
-        avatarEl.textContent = user.email.charAt(0).toUpperCase();
+      if (userDocSnap.exists()) {
+        const data = userDocSnap.data();
+        displayNameStr = data.fullName || data.name || `${data.firstName || data.firstname || ''} ${data.lastName || data.lastname || ''}`.trim();
       }
-    } catch (err) {
-      console.error("Error fetching user profile:", err);
+
+      if (!displayNameStr) {
+        const qUser = query(collection(db, "users"), where("email", "==", user.email));
+        const querySnapshot = await getDocs(qUser);
+        querySnapshot.forEach((docSnap) => {
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            displayNameStr = data.fullName || data.name || `${data.firstName || data.firstname || ''} ${data.lastName || data.lastname || ''}`.trim();
+          }
+        });
+      }
+
+      if (!displayNameStr) {
+        displayNameStr = user.displayName || user.email;
+      }
+
+      document.getElementById('user-name').textContent = displayNameStr;
+      const parts = displayNameStr.trim().split(" ");
+      document.getElementById('user-avatar').textContent = parts.length >= 2 ? `${parts[0][0]}${parts[1][0]}`.toUpperCase() : displayNameStr.substring(0, 2).toUpperCase();
+
+    } catch (e) { 
+      console.error("Profile load error:", e); 
+      document.getElementById('user-name').textContent = user.email || "Resident";
+      document.getElementById('user-avatar').textContent = (user.email ? user.email[0] : "R").toUpperCase();
     }
 
-    // Subscribe to Firestore Live Reservations Stream for this User
-    const resQuery = query(
-      collection(db, "reservations"),
-      where("userId", "==", user.uid),
-      where("barangay", "==", "Pembo")
-    );
-
+    // Subscribe to Firestore Live Reservations Stream
+    const resQuery = query(collection(db, "reservations"), where("userId", "==", user.uid), where("barangay", "==", BARANGAY_NAME));
     onSnapshot(resQuery, (snapshot) => {
-      userReservations = snapshot.docs.map(doc => ({
-        docId: doc.id,
-        ...doc.data()
-      }));
+      userReservations = snapshot.docs.map(doc => ({ docId: doc.id, ...doc.data() }));
       updateStats();
       render();
-    }, (error) => {
-      console.error("Error streaming reservations:", error);
     });
   });
 
-  // ---------- HELPER FORMATTERS ----------
   function fmtDate(dateStr) {
     if (!dateStr) return '—';
     const d = new Date(dateStr + 'T00:00:00');
-    if (isNaN(d)) return dateStr;
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    return isNaN(d) ? dateStr : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   }
 
-  function fmtDateTime(ts) {
-    if (!ts) return '—';
-    const d = ts.toDate ? ts.toDate() : new Date(ts);
-    if (isNaN(d)) return '—';
-    return d.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
-  }
-
-  // ---------- UPDATE STATS CARDS ----------
   function updateStats() {
     document.getElementById('count-all').textContent = userReservations.length;
     document.getElementById('count-pending').textContent = userReservations.filter(r => (r.status || '').toLowerCase() === 'pending').length;
     document.getElementById('count-approved').textContent = userReservations.filter(r => (r.status || '').toLowerCase() === 'approved').length;
-    document.getElementById('count-rejected').textContent = userReservations.filter(r => ['rejected', 'cancelled'].includes((r.status || '').toLowerCase())).length;
+    document.getElementById('count-rescheduled').textContent = userReservations.filter(r => (r.status || '').toLowerCase() === 'rescheduled').length;
   }
 
-  // ---------- RENDER RESERVATIONS LIST ----------
   function render() {
     const queryStr = document.getElementById('search-input').value.trim().toLowerCase();
     const sortBy = document.getElementById('sort-select').value;
@@ -594,40 +525,36 @@
       const matchesStatus = activeStatus === 'all' || statusLower === activeStatus;
       const ref = (r.referenceNumber || '').toLowerCase();
       const facility = (r.facilityName || '').toLowerCase();
-      const matchesQuery = !queryStr || facility.includes(queryStr) || ref.includes(queryStr);
-      return matchesStatus && matchesQuery;
+      return matchesStatus && (!queryStr || facility.includes(queryStr) || ref.includes(queryStr));
     });
 
     if (sortBy === 'recent') {
-      list.sort((a, b) => {
-        const tA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
-        const tB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
-        return tB - tA;
-      });
+      list.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
     } else if (sortBy === 'date') {
       list.sort((a, b) => new Date(a.date) - new Date(b.date));
-    } else if (sortBy === 'facility') {
-      list.sort((a, b) => (a.facilityName || '').localeCompare(b.facilityName || ''));
     }
 
-    resultCount.textContent = `${list.length} request${list.length === 1 ? '' : 's'}`;
+    document.getElementById('result-count').textContent = `${list.length} request${list.length === 1 ? '' : 's'}`;
 
     if (list.length === 0) {
-      listEl.innerHTML = `
-        <div class="empty-state">
-          <h3>${userReservations.length === 0 ? 'No reservations yet' : 'No requests match your filters'}</h3>
-          <p>${userReservations.length === 0 ? "You haven't made any facility reservations yet." : 'Try a different search term or status filter.'}</p>
-          <a href="pembo_facilities.html" class="btn">Reserve a Facility →</a>
-        </div>`;
+      document.getElementById('res-list').innerHTML = `<div class="empty-state"><h3>No reservations found</h3></div>`;
       return;
     }
 
-    listEl.innerHTML = list.map(r => {
+    document.getElementById('res-list').innerHTML = list.map(r => {
       const type = FACILITY_TYPES[r.facilityName] || 'Hall';
       const statusLower = (r.status || 'pending').toLowerCase();
+      
+      let rescheduleNoticeHtml = '';
+      if (statusLower === 'rescheduled') {
+        const reason = r.rescheduleReason || 'Admin requested date adjustment.';
+        const proposedInfo = r.proposedDate ? ` (New Date: ${fmtDate(r.proposedDate)} ${r.proposedTimeSlot || ''})` : '';
+        rescheduleNoticeHtml = `<div class="reschedule-notice">⚠️ <strong>Reschedule Proposed:</strong> ${reason}${proposedInfo}</div>`;
+      }
+
       return `
       <div class="res-card">
-        <div class="res-thumb">${ICONS[type] || DEFAULT_ICON}</div>
+        <div class="res-thumb">${ICONS[type] || ICONS["Hall"]}</div>
         <div class="res-main">
           <div class="res-top-row">
             <div>
@@ -636,6 +563,7 @@
             </div>
             <span class="res-status ${statusLower}">${r.status}</span>
           </div>
+          ${rescheduleNoticeHtml}
           <div class="res-meta">
             <span>📅 ${fmtDate(r.date)}</span>
             <span>🕒 ${r.timeSlot || '—'}</span>
@@ -643,58 +571,94 @@
           </div>
           <div class="res-actions">
             <button class="btn btn-outline btn-small js-details-btn" data-docid="${r.docId}">View Details</button>
-            ${statusLower === 'pending' ? `<button class="btn btn-danger btn-small js-cancel-btn" data-docid="${r.docId}">Cancel</button>` : ''}
+            ${(statusLower === 'pending' || statusLower === 'rescheduled') ? `<button class="btn btn-danger btn-small js-cancel-btn" data-docid="${r.docId}">Cancel</button>` : ''}
           </div>
         </div>
       </div>`;
     }).join('');
 
-    // Attach Event Listeners to Buttons
-    document.querySelectorAll('.js-details-btn').forEach(btn => {
-      btn.addEventListener('click', () => openDetails(btn.dataset.docid));
-    });
-    document.querySelectorAll('.js-cancel-btn').forEach(btn => {
-      btn.addEventListener('click', () => openConfirm(btn.dataset.docid));
+    document.querySelectorAll('.js-details-btn').forEach(btn => btn.addEventListener('click', () => openDetails(btn.dataset.docid)));
+    document.querySelectorAll('.js-cancel-btn').forEach(btn => btn.addEventListener('click', () => openConfirm(btn.dataset.docid)));
+  }
+
+  async function fetchFacilityBookings(facilityId) {
+    if (!facilityId) return;
+    try {
+      const q = query(collection(db, "reservations"), where("facilityId", "==", facilityId), where("status", "in", ["Approved", "Pending"]));
+      const snap = await getDocs(q);
+      facilityBookings = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    } catch(err) { console.error(err); }
+  }
+
+  function renderCalendar() {
+    const grid = document.getElementById('cal-grid');
+    const monthYear = document.getElementById('cal-month-year');
+    grid.innerHTML = '';
+
+    const currentRes = userReservations.find(x => x.docId === currentDocId);
+    const originalDate = currentRes ? currentRes.date : null;
+    const year = calCurrentDate.getFullYear();
+    const month = calCurrentDate.getMonth();
+
+    monthYear.textContent = calCurrentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d => grid.innerHTML += `<div class="cal-day-label">${d}</div>`);
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const totalDays = new Date(year, month + 1, 0).getDate();
+
+    for(let i=0; i<firstDay; i++) grid.innerHTML += `<div class="cal-date-cell empty"></div>`;
+
+    for(let day=1; day<=totalDays; day++) {
+      const mStr = String(month + 1).padStart(2, '0');
+      const dStr = String(day).padStart(2, '0');
+      const dateKey = `${year}-${mStr}-${dStr}`;
+
+      const dayBookings = facilityBookings.filter(b => b.date === dateKey && b.id !== currentDocId);
+      const bookedSlots = dayBookings.map(b => b.timeSlot);
+      const isFullyBooked = ALL_SLOTS.every(s => bookedSlots.includes(s));
+      const isSameDay = originalDate === dateKey;
+
+      let classes = 'cal-date-cell';
+      if (isSameDay) classes += ' same-day';
+      else if (isFullyBooked) classes += ' disabled';
+      if (selectedCounterDate === dateKey) classes += ' selected';
+
+      grid.innerHTML += `<div class="${classes}" data-date="${dateKey}">${day}</div>`;
+    }
+
+    document.querySelectorAll('.cal-date-cell:not(.disabled):not(.empty):not(.same-day)').forEach(cell => {
+      cell.addEventListener('click', () => {
+        selectedCounterDate = cell.dataset.date;
+        renderCalendar();
+        updateSlotDropdown(cell.dataset.date);
+      });
     });
   }
 
-  // ---------- FILTERS & SORT ----------
-  document.getElementById('search-input').addEventListener('input', render);
-  document.getElementById('sort-select').addEventListener('change', render);
+  function updateSlotDropdown(dateKey) {
+    const slotSelect = document.getElementById('counter-slot');
+    slotSelect.innerHTML = '<option value="">Select time slot...</option>';
+    const dayBookings = facilityBookings.filter(b => b.date === dateKey && b.id !== currentDocId);
+    const takenSlots = dayBookings.map(b => b.timeSlot);
 
-  document.querySelectorAll('#status-filters .chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      activeStatus = chip.dataset.status;
-      document.querySelectorAll('#status-filters .chip').forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      document.querySelectorAll('.stat-card').forEach(c => c.classList.toggle('active', c.dataset.status === activeStatus));
-      render();
+    ALL_SLOTS.forEach(slot => {
+      if (!takenSlots.includes(slot)) slotSelect.innerHTML += `<option value="${slot}">${slot}</option>`;
     });
-  });
+  }
 
-  document.querySelectorAll('.stat-card').forEach(card => {
-    card.addEventListener('click', () => {
-      activeStatus = card.dataset.status;
-      document.querySelectorAll('.stat-card').forEach(c => c.classList.remove('active'));
-      card.classList.add('active');
-      document.querySelectorAll('#status-filters .chip').forEach(c => c.classList.toggle('active', c.dataset.status === activeStatus));
-      render();
-    });
-  });
+  document.getElementById('cal-prev').addEventListener('click', () => { calCurrentDate.setMonth(calCurrentDate.getMonth() - 1); renderCalendar(); });
+  document.getElementById('cal-next').addEventListener('click', () => { calCurrentDate.setMonth(calCurrentDate.getMonth() + 1); renderCalendar(); });
 
-  // ---------- MODAL OPERATIONS ----------
   const overlay = document.getElementById('modal-overlay');
-  const detailsView = document.getElementById('details-view');
-  const confirmView = document.getElementById('confirm-view');
+  const counterSection = document.getElementById('counter-offer-section');
 
-  function openDetails(docId) {
+  async function openDetails(docId) {
     const r = userReservations.find(x => x.docId === docId);
     if (!r) return;
     currentDocId = docId;
-
+    selectedCounterDate = null;
     const statusLower = (r.status || '').toLowerCase();
 
-    document.getElementById('modal-eyebrow').textContent = 'Reservation Details';
     document.getElementById('modal-title').textContent = r.referenceNumber || r.docId;
     document.getElementById('d-facility').textContent = r.facilityName || '—';
     document.getElementById('d-status').innerHTML = `<span class="res-status ${statusLower}">${r.status}</span>`;
@@ -703,114 +667,114 @@
     document.getElementById('d-name').textContent = r.applicantName || '—';
     document.getElementById('d-contact').textContent = r.contact || '—';
     document.getElementById('d-purpose').textContent = r.purpose || '—';
-    document.getElementById('d-notes').textContent = r.notes && r.notes.length ? r.notes : 'None provided.';
-    document.getElementById('d-submitted').textContent = fmtDateTime(r.createdAt);
+    document.getElementById('d-notes').textContent = r.notes || 'None provided.';
+    document.getElementById('d-submitted').textContent = r.createdAt?.toDate ? r.createdAt.toDate().toLocaleString() : '—';
 
-    // Show/Hide Reason field for Rejected or Cancelled reservations
-    const reasonContainer = document.getElementById('d-reason-container');
-    const reasonLabel = document.getElementById('d-reason-label');
-    const reasonValue = document.getElementById('d-reason');
+    counterSection.style.display = 'none';
 
-    const reasonText = r.reason || r.rejectionReason || r.cancellationReason || '';
-
-    if (statusLower === 'rejected') {
-      reasonContainer.style.display = 'block';
-      reasonLabel.textContent = 'Reason for Rejection';
-      reasonValue.textContent = reasonText || 'No specific reason provided by the SK admin.';
-    } else if (statusLower === 'cancelled') {
-      reasonContainer.style.display = 'block';
-      reasonLabel.textContent = 'Reason for Cancellation';
-      reasonValue.textContent = reasonText || 'Cancelled by resident.';
+    if (statusLower === 'rescheduled') {
+      document.getElementById('d-reason-container').style.display = 'block';
+      document.getElementById('d-reason').textContent = r.rescheduleReason || 'Admin requested reschedule.';
+      if (r.proposedDate) {
+        document.getElementById('d-proposal-container').style.display = 'block';
+        document.getElementById('d-proposal').textContent = `${fmtDate(r.proposedDate)} at ${r.proposedTimeSlot || r.timeSlot}`;
+      } else {
+        document.getElementById('d-proposal-container').style.display = 'none';
+      }
+      document.getElementById('d-accept-proposal-btn').style.display = 'inline-flex';
+      document.getElementById('d-counter-toggle-btn').style.display = 'inline-flex';
     } else {
-      reasonContainer.style.display = 'none';
+      document.getElementById('d-reason-container').style.display = 'none';
+      document.getElementById('d-proposal-container').style.display = 'none';
+      document.getElementById('d-accept-proposal-btn').style.display = 'none';
+      document.getElementById('d-counter-toggle-btn').style.display = 'none';
     }
 
-    document.getElementById('d-cancel-btn').style.display = statusLower === 'pending' ? 'inline-flex' : 'none';
-
-    detailsView.style.display = 'block';
-    confirmView.style.display = 'none';
+    document.getElementById('details-view').style.display = 'block';
+    document.getElementById('confirm-view').style.display = 'none';
     overlay.classList.add('show');
   }
 
-  function openConfirm(docId) {
-    const r = userReservations.find(x => x.docId === docId);
+  document.getElementById('d-counter-toggle-btn').addEventListener('click', async () => {
+    const currentRes = userReservations.find(x => x.docId === currentDocId);
+    if (currentRes && currentRes.facilityId) await fetchFacilityBookings(currentRes.facilityId);
+    renderCalendar();
+    counterSection.style.display = counterSection.style.display === 'none' ? 'block' : 'none';
+  });
+
+  document.getElementById('cancel-counter-btn').addEventListener('click', () => counterSection.style.display = 'none');
+
+  document.getElementById('submit-counter-btn').addEventListener('click', async () => {
+    const counterSlot = document.getElementById('counter-slot').value;
+    if (!selectedCounterDate || !counterSlot) {
+      alert("Please select both an open date from the calendar and a time slot.");
+      return;
+    }
+    try {
+      await updateDoc(doc(db, "reservations", currentDocId), {
+        date: selectedCounterDate,
+        timeSlot: counterSlot,
+        status: "Pending",
+        rescheduleReason: null,
+        proposedDate: null,
+        proposedTimeSlot: null
+      });
+      overlay.classList.remove('show');
+      showToast("Counter-offer submitted to SK Admin for review!");
+    } catch (err) { alert("Failed to submit counter-offer."); }
+  });
+
+  document.getElementById('d-accept-proposal-btn').addEventListener('click', async () => {
+    const r = userReservations.find(x => x.docId === currentDocId);
     if (!r) return;
+    try {
+      await updateDoc(doc(db, "reservations", currentDocId), {
+        date: r.proposedDate || r.date,
+        timeSlot: r.proposedTimeSlot || r.timeSlot,
+        status: "Pending",
+        rescheduleReason: null,
+        proposedDate: null,
+        proposedTimeSlot: null
+      });
+      overlay.classList.remove('show');
+      showToast("Proposed schedule accepted! Request is back under review.");
+    } catch (err) { alert("Failed to accept proposal."); }
+  });
+
+  function openConfirm(docId) {
     currentDocId = docId;
-    document.getElementById('modal-eyebrow').textContent = 'Confirm Cancellation';
-    document.getElementById('modal-title').textContent = r.referenceNumber || r.docId;
-    document.getElementById('confirm-text').textContent = `This will cancel your request for ${r.facilityName} on ${fmtDate(r.date)} (${r.timeSlot}). This action can't be undone from here.`;
-    detailsView.style.display = 'none';
-    confirmView.style.display = 'block';
+    document.getElementById('details-view').style.display = 'none';
+    document.getElementById('confirm-view').style.display = 'block';
     overlay.classList.add('show');
   }
 
   document.getElementById('d-cancel-btn').addEventListener('click', () => openConfirm(currentDocId));
   document.getElementById('confirm-no').addEventListener('click', () => openDetails(currentDocId));
-  
-  // Real Firestore Update on Cancellation
   document.getElementById('confirm-yes').addEventListener('click', async () => {
     if (!currentDocId) return;
-    try {
-      const docRef = doc(db, "reservations", currentDocId);
-      await updateDoc(docRef, {
-        status: "Cancelled",
-        reason: "Cancelled by resident"
-      });
-      overlay.classList.remove('show');
-      showToast(`Reservation has been cancelled.`);
-    } catch (err) {
-      console.error("Error cancelling reservation:", err);
-      alert("Failed to cancel reservation. Please try again.");
-    }
+    await updateDoc(doc(db, "reservations", currentDocId), { status: "Cancelled" });
+    overlay.classList.remove('show');
+    showToast("Reservation cancelled.");
   });
 
   document.getElementById('modal-close').addEventListener('click', () => overlay.classList.remove('show'));
-  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); });
 
   function showToast(msg) {
     const toast = document.getElementById('toast');
     toast.textContent = msg;
     toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 2600);
+    setTimeout(() => toast.classList.remove('show'), 3000);
   }
 
-  // ---------- CHATBOT LOGIC ----------
-  const fab = document.getElementById('chat-fab');
-  const panel = document.getElementById('chat-panel');
-  const closeBtn = document.getElementById('chat-close');
-  const navChatBtn = document.getElementById('nav-chat-btn');
-  const chatBody = document.getElementById('chat-body');
-  const chatInput = document.getElementById('chat-input');
-  const sendBtn = document.getElementById('chat-send');
-
-  function togglePanel() { panel.classList.toggle('show'); if (panel.classList.contains('show')) chatInput.focus(); }
-  fab.addEventListener('click', togglePanel);
-  navChatBtn.addEventListener('click', togglePanel);
-  closeBtn.addEventListener('click', () => panel.classList.remove('show'));
-
-  const canned = {
-    "how do i cancel a reservation?": "Open any pending request and tap \"Cancel\" — or use the Cancel button right on its card. Approved bookings need a 48-hour notice before cancelling.",
-    "why was my reservation rejected?": "Rejections are usually due to a scheduling conflict or incomplete details. Open the request to view the specific reason provided by the SK admin.",
-    "can i reschedule instead of cancelling?": "There's no direct reschedule yet — cancel the current request, then submit a new one on the Facilities page for your preferred date and time."
-  };
-
-  function addMsg(text, who) {
-    const el = document.createElement('div');
-    el.className = 'chat-msg ' + who;
-    el.textContent = text;
-    chatBody.appendChild(el);
-    chatBody.scrollTop = chatBody.scrollHeight;
-  }
-  function respond(text) {
-    addMsg(text, 'user');
-    const key = text.trim().toLowerCase();
-    const reply = canned[key] || "Thanks — I've noted that. You can view all reservation updates directly in real-time on this page.";
-    setTimeout(() => addMsg(reply, 'bot'), 500);
-  }
-  sendBtn.addEventListener('click', () => { const v = chatInput.value.trim(); if (!v) return; respond(v); chatInput.value = ''; });
-  chatInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { const v = chatInput.value.trim(); if (!v) return; respond(v); chatInput.value = ''; } });
-  document.querySelectorAll('.chat-suggest button').forEach(btn => btn.addEventListener('click', () => respond(btn.dataset.msg)));
+  document.querySelectorAll('#status-filters .chip, .stat-card').forEach(el => {
+    el.addEventListener('click', () => {
+      activeStatus = el.dataset.status;
+      document.querySelectorAll('#status-filters .chip, .stat-card').forEach(c => c.classList.toggle('active', c.dataset.status === activeStatus));
+      render();
+    });
+  });
+  document.getElementById('search-input').addEventListener('input', render);
+  document.getElementById('sort-select').addEventListener('change', render);
 </script>
-
 </body>
 </html>
