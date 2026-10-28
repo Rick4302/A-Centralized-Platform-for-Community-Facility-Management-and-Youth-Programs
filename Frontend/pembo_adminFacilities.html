@@ -19,7 +19,7 @@
     --line: rgba(36,34,25,0.14);
     --radius: 2px;
 
-    /* per-barangay accent */
+    /* per-barangay accent for Pembo */
     --accent: #8F171B;
     --accent-deep: #6E1215;
     --accent-tint: rgba(143,23,27,0.14);
@@ -196,29 +196,6 @@
     box-shadow:0 6px 0 0 var(--ink);
   }
   .btn:active{transform:translateY(0);box-shadow:0 2px 0 0 var(--ink);}
-  .btn-invert{
-    background:var(--paper);
-    border-color:var(--paper);
-    color:var(--ink);
-  }
-  .btn-invert:hover{
-    background:var(--ink);
-    border-color:var(--paper);
-    color:var(--paper);
-    box-shadow:0 6px 0 0 rgba(245,240,228,0.5);
-  }
-  .btn-outline{
-    background:transparent;
-    border-color:var(--paper);
-    color:var(--paper);
-  }
-  .btn-outline:hover{
-    background:rgba(245,240,228,0.14);
-    border-color:var(--paper);
-    color:var(--paper);
-    box-shadow:none;
-    transform:translateY(-2px);
-  }
   .btn-small{padding:9px 16px;font-size:0.82rem;}
 
   /* ---------- HERO ---------- */
@@ -254,7 +231,6 @@
     max-width:52ch;
     margin-bottom:30px;
   }
-  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
   .hero-seal{
     width:96px;height:96px;
     border-radius:50%;
@@ -266,60 +242,13 @@
   }
   .hero-seal img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
 
-  /* ---------- STATS STRIP (overlaps hero/body boundary) ---------- */
-  .stats-strip{
-    margin-top:-54px;
-    position:relative;
-    z-index:10;
-    margin-bottom:52px;
-  }
-  .stats-grid{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:16px;
-  }
-  .stat-card{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:18px 20px;
-    box-shadow:0 8px 0 0 rgba(36,34,25,0.08);
-    display:flex;
-    align-items:center;
-    gap:14px;
-  }
-  .stat-card .stat-icon{
-    width:42px;height:42px;
-    border-radius:50%;
-    background:var(--accent-tint);
-    display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;
-    color:var(--accent-deep);
-  }
-  .stat-card .stat-num{
-    font-family:'Fraunces', serif;
-    font-weight:700;
-    font-size:1.5rem;
-    line-height:1;
-  }
-  .stat-card .stat-label{
-    font-size:0.76rem;
-    color:var(--ink-soft);
-    margin-top:3px;
-  }
-
-
-  /* ---------- SHARED PAGE HERO (compact variant for sub-pages) ---------- */
   .hero-page{padding:40px 0 84px;}
   .hero-page .hero-top{margin-bottom:0;align-items:center;}
   .hero-page h1{font-size:clamp(1.9rem, 3vw, 2.4rem);margin:12px 0 10px;}
   .hero-page p.lede{margin-bottom:0;font-size:0.98rem;}
   .hero-page .hero-seal{width:76px;height:76px;}
-  .stats-strip.compact{margin-top:-48px;margin-bottom:40px;}
-  .stats-strip.compact .stats-grid{grid-template-columns:repeat(3, 1fr);}
-
-
   .page-sub{padding:40px 0 8px;}
+
   .btn-secondary-nav{
     padding:9px 16px;
     font-size:0.82rem;
@@ -336,7 +265,6 @@
     box-shadow:none;
   }
 
-  /* ---------- SECTION HEAD & FILTER BAR ---------- */
   .section-head-row{
     display:flex;
     align-items:center;
@@ -379,42 +307,6 @@
   .tab-btn:hover{background:var(--paper);border-color:var(--ink);color:var(--ink);}
   .tab-btn.active{background:var(--accent-deep);border-color:var(--accent-deep);color:var(--paper);}
 
-  /* ---------- MANAGEMENT TOOL CARDS (dashboard) ---------- */
-  .tool-grid{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:18px;
-    padding-bottom:80px;
-  }
-  .tool-card{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:22px 24px;
-    text-decoration:none;
-    color:var(--ink);
-    display:block;
-    box-shadow:0 8px 0 0 rgba(36,34,25,0.07);
-    transition:transform .18s ease, box-shadow .18s ease;
-  }
-  .tool-card:hover{transform:translateY(-3px);box-shadow:0 11px 0 0 rgba(36,34,25,0.1);}
-  .tool-icon{
-    width:44px;height:44px;
-    border-radius:50%;
-    background:var(--accent-tint);
-    color:var(--accent-deep);
-    display:flex;align-items:center;justify-content:center;
-    margin-bottom:16px;
-  }
-  .tool-card h3{font-size:1.05rem;margin-bottom:6px;}
-  .tool-card p{font-size:0.84rem;color:var(--ink-soft);line-height:1.5;}
-  .tool-card .go{
-    margin-top:14px;
-    font-size:0.82rem;
-    font-weight:600;
-    color:var(--accent-deep);
-  }
-
   /* ---------- TABLE ---------- */
   .table-card{
     background:var(--paper-deep);
@@ -447,7 +339,6 @@
   table.admin-table tbody tr:last-child td{border-bottom:none;}
   table.admin-table tbody tr:hover{background:rgba(36,34,25,0.025);}
   .cell-title{font-weight:600;}
-  .cell-sub{font-size:0.78rem;color:var(--ink-soft);margin-top:2px;}
   .type-pill{
     font-family:'IBM Plex Mono',monospace;
     font-size:0.66rem;
@@ -470,8 +361,6 @@
     transition:border-color .15s ease, color .15s ease;
   }
   .row-actions button:hover{border-color:var(--ink);color:var(--ink);}
-  .row-actions button.act-approve:hover{border-color:#2E6B4F;color:#2E6B4F;}
-  .row-actions button.act-reject:hover{border-color:var(--red-deep);color:var(--red-deep);}
   .row-actions button.act-delete:hover{border-color:var(--red-deep);color:var(--red-deep);}
 
   .status-pill{
@@ -485,18 +374,9 @@
     display:inline-block;
   }
   .status-available{background:rgba(46,107,79,0.14);color:#1E4A36;}
-  .status-approved{background:rgba(46,107,79,0.14);color:#1E4A36;}
-  .status-pending{background:rgba(184,134,42,0.16);color:#7A5A19;}
-  .status-rejected{background:rgba(194,32,38,0.12);color:var(--red-deep);}
   .status-hidden{background:rgba(91,86,74,0.12);color:var(--ink-soft);}
 
-  .empty-row td{
-    text-align:center;
-    color:var(--ink-soft);
-    padding:40px 18px;
-  }
-
-  /* ---------- MODAL (shared: add facility / add event / reject reason) ---------- */
+  /* ---------- MODAL ---------- */
   .modal-overlay{
     display:none;
     position:fixed; inset:0;
@@ -517,7 +397,6 @@
     overflow-y:auto;
     box-shadow:0 16px 0 0 rgba(0,0,0,0.15);
   }
-  .modal-box.narrow{max-width:440px;}
   .modal-head{
     display:flex;
     align-items:flex-start;
@@ -568,18 +447,6 @@
   .modal-actions .btn{flex:1;justify-content:center;}
   .btn-secondary{background:transparent;color:var(--ink);}
   .btn-secondary:hover{background:var(--paper-deep);box-shadow:none;transform:none;border-color:var(--ink);}
-  .btn-danger{background:var(--red-deep);border-color:var(--red-deep);}
-  .btn-danger:hover{background:var(--black);border-color:var(--black);}
-  .reject-context{
-    font-size:0.85rem;
-    color:var(--ink-soft);
-    background:var(--paper-deep);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:12px 14px;
-    margin-bottom:18px;
-  }
-  .reject-context strong{color:var(--ink);}
 
   /* ---------- TOAST ---------- */
   .toast{
@@ -730,20 +597,6 @@
     flex-shrink:0;
   }
 
-  @media (max-width: 980px){
-    .body-grid{grid-template-columns:1fr;}
-    .stats-grid{grid-template-columns:repeat(2, 1fr);}
-    .nav-links{display:none;}
-    .hero-seal{width:72px;height:72px;}
-  }
-  @media (max-width: 620px){
-    .stats-grid{grid-template-columns:1fr 1fr;}
-    .hero{padding:44px 0 78px;}
-    .hero-top{flex-direction:column-reverse;gap:18px;}
-    .chat-panel{right:14px;bottom:88px;}
-    .chat-fab{right:14px;bottom:18px;}
-  }
-
   /* ---------- FOOTER ---------- */
   footer{
     padding:44px 0 36px;
@@ -850,10 +703,11 @@
       </span>
     </a>
     <nav class="nav-links">
-      <a href="pembo_admin.html" class="">Dashboard</a>
+      <a href="pembo_admin.html">Dashboard</a>
       <a href="pembo_adminFacilities.html" class="active">Facilities</a>
-      <a href="pembo_adminReservations.html" class="">Reservations</a>
-      <a href="pembo_adminEvents.html" class="">Events</a>
+      <a href="pembo_adminReservations.html">Reservations</a>
+      <a href="pembo_adminEvents.html">Events</a>
+      <a href="pembo_adminFeedback.html">Feedback</a>
     </nav>
     <div class="nav-right">
       <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
@@ -932,54 +786,54 @@
       </div>
       <button class="modal-close" id="modal-close">✕</button>
     </div>
-   <form class="modal-form" id="facility-form" novalidate>
-  <input type="hidden" id="f-id" value="">
+    <form class="modal-form" id="facility-form" novalidate>
+      <input type="hidden" id="f-id" value="">
 
-  <div class="field" data-field="name">
-    <label for="f-name">Facility Name <span class="req">*</span></label>
-    <input type="text" id="f-name" placeholder="e.g. Basketball Court A" required>
-    <span class="field-error">Enter a facility name.</span>
-  </div>
+      <div class="field" data-field="name">
+        <label for="f-name">Facility Name <span class="req">*</span></label>
+        <input type="text" id="f-name" placeholder="e.g. Basketball Court A" required>
+        <span class="field-error">Enter a facility name.</span>
+      </div>
 
-  <div class="field-row">
-    <div class="field" data-field="type">
-      <label for="f-type">Type <span class="req">*</span></label>
-      <select id="f-type" required>
-        <option value="" disabled selected>Select type</option>
-        <option value="Court">Court</option>
-        <option value="Venue">Venue</option>
-        <option value="Resource">Resource</option>
-      </select>
-      <span class="field-error">Select a facility type.</span>
-    </div>
+      <div class="field-row">
+        <div class="field" data-field="type">
+          <label for="f-type">Type <span class="req">*</span></label>
+          <select id="f-type" required>
+            <option value="" disabled selected>Select type</option>
+            <option value="Court">Court</option>
+            <option value="Venue">Venue</option>
+            <option value="Resource">Resource</option>
+          </select>
+          <span class="field-error">Select a facility type.</span>
+        </div>
 
-    <div class="field" data-field="capacity">
-      <label for="f-capacity">Capacity / Quantity <span class="req">*</span></label>
-      <input type="text" id="f-capacity" placeholder="e.g. 30 or 5 sets" required>
-      <span class="field-error">Enter capacity or quantity.</span>
-    </div>
-  </div>
+        <div class="field" data-field="capacity">
+          <label for="f-capacity">Capacity / Quantity <span class="req">*</span></label>
+          <input type="text" id="f-capacity" placeholder="e.g. 30 or 5 sets" required>
+          <span class="field-error">Enter capacity or quantity.</span>
+        </div>
+      </div>
 
-  <div class="field" data-field="status">
-    <label for="f-status">Operational Status <span class="req">*</span></label>
-    <select id="f-status" required>
-      <option value="Available">Available</option>
-      <option value="Under Maintenance">Under Maintenance</option>
-      <option value="Hidden">Hidden</option>
-    </select>
-  </div>
+      <div class="field" data-field="status">
+        <label for="f-status">Operational Status <span class="req">*</span></label>
+        <select id="f-status" required>
+          <option value="Available">Available</option>
+          <option value="Under Maintenance">Under Maintenance</option>
+          <option value="Hidden">Hidden</option>
+        </select>
+      </div>
 
-  <div class="field" data-field="description">
-    <label for="f-description">Description <span class="req">*</span></label>
-    <textarea id="f-description" rows="3" placeholder="Briefly describe this facility…" required></textarea>
-    <span class="field-error">Enter a short description.</span>
-  </div>
+      <div class="field" data-field="description">
+        <label for="f-description">Description <span class="req">*</span></label>
+        <textarea id="f-description" rows="3" placeholder="Briefly describe this facility…" required></textarea>
+        <span class="field-error">Enter a short description.</span>
+      </div>
 
-  <div class="modal-actions">
-    <button type="button" class="btn btn-secondary" id="modal-cancel">Cancel</button>
-    <button type="submit" class="btn" id="modal-submit-btn">Save Facility →</button>
-  </div>
-</form>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="modal-cancel">Cancel</button>
+        <button type="submit" class="btn" id="modal-submit-btn">Save Facility →</button>
+      </div>
+    </form>
   </div>
 </div>
 
@@ -1012,21 +866,21 @@
 <div class="chat-panel" id="chat-panel">
   <div class="chat-head">
     <div>
-      <div class="title">SK Assistant</div>
-      <div class="sub">Barangay Pembo · Online</div>
+      <div class="title">SK Assistant (Live Firebase)</div>
+      <div class="sub">Barangay Pembo · Connected</div>
     </div>
     <button class="chat-close" id="chat-close">✕</button>
   </div>
   <div class="chat-body" id="chat-body">
-    <div class="chat-msg bot">Hi! I'm the SK Pembo assistant. I can help with facility availability, upcoming programs, your reservations, or announcements. What do you need?</div>
+    <div class="chat-msg bot">Hello Admin! Ask me anything in your own words—I query live Firebase facility records instantly for Barangay Pembo.</div>
   </div>
   <div class="chat-suggest">
-    <button data-msg="Is the basketball court free this weekend?">Court availability</button>
-    <button data-msg="What programs are coming up?">Upcoming programs</button>
-    <button data-msg="Where's my reservation status?">My reservation status</button>
+    <button data-msg="How many facilities are there?">Facility count</button>
+    <button data-msg="Which facilities are available?">Available venues</button>
+    <button data-msg="How do I add a new facility?">Help & guidance</button>
   </div>
   <div class="chat-input-row">
-    <input type="text" id="chat-input" placeholder="Type a message…">
+    <input type="text" id="chat-input" placeholder="Ask anything in your own words…">
     <button class="chat-send" id="chat-send">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 20l16-8L4 4l2 8-2 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
     </button>
@@ -1109,7 +963,7 @@
         if (userDocSnap.exists()) {
           const data = userDocSnap.data();
           fullName = data.fullName || data.name || data.firstName;
-          if (data.barangay) currentAdminBarangay = DEFAULT_BARANGAY;
+          if (data.barangay) currentAdminBarangay = data.barangay;
         } else {
           const q = query(collection(db, "users"), where("email", "==", user.email));
           const querySnapshot = await getDocs(q);
@@ -1171,7 +1025,7 @@
 
     let filtered = allFacilitiesData.filter(item => {
       if (currentFilter === 'all') return true;
-      return (item.type || '').toLowerCase() === currentFilter;
+      return (item.type || '').toLowerCase() === currentFilter.toLowerCase();
     });
 
     if (filtered.length === 0) {
@@ -1333,12 +1187,6 @@
   if (navChatBtn) navChatBtn.addEventListener('click', togglePanel);
   if (closeBtn) closeBtn.addEventListener('click', () => panel.classList.remove('show'));
 
-  const canned = {
-    "is the basketball court free this weekend?": "Let me check the calendar — the Basketball Court has an open slot Saturday 2:00–4:00 PM. Want me to start a reservation request for it?",
-    "what programs are coming up?": "Coming up: our Basketball Tournament and a Digital Skills Workshop this month. Tap \"Join Program\" on the home page to sign up.",
-    "where's my reservation status?": "You can see every request and its status — Pending, Approved, or Rejected — under \"My Reservations\" in the top menu."
-  };
-
   function addMsg(text, who) {
     if (!chatBody) return;
     const el = document.createElement('div');
@@ -1346,35 +1194,99 @@
     el.textContent = text;
     chatBody.appendChild(el);
     chatBody.scrollTop = chatBody.scrollHeight;
+    return el;
   }
 
-  function respond(text) {
+  function handleNaturalLanguageChat(text) {
     addMsg(text, 'user');
-    const key = text.trim().toLowerCase();
-    const reply = canned[key] || "Thanks — I've noted that.";
-    setTimeout(() => addMsg(reply, 'bot'), 500);
+    const q = text.toLowerCase();
+    const thinkingEl = addMsg("Thinking...", 'bot');
+
+    setTimeout(() => {
+      let reply = "";
+      const availableItems = allFacilitiesData.filter(f => (f.status || '').toLowerCase() === 'available');
+      const maintenanceItems = allFacilitiesData.filter(f => (f.status || '').toLowerCase() !== 'available');
+
+      if (q.includes('how many') || q.includes('total') || q.includes('count') || q.includes('list')) {
+        if (allFacilitiesData.length === 0) {
+          reply = `There are currently no facilities registered in Firebase for Barangay ${currentAdminBarangay}.`;
+        } else {
+          const names = allFacilitiesData.map(f => `${f.name} (${f.type}, Status: ${f.status})`).join(', ');
+          reply = `We have ${allFacilitiesData.length} total facility/ies in Firebase for Barangay ${currentAdminBarangay}:\n${names}`;
+        }
+      } else if (q.includes('available') || q.includes('free') || q.includes('open')) {
+        if (availableItems.length === 0) {
+          reply = `No facilities are currently marked as available in Barangay ${currentAdminBarangay}.`;
+        } else {
+          const names = availableItems.map(f => `${f.name} (${f.type}, Cap: ${f.capacity})`).join(', ');
+          reply = `Here are the currently available facilities: ${names}.`;
+        }
+      } else if (q.includes('maintenance') || q.includes('hidden') || q.includes('broken')) {
+        if (maintenanceItems.length === 0) {
+          reply = `All facilities in Barangay ${currentAdminBarangay} are fully operational and available!`;
+        } else {
+          const names = maintenanceItems.map(f => `${f.name} (${f.status})`).join(', ');
+          reply = `Facilities under maintenance or hidden: ${names}.`;
+        }
+      } else if (q.includes('search') || q.includes('find') || q.includes('court') || q.includes('hall') || q.includes('equipment')) {
+        const matches = allFacilitiesData.filter(f => 
+          f.name.toLowerCase().includes(q) || 
+          f.type.toLowerCase().includes(q) || 
+          f.description.toLowerCase().includes(q)
+        );
+        if (matches.length === 0) {
+          reply = `I searched Firebase records for "${text}", but found no matching facility.`;
+        } else {
+          const details = matches.map(m => `• ${m.name} [Type: ${m.type}, Status: ${m.status}, Cap: ${m.capacity}]`).join('\n');
+          reply = `Found ${matches.length} matching facility record(s):\n${details}`;
+        }
+      } else if (q.includes('how') || q.includes('guide') || q.includes('steps') || q.includes('add') || q.includes('help')) {
+        if (q.includes('add')) {
+          reply = `To add a facility: Click the "+ Add Facility" button at the top right of the page, fill in the name, type, capacity, status, and description, then click "Save Facility".`;
+        } else if (q.includes('toggle') || q.includes('hide')) {
+          reply = `You can toggle a facility's visibility instantly by clicking the eye icon on its table row.`;
+        } else {
+          reply = `As your admin assistant, I can check live Firebase facility records for you! You can ask things like "How many facilities?", "Which ones are available?", or search for courts/venues.`;
+        }
+      } else {
+        const tokens = q.split(' ').filter(w => w.length > 2);
+        const results = allFacilitiesData.filter(f => {
+          const blob = `${f.name} ${f.type} ${f.description} ${f.status}`.toLowerCase();
+          return tokens.some(t => blob.includes(t));
+        });
+
+        if (results.length > 0) {
+          const summary = results.map(f => `${f.name} (${f.status})`).join(', ');
+          reply = `Based on your query, I found these matching Firebase facility items: ${summary}.`;
+        } else {
+          reply = `I checked the live Firebase database for Barangay ${currentAdminBarangay}. You have ${allFacilitiesData.length} total facilities recorded (${availableItems.length} available). Feel free to ask about specific equipment, capacities, or management instructions!`;
+        }
+      }
+
+      thinkingEl.textContent = reply;
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }, 800);
   }
 
   if (sendBtn && chatInput) {
     sendBtn.addEventListener('click', () => {
       const v = chatInput.value.trim();
       if (!v) return;
-      respond(v);
+      handleNaturalLanguageChat(v);
       chatInput.value = '';
     });
-
     chatInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         const v = chatInput.value.trim();
         if (!v) return;
-        respond(v);
+        handleNaturalLanguageChat(v);
         chatInput.value = '';
       }
     });
   }
 
   document.querySelectorAll('.chat-suggest button').forEach(btn => {
-    btn.addEventListener('click', () => respond(btn.dataset.msg));
+    btn.addEventListener('click', () => handleNaturalLanguageChat(btn.dataset.msg));
   });
 
   const userMenu = document.getElementById("user-menu");

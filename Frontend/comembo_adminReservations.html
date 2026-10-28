@@ -19,7 +19,7 @@
     --line: rgba(36,34,25,0.14);
     --radius: 2px;
 
-    /* per-barangay accent */
+    /* Comembo Accent */
     --accent: #A14E2A;
     --accent-deep: #7A3B1F;
     --accent-tint: rgba(161,78,42,0.15);
@@ -196,29 +196,6 @@
     box-shadow:0 6px 0 0 var(--ink);
   }
   .btn:active{transform:translateY(0);box-shadow:0 2px 0 0 var(--ink);}
-  .btn-invert{
-    background:var(--paper);
-    border-color:var(--paper);
-    color:var(--ink);
-  }
-  .btn-invert:hover{
-    background:var(--ink);
-    border-color:var(--paper);
-    color:var(--paper);
-    box-shadow:0 6px 0 0 rgba(245,240,228,0.5);
-  }
-  .btn-outline{
-    background:transparent;
-    border-color:var(--paper);
-    color:var(--paper);
-  }
-  .btn-outline:hover{
-    background:rgba(245,240,228,0.14);
-    border-color:var(--paper);
-    color:var(--paper);
-    box-shadow:none;
-    transform:translateY(-2px);
-  }
   .btn-small{padding:9px 16px;font-size:0.82rem;}
 
   /* ---------- HERO ---------- */
@@ -270,7 +247,7 @@
     margin-top:-54px;
     position:relative;
     z-index:10;
-    margin-bottom:52px;
+    margin-bottom:32px;
   }
   .stats-grid{
     display:grid;
@@ -316,7 +293,7 @@
   .hero-page h1{font-size:clamp(1.9rem, 3vw, 2.4rem);margin:12px 0 10px;}
   .hero-page p.lede{margin-bottom:0;font-size:0.98rem;}
   .hero-page .hero-seal{width:76px;height:76px;}
-  .page-sub{padding:40px 0 8px;}
+  .page-sub{padding:20px 0 8px;}
   
   .btn-secondary-nav{
     padding:9px 16px;font-size:0.82rem;background:transparent;
@@ -326,7 +303,84 @@
     border-color:var(--accent-deep);color:var(--accent-deep);background:var(--paper-deep);transform:none;box-shadow:none;
   }
 
-  /* ---------- TABLE ---------- */
+  /* ---------- TABLE & FILTER BAR ---------- */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    background: #ffffff;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .filter-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background-color: #ffffff;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+  }
+  .filter-btn:hover { background-color: #f8fafc; }
+
+  .filter-month-picker, .filter-month-picker select {
+    padding: 0.45rem 0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: #0f172a;
+    background-color: #ffffff;
+  }
+  .filter-month-label {
+    margin-left: 0.5rem;
+    font-size: 1.05rem;
+    color: #0f172a;
+    font-weight: 600;
+  }
+
+  .filter-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #334155;
+  }
+  .filter-toggle-checkbox { width: 16px; height: 16px; accent-color: #0f172a; }
+
+  .tab-row{
+    display:flex;
+    gap:6px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+  }
+  .tab-btn{
+    background:var(--paper-deep);
+    border:1.5px solid var(--line);
+    padding:9px 16px;
+    border-radius:999px;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-weight:600;
+    font-size:0.84rem;
+    color:var(--ink-soft);
+  }
+  .tab-btn.active{background:var(--accent-deep);border-color:var(--accent-deep);color:var(--paper);}
+
   .table-card{
     background:var(--paper-deep);
     border:1.5px solid var(--ink);
@@ -372,59 +426,102 @@
   }
   .row-actions button:hover{border-color:var(--ink);color:var(--ink);}
   .row-actions button.act-approve:hover{border-color:#2E6B4F;color:#2E6B4F;}
-  .row-actions button.act-resched:hover{border-color:#B8862A;color:#B8862A;}
-  .row-actions button.act-reject:hover{border-color:var(--red-deep);color:var(--red-deep);}
+  .row-actions button.act-reschedule:hover{border-color:#B8862A;color:#B8862A;}
+  .row-actions button.act-accept-counter{border-color:#2E6B4F;color:#2E6B4F;background:rgba(46,107,79,0.12);}
 
   .status-pill{
     font-family:'IBM Plex Mono',monospace;
-    font-size:0.66rem;letter-spacing:0.04em;text-transform:uppercase;
-    padding:4px 10px;border-radius:999px;white-space:nowrap;display:inline-block;
+    font-size:0.66rem;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    padding:4px 10px;
+    border-radius:999px;
+    white-space:nowrap;
+    display:inline-block;
   }
   .status-approved{background:rgba(46,107,79,0.14);color:#1E4A36;}
   .status-pending{background:rgba(184,134,42,0.16);color:#7A5A19;}
   .status-rescheduled{background:rgba(184,134,42,0.12);color:#8F6B17;}
-  .status-cancelled{background:rgba(91,86,74,0.12);color:var(--ink-soft);}
+  .status-cancelled{background:rgba(194,32,38,0.12);color:var(--red-deep);}
 
-  /* Filter Bar */
-  .filter-bar {
-    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
-    gap: 1rem; margin-bottom: 1.5rem; background: #ffffff; padding: 1rem 1.25rem;
-    border-radius: 10px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  /* ---------- MODAL ---------- */
+  .modal-overlay{
+    display:none;
+    position:fixed; inset:0;
+    background:rgba(26,22,19,0.5);
+    z-index:1000;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
   }
-  .filter-controls { display: flex; align-items: center; gap: 0.6rem; }
-  .filter-btn {
-    background-color: #ffffff; color: #1e293b; border: 1px solid #cbd5e1;
-    font-weight: 500; cursor: pointer; padding: 0.4rem 0.8rem; border-radius: 6px;
-  }
-  .filter-btn:hover { background-color: #f8fafc; border-color: #94a3b8; }
-  .filter-month-picker { padding: 0.45rem 0.75rem; border: 1px solid #cbd5e1; border-radius: 6px; font-family: inherit; font-size: 0.9rem; }
-  .filter-month-label { margin-left: 0.5rem; font-size: 1.05rem; color: #0f172a; font-weight: 600; }
-  .filter-toggle-label { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.9rem; font-weight: 500; color: #334155; }
-  .filter-toggle-checkbox { width: 16px; height: 16px; accent-color: #0f172a; }
-
-  /* Modal */
-  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,22,19,0.5);z-index:1000;align-items:center;justify-content:center;padding:20px;}
   .modal-overlay.show{display:flex;}
-  .modal-box{background:var(--paper);border:1.5px solid var(--ink);border-radius:var(--radius);max-width:540px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 16px 0 0 rgba(0,0,0,0.15);}
-  .modal-box.narrow{max-width:440px;}
-  .modal-head{display:flex;align-items:flex-start;justify-content:space-between;padding:22px 26px;border-bottom:1px dashed var(--line);background:var(--paper-deep);}
+  .modal-box{
+    background:var(--paper);
+    border:1.5px solid var(--ink);
+    border-radius:var(--radius);
+    max-width:480px;
+    width:100%;
+    max-height:88vh;
+    overflow-y:auto;
+    box-shadow:0 16px 0 0 rgba(0,0,0,0.15);
+  }
+  .modal-head{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    padding:22px 26px;
+    border-bottom:1px dashed var(--line);
+    background:var(--paper-deep);
+  }
   .modal-head h2{font-size:1.2rem;}
-  .modal-head .tag{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent-deep);display:block;margin-bottom:6px;}
+  .modal-head .tag{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.68rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--accent-deep);
+    display:block;
+    margin-bottom:6px;
+  }
   .modal-close{background:none;border:none;font-size:1.2rem;color:var(--ink-soft);line-height:1;}
   .modal-form{padding:22px 26px 26px;}
   .field{margin-bottom:16px;display:flex;flex-direction:column;gap:6px;}
-  .field label{font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-soft);}
+  .field label{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.68rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
   .field .req{color:var(--red-deep);}
   .field input, .field select, .field textarea{
-    font-family:'IBM Plex Sans',sans-serif;font-size:0.92rem;color:var(--ink);background:var(--paper-deep);
-    border:1.5px solid var(--line);border-radius:var(--radius);padding:10px 12px;outline:none;width:100%;resize:vertical;
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:0.92rem;
+    color:var(--ink);
+    background:var(--paper-deep);
+    border:1.5px solid var(--line);
+    border-radius:var(--radius);
+    padding:10px 12px;
+    outline:none;
+    width:100%;
   }
-  .modal-actions{display:flex;gap:12px;margin-top:6px;}
+  .modal-actions{display:flex;gap:12px;margin-top:16px;}
   .modal-actions .btn{flex:1;justify-content:center;}
   .btn-secondary{background:transparent;color:var(--ink);}
-  .btn-secondary:hover{background:var(--paper-deep);box-shadow:none;transform:none;border-color:var(--ink);}
+  .btn-secondary:hover{background:var(--paper-deep);box-shadow:none;border-color:var(--ink);}
   .btn-warning{background:#B8862A;border-color:#B8862A;color:var(--paper);}
   .btn-warning:hover{background:#966E20;border-color:#966E20;}
+  
+  .reject-context{
+    font-size:0.85rem;
+    color:var(--ink-soft);
+    background:var(--paper-deep);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:12px 14px;
+    margin-bottom:18px;
+  }
+  .reject-context strong{color:var(--ink);}
 
   /* ---------- CHATBOT WIDGET ---------- */
   .chat-fab{
@@ -546,36 +643,119 @@
     flex-shrink:0;
   }
 
-  /* Toast */
+  /* ---------- TOAST ---------- */
   .toast{
-    position:fixed;top:20px;left:50%;transform:translate(-50%, -20px);background:#1E4A36;color:var(--paper);
-    padding:14px 22px;border-radius:var(--radius);font-size:0.9rem;z-index:1100;display:flex;align-items:center;
-    gap:10px;visibility:hidden;opacity:0;pointer-events:none;transition:all .3s ease;box-shadow:0 8px 0 0 rgba(0,0,0,0.15);
+    position:fixed;
+    top:20px; left:50%;
+    transform:translate(-50%, -20px);
+    background:#1E4A36;
+    color:var(--paper);
+    padding:14px 22px;
+    border-radius:var(--radius);
+    font-size:0.9rem;
+    z-index:1100;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    visibility:hidden;
+    opacity:0;
+    pointer-events:none;
+    transition:transform .3s ease, opacity .3s ease;
+    box-shadow:0 8px 0 0 rgba(0,0,0,0.15);
   }
-  .toast.show{transform:translate(-50%, 0);visibility:visible;opacity:1;pointer-events:auto;}
-  .toast.toast-red{background:var(--red-deep);}
+  .toast.show{
+    transform:translate(-50%, 0);
+    visibility:visible;
+    opacity:1;
+    pointer-events:auto;
+  }
+  .toast.toast-warning{background:#B8862A;}
 
-  /* Footer */
-  footer{padding:44px 0 36px;border-top:1px solid var(--line);}
-  .foot-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:26px;margin-bottom:30px;}
-  .foot-brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces', serif;font-weight:700;font-size:1.05rem;}
-  .foot-brand .mark{width:32px;height:32px;border-radius:50%;background:var(--black);display:flex;align-items:center;justify-content:center;color:var(--paper);font-family:'IBM Plex Mono',monospace;font-size:0.6rem;border:2px solid var(--accent);}
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:44px 0 36px;
+    border-top:1px solid var(--line);
+  }
+  .foot-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:26px;
+    margin-bottom:30px;
+  }
+  .foot-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'Fraunces', serif;
+    font-weight:700;
+    font-size:1.05rem;
+  }
+  .foot-brand .mark{
+    width:32px;height:32px;
+    border-radius:50%;
+    background:var(--black);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--paper);
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.6rem;
+    font-weight:600;
+    border:2px solid var(--accent);
+  }
   .foot-seals{display:flex;gap:12px;}
-  .foot-seals .imgwrap{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--paper-deep);display:flex;align-items:center;justify-content:center;padding:4px;}
+  .foot-seals .imgwrap{
+    width:38px;height:38px;
+    border-radius:50%;
+    border:1px solid var(--line);
+    background:var(--paper-deep);
+    display:flex;align-items:center;justify-content:center;
+    padding:4px;
+  }
   .foot-seals img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
-  .foot-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:0.78rem;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;padding-top:20px;border-top:1px solid var(--line);}
+  .foot-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    font-family:'IBM Plex Mono',monospace;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+  }
 
+  /* ---------- USER DROPDOWN ---------- */
   .user-menu{position:relative;}
-  .user-chip{cursor:pointer;font-family:inherit;color:var(--ink);transition:border-color .18s ease, background .18s ease;}
-  .user-chip:hover,.user-menu.open .user-chip{border-color:var(--accent-deep);background:var(--paper);}
+  .user-chip{cursor:pointer;font-family:inherit;color:var(--ink);}
   .user-dropdown{
-    position:absolute;right:0;top:calc(100% + 8px);min-width:180px;background:var(--paper);
-    border:1.5px solid var(--ink);border-radius:var(--radius);box-shadow:0 6px 0 0 var(--ink);padding:6px;display:none;z-index:600;
+    position:absolute;
+    right:0;
+    top:calc(100% + 8px);
+    min-width:180px;
+    background:var(--paper);
+    border:1.5px solid var(--ink);
+    border-radius:var(--radius);
+    box-shadow:0 6px 0 0 var(--ink);
+    padding:6px;
+    display:none;
+    z-index:600;
   }
   .user-menu.open .user-dropdown{display:block;}
   .dropdown-item{
-    width:100%;display:flex;align-items:center;gap:10px;padding:10px 12px;border:none;
-    background:transparent;border-radius:var(--radius);font-size:0.88rem;font-weight:600;color:var(--ink);text-align:left;
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 12px;
+    border:none;
+    background:transparent;
+    border-radius:var(--radius);
+    font-size:0.88rem;
+    font-weight:600;
+    color:var(--ink);
+    text-align:left;
   }
   .dropdown-item:hover{background:var(--paper-deep);}
   .dropdown-item.logout{color:var(--red);}
@@ -586,7 +766,7 @@
 
 <header>
   <div class="wrap nav">
-    <a href="index.html" class="brand">
+    <a href="comembo_admin.html" class="brand">
       <span class="seal"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Comembo seal"></span>
       <span class="brand-text">
         <span class="sk">SK Comembo</span>
@@ -622,7 +802,7 @@
     <div class="hero-copy">
       <div class="eyebrow">SK Barangay Comembo · Admin</div>
       <h1>Manage Reservations</h1>
-      <p class="lede">Review, approve, or propose reschedules for facility reservation requests.</p>
+      <p class="lede">Review reservation requests, approve bookings, or propose reschedules.</p>
     </div>
     <div class="hero-seal">
       <img src="../Pics/Barangay_Comembo_Seal.png" alt="Comembo seal">
@@ -641,6 +821,10 @@
       <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.6"/></svg></span>
       <div><div class="stat-num" id="count-pending">0</div><div class="stat-label">Pending Review</div></div>
     </div>
+    <div class="stat-card" data-filter="approved">
+      <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <div><div class="stat-num" id="count-approved">0</div><div class="stat-label">Approved</div></div>
+    </div>
     <div class="stat-card" data-filter="rescheduled">
       <span class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 12v1a8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0-8-8c-1.5 0-2.9.4-4 1.1L4 7m0 0v4h4" stroke="currentColor" stroke-width="1.8"/></svg></span>
       <div><div class="stat-num" id="count-rescheduled">0</div><div class="stat-label">Rescheduled</div></div>
@@ -649,29 +833,47 @@
 </div>
 
 <section class="wrap page-sub">
-  <!-- TABS -->
-  <div class="tab-row" id="tab-row">
-    <button type="button" class="tab-btn active" data-filter="all">All Requests</button>
-    <button type="button" class="tab-btn" data-filter="pending">Pending</button>
-    <button type="button" class="tab-btn" data-filter="approved">Approved</button>
-    <button type="button" class="tab-btn" data-filter="rescheduled">Rescheduled</button>
-    <button type="button" class="tab-btn" data-filter="cancelled">Cancelled</button>
+<!-- MONTH & DATE FILTER CONTROLS -->
+<div class="filter-bar">
+  <div class="filter-controls">
+    <button type="button" class="btn btn-small filter-btn" id="prev-month-btn">‹ Prev Month</button>
+    <input type="month" id="month-picker" class="filter-month-picker">
+    <button type="button" class="btn btn-small filter-btn" id="next-month-btn">Next Month ›</button>
+    <strong id="month-display" class="filter-month-label">—</strong>
   </div>
 
-  <!-- MONTH & DATE FILTER CONTROLS -->
-  <div class="filter-bar">
-    <div class="filter-controls">
-      <button type="button" class="btn btn-small filter-btn" id="prev-month-btn">‹ Prev Month</button>
-      <input type="month" id="month-picker" class="filter-month-picker">
-      <button type="button" class="btn btn-small filter-btn" id="next-month-btn">Next Month ›</button>
-      <strong id="month-display" class="filter-month-label">—</strong>
-    </div>
+  <div class="filter-controls">
+    <select id="status-filter" class="filter-month-picker">
+      <option value="all">All Statuses</option>
+      <option value="pending">Pending</option>
+      <option value="approved">Approved</option>
+      <option value="rescheduled">Rescheduled</option>
+    </select>
 
-    <label class="filter-toggle-label">
-      <input type="checkbox" id="all-dates-toggle" class="filter-toggle-checkbox">
-      Show All Dates
-    </label>
+    <select id="purpose-filter" class="filter-month-picker">
+      <option value="all">All Purposes</option>
+      <option value="Sports practice / friendly game">Sports practice / friendly game</option>
+      <option value="Barangay-organized event">Barangay-organized event</option>
+      <option value="Community meeting">Community meeting</option>
+      <option value="Birthday / personal event">Birthday / personal event</option>
+      <option value="Training / workshop">Training / workshop</option>
+      <option value="Other">Other</option>
+    </select>
   </div>
+
+  <label class="filter-toggle-label">
+    <input type="checkbox" id="all-dates-toggle" class="filter-toggle-checkbox">
+    Show All Dates
+  </label>
+</div>
+
+<!-- DYNAMIC STATUS TABS -->
+<div class="tab-row" id="tab-row">
+  <button class="tab-btn active" data-filter="all">All Requests</button>
+  <button class="tab-btn" data-filter="pending">Pending</button>
+  <button class="tab-btn" data-filter="approved">Approved</button>
+  <button class="tab-btn" data-filter="rescheduled">Rescheduled</button>
+</div>
 
   <div class="table-card">
     <table class="admin-table">
@@ -679,44 +881,48 @@
         <tr><th>Facility</th><th>Requestor</th><th>Date &amp; Time</th><th>Purpose</th><th>Status</th><th>Actions</th></tr>
       </thead>
       <tbody id="res-tbody">
-        <tr><td colspan="6" style="text-align: center; padding: 2rem; color: #777;">Loading reservations...</td></tr>
+        <tr>
+          <td colspan="6" style="text-align: center; padding: 2rem; color: #777;">
+            Loading reservations...
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
 </section>
 
-<!-- TOAST -->
 <div class="toast" id="toast">
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="#F5F0E4" stroke-width="2.2" stroke-linecap="round"/></svg>
   <span id="toast-text">Action successful.</span>
 </div>
 
 <!-- RESCHEDULE MODAL -->
-<div class="modal-overlay" id="resched-overlay">
-  <div class="modal-box narrow">
+<div class="modal-overlay" id="reschedule-overlay">
+  <div class="modal-box">
     <div class="modal-head">
       <div>
         <span class="tag">Propose Reschedule</span>
-        <h2 id="resched-ref-title">Request</h2>
+        <h2>Adjust Schedule &amp; Reason</h2>
       </div>
-      <button class="modal-close" id="resched-close">✕</button>
+      <button class="modal-close" id="reschedule-close">✕</button>
     </div>
-    <form class="modal-form" id="resched-form" novalidate>
-      <div style="font-size: 0.85rem; color: var(--ink-soft); background: var(--paper-deep); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; margin-bottom: 16px;">
-        Facility: <strong id="resched-facility-name">Facility</strong>
+    <form class="modal-form" id="reschedule-form" novalidate>
+      <div class="reject-context" id="reschedule-context">
+        Reservation: <strong id="reschedule-facility-name">Facility</strong>
       </div>
       <div class="field">
-        <label for="resched-reason">Reason for Rescheduling <span class="req">*</span></label>
-        <textarea id="resched-reason" rows="3" placeholder="e.g. Facility is booked for a barangay event." required></textarea>
+        <label for="reschedule-reason">Reason for Rescheduling <span class="req">*</span></label>
+        <textarea id="reschedule-reason" rows="3" placeholder="e.g. Conflicts with a sudden barangay assembly on this date." required></textarea>
       </div>
+
       <div class="field">
-        <label for="resched-date">Proposed New Date <span class="req">*</span></label>
-        <input type="date" id="resched-date" required>
+        <label for="new-date">Proposed New Date (Optional)</label>
+        <input type="date" id="new-date">
       </div>
+
       <div class="field">
-        <label for="resched-slot">Proposed Time Slot <span class="req">*</span></label>
-        <select id="resched-slot" required>
-          <option value="">Choose time slot...</option>
+        <label for="new-timeslot">Proposed New Time Slot (Optional)</label>
+        <select id="new-timeslot">
+          <option value="">Keep original or select new slot...</option>
           <option value="8:00 – 10:00 AM">8:00 – 10:00 AM</option>
           <option value="10:00 AM – 12:00 PM">10:00 AM – 12:00 PM</option>
           <option value="1:00 – 3:00 PM">1:00 – 3:00 PM</option>
@@ -725,9 +931,10 @@
           <option value="7:00 – 9:00 PM">7:00 – 9:00 PM</option>
         </select>
       </div>
+
       <div class="modal-actions">
-        <button type="button" class="btn btn-secondary" id="resched-cancel">Cancel</button>
-        <button type="submit" class="btn btn-warning">Send Reschedule Offer →</button>
+        <button type="button" class="btn btn-secondary" id="reschedule-cancel">Cancel</button>
+        <button type="submit" class="btn btn-warning">Send Reschedule Request →</button>
       </div>
     </form>
   </div>
@@ -747,12 +954,12 @@
     <button class="chat-close" id="chat-close">✕</button>
   </div>
   <div class="chat-body" id="chat-body">
-    <div class="chat-msg bot">Hello Admin! Ask me anything in your own words—I query live Firebase reservation records instantly for Barangay Comembo.</div>
+    <div class="chat-msg bot">Hello Admin! Ask me anything in your own words—I query live Firebase reservation records instantly to help you manage bookings.</div>
   </div>
   <div class="chat-suggest">
-    <button data-msg="Who has pending reservations?">Pending list</button>
-    <button data-msg="Show me approved bookings">Approved bookings</button>
-    <button data-msg="How do I approve or reschedule?">Workflow help</button>
+    <button data-msg="How do slot conflicts work when rescheduling?">Slot conflicts?</button>
+    <button data-msg="How do I reschedule a booking if there's a mishap?">Rescheduling steps</button>
+    <button data-msg="Show me all approved reservations">Approved summary</button>
   </div>
   <div class="chat-input-row">
     <input type="text" id="chat-input" placeholder="Ask anything in your own words…">
@@ -765,7 +972,10 @@
 <footer>
   <div class="wrap">
     <div class="foot-top">
-      <div class="foot-brand"><span class="mark">5X</span>EMBO Access</div>
+      <div class="foot-brand">
+        <span class="mark">5X</span>
+        EMBO Access
+      </div>
       <div class="foot-seals">
         <div class="imgwrap"><img src="../Pics/cembologo.png" alt="Cembo"></div>
         <div class="imgwrap"><img src="../Pics/West_Rembo_Logo.png" alt="West Rembo"></div>
@@ -781,15 +991,32 @@
   </div>
 </footer>
 
+<!-- EmailJS SDK -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script type="text/javascript">
-  (function(){ emailjs.init("f6uf6xRJONYS2voLO"); })();
+  (function(){
+    emailjs.init("f6uf6xRJONYS2voLO");
+  })();
 </script>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import { getFirestore, collection, query, where, doc, getDoc, getDocs, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+  import { 
+    getAuth, 
+    onAuthStateChanged,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import { 
+    getFirestore, 
+    collection, 
+    query, 
+    where, 
+    doc,
+    getDoc,
+    getDocs,
+    updateDoc,
+    onSnapshot
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
   const BARANGAY_NAME = "Comembo";
   const EMAILJS_SERVICE_ID = "service_u8asokk";
@@ -811,7 +1038,7 @@
   let adminFullName = "Admin";
   let allReservations = [];
   let activeStatusFilter = "all";
-  let activeReschedDocId = null;
+  let activeRescheduleDocId = null;
 
   let showAllDates = false;
   let currentDate = new Date();
@@ -823,19 +1050,58 @@
   const nextMonthBtn = document.getElementById('next-month-btn');
   const allDatesCheckbox = document.getElementById('all-dates-toggle');
 
-  const reschedOverlay = document.getElementById('resched-overlay');
-  const reschedForm = document.getElementById('resched-form');
+  const statusFilter = document.getElementById('status-filter');
+  const purposeFilter = document.getElementById('purpose-filter');
+
+  if (statusFilter) {
+    statusFilter.addEventListener('change', (e) => {
+      activeStatusFilter = e.target.value;
+      document.querySelectorAll('#tab-row .tab-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.filter === activeStatusFilter);
+      });
+      document.querySelectorAll('.stat-card').forEach(c => {
+        c.classList.toggle('active', c.dataset.filter === activeStatusFilter);
+      });
+      renderTable();
+    });
+  }
+
+  if (purposeFilter) purposeFilter.addEventListener('change', renderTable);
+
+  const rescheduleOverlay = document.getElementById('reschedule-overlay');
+  const rescheduleForm = document.getElementById('reschedule-form');
+  const rescheduleReasonInput = document.getElementById('reschedule-reason');
+  const newDateInput = document.getElementById('new-date');
+  const newTimeslotSelect = document.getElementById('new-timeslot');
 
   onAuthStateChanged(auth, async (user) => {
-    if (!user) { window.location.href = "login_page.html"; return; }
+    if (!user) {
+      window.location.href = "login_page.html";
+      return;
+    }
 
     try {
+      let fetchedName = "";
       const userDocRef = doc(db, "users", user.uid);
       const userDocSnap = await getDoc(userDocRef);
+
       if (userDocSnap.exists()) {
-        adminFullName = userDocSnap.data().fullName || userDocSnap.data().name || "Admin";
+        fetchedName = userDocSnap.data().fullName || userDocSnap.data().name || userDocSnap.data().firstName;
+      } else {
+        const q = query(collection(db, "users"), where("email", "==", user.email));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((docSnap) => {
+          if (docSnap.exists()) fetchedName = docSnap.data().fullName || docSnap.data().name || docSnap.data().firstName;
+        });
       }
-    } catch (err) { console.error(err); }
+
+      if (fetchedName) {
+        adminFullName = fetchedName;
+        document.getElementById("admin-name").textContent = `Admin - ${adminFullName}`;
+      }
+    } catch (err) {
+      console.error("Error fetching admin profile:", err);
+    }
 
     syncMonthUI();
     subscribeToReservations();
@@ -844,7 +1110,10 @@
   function subscribeToReservations() {
     const q = query(collection(db, "reservations"), where("barangay", "==", BARANGAY_NAME));
     onSnapshot(q, (snapshot) => {
-      allReservations = snapshot.docs.map(docSnap => ({ docId: docSnap.id, ...docSnap.data() }));
+      allReservations = snapshot.docs.map(docSnap => ({
+        docId: docSnap.id,
+        ...docSnap.data()
+      }));
       updateCounters();
       renderTable();
     });
@@ -854,7 +1123,9 @@
     const year = currentDate.getFullYear();
     const month = String(currentDate.getMonth() + 1).padStart(2, '0');
     if (monthPicker) monthPicker.value = `${year}-${month}`;
-    if (monthDisplay) monthDisplay.textContent = currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    if (monthDisplay) {
+      monthDisplay.textContent = currentDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    }
   }
 
   prevMonthBtn?.addEventListener('click', () => { currentDate.setMonth(currentDate.getMonth() - 1); syncMonthUI(); renderTable(); });
@@ -863,18 +1134,27 @@
     if (!e.target.value) return;
     const [y, m] = e.target.value.split('-');
     currentDate = new Date(parseInt(y), parseInt(m) - 1, 1);
-    syncMonthUI(); renderTable();
+    syncMonthUI();
+    renderTable();
   });
+
   allDatesCheckbox?.addEventListener('change', (e) => {
     showAllDates = e.target.checked;
     if (monthPicker) monthPicker.disabled = showAllDates;
+    if (prevMonthBtn) prevMonthBtn.disabled = showAllDates;
+    if (nextMonthBtn) nextMonthBtn.disabled = showAllDates;
     renderTable();
   });
 
   function updateCounters() {
+    const pendingCount = allReservations.filter(r => (r.status || '').toLowerCase() === 'pending').length;
+    const approvedCount = allReservations.filter(r => (r.status || '').toLowerCase() === 'approved').length;
+    const rescheduledCount = allReservations.filter(r => (r.status || '').toLowerCase() === 'rescheduled').length;
+
     document.getElementById('count-all').textContent = allReservations.length;
-    document.getElementById('count-pending').textContent = allReservations.filter(r => (r.status || '').toLowerCase() === 'pending').length;
-    document.getElementById('count-rescheduled').textContent = allReservations.filter(r => (r.status || '').toLowerCase() === 'rescheduled').length;
+    document.getElementById('count-pending').textContent = pendingCount;
+    document.getElementById('count-approved').textContent = approvedCount;
+    document.getElementById('count-rescheduled').textContent = rescheduledCount;
   }
 
   document.querySelectorAll('#tab-row .tab-btn, .stat-card').forEach(btn => {
@@ -883,121 +1163,220 @@
       document.querySelectorAll('#tab-row .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === filter));
       document.querySelectorAll('.stat-card').forEach(c => c.classList.toggle('active', c.dataset.filter === filter));
       activeStatusFilter = filter;
+      if (statusFilter) statusFilter.value = activeStatusFilter;
       renderTable();
     });
   });
-
-  function fmtDate(dateStr) {
-    if (!dateStr) return '—';
-    const d = new Date(dateStr + 'T00:00:00');
-    return isNaN(d) ? dateStr : d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  }
 
   function renderTable() {
     if (!tableBody) return;
     const targetYear = currentDate.getFullYear();
     const targetMonth = currentDate.getMonth();
+    const selectedPurpose = purposeFilter ? purposeFilter.value : 'all';
+
+    const todayStr = new Date().toISOString().split('T')[0];
 
     let filtered = allReservations.filter(r => {
       const statusLower = (r.status || 'pending').toLowerCase();
-      let matchesStatus = activeStatusFilter === 'all' || statusLower === activeStatusFilter;
-      let matchesDate = showAllDates || !r.date || (() => {
-        const d = new Date(r.date + 'T00:00:00');
-        return d.getFullYear() === targetYear && d.getMonth() === targetMonth;
-      })();
-      return matchesStatus && matchesDate;
+      let matchesStatus = (activeStatusFilter === 'all') ? true : (statusLower === activeStatusFilter);
+      let matchesDate = showAllDates || !r.date || (new Date(r.date + 'T00:00:00').getFullYear() === targetYear && new Date(r.date + 'T00:00:00').getMonth() === targetMonth);
+      let matchesPurpose = (selectedPurpose === 'all') || ((r.purpose || '').toLowerCase() === selectedPurpose.toLowerCase());
+      return matchesStatus && matchesDate && matchesPurpose;
     });
 
     filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     if (filtered.length === 0) {
-      tableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #777;">No reservations found.</td></tr>`;
+      tableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #777;">No reservations found matching the selected filters.</td></tr>`;
       return;
     }
 
     tableBody.innerHTML = filtered.map(r => {
       const statusLower = (r.status || 'pending').toLowerCase();
-      let actionColumn = '';
-      if (statusLower === 'pending') {
-        actionColumn = `
-          <div class="row-actions">
-            <button title="Approve" class="act-approve js-approve-btn" data-docid="${r.docId}">✓</button>
-            <button title="Propose Reschedule" class="act-resched js-resched-btn" data-docid="${r.docId}">📅</button>
-          </div>`;
-      } else if (statusLower === 'approved') {
-        actionColumn = `<span class="cell-sub">Approved</span>`;
-      } else if (statusLower === 'rescheduled') {
-        actionColumn = `<span class="cell-sub">Admin Rescheduled</span>`;
-      }
+      const isPending = statusLower === 'pending';
+      const isCounterOffer = isPending && (r.counterOffered || r.proposedDate);
+      
+      const isPastDate = r.date && r.date < todayStr;
+      
+      let actionColumn = `
+        <div class="row-actions">
+          ${isPending ? `
+            ${isCounterOffer ? `
+              <button title="Accept Counter-Offer" class="act-accept-counter js-accept-counter-btn" data-docid="${r.docId}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            ` : `
+              <button title="Approve Request" class="act-approve js-approve-btn" data-docid="${r.docId}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            `}
+          ` : ''}
+
+          ${!isPastDate ? `
+            <button title="Propose Reschedule" class="act-reschedule js-reschedule-btn" data-docid="${r.docId}">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12v1a8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0-8-8c-1.5 0-2.9.4-4 1.1L4 7m0 0v4h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          ` : ''}
+        </div>`;
 
       return `
-        <tr>
-          <td class="cell-title">${r.facilityName || 'Facility'}<div class="cell-sub">Ref: ${r.referenceNumber || r.docId}</div></td>
-          <td>${r.applicantName || '—'}<div class="cell-sub">${r.contact || '—'}</div></td>
-          <td>${fmtDate(r.date)}<div class="cell-sub">${r.timeSlot || '—'}</div></td>
+        <tr data-row data-status="${statusLower}">
+          <td class="cell-title">
+            ${r.facilityName || 'Facility'}
+            <div class="cell-sub" style="font-size:0.75rem;">Ref: ${r.referenceNumber || r.docId}</div>
+          </td>
+          <td>
+            ${r.applicantName || '—'}
+            <div class="cell-sub">${r.contact || '—'}</div>
+          </td>
+          <td>
+            ${r.date || '—'} 
+            ${isPastDate ? `<span style="color:#C22026; font-size:0.7rem; font-weight:600; display:inline-block; margin-left:4px;">(Done)</span>` : ''}
+            <div class="cell-sub">${r.timeSlot || '—'}</div>
+            ${r.proposedDate ? `<div class="cell-sub" style="color:#B8862A; font-weight:600;">Counter-Offered: ${r.proposedDate} (${r.proposedTimeSlot || 'Original slot'})</div>` : ''}
+          </td>
           <td>${r.purpose || '—'}</td>
-          <td><span class="status-pill status-${statusLower}">${r.status}</span></td>
+          <td>
+            <span class="status-pill status-${statusLower}">${r.status}</span>
+            ${isCounterOffer ? `<div class="cell-sub" style="color:#2E6B4F; font-weight:600; font-size:0.72rem;">User Counter-Offer</div>` : ''}
+          </td>
           <td>${actionColumn}</td>
         </tr>`;
     }).join('');
 
     document.querySelectorAll('.js-approve-btn').forEach(btn => btn.addEventListener('click', () => handleApprove(btn.dataset.docid)));
-    document.querySelectorAll('.js-resched-btn').forEach(btn => btn.addEventListener('click', () => openReschedModal(btn.dataset.docid)));
+    document.querySelectorAll('.js-accept-counter-btn').forEach(btn => btn.addEventListener('click', () => handleAcceptCounterOffer(btn.dataset.docid)));
+    document.querySelectorAll('.js-reschedule-btn').forEach(btn => btn.addEventListener('click', () => openRescheduleModal(btn.dataset.docid)));
   }
 
-  async function handleApprove(docId) {
-    if (!confirm("Approve this reservation?")) return;
-    try {
-      await updateDoc(doc(db, "reservations", docId), { status: "Approved", approvedBy: adminFullName });
-      showToast("Reservation approved.");
-    } catch (err) { alert("Failed to approve."); }
-  }
+  async function sendReservationEmail(reservationData, status, details = {}) {
+    let targetEmail = reservationData.userEmail || reservationData.email || reservationData.applicantEmail;
+    if (!targetEmail && reservationData.userId) {
+      try {
+        const userDocRef = doc(db, "users", reservationData.userId);
+        const userDocSnap = await getDoc(userDocRef);
+        if (userDocSnap.exists()) targetEmail = userDocSnap.data().email;
+      } catch (e) { console.error(e); }
+    }
+    if (!targetEmail) return;
 
-  function openReschedModal(docId) {
-    const r = allReservations.find(x => x.docId === docId);
-    if (!r) return;
-    activeReschedDocId = docId;
-    document.getElementById('resched-facility-name').textContent = `${r.facilityName} (${fmtDate(r.date)})`;
-    document.getElementById('resched-reason').value = '';
-    document.getElementById('resched-date').value = '';
-    document.getElementById('resched-slot').value = '';
-    reschedOverlay.classList.add('show');
-  }
+    let emailSubject = "";
+    let emailBody = "";
 
-  document.getElementById('resched-close').addEventListener('click', () => reschedOverlay.classList.remove('show'));
-  document.getElementById('resched-cancel').addEventListener('click', () => reschedOverlay.classList.remove('show'));
-
-  reschedForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const reason = document.getElementById('resched-reason').value.trim();
-    const proposedDate = document.getElementById('resched-date').value;
-    const proposedTimeSlot = document.getElementById('resched-slot').value;
-
-    if (!reason || !proposedDate || !proposedTimeSlot) {
-      alert("Please fill in all reschedule fields.");
-      return;
+    if (status === "Approved") {
+      emailSubject = `Reservation Approved - ${reservationData.referenceNumber || reservationData.facilityName}`;
+      emailBody = `Good news! Your reservation request for ${reservationData.facilityName} on ${reservationData.date} (${reservationData.timeSlot}) has been APPROVED by Barangay ${BARANGAY_NAME}.`;
+    } else if (status === "Rescheduled") {
+      emailSubject = `Reschedule Notice - ${reservationData.referenceNumber || reservationData.facilityName}`;
+      emailBody = `Barangay ${BARANGAY_NAME} has requested a reschedule for your reservation at ${reservationData.facilityName}.\n\nReason: ${details.reason}\n${details.newDate ? `Proposed Date: ${details.newDate}` : ''}\n${details.newTimeSlot ? `Proposed Time: ${details.newTimeSlot}` : ''}\n\nPlease check your account dashboard to review and confirm.`;
     }
 
     try {
-      await updateDoc(doc(db, "reservations", activeReschedDocId), {
-        status: "Rescheduled",
-        rescheduleReason: reason,
-        proposedDate: proposedDate,
-        proposedTimeSlot: proposedTimeSlot
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        to_email: targetEmail,
+        email_subject: emailSubject,
+        email_body: emailBody,
+        applicant_name: reservationData.applicantName || "Resident",
+        facility_name: reservationData.facilityName || "Facility",
+        reservation_date: reservationData.date,
+        barangay_name: BARANGAY_NAME
       });
-      reschedOverlay.classList.remove('show');
-      showToast("Reschedule proposal sent to resident.");
-    } catch (err) { alert("Failed to send reschedule."); }
+    } catch (err) { console.error("EmailJS error:", err); }
+  }
+
+  async function handleApprove(docId) {
+    const r = allReservations.find(x => x.docId === docId);
+    if (!r || !confirm("Are you sure you want to approve this reservation?")) return;
+
+    try {
+      await updateDoc(doc(db, "reservations", docId), { status: "Approved", approvedBy: adminFullName });
+      sendReservationEmail(r, "Approved");
+      showToast("Reservation approved successfully.", false);
+    } catch (err) { alert("Failed to approve."); }
+  }
+
+  async function handleAcceptCounterOffer(docId) {
+    const r = allReservations.find(x => x.docId === docId);
+    if (!r) return;
+
+    const finalDate = r.proposedDate || r.date;
+    const finalTimeSlot = r.proposedTimeSlot || r.timeSlot;
+
+    if (!confirm(`Accept resident's counter-offered schedule (${finalDate} · ${finalTimeSlot}) and approve this reservation?`)) return;
+
+    try {
+      await updateDoc(doc(db, "reservations", docId), {
+        status: "Approved",
+        date: finalDate,
+        timeSlot: finalTimeSlot,
+        proposedDate: null,
+        proposedTimeSlot: null,
+        counterOffered: false,
+        approvedBy: adminFullName
+      });
+
+      const updatedRecord = { ...r, date: finalDate, timeSlot: finalTimeSlot };
+      sendReservationEmail(updatedRecord, "Approved");
+      showToast("Counter-offer accepted and reservation approved!", false);
+    } catch (err) {
+      console.error("Error accepting counter offer:", err);
+      alert("Failed to accept counter offer.");
+    }
+  }
+
+  function openRescheduleModal(docId) {
+    const r = allReservations.find(x => x.docId === docId);
+    if (!r) return;
+    activeRescheduleDocId = docId;
+
+    document.getElementById('reschedule-facility-name').textContent = `${r.facilityName || 'Facility'} (${r.date} · ${r.timeSlot})`;
+    rescheduleReasonInput.value = '';
+    newDateInput.value = '';
+    newTimeslotSelect.value = '';
+    rescheduleOverlay.classList.add('show');
+  }
+
+  const closeRescheduleModal = () => rescheduleOverlay.classList.remove('show');
+  document.getElementById('reschedule-close').addEventListener('click', closeRescheduleModal);
+  document.getElementById('reschedule-cancel').addEventListener('click', closeRescheduleModal);
+
+  rescheduleForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const reasonText = rescheduleReasonInput.value.trim();
+    if (!reasonText) { alert("Please provide a reason."); return; }
+
+    const r = allReservations.find(x => x.docId === activeRescheduleDocId);
+    const proposedDate = newDateInput.value || null;
+    const proposedTimeSlot = newTimeslotSelect.value || null;
+
+    try {
+      await updateDoc(doc(db, "reservations", activeRescheduleDocId), {
+        status: "Rescheduled",
+        rescheduleReason: reasonText,
+        proposedDate: proposedDate,
+        proposedTimeSlot: proposedTimeSlot,
+        counterOffered: false,
+        rescheduledBy: adminFullName
+      });
+
+      if (r) {
+        sendReservationEmail(r, "Rescheduled", { reason: reasonText, newDate: proposedDate, newTimeSlot: proposedTimeSlot });
+      }
+
+      closeRescheduleModal();
+      showToast("Reschedule proposal sent to resident.", true);
+    } catch (err) { alert("Failed to save reschedule update."); }
   });
 
-  function showToast(msg) {
+  function showToast(msg, isWarning) {
     const toast = document.getElementById('toast');
     document.getElementById('toast-text').textContent = msg;
+    toast.classList.toggle('toast-warning', !!isWarning);
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 3000);
   }
 
-  // --- UPGRADED UNRESTRICTED AI / FIREBASE CHATBOT LOGIC ---
+  // --- AI / CHATBOT LOGIC ---
   const fab = document.getElementById('chat-fab');
   const panel = document.getElementById('chat-panel');
   const closeBtn = document.getElementById('chat-close');
@@ -1027,64 +1406,52 @@
 
   function handleNaturalLanguageChat(text) {
     addMsg(text, 'user');
-    const q = text.toLowerCase();
+    const q = text.toLowerCase().trim();
 
     setTimeout(() => {
       let reply = "";
-      const pendingItems = allReservations.filter(r => (r.status || '').toLowerCase() === 'pending');
       const approvedItems = allReservations.filter(r => (r.status || '').toLowerCase() === 'approved');
       const rescheduledItems = allReservations.filter(r => (r.status || '').toLowerCase() === 'rescheduled');
 
-      if (q.includes('pending') && (q.includes('who') || q.includes('list') || q.includes('names') || q.includes('show'))) {
-        if (pendingItems.length === 0) {
-          reply = `There are currently no pending reservation requests in Firebase for Barangay ${BARANGAY_NAME}.`;
-        } else {
-          const names = pendingItems.map(r => `${r.applicantName || 'Resident'} (${r.facilityName || 'Facility'} on ${r.date || 'TBD'})`).join(', ');
-          reply = `Here are the ${pendingItems.length} pending request(s) in Firebase: ${names}.`;
-        }
-      } else if (q.includes('approved') && (q.includes('who') || q.includes('list') || q.includes('names') || q.includes('show'))) {
-        if (approvedItems.length === 0) {
-          reply = `There are currently no approved bookings in Firebase for Barangay ${BARANGAY_NAME}.`;
-        } else {
-          const names = approvedItems.map(r => `${r.applicantName || 'Resident'} (${r.facilityName || 'Facility'})`).join(', ');
-          reply = `Here are the approved bookings in Firebase: ${names}.`;
-        }
-      } else if (q.includes('how many') || q.includes('total') || q.includes('count') || q.includes('status') || q.includes('summary')) {
-        reply = `Firebase Live Sync for Barangay ${BARANGAY_NAME}:\n• Total Reservations: ${allReservations.length}\n• Pending: ${pendingItems.length}\n• Approved: ${approvedItems.length}\n• Rescheduled: ${rescheduledItems.length}`;
-      } else if (q.includes('search') || q.includes('find') || q.includes('did') || q.includes('check for') || q.includes('booking by')) {
-        const matches = allReservations.filter(r => 
-          (r.applicantName && r.applicantName.toLowerCase().includes(q)) ||
-          (r.facilityName && r.facilityName.toLowerCase().includes(q)) ||
-          (r.purpose && r.purpose.toLowerCase().includes(q)) ||
-          (r.referenceNumber && r.referenceNumber.toLowerCase().includes(q))
-        );
-        if (matches.length === 0) {
-          reply = `I searched Firebase records for "${text}", but found no matching reservations.`;
-        } else {
-          const details = matches.map(m => `• ${m.applicantName} for ${m.facilityName} on ${m.date} [Status: ${m.status}]`).join('\n');
-          reply = `Found ${matches.length} matching record(s) in Firebase:\n${details}`;
-        }
-      } else if (q.includes('how') || q.includes('guide') || q.includes('steps') || q.includes('what to do') || q.includes('help')) {
-        if (q.includes('approve')) {
-          reply = `To approve a request: Find the booking under the Pending tab in the table and click the checkmark icon (✓). This updates Firebase immediately and emails the resident via EmailJS.`;
-        } else if (q.includes('reschedule') || q.includes('change date')) {
-          reply = `To reschedule: Click the calendar icon (📅) on the reservation row, enter your reason, and select a new date and time slot.`;
-        } else {
-          reply = `As your admin assistant, I can query live Firebase data for you! You can ask things like "Who has pending requests?", "Show approved bookings", "Search for court", or ask for approval guidance.`;
-        }
-      } else {
-        const tokens = q.split(' ').filter(w => w.length > 2);
-        const results = allReservations.filter(r => {
-          const blob = `${r.applicantName} ${r.facilityName} ${r.purpose} ${r.status} ${r.date}`.toLowerCase();
-          return tokens.some(t => blob.includes(t));
-        });
+      const tagalogWords = ['kumusta', 'kamusta', 'salamat', 'paano', 'ano', 'ilan', 'meron', 'wala', 'pwede', 'bakit', 'sino', 'tulong', 'paki', 'po', 'ako', 'mo', 'nyo', 'ba', 'mga', 'na', 'ang', 'sa', 'at', 'ng', 'ka', 'naman', 'yung', 'para', 'saan', 'kailan'];
+      const englishWords = ['who', 'what', 'where', 'when', 'how', 'is', 'are', 'the', 'and', 'to', 'for', 'with', 'show', 'list', 'search', 'count', 'status'];
 
-        if (results.length > 0) {
-          const summary = results.slice(0, 3).map(r => `${r.applicantName} (${r.facilityName} - ${r.status})`).join(', ');
-          reply = `Based on your query, I found these relevant Firebase records: ${summary}.`;
-        } else {
-          reply = `I checked the live Firebase database for Barangay ${BARANGAY_NAME}. You currently have ${pendingItems.length} pending and ${approvedItems.length} approved reservations. Feel free to ask about specific residents, counts, or approval steps!`;
-        }
+      const tagalogCount = tagalogWords.filter(w => q.includes(w)).length;
+      const englishCount = englishWords.filter(w => q.includes(w)).length;
+
+      let lang = 'en';
+      if (tagalogCount > 0 && englishCount > 0) lang = 'taglish';
+      else if (tagalogCount > englishCount) lang = 'tl';
+      else lang = 'en';
+
+      const isGreeting = q === 'hi' || q === 'hello' || q === 'hey' || q.includes('good morning') || q.includes('kumusta') || q.includes('kamusta');
+      const isGratitude = q.includes('thank') || q.includes('salamat') || q.includes('thanks') || q.includes('thank you');
+
+      const adminKeywords = [
+        'conflict', 'double', 'overlap', 'sabay', 'reschedule', 'resched', 'lipat', 'booking', 'reservation', 
+        'facility', 'facilities', 'search', 'find', 'hanapin', 'list', 'count', 'summary', 'report', 'ilan', 
+        'status', 'mishap', 'emergency', 'sk', 'council', 'officer', 'youth', 'equipment', 'basketball', 
+        'court', 'hall', 'capacity', 'kagamitan', 'guideline', 'rule', 'patakaran', 'cancel', 'attendees', 
+        'barangay', 'comembo', 'event', 'who', 'what', 'show', 'how', 'sino', 'ano', 'paano', 'bakit'
+      ];
+
+      const matchesData = allReservations.some(r => 
+        (r.applicantName && q.includes(r.applicantName.toLowerCase())) ||
+        (r.facilityName && q.includes(r.facilityName.toLowerCase())) ||
+        (r.referenceNumber && q.includes(r.referenceNumber.toLowerCase()))
+      );
+
+      const hasAdminKeyword = adminKeywords.some(kw => q.includes(kw));
+      const isRelevant = isGreeting || isGratitude || matchesData || hasAdminKeyword;
+
+      if (!isRelevant) {
+        reply = "I'm your SK Admin Assistant. I can help with SK Comembo facility reservations, counter-offers, slot conflicts, and schedules.";
+      } 
+      else if (isGreeting) {
+        reply = `Hello, Admin! 👋 Currently, there are **${approvedItems.length}** approved bookings and **${rescheduledItems.length}** rescheduled items loaded for Barangay Comembo. How can I help you?`;
+      }
+      else {
+        reply = `📊 **Live SK Comembo Summary:**\n• Total Bookings: ${allReservations.length}\n• Approved: ${approvedItems.length}\n• Rescheduled: ${rescheduledItems.length}`;
       }
 
       addMsg(reply, 'bot');
@@ -1112,8 +1479,17 @@
     btn.addEventListener('click', () => handleNaturalLanguageChat(btn.dataset.msg));
   });
 
-  document.getElementById('user-menu-btn').addEventListener('click', () => document.getElementById('user-menu').classList.toggle('open'));
-  document.getElementById('logout-btn').addEventListener('click', async () => { await signOut(auth); window.location.href = "login_page.html"; });
+  const userMenu = document.getElementById("user-menu");
+  document.getElementById("user-menu-btn").addEventListener("click", (e) => {
+    e.stopPropagation();
+    userMenu.classList.toggle("open");
+  });
+  document.addEventListener("click", () => userMenu.classList.remove("open"));
+  document.getElementById("logout-btn").addEventListener("click", async () => {
+    await signOut(auth);
+    window.location.href = "login_page.html";
+  });
 </script>
+
 </body>
 </html>

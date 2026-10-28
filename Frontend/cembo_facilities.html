@@ -574,7 +574,7 @@
 <header>
   <div class="wrap nav">
     <a href="cembo_page.html" class="brand">
-      <span class="seal"><img src="../Pics/cembologo.png" alt="Cembo seal" onerror="this.parentElement.textContent='SK'"></span>
+      <span class="seal"><img src="Pics/cembologo.png" alt="Cembo seal" onerror="this.parentElement.textContent='SK'"></span>
       <span class="brand-text">
         <span class="sk">SK Cembo</span>
         <span class="brgy">Youth Facility Portal</span>
@@ -588,9 +588,7 @@
       <a href="cembo_feedback.html">Feedback</a>
     </nav>
     <div class="nav-right">
-      <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-      </button>
+      
       <div class="user-chip" id="user-chip">
           <span class="avatar" id="user-avatar">--</span>
           <span id="user-name">Loading...</span>
@@ -671,11 +669,11 @@
         EMBO Access
       </div>
       <div class="foot-seals">
-        <div class="imgwrap"><img src="../Pics/cembologo.png" alt="Cembo"></div>
-        <div class="imgwrap"><img src="../Pics/West_Rembo_Logo.png" alt="West Rembo"></div>
-        <div class="imgwrap"><img src="../Pics/East_Rembo_Logo.png" alt="East Rembo"></div>
-        <div class="imgwrap"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Comembo"></div>
-        <div class="imgwrap"><img src="../Pics/pembologo.png" alt="Pembo"></div>
+        <div class="imgwrap"><img src="Pics/cembologo.png" alt="Cembo"></div>
+        <div class="imgwrap"><img src="Pics/West_Rembo_Logo.png" alt="West Rembo"></div>
+        <div class="imgwrap"><img src="Pics/East_Rembo_Logo.png" alt="East Rembo"></div>
+        <div class="imgwrap"><img src="Pics/Barangay_Comembo_Seal.png" alt="Comembo"></div>
+        <div class="imgwrap"><img src="Pics/pembologo.png" alt="Pembo"></div>
       </div>
     </div>
     <div class="foot-bottom">
@@ -805,14 +803,15 @@
     <button class="chat-close" id="chat-close">✕</button>
   </div>
   <div class="chat-body" id="chat-body">
-    <div class="chat-msg bot">Hi! Bookings are now instantly approved. Need help finding an open slot?</div>
+    <div class="chat-msg bot">Hi! I'm your SK Cembo Facility Assistant. I can help you check facility availability, capacities, booking rules, or instant reservation steps. What do you need?</div>
   </div>
   <div class="chat-suggest">
-    <button data-msg="Is the basketball court free this weekend?">Court availability</button>
-    <button data-msg="Are bookings instantly approved?">Instant approval</button>
+    <button data-msg="Is the basketball court available?">Court availability</button>
+    <button data-msg="How do instant bookings work?">Instant approval</button>
+    <button data-msg="What are the facility capacities?">Capacities &amp; limits</button>
   </div>
   <div class="chat-input-row">
-    <input type="text" id="chat-input" placeholder="Type a message…">
+    <input type="text" id="chat-input" placeholder="Type a message or question…">
     <button class="chat-send" id="chat-send">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 20l16-8L4 4l2 8-2 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
     </button>
@@ -822,7 +821,7 @@
 <div class="toast" id="toast">Reservation confirmed.</div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import { getFirestore, collection, query, where, getDocs, doc, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
@@ -850,14 +849,7 @@
   let currentFacility = null;
   let selectedSlot = null;
   let bookedSlotsForDate = [];
-  let activeSkEvents = []; // Cache for SK Events date blocking
-
-  const ICONS = {
-    "Sports Court": '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 3a9 9 0 0 0 0 18M3 12h18" stroke="currentColor" stroke-width="1.3"/></svg>',
-    "Hall": '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 21V10l8-6 8 6v11" stroke="currentColor" stroke-width="1.6"/></svg>',
-    "Function Room": '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="1.5" stroke="currentColor" stroke-width="1.6"/></svg>',
-    "Open Space": '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="7" r="3.2" stroke="currentColor" stroke-width="1.6"/></svg>'
-  };
+  let activeSkEvents = [];
 
   const SLOTS = [
     {id:"08-10", label:"8:00 – 10:00 AM"},
@@ -900,7 +892,7 @@
 
       window.currentUserContact = userContact; 
       listenToUserReservations();
-      await fetchActiveSkEvents(); // Ensure events are fetched before any interaction
+      await fetchActiveSkEvents();
     } catch (err) {
       console.error(err);
     }
@@ -998,7 +990,11 @@
 
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  const tomorrowStr = tomorrow.toISOString().slice(0, 10);
+  const yyyy = tomorrow.getFullYear();
+  const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+  const dd = String(tomorrow.getDate()).padStart(2, '0');
+  const tomorrowStr = `${yyyy}-${mm}-${dd}`;
+
   if (dateInput) dateInput.min = tomorrowStr;
 
   function openModal(facility) {
@@ -1015,7 +1011,6 @@
     document.getElementById('res-contact').value = window.currentUserContact || ''; 
     if (errorBanner) errorBanner.classList.remove('show');
 
-    // Set default date to tomorrow and load time slots normally without forcing error check on open
     if (dateInput) {
       dateInput.value = tomorrowStr;
       fetchAndRenderSlots();
@@ -1066,7 +1061,6 @@
     });
   }
 
-  // Validation function returning true if valid (not blocked), false if blocked
   function checkAndValidateDate(selectedDate) {
     if (!selectedDate || !currentFacility) return true;
 
@@ -1103,6 +1097,18 @@
 
   dateInput?.addEventListener('change', () => {
     if (!currentFacility || !dateInput.value) return;
+
+    if (dateInput.value < tomorrowStr) {
+      errorBanner.classList.add('show');
+      document.getElementById('form-error-text').textContent = 
+        '⚠️ Advance Booking Required: Reservations must be made at least 1 day in advance. Same-day reservations for today are not allowed.';
+      
+      dateInput.value = ""; 
+      selectedSlot = null;
+      if (slotGrid) slotGrid.innerHTML = "";
+      return;
+    }
+
     checkAndValidateDate(dateInput.value);
   });
 
@@ -1122,10 +1128,28 @@
         return;
       }
 
-      // Check date validity before final submit
       if (!checkAndValidateDate(selectedDate)) {
         return; 
       }
+
+      // --- NEW VALIDATION: Check max 2 bookings per user per day ---
+      try {
+        const userDayQuery = query(
+          collection(db, "reservations"),
+          where("userId", "==", currentUser.uid),
+          where("date", "==", selectedDate),
+          where("status", "==", "Approved")
+        );
+        const userDaySnap = await getDocs(userDayQuery);
+        if (userDaySnap.size >= 2) {
+          errorBanner.classList.add('show');
+          document.getElementById('form-error-text').textContent = '⚠️ Booking Limit Reached: You already have 2 active reservations on this date. Please choose another day to give others a chance!';
+          return;
+        }
+      } catch (err) {
+        console.error("Error checking user daily limits:", err);
+      }
+      // -------------------------------------------------------------
 
       const refNum = `CEMBO-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
       const slotLabel = SLOTS.find(s => s.id === selectedSlot).label;
@@ -1191,10 +1215,121 @@
     });
   }
 
-  const fab = document.getElementById('chat-fab');
-  const panel = document.getElementById('chat-panel');
-  if (fab) fab.addEventListener('click', () => panel.classList.toggle('show'));
-  document.getElementById('chat-close')?.addEventListener('click', () => panel.classList.remove('show'));
+  // --- RESIDENT FACILITY CHATBOT LOGIC ---
+  const chatFab = document.getElementById('chat-fab');
+  const chatPanel = document.getElementById('chat-panel');
+  const chatCloseBtn = document.getElementById('chat-close');
+  const chatBody = document.getElementById('chat-body');
+  const chatInput = document.getElementById('chat-input');
+  const chatSendBtn = document.getElementById('chat-send');
+
+  if (chatFab && chatPanel) {
+    chatFab.addEventListener('click', () => {
+      chatPanel.classList.toggle('show');
+      if (chatPanel.classList.contains('show') && chatInput) {
+        chatInput.focus();
+      }
+    });
+  }
+
+  if (chatCloseBtn && chatPanel) {
+    chatCloseBtn.addEventListener('click', () => {
+      chatPanel.classList.remove('show');
+    });
+  }
+
+  function appendChatMsg(text, sender) {
+    if (!chatBody) return;
+    const div = document.createElement('div');
+    div.className = `chat-msg ${sender}`;
+    div.textContent = text;
+    chatBody.appendChild(div);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function handleResidentFacilityChat(userInput) {
+    appendChatMsg(userInput, 'user');
+    const q = userInput.toLowerCase().trim();
+
+    setTimeout(() => {
+      let reply = "";
+
+      const tagalogWords = ['kumusta', 'kamusta', 'salamat', 'paano', 'ano', 'ilan', 'meron', 'wala', 'pwede', 'bakit', 'sino', 'tulong', 'paki', 'po', 'ako', 'mo', 'nyo', 'ba', 'mga', 'na', 'ang', 'sa', 'at', 'ng', 'ka', 'naman', 'yung', 'para', 'saan', 'kailan', 'libre', 'bukas', 'pasilidad'];
+      const tagalogCount = tagalogWords.filter(w => q.includes(w)).length;
+      let lang = tagalogCount > 0 ? 'tagalog' : 'en';
+
+      const facilityKeywords = [
+        'facility', 'facilities', 'court', 'courts', 'venue', 'venues', 'hall', 'rooms', 
+        'capacity', 'status', 'available', 'unavailable', 'reserve', 'reservation', 'book', 
+        'booking', 'instant', 'schedule', 'slot', 'slots', 'fee', 'free', 'basketball', 'open space',
+        'pasilidad', 'libre', 'bukas', 'paano', 'ilan', 'saan'
+      ];
+
+      const matchedFacility = rawFacilities.find(f => f.name && q.includes(f.name.toLowerCase()));
+      const hasFacilityKeyword = facilityKeywords.some(kw => q.includes(kw)) || matchedFacility;
+      
+      const isGreeting = q === 'hi' || q === 'hello' || q === 'hey' || q.includes('good morning') || q.includes('kumusta') || q.includes('kamusta');
+      const isGratitude = q.includes('thank') || q.includes('salamat') || q.includes('thanks');
+
+      if (isGreeting) {
+        reply = lang === 'tagalog'
+          ? `Hello, Resident! 👋 Mayroon kaming **${rawFacilities.length}** na active facilities sa Barangay ${PAGE_BARANGAY} na pwede mong i-reserve ngayon. Anong pasilidad ang gusto mong malaman?`
+          : `Hello, Resident! 👋 We currently have **${rawFacilities.length}** active facilities available for instant reservation in Barangay ${PAGE_BARANGAY}. What facility would you like to check?`;
+      } 
+      else if (isGratitude) {
+        reply = lang === 'tagalog' ? `Walang anuman! Sabihin mo lang kung may kailangan ka pang tulong sa pag-book.` : `You're welcome! Let me know if you need any other help with your facility bookings.`;
+      }
+      else if (!hasFacilityKeyword && !matchedFacility) {
+        reply = lang === 'tagalog'
+          ? `⚠️ Pasensya na, hindi ko alam o naiintindihan ang tanong na 'yan. Bilang Facility Assistant, mga tanong lamang tungkol sa SK Cembo facilities, availability, capacity, at instant reservations ang kaya kong sagutin.`
+          : `⚠️ I'm sorry, but I don't know the answer to that or it's outside my scope. As your Facility Assistant, I can only answer questions regarding SK Cembo facilities, availability, capacity limits, and instant booking guidelines.`;
+      }
+      else if (matchedFacility) {
+        const isAvail = matchedFacility.status === 'Available';
+        reply = lang === 'tagalog'
+          ? `📍 **${matchedFacility.name}**\n• Uri: ${matchedFacility.type}\n• Capacity: Hanggang ${matchedFacility.capacity} katao\n• Status: ${matchedFacility.status} ${isAvail ? '✅ (Pwede i-reserve)' : '❌ (Hindi available)'}\n• Description: ${matchedFacility.description || 'Wala pang description.'}`
+          : `📍 **${matchedFacility.name}**\n• Type: ${matchedFacility.type}\n• Capacity: Up to ${matchedFacility.capacity} people\n• Status: ${matchedFacility.status} ${isAvail ? '✅ (Ready for booking)' : '❌ (Currently unavailable)'}\n• Description: ${matchedFacility.description || 'No description provided.'}`;
+      }
+      else if (q.includes('list') || q.includes('all') || q.includes('lahat') || q.includes('ano') && q.includes('facility')) {
+        const sampleNames = rawFacilities.map(f => `• ${f.name} (${f.type} - ${f.status})`).join('\n');
+        reply = lang === 'tagalog'
+          ? `Narito ang mga active facilities sa Barangay ${PAGE_BARANGAY}:\n${sampleNames}\n\nI-click ang "Reserve" button sa card para makapili ng date at time slot!`
+          : `Here are the active facilities in Barangay ${PAGE_BARANGAY}:\n${sampleNames}\n\nClick the "Reserve" button on any card above to choose your date and time slot!`;
+      }
+      else if (q.includes('instant') || q.includes('approved') || q.includes('paano') || q.includes('how')) {
+        reply = lang === 'tagalog'
+          ? `⚡ **Instant Approval Policy:** Ang lahat ng facility reservations sa SK Cembo ay otomatikong na-aapprove pagka-sumite mo kung available ang napili mong time slot at walang conflict sa official SK Events!`
+          : `⚡ **Instant Approval:** All facility reservations in SK Cembo are automatically approved upon submission, provided the slot is open and there are no conflicts with official SK events!`;
+      }
+      else {
+        const availCount = rawFacilities.filter(f => f.status === 'Available').length;
+        reply = lang === 'tagalog'
+          ? `Sa kasalukuyan, may ${availCount} na available facilities para sa mga kabataan sa ${PAGE_BARANGAY}. Pwede mong hanapin o i-filter ang mga ito gamit ang search bar sa itaas.`
+          : `We currently have ${availCount} available facilities ready for youth reservations in ${PAGE_BARANGAY}. You can search or filter them using the controls at the top of the page.`;
+      }
+
+      appendChatMsg(reply, 'bot');
+    }, 400);
+  }
+
+  if (chatSendBtn && chatInput) {
+    chatSendBtn.addEventListener('click', () => {
+      const val = chatInput.value.trim();
+      if (!val) return;
+      handleResidentFacilityChat(val);
+      chatInput.value = '';
+    });
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && chatInput.value.trim()) {
+        handleResidentFacilityChat(chatInput.value.trim());
+        chatInput.value = '';
+      }
+    });
+  }
+
+  document.querySelectorAll('.chat-suggest button').forEach(btn => {
+    btn.addEventListener('click', () => handleResidentFacilityChat(btn.dataset.msg));
+  });
 </script>
 
 </body>

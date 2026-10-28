@@ -22,9 +22,9 @@
   --radius: 2px;
 
   /* SK Comembo Terracotta Palette */
-  --accent: #A64B2A;         /* Primary Terracotta */
-  --accent-deep: #78331A;    /* Darker Rust for hover states, buttons, & dark badges */
-  --accent-tint: #F2E4DC;    /* Soft translucent tint for tags, highlights, & subtle fills */
+  --accent: #A64B2A;         
+  --accent-deep: #78331A;    
+  --accent-tint: #F2E4DC;    
 }
 
   *{box-sizing:border-box;}
@@ -152,6 +152,15 @@
     gap:10px;
     flex-shrink:0;
   }
+  .icon-btn{
+    width:38px;height:38px;
+    border-radius:50%;
+    border:1.5px solid var(--line);
+    background:var(--paper-deep);
+    display:flex;align-items:center;justify-content:center;
+    transition:border-color .18s ease, background .18s ease;
+  }
+  .icon-btn:hover{border-color:var(--accent-deep);background:var(--paper);}
   .user-chip{
     display:flex;
     align-items:center;
@@ -669,10 +678,7 @@
   <div class="wrap body-grid">
 
      <!-- EVENTS LIST -->
-    <div class="events-list" id="eventsContainer">
-      
-
-    </div>
+    <div class="events-list" id="eventsContainer"></div>
 
     <!-- SIDEBAR -->
     <aside>
@@ -688,7 +694,7 @@
         <span class="side-title">Program Guidelines</span>
         <div class="feat-item">
           <h4>Eligibility Requirements</h4>
-          <p>Must be a Barangay Pembo youth resident aged 15–30. Bring a valid ID or residency proof for event verification.</p>
+          <p>Must be a Barangay Comembo youth resident aged 15–30. Bring a valid ID or residency proof for event verification.</p>
         </div>
         <div class="feat-item">
           <h4>Certificates & Benefits</h4>
@@ -696,6 +702,8 @@
         </div>
       </div>
     </aside>
+  </div>
+</section>
 
   <!-- REGISTRATION MODAL -->
   <div class="modal-overlay" id="regModal">
@@ -737,14 +745,15 @@
     <button class="chat-close" onclick="toggleChat()">✕</button>
   </div>
   <div class="chat-body" id="chatBody">
-    <div class="chat-msg bot">Hello! How can I assist you with Barangay Comembo's youth activities and event registrations?</div>
+    <div class="chat-msg bot">Hello! How can I assist you with Barangay Comembo's youth activities and event registrations? / Paano kita matutulungan tungkol sa mga events ngayon?</div>
   </div>
   <div class="chat-suggest">
-    <button onclick="quickChat('How do I join the basketball league?')">Basketball League</button>
-    <button onclick="quickChat('Where is the Multipurpose Hall?')">Venue Location</button>
+    <button onclick="quickChat('What events are coming up?')">Upcoming events</button>
+    <button onclick="quickChat('Isalin sa Tagalog')">Isalin sa Tagalog</button>
+    <button onclick="quickChat('Paano mag-register sa sports league?')">Paano mag-register?</button>
   </div>
   <div class="chat-input-row">
-    <input type="text" id="chatInput" placeholder="Ask a question..." onkeydown="if(event.key==='Enter') sendChat()">
+    <input type="text" id="chatInput" placeholder="Ask a question or request translation..." onkeydown="if(event.key==='Enter') sendChat()">
     <button class="chat-send" onclick="sendChat()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
   </div>
 </div>
@@ -791,7 +800,6 @@
     increment 
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // BARANGAY IDENTIFIER (Change this for each barangay page e.g., "Pembo", "Comembo")
   const BARANGAY_NAME = "Comembo";
 
   const firebaseConfig = {
@@ -817,7 +825,6 @@
   let selectedEventId = null;
   let selectedEventTitle = null;
 
-  // ---------- AUTH GUARD & INITIAL DATA LOAD ----------
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
       window.location.href = 'login_page.html';
@@ -825,7 +832,6 @@
     }
 
     try {
-      // 1. Fetch user profile from Firestore users collection
       const userDocRef = doc(db, "users", user.uid);
       const userDocSnap = await getDoc(userDocRef);
 
@@ -855,7 +861,6 @@
         avatarEl.textContent = user.email.charAt(0).toUpperCase();
       }
 
-      // 2. Fetch Events for this Barangay from Firestore
       await fetchBarangayEvents();
 
     } catch (err) {
@@ -870,19 +875,23 @@
       const q = query(collection(db, "events"), where("barangay", "==", BARANGAY_NAME));
       const querySnapshot = await getDocs(q);
       
+      const currentTodayStr = new Date().toISOString().split('T')[0];
+
       allEvents = [];
       querySnapshot.forEach((docSnap) => {
-        allEvents.push({ id: docSnap.id, ...docSnap.data() });
+        const evData = docSnap.data();
+        if (evData.eventDate && evData.eventDate >= currentTodayStr) {
+          allEvents.push({ id: docSnap.id, ...evData });
+        }
       });
 
       renderEvents(allEvents);
-      renderMiniCalendar(); // <-- Add this line here
+      renderMiniCalendar();
     } catch (err) {
       console.error("Error fetching events:", err);
     }
   }
 
-  // ---------- RENDER EVENTS DYNAMICALLY ----------
   window.renderEvents = function(eventsToRender) {
     if (!eventsContainer) return;
 
@@ -892,7 +901,6 @@
     }
 
     eventsContainer.innerHTML = eventsToRender.map(ev => {
-      // Parse Date for Badge Display (e.g. "2026-11-03")[cite: 8]
       let monthStr = "Nov";
       let dayStr = "01";
       if (ev.eventDate) {
@@ -907,7 +915,6 @@
       const regCount = Number(ev.registeredCount) || 0;
       const fillPercentage = Math.min(Math.round((regCount / slotCap) * 100), 100);
 
-      // Map category text to match filter attributes
       const catLower = (ev.category || "").toLowerCase();
       let dataCat = "civic";
       if (catLower.includes("sport")) dataCat = "sports";
@@ -942,7 +949,6 @@
     }).join('');
   };
 
-  // ---------- FILTER & SEARCH LOGIC ----------
   let activeCategory = 'all';
 
   window.setCategory = function(cat, btn) {
@@ -972,14 +978,12 @@
     });
   };
 
-  // ---------- REGISTRATION MODAL & PRE-FILLING ----------
   window.openRegisterModal = function(eventId, encodedTitle) {
     selectedEventId = eventId;
     selectedEventTitle = decodeURIComponent(encodedTitle);
 
     document.getElementById('modalEventTitle').innerText = `Register: ${selectedEventTitle}`;
     
-    // Pre-fill user data into form elements if available
     if (currentUserData) {
       const nameInput = document.getElementById('regFullName');
       const mobileInput = document.getElementById('regMobile');
@@ -998,7 +1002,6 @@
     selectedEventTitle = null;
   };
 
-  // ---------- SUBMIT REGISTRATION & CHECK DUPLICATES ----------
   window.handleRegisterSubmit = async function(e) {
     e.preventDefault();
     if (!selectedEventId || !currentUserData) return;
@@ -1007,7 +1010,6 @@
     const mobileInput = document.getElementById('regMobile');
 
     try {
-      // 1. Check if the user is already registered for this event
       const existingQuery = query(
         collection(db, "event_registrations"),
         where("userId", "==", currentUserData.id),
@@ -1033,10 +1035,8 @@
         registeredAt: new Date().toISOString()
       };
 
-      // 2. Save into separate 'event_registrations' collection
       await addDoc(collection(db, "event_registrations"), registrationData);
 
-      // 3. Increment 'registeredCount' on the event document in Firestore
       const eventDocRef = doc(db, "events", selectedEventId);
       await updateDoc(eventDocRef, {
         registeredCount: increment(1)
@@ -1044,8 +1044,6 @@
 
       alert('Registration successful! Your slot has been secured.');
       closeRegisterModal();
-      
-      // Refresh events list to show updated count
       await fetchBarangayEvents();
 
     } catch (err) {
@@ -1054,14 +1052,11 @@
     }
   };
 
-  let calendarDate = new Date();
-
   function renderMiniCalendar() {
     const grid = document.getElementById('miniCalGrid');
     const titleEl = document.getElementById('calMonthDisplay');
     if (!grid) return;
 
-    // Auto-switch to the month of the first loaded event if available
     let targetDate = new Date();
     if (allEvents.length > 0 && allEvents[0].eventDate) {
       const firstEvDate = new Date(allEvents[0].eventDate + "T00:00:00");
@@ -1115,7 +1110,6 @@
     grid.innerHTML = html;
   }
 
-  // ---------- CHATBOT FUNCTIONS ----------
   window.toggleChat = function() {
     document.getElementById('chatPanel').classList.toggle('show');
   };
@@ -1142,18 +1136,77 @@
     setTimeout(() => {
       const bMsg = document.createElement('div');
       bMsg.className = 'chat-msg bot';
-      if (text.toLowerCase().includes('basketball') || text.toLowerCase().includes('league')) {
-        bMsg.innerText = `Upcoming sports programs for Barangay ${BARANGAY_NAME} are listed on this page. Tap 'Register for Event' to secure your slot!`;
-      } else if (text.toLowerCase().includes('location') || text.toLowerCase().includes('hall')) {
-        bMsg.innerText = `Barangay ${BARANGAY_NAME} Hall and courts are open for scheduled youth activities.`;
-      } else {
-        bMsg.innerText = "Thank you for reaching out! For urgent assistance, visit the SK Office at the Barangay Hall.";
+
+      const q = text.toLowerCase();
+      const tagalogWords = ['kamusta', 'kumusta', 'salamat', 'paano', 'ano', 'ilan', 'meron', 'wala', 'pwede', 'bakit', 'sino', 'tulong', 'paki', 'po', 'ako', 'mo', 'nyo', 'ba', 'mga', 'na', 'ang', 'sa', 'at', 'ng', 'ka', 'isalin', 'tagalog', 'kailan', 'saan', 'kaganapan', 'programa'];
+      const tagalogCount = tagalogWords.filter(w => q.includes(w)).length;
+      const wantsTranslation = q.includes('translate') || q.includes('isalin') || q.includes('tagalog lang') || q.includes('sa tagalog');
+      
+      let forceTagalog = (tagalogCount > 0 || wantsTranslation);
+
+      const eventKeywords = [
+        'event', 'events', 'program', 'programs', 'sports', 'workshop', 'seminar', 
+        'register', 'registration', 'slot', 'slots', 'date', 'schedule', 'time', 'location', 
+        'venue', 'basketball', 'league', 'eligibility', 'certificate', 'kaganapan', 'paligsahan',
+        'isalin', 'translate', 'saan', 'kailan', 'paano', 'ano'
+      ];
+
+      const matchedEvent = allEvents.find(ev => ev.title && q.includes(ev.title.toLowerCase()));
+      const hasEventKeyword = eventKeywords.some(kw => q.includes(kw)) || matchedEvent;
+      const isGreeting = q === 'hi' || q === 'hello' || q === 'hey' || q.includes('good morning') || q.includes('kumusta');
+      const isGratitude = q.includes('thank') || q.includes('salamat') || q.includes('thanks');
+
+      let reply = "";
+
+      if (isGreeting) {
+        reply = forceTagalog
+          ? `Hello! 👋 Mayroon kaming ${allEvents.length} na aktibong programa at event sa Barangay ${BARANGAY_NAME}. Ano ang gusto mong malaman?`
+          : `Hello! 👋 We currently have ${allEvents.length} active programs and events lined up in Barangay ${BARANGAY_NAME}. What would you like to check?`;
+      } 
+      else if (isGratitude) {
+        reply = forceTagalog ? `Walang anuman! Sabihin mo lang kung may kailangan ka pang tulong.` : `You're welcome! Let me know if you need help with any other event registrations.`;
       }
+      else if (wantsTranslation) {
+        reply = `Narito ang tulong sa Tagalog: Ang SK Barangay Comembo ay nag-oorganisa ng iba't ibang sports leagues, seminars, at youth programs para sa mga residente edad 15-30. Pwede kang mag-register online nang libre! Mayroon kaming ${allEvents.length} na active events ngayon.`;
+      }
+      else if (!hasEventKeyword && !matchedEvent) {
+        reply = forceTagalog
+          ? `⚠️ Pasensya na, hindi ko alam o naiintindihan ang tanong na 'yan. Bilang Event Assistant, puro tungkol lamang sa mga SK Comembo events, schedules, at registrations ang kaya kong sagutin.`
+          : `⚠️ I'm sorry, but I don't know the answer to that or it's outside my scope. As your Event Assistant, I can only answer questions regarding SK Comembo events, schedules, program guidelines, and registrations.`;
+      }
+      else if (matchedEvent) {
+        const slotCap = Number(matchedEvent.slotCapacity) || Number(matchedEvent.capacity) || 50;
+        const regCount = Number(matchedEvent.registeredCount) || 0;
+        reply = forceTagalog
+          ? `📅 **${matchedEvent.title}**\n• Petsa: ${matchedEvent.eventDate} (${matchedEvent.eventTime || 'TBA'})\n• Lugar: ${matchedEvent.location || 'Barangay Venue'}\n• Slots: ${regCount}/${slotCap} filled\n• Deskripsyon: ${matchedEvent.description || 'Wala pang description.'}`
+          : `📅 **${matchedEvent.title}**\n• Date: ${matchedEvent.eventDate} (${matchedEvent.eventTime || 'TBA'})\n• Location: ${matchedEvent.location || 'Barangay Venue'}\n• Slots: ${regCount}/${slotCap} filled\n• Description: ${matchedEvent.description || 'No description provided.'}`;
+      }
+      else if (q.includes('list') || q.includes('upcoming') || q.includes('lahat') || q.includes('ano')) {
+        if (allEvents.length === 0) {
+          reply = forceTagalog ? `Wala pang nakasulat na upcoming events sa ngayon.` : `There are no upcoming events listed at the moment.`;
+        } else {
+          const titles = allEvents.map(e => `• ${e.title} (${e.eventDate})`).join('\n');
+          reply = forceTagalog
+            ? `Narito ang mga susunod na events sa Barangay ${BARANGAY_NAME}:\n${titles}\n\nI-click ang "Register for Event" para sumali!`
+            : `Here are the upcoming events in Barangay ${BARANGAY_NAME}:\n${titles}\n\nClick "Register for Event" on any card to secure your slot!`;
+        }
+      }
+      else if (q.includes('register') || q.includes('paano') || q.includes('how')) {
+        reply = forceTagalog
+          ? `📝 **Paano mag-register:** Piliin lamang ang event na gusto mo sa listahan, i-click ang "Register for Event" button, punan ang iyong contact details, at i-submit para agad ma-secure ang iyong slot!`
+          : `📝 **How to register:** Simply browse the events list, click the "Register for Event" button on the card you want, verify your details, and submit to instantly secure your slot!`;
+      }
+      else {
+        reply = forceTagalog
+          ? `Mayroon kaming iba't ibang sports leagues, training workshops, at civic programs sa Barangay ${BARANGAY_NAME}. Pwede mong i-filter o i-search ang mga ito sa ibabaw ng pahina!`
+          : `We host various sports leagues, educational workshops, and civic programs in Barangay ${BARANGAY_NAME}. You can browse and search through all active events right on this page!`;
+      }
+
+      bMsg.innerText = reply;
       body.appendChild(bMsg);
       body.scrollTop = body.scrollHeight;
     }, 600);
   };
 </script>
-
 </body>
 </html>

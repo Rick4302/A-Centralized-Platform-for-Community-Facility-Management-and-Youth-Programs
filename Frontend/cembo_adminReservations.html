@@ -397,6 +397,7 @@
   .row-actions button:hover{border-color:var(--ink);color:var(--ink);}
   .row-actions button.act-approve:hover{border-color:#2E6B4F;color:#2E6B4F;}
   .row-actions button.act-reschedule:hover{border-color:#B8862A;color:#B8862A;}
+  .row-actions button.act-accept-counter{border-color:#2E6B4F;color:#2E6B4F;background:rgba(46,107,79,0.12);}
 
   .status-pill{
     font-family:'IBM Plex Mono',monospace;
@@ -729,8 +730,6 @@
   .dropdown-item:hover{background:var(--paper-deep);}
   .dropdown-item.logout{color:var(--red);}
   .dropdown-item.logout:hover{background:var(--red);color:var(--paper);}
-
-  
 </style>
 </head>
 <body>
@@ -738,7 +737,7 @@
 <header>
   <div class="wrap nav">
     <a href="index.html" class="brand">
-      <span class="seal"><img src="../Pics/cembologo.png" alt="Cembo seal"></span>
+      <span class="seal"><img src="Pics/cembologo.png" alt="Cembo seal"></span>
       <span class="brand-text">
         <span class="sk">SK Cembo</span>
         <span class="brgy">Admin Console</span>
@@ -752,10 +751,7 @@
       <a href="cembo_adminFeedback.html">Feedback</a>
     </nav>
     <div class="nav-right">
-      <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-      </button>
-      <a href="cembo_facilities.html" class="btn btn-small btn-secondary-nav" style="margin-right:2px;">View Resident Site</a>
+      
       <div class="user-menu" id="user-menu">
         <button type="button" class="user-chip" id="user-menu-btn" aria-haspopup="true" aria-expanded="false">
           <span class="avatar">MS</span>
@@ -777,7 +773,7 @@
       <p class="lede">Review reservation requests, approve bookings, or propose reschedules.</p>
     </div>
     <div class="hero-seal">
-      <img src="../Pics/cembologo.png" alt="Cembo seal">
+      <img src="Pics/cembologo.png" alt="Cembo seal">
     </div>
   </div>
 </section>
@@ -927,11 +923,11 @@
         EMBO Access
       </div>
       <div class="foot-seals">
-        <div class="imgwrap"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Cembo"></div>
-        <div class="imgwrap"><img src="../Pics/West_Rembo_Logo.png" alt="West Rembo"></div>
-        <div class="imgwrap"><img src="../Pics/East_Rembo_Logo.png" alt="East Rembo"></div>
-        <div class="imgwrap"><img src="../Pics/cembologo.png" alt="Comembo"></div>
-        <div class="imgwrap"><img src="../Pics/pembologo.png" alt="Pembo"></div>
+        <div class="imgwrap"><img src="Pics/Barangay_Comembo_Seal.png" alt="Cembo"></div>
+        <div class="imgwrap"><img src="Pics/West_Rembo_Logo.png" alt="West Rembo"></div>
+        <div class="imgwrap"><img src="Pics/East_Rembo_Logo.png" alt="East Rembo"></div>
+        <div class="imgwrap"><img src="Pics/cembologo.png" alt="Comembo"></div>
+        <div class="imgwrap"><img src="Pics/pembologo.png" alt="Pembo"></div>
       </div>
     </div>
     <div class="foot-bottom">
@@ -1120,6 +1116,9 @@
     const targetMonth = currentDate.getMonth();
     const selectedPurpose = purposeFilter ? purposeFilter.value : 'all';
 
+    // Get today's date in YYYY-MM-DD format for comparison
+    const todayStr = new Date().toISOString().split('T')[0];
+
     let filtered = allReservations.filter(r => {
       const statusLower = (r.status || 'pending').toLowerCase();
       let matchesStatus = (activeStatusFilter === 'all') ? true : (statusLower === activeStatusFilter);
@@ -1137,13 +1136,31 @@
 
     tableBody.innerHTML = filtered.map(r => {
       const statusLower = (r.status || 'pending').toLowerCase();
-      let actionColumn = '';
-
-      actionColumn = `
+      const isPending = statusLower === 'pending';
+      const isCounterOffer = isPending && (r.counterOffered || r.proposedDate);
+      
+      // Check if the reservation date has already passed
+      const isPastDate = r.date && r.date < todayStr;
+      
+      let actionColumn = `
         <div class="row-actions">
-          <button title="Propose Reschedule" class="act-reschedule js-reschedule-btn" data-docid="${r.docId}">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12v1a8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0-8-8c-1.5 0-2.9.4-4 1.1L4 7m0 0v4h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
+          ${isPending ? `
+            ${isCounterOffer ? `
+              <button title="Accept Counter-Offer" class="act-accept-counter js-accept-counter-btn" data-docid="${r.docId}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            ` : `
+              <button title="Approve Request" class="act-approve js-approve-btn" data-docid="${r.docId}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            `}
+          ` : ''}
+
+          ${!isPastDate ? `
+            <button title="Propose Reschedule" class="act-reschedule js-reschedule-btn" data-docid="${r.docId}">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12v1a8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0-8-8c-1.5 0-2.9.4-4 1.1L4 7m0 0v4h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          ` : ''}
         </div>`;
 
       return `
@@ -1157,17 +1174,22 @@
             <div class="cell-sub">${r.contact || '—'}</div>
           </td>
           <td>
-            ${r.date || '—'}
+            ${r.date || '—'} 
+            ${isPastDate ? `<span style="color:#C22026; font-size:0.7rem; font-weight:600; display:inline-block; margin-left:4px;">(Done)</span>` : ''}
             <div class="cell-sub">${r.timeSlot || '—'}</div>
-            ${r.proposedDate ? `<div class="cell-sub" style="color:#B8862A;">Proposed: ${r.proposedDate} (${r.proposedTimeSlot || 'Same slot'})</div>` : ''}
+            ${r.proposedDate ? `<div class="cell-sub" style="color:#B8862A; font-weight:600;">Counter-Offered: ${r.proposedDate} (${r.proposedTimeSlot || 'Original slot'})</div>` : ''}
           </td>
           <td>${r.purpose || '—'}</td>
-          <td><span class="status-pill status-${statusLower}">${r.status}</span></td>
+          <td>
+            <span class="status-pill status-${statusLower}">${r.status}</span>
+            ${isCounterOffer ? `<div class="cell-sub" style="color:#2E6B4F; font-weight:600; font-size:0.72rem;">User Counter-Offer</div>` : ''}
+          </td>
           <td>${actionColumn}</td>
         </tr>`;
     }).join('');
 
     document.querySelectorAll('.js-approve-btn').forEach(btn => btn.addEventListener('click', () => handleApprove(btn.dataset.docid)));
+    document.querySelectorAll('.js-accept-counter-btn').forEach(btn => btn.addEventListener('click', () => handleAcceptCounterOffer(btn.dataset.docid)));
     document.querySelectorAll('.js-reschedule-btn').forEach(btn => btn.addEventListener('click', () => openRescheduleModal(btn.dataset.docid)));
   }
 
@@ -1187,7 +1209,7 @@
 
     if (status === "Approved") {
       emailSubject = `Reservation Approved - ${reservationData.referenceNumber || reservationData.facilityName}`;
-      emailBody = `Good news! Your reservation request for ${reservationData.facilityName} on ${reservationData.date} has been APPROVED by Barangay ${BARANGAY_NAME}.`;
+      emailBody = `Good news! Your reservation request for ${reservationData.facilityName} on ${reservationData.date} (${reservationData.timeSlot}) has been APPROVED by Barangay ${BARANGAY_NAME}.`;
     } else if (status === "Rescheduled") {
       emailSubject = `Reschedule Notice - ${reservationData.referenceNumber || reservationData.facilityName}`;
       emailBody = `Barangay ${BARANGAY_NAME} has requested a reschedule for your reservation at ${reservationData.facilityName}.\n\nReason: ${details.reason}\n${details.newDate ? `Proposed Date: ${details.newDate}` : ''}\n${details.newTimeSlot ? `Proposed Time: ${details.newTimeSlot}` : ''}\n\nPlease check your account dashboard to review and confirm.`;
@@ -1215,6 +1237,36 @@
       sendReservationEmail(r, "Approved");
       showToast("Reservation approved successfully.", false);
     } catch (err) { alert("Failed to approve."); }
+  }
+
+  // Handle Accepting User Counter-Offer
+  async function handleAcceptCounterOffer(docId) {
+    const r = allReservations.find(x => x.docId === docId);
+    if (!r) return;
+
+    const finalDate = r.proposedDate || r.date;
+    const finalTimeSlot = r.proposedTimeSlot || r.timeSlot;
+
+    if (!confirm(`Accept resident's counter-offered schedule (${finalDate} · ${finalTimeSlot}) and approve this reservation?`)) return;
+
+    try {
+      await updateDoc(doc(db, "reservations", docId), {
+        status: "Approved",
+        date: finalDate,
+        timeSlot: finalTimeSlot,
+        proposedDate: null,
+        proposedTimeSlot: null,
+        counterOffered: false,
+        approvedBy: adminFullName
+      });
+
+      const updatedRecord = { ...r, date: finalDate, timeSlot: finalTimeSlot };
+      sendReservationEmail(updatedRecord, "Approved");
+      showToast("Counter-offer accepted and reservation approved!", false);
+    } catch (err) {
+      console.error("Error accepting counter offer:", err);
+      alert("Failed to accept counter offer.");
+    }
   }
 
   function openRescheduleModal(docId) {
@@ -1248,6 +1300,7 @@
         rescheduleReason: reasonText,
         proposedDate: proposedDate,
         proposedTimeSlot: proposedTimeSlot,
+        counterOffered: false,
         rescheduledBy: adminFullName
       });
 
@@ -1268,7 +1321,7 @@
     setTimeout(() => toast.classList.remove('show'), 3000);
   }
 
-  // --- UPGRADED UNRESTRICTED AI / FIREBASE CHATBOT LOGIC ---
+  // --- AI / CHATBOT LOGIC ---
   const fab = document.getElementById('chat-fab');
   const panel = document.getElementById('chat-panel');
   const closeBtn = document.getElementById('chat-close');
@@ -1305,7 +1358,6 @@
       const approvedItems = allReservations.filter(r => (r.status || '').toLowerCase() === 'approved');
       const rescheduledItems = allReservations.filter(r => (r.status || '').toLowerCase() === 'rescheduled');
 
-      // 1. Language Detection Logic
       const tagalogWords = ['kumusta', 'kamusta', 'salamat', 'paano', 'ano', 'ilan', 'meron', 'wala', 'pwede', 'bakit', 'sino', 'tulong', 'paki', 'po', 'ako', 'mo', 'nyo', 'ba', 'mga', 'na', 'ang', 'sa', 'at', 'ng', 'ka', 'naman', 'yung', 'para', 'saan', 'kailan'];
       const englishWords = ['who', 'what', 'where', 'when', 'how', 'is', 'are', 'the', 'and', 'to', 'for', 'with', 'show', 'list', 'search', 'count', 'status'];
 
@@ -1313,18 +1365,13 @@
       const englishCount = englishWords.filter(w => q.includes(w)).length;
 
       let lang = 'en';
-      if (tagalogCount > 0 && englishCount > 0) {
-        lang = 'taglish';
-      } else if (tagalogCount > englishCount) {
-        lang = 'tl';
-      } else {
-        lang = 'en';
-      }
+      if (tagalogCount > 0 && englishCount > 0) lang = 'taglish';
+      else if (tagalogCount > englishCount) lang = 'tl';
+      else lang = 'en';
 
       const isGreeting = q === 'hi' || q === 'hello' || q === 'hey' || q.includes('good morning') || q.includes('kumusta') || q.includes('kamusta');
       const isGratitude = q.includes('thank') || q.includes('salamat') || q.includes('thanks') || q.includes('thank you');
 
-      // 2. Strict Administrative & Data Keywords
       const adminKeywords = [
         'conflict', 'double', 'overlap', 'sabay', 'reschedule', 'resched', 'lipat', 'booking', 'reservation', 
         'facility', 'facilities', 'search', 'find', 'hanapin', 'list', 'count', 'summary', 'report', 'ilan', 
@@ -1342,102 +1389,14 @@
       const hasAdminKeyword = adminKeywords.some(kw => q.includes(kw));
       const isRelevant = isGreeting || isGratitude || matchesData || hasAdminKeyword;
 
-      // 3. Exact Topic Handlers (Only execute if relevant)
       if (!isRelevant) {
-        if (lang === 'taglish') {
-          reply = "⚠️ Pasensya na po, pero out of scope na 'yan sa limits ko. Bilang SK Admin Assistant mo, pwede lang akong tumulong sa reservations, slot conflicts, at booking schedules ng SK Cembo.";
-        } else if (lang === 'tl') {
-          reply = "⚠️ Pasensya na po, ngunit ito ay nasa labas ng aking saklaw at kakayahan. Bilang SK Admin Assistant mo, maaari lamang akong tumulong sa mga reservation ng SK Cembo, patakaran sa slot conflicts, at iskedyul ng mga booking.";
-        } else {
-          reply = "⚠️ I'm sorry, but that is out of my scope and limits. As your SK Admin Assistant, I can only help you with SK Cembo facility reservations, data statistics, slot conflict guidelines, and booking schedules.";
-        }
+        reply = "I'm your SK Admin Assistant. I can help with SK Cembo facility reservations, counter-offers, slot conflicts, and schedules.";
       } 
       else if (isGreeting) {
-        if (lang === 'taglish') {
-          reply = `Hello, Admin! 👋 Ako ang iyong SK Cembo assistant. Sa ngayon, mayroon kang **${approvedItems.length}** approved bookings at **${rescheduledItems.length}** rescheduled items dito sa admin console. Ano ang gusto mong i-check natin?`;
-        } else if (lang === 'tl') {
-          reply = `Hello, Admin! 👋 Ako ang iyong SK Cembo assistant. Sa kasalukuyan, mayroon kang **${approvedItems.length}** na approved bookings at **${rescheduledItems.length}** na rescheduled items dito sa admin console. Paano kita matutulungan ngayon?`;
-        } else {
-          reply = `Hello, Admin! 👋 I'm your SK Cembo assistant. Currently, there are **${approvedItems.length}** approved bookings and **${rescheduledItems.length}** rescheduled items loaded in this admin console. How can I help you manage them today?`;
-        }
+        reply = `Hello, Admin! 👋 Currently, there are **${approvedItems.length}** approved bookings and **${rescheduledItems.length}** rescheduled items loaded. How can I help you?`;
       }
-      else if (isGratitude) {
-        if (lang === 'taglish') {
-          reply = `Walang anuman! Just let me know kung kailangan mo pa ng tulong sa iba pang bookings or rescheduling rules. 👍`;
-        } else if (lang === 'tl') {
-          reply = `Walang anuman! Sabihin mo lang kung kailangan mo pa ng tulong sa ibang bookings o rescheduling rules. 👍`;
-        } else {
-          reply = `You're welcome! Let me know if you need help checking any other bookings or rescheduling rules. 👍`;
-        }
-      }
-      else if (q.includes('conflict') || q.includes('double book') || q.includes('overlap') || q.includes('sabay')) {
-        if (lang === 'taglish') {
-          reply = `🔍 **Conflict Rule:** Kapag nag-propose ka ng reschedule, automatic na iche-check ng system sa Firebase para i-sure na walang ibang resident ang may active approved booking sa parehong facility, date, and time slot para maiwasan ang double-booking.`;
-        } else if (lang === 'tl') {
-          reply = `🔍 **Conflict Rule:** Kapag nag-propose ka ng reschedule, awtomatikong sinusuri ng sistema ang Firebase para matiyak na walang ibang residente ang may active at approved reservation sa parehong facility, petsa, at oras para maiwasan ang double-booking.`;
-        } else {
-          reply = `🔍 **Conflict Rule:** When you propose a reschedule, the system automatically cross-references Firebase to ensure no other resident holds an active approved booking for that exact facility, date, and time slot.`;
-        }
-      }
-      else if (q.includes('reschedule') || q.includes('mishap') || q.includes('change date') || q.includes('emergency') || q.includes('lipat')) {
-        if (lang === 'taglish') {
-          reply = `📅 **Rescheduling Workflow:** Click mo lang ang calendar clock icon sa alinmang reservation row para mag-suggest ng bagong date and time. Instant nitong ia-update ang Firebase and magpapadala ng EmailJS notice sa resident.`;
-        } else if (lang === 'tl') {
-          reply = `📅 **Rescheduling Workflow:** I-click ang calendar clock icon sa alinmang reservation row para magmungkahi ng bagong petsa at oras. Agad nitong ia-update ang Firebase at magpapadala ng EmailJS notice sa residente.`;
-        } else {
-          reply = `📅 **Rescheduling Workflow:** Click the calendar clock icon on any reservation row to suggest a new date and time. This instantly updates Firebase and triggers an EmailJS notice to the resident.`;
-        }
-      }
-      else if (q.includes('sk') || q.includes('council') || q.includes('officer') || q.includes('guideline') || q.includes('rule') || q.includes('patakaran')) {
-        if (lang === 'taglish') {
-          reply = `📋 **SK Guidelines:** Ang facilities and equipment ay para sa youth programs. Kailangan ibalik ang mga ito at least 5 minutes before matapos ang slot. For official council resolutions, coordinate kay SK Chairperson.`;
-        } else if (lang === 'tl') {
-          reply = `📋 **SK Guidelines:** Ang mga pasilidad at kagamitan ay para sa youth development. Kailangan ibalik ang mga ito nang hindi bababa sa 5 minuto bago matapos ang slot. Para sa mga opisyal na resolusyon, makipag-ugnayan sa opisina ng SK Chairperson.`;
-        } else {
-          reply = `📋 **SK Guidelines:** Facilities and equipment are meant for youth development. Borrowers must return items at least 5 minutes before slots end. For official council resolutions, please coordinate with the SK Chairperson.`;
-        }
-      }
-      else if (q.includes('equipment') || q.includes('basketball') || q.includes('court') || q.includes('hall') || q.includes('capacity') || q.includes('kagamitan')) {
-        if (lang === 'taglish') {
-          reply = `🏀 **Facility Info:** SK Cembo manages local courts, halls, and equipment. Pwede mong makita ang live reservation status nila directly sa table sa itaas.`;
-        } else if (lang === 'tl') {
-          reply = `🏀 **Facility Info:** Pinamamahalaan ng SK Cembo ang mga lokal na court, hall, at kagamitan. Makikita mo ang live status ng mga ito sa reservation table sa itaas.`;
-        } else {
-          reply = `🏀 **Facility Info:** SK Cembo manages local courts, halls, and equipment. You can review live reservation statuses directly from the table above.`;
-        }
-      }
-      else if (matchesData || q.includes('search') || q.includes('find') || q.includes('who booked') || q.includes('check') || q.includes('sino') || q.includes('hanapin')) {
-        const matches = allReservations.filter(r => 
-          (r.applicantName && q.includes(r.applicantName.toLowerCase())) ||
-          (r.facilityName && q.includes(r.facilityName.toLowerCase())) ||
-          (r.purpose && q.includes(r.purpose.toLowerCase())) ||
-          (r.referenceNumber && q.includes(r.referenceNumber.toLowerCase()))
-        );
-        if (matches.length === 0) {
-          reply = (lang === 'tl' || lang === 'taglish')
-            ? `Wala akong nakitang kaparehong reservation record para sa "${text}".`
-            : `I searched active records for "${text}", but found no matching reservations.`;
-        } else {
-          const details = matches.slice(0, 3).map(m => `• ${m.applicantName} for ${m.facilityName} on ${m.date} [Status: ${m.status}]`).join('\n');
-          reply = (lang === 'tl' || lang === 'taglish')
-            ? `May nakitang ${matches.length} matching record(s) sa ating database:\n${details}`
-            : `Found ${matches.length} matching record(s) in our database:\n${details}`;
-        }
-      }
-      else if (q.includes('approved') || q.includes('list') || q.includes('count') || q.includes('summary') || q.includes('report') || q.includes('ilan')) {
-        reply = (lang === 'tl' || lang === 'taglish')
-          ? `📊 **Live SK Cembo Summary:**\n• Total Bookings: ${allReservations.length}\n• Approved: ${approvedItems.length}\n• Rescheduled: ${rescheduledItems.length}`
-          : `📊 **Live SK Cembo Summary:**\n• Total Bookings: ${allReservations.length}\n• Approved: ${approvedItems.length}\n• Rescheduled: ${rescheduledItems.length}`;
-      }
-      // Strict Fallback for any other unrecognized admin queries
       else {
-        if (lang === 'taglish') {
-          reply = `Paki-clarify po ang tanong mo, Admin. Pwede kang magtanong tungkol sa approved bookings, slot conflict rules, o rescheduling steps!`;
-        } else if (lang === 'tl') {
-          reply = `Maaari mo bang linawin ang iyong tanong, Admin? Pwede kang magtanong tungkol sa approved bookings, patakaran sa slot conflicts, o rescheduling steps!`;
-        } else {
-          reply = `Could you please clarify your question, Admin? You can ask about approved bookings, slot conflict rules, or rescheduling steps!`;
-        }
+        reply = `📊 **Live SK Cembo Summary:**\n• Total Bookings: ${allReservations.length}\n• Approved: ${approvedItems.length}\n• Rescheduled: ${rescheduledItems.length}`;
       }
 
       addMsg(reply, 'bot');
@@ -1475,35 +1434,6 @@
     await signOut(auth);
     window.location.href = "login_page.html";
   });
-
-  // Automatically trigger the reservation's reschedule modal upon redirection from conflict resolution
-window.addEventListener('DOMContentLoaded', async () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('resolveConflict') === 'true') {
-    const targetResId = sessionStorage.getItem('targetConflictResId');
-    if (targetResId) {
-      sessionStorage.removeItem('targetConflictResId');
-      // Clean up URL parameter
-      window.history.replaceState({}, document.title, window.location.pathname);
-
-      // Small delay to ensure the reservations list table has fully loaded/rendered from Firestore
-      setTimeout(() => {
-        triggerAdminRescheduleModalForId(targetResId);
-      }, 800);
-    }
-  }
-});
-
-function triggerAdminRescheduleModalForId(resId) {
-  // Find the specific row or trigger your existing admin reschedule button/modal function for this ID
-  const rescheduleBtn = document.querySelector(`[data-res-id="${resId}"].reschedule-action-btn, [data-admin-resched="${resId}"]`);
-  
-  if (rescheduleBtn) {
-    rescheduleBtn.click(); // Automatically clicks the reschedule button to open the modal
-  } else {
-    console.warn("Reschedule button for ID not found in DOM yet. Please check your attribute selector.");
-  }
-}
 </script>
 
 </body>

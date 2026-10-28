@@ -19,7 +19,7 @@
     --line: rgba(36,34,25,0.14);
     --radius: 2px;
 
-    /* per-barangay accent */
+    /* per-barangay accent for Pembo */
     --accent: #8F171B;
     --accent-deep: #6E1215;
     --accent-tint: rgba(143,23,27,0.14);
@@ -196,26 +196,15 @@
     box-shadow:0 6px 0 0 var(--ink);
   }
   .btn:active{transform:translateY(0);box-shadow:0 2px 0 0 var(--ink);}
-  .btn-invert{
-    background:var(--paper);
-    border-color:var(--paper);
-    color:var(--ink);
-  }
-  .btn-invert:hover{
-    background:var(--ink);
-    border-color:var(--paper);
-    color:var(--paper);
-    box-shadow:0 6px 0 0 rgba(245,240,228,0.5);
-  }
   .btn-outline{
     background:transparent;
-    border-color:var(--paper);
-    color:var(--paper);
+    border-color:var(--ink);
+    color:var(--ink);
   }
   .btn-outline:hover{
-    background:rgba(245,240,228,0.14);
-    border-color:var(--paper);
-    color:var(--paper);
+    background:var(--paper-deep);
+    border-color:var(--ink);
+    color:var(--ink);
     box-shadow:none;
     transform:translateY(-2px);
   }
@@ -254,7 +243,6 @@
     max-width:52ch;
     margin-bottom:30px;
   }
-  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
   .hero-seal{
     width:96px;height:96px;
     border-radius:50%;
@@ -266,58 +254,12 @@
   }
   .hero-seal img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
 
-  /* ---------- STATS STRIP (overlaps hero/body boundary) ---------- */
-  .stats-strip{
-    margin-top:-54px;
-    position:relative;
-    z-index:10;
-    margin-bottom:52px;
-  }
-  .stats-grid{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:16px;
-  }
-  .stat-card{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:18px 20px;
-    box-shadow:0 8px 0 0 rgba(36,34,25,0.08);
-    display:flex;
-    align-items:center;
-    gap:14px;
-  }
-  .stat-card .stat-icon{
-    width:42px;height:42px;
-    border-radius:50%;
-    background:var(--accent-tint);
-    display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;
-    color:var(--accent-deep);
-  }
-  .stat-card .stat-num{
-    font-family:'Fraunces', serif;
-    font-weight:700;
-    font-size:1.5rem;
-    line-height:1;
-  }
-  .stat-card .stat-label{
-    font-size:0.76rem;
-    color:var(--ink-soft);
-    margin-top:3px;
-  }
-
-
-  /* ---------- SHARED PAGE HERO (compact variant for sub-pages) ---------- */
+  /* ---------- SHARED PAGE HERO ---------- */
   .hero-page{padding:40px 0 84px;}
   .hero-page .hero-top{margin-bottom:0;align-items:center;}
   .hero-page h1{font-size:clamp(1.9rem, 3vw, 2.4rem);margin:12px 0 10px;}
   .hero-page p.lede{margin-bottom:0;font-size:0.98rem;}
   .hero-page .hero-seal{width:76px;height:76px;}
-  .stats-strip.compact{margin-top:-48px;margin-bottom:40px;}
-  .stats-strip.compact .stats-grid{grid-template-columns:repeat(3, 1fr);}
-
 
   .page-sub{padding:40px 0 8px;}
   .btn-secondary-nav{
@@ -336,7 +278,7 @@
     box-shadow:none;
   }
 
-  /* ---------- SECTION HEAD (title + action button row) ---------- */
+  /* ---------- SECTION HEAD ---------- */
   .section-head-row{
     display:flex;
     align-items:center;
@@ -347,225 +289,66 @@
   }
   .section-head-row h2{font-size:1.2rem;}
 
-  /* ---------- MANAGEMENT TOOL CARDS (dashboard) ---------- */
-  .tool-grid{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:18px;
-    padding-bottom:80px;
+  /* ---------- FILTER BAR ---------- */
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    background: #ffffff;
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
-  .tool-card{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:22px 24px;
-    text-decoration:none;
-    color:var(--ink);
-    display:block;
-    box-shadow:0 8px 0 0 rgba(36,34,25,0.07);
-    transition:transform .18s ease, box-shadow .18s ease;
+  .filter-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
   }
-  .tool-card:hover{transform:translateY(-3px);box-shadow:0 11px 0 0 rgba(36,34,25,0.1);}
-  .tool-icon{
-    width:44px;height:44px;
-    border-radius:50%;
-    background:var(--accent-tint);
-    color:var(--accent-deep);
-    display:flex;align-items:center;justify-content:center;
-    margin-bottom:16px;
+  .filter-btn {
+    background-color: #ffffff;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
   }
-  .tool-card h3{font-size:1.05rem;margin-bottom:6px;}
-  .tool-card p{font-size:0.84rem;color:var(--ink-soft);line-height:1.5;}
-  .tool-card .go{
-    margin-top:14px;
-    font-size:0.82rem;
-    font-weight:600;
-    color:var(--accent-deep);
+  .filter-btn:hover { background-color: #f8fafc; border-color: #94a3b8; }
+  .filter-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .filter-month-picker {
+    padding: 0.45rem 0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: #0f172a;
+    background-color: #ffffff;
   }
-
-  /* ---------- TABLE ---------- */
-  .table-card{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    overflow:hidden;
-    margin-bottom:80px;
+  .filter-month-picker:disabled { background-color: #f1f5f9; cursor: not-allowed; }
+  .filter-month-label {
+    margin-left: 0.5rem;
+    font-size: 1.05rem;
+    color: #0f172a;
+    font-weight: 600;
   }
-  table.admin-table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:0.88rem;
+  .filter-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #334155;
   }
-  table.admin-table thead th{
-    text-align:left;
-    font-family:'IBM Plex Mono',monospace;
-    font-size:0.68rem;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    color:var(--ink-soft);
-    padding:14px 18px;
-    border-bottom:1.5px solid var(--line);
-    background:rgba(36,34,25,0.03);
-  }
-  table.admin-table tbody td{
-    padding:15px 18px;
-    border-bottom:1px solid var(--line);
-    vertical-align:top;
-  }
-  table.admin-table tbody tr:last-child td{border-bottom:none;}
-  table.admin-table tbody tr:hover{background:rgba(36,34,25,0.025);}
-  .cell-title{font-weight:600;}
-  .cell-sub{font-size:0.78rem;color:var(--ink-soft);margin-top:2px;}
-  .type-pill{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:0.66rem;
-    text-transform:uppercase;
-    letter-spacing:0.04em;
-    background:var(--accent-tint);
-    color:var(--accent-deep);
-    padding:3px 9px;
-    border-radius:999px;
-    white-space:nowrap;
-  }
-  .row-actions{display:flex;gap:8px;}
-  .row-actions button{
-    width:30px;height:30px;
-    border-radius:var(--radius);
-    border:1.5px solid var(--line);
-    background:var(--paper);
-    display:flex;align-items:center;justify-content:center;
-    color:var(--ink-soft);
-    transition:border-color .15s ease, color .15s ease;
-  }
-  .row-actions button:hover{border-color:var(--ink);color:var(--ink);}
-  .row-actions button.act-approve:hover{border-color:#2E6B4F;color:#2E6B4F;}
-  .row-actions button.act-reject:hover{border-color:var(--red-deep);color:var(--red-deep);}
-  .row-actions button.act-delete:hover{border-color:var(--red-deep);color:var(--red-deep);}
+  .filter-toggle-checkbox { width: 16px; height: 16px; accent-color: #0f172a; }
 
-  .status-pill{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:0.66rem;
-    letter-spacing:0.04em;
-    text-transform:uppercase;
-    padding:4px 10px;
-    border-radius:999px;
-    white-space:nowrap;
-    display:inline-block;
-  }
-  .status-available{background:rgba(46,107,79,0.14);color:#1E4A36;}
-  .status-approved{background:rgba(46,107,79,0.14);color:#1E4A36;}
-  .status-pending{background:rgba(184,134,42,0.16);color:#7A5A19;}
-  .status-rejected{background:rgba(194,32,38,0.12);color:var(--red-deep);}
-  .status-hidden{background:rgba(91,86,74,0.12);color:var(--ink-soft);}
-
-  .empty-row td{
-    text-align:center;
-    color:var(--ink-soft);
-    padding:40px 18px;
-  }
-
-   /* Date & Month Filter Controls Bar */
-.filter-bar {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  background: #ffffff;
-  padding: 1rem 1.25rem;
-  border-radius: 10px;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.filter-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.filter-btn {
-  background-color: #ffffff;
-  color: #1e293b;
-  border: 1px solid #cbd5e1;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-
-.filter-btn:hover {
-  background-color: #f8fafc;
-  border-color: #94a3b8;
-}
-
-.filter-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.filter-month-picker {
-  padding: 0.45rem 0.75rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font-family: inherit;
-  font-size: 0.9rem;
-  color: #0f172a;
-  background-color: #ffffff;
-}
-
-.filter-month-picker:disabled {
-  background-color: #f1f5f9;
-  cursor: not-allowed;
-}
-
-.filter-month-label {
-  margin-left: 0.5rem;
-  font-size: 1.05rem;
-  color: #0f172a;
-  font-weight: 600;
-}
-
-.filter-toggle-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #334155;
-}
-
-.filter-toggle-checkbox {
-  width: 16px;
-  height: 16px;
-  accent-color: #0f172a;
-}
-
-
-
-  /* ---------- TABS (reservations) ---------- */
-  .tab-row{
-    display:flex;
-    gap:6px;
-    margin-bottom:24px;
-    flex-wrap:wrap;
-  }
-  .tab-btn{
-    background:var(--paper-deep);
-    border:1.5px solid var(--line);
-    padding:9px 16px;
-    border-radius:999px;
-    font-family:'IBM Plex Sans',sans-serif;
-    font-weight:600;
-    font-size:0.84rem;
-    color:var(--ink-soft);
-  }
-  .tab-btn.active{background:var(--accent-deep);border-color:var(--accent-deep);color:var(--paper);}
-
-  /* ---------- MODAL (shared: add facility / add event / reject reason) ---------- */
+  /* ---------- MODALS ---------- */
   .modal-overlay{
     display:none;
     position:fixed; inset:0;
@@ -575,9 +358,14 @@
     justify-content:center;
     padding:20px;
   }
-  .modal-overlay.show{display:flex;}
+  .modal-overlay.show, 
+  #view-modal-overlay.show {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
 
-  /* Custom View Modal Display Fix Added Here */
   #view-modal-overlay.active-view-modal {
     display: flex !important;
     visibility: visible !important;
@@ -588,7 +376,6 @@
     inset: 0 !important;
     background: rgba(0, 0, 0, 0.5) !important;
   }
-
   .modal-box{
     background:var(--paper);
     border:1.5px solid var(--ink);
@@ -652,16 +439,6 @@
   .btn-secondary:hover{background:var(--paper-deep);box-shadow:none;transform:none;border-color:var(--ink);}
   .btn-danger{background:var(--red-deep);border-color:var(--red-deep);}
   .btn-danger:hover{background:var(--black);border-color:var(--black);}
-  .reject-context{
-    font-size:0.85rem;
-    color:var(--ink-soft);
-    background:var(--paper-deep);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:12px 14px;
-    margin-bottom:18px;
-  }
-  .reject-context strong{color:var(--ink);}
 
   /* ---------- TOAST ---------- */
   .toast{
@@ -720,6 +497,17 @@
     margin-bottom:14px;
   }
   .event-meta strong{display:block;color:var(--ink);font-weight:600;font-size:0.86rem;margin-top:2px;}
+  .type-pill{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.66rem;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    background:var(--accent-tint);
+    color:var(--accent-deep);
+    padding:3px 9px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
   .event-progress-label{
     display:flex;
     justify-content:space-between;
@@ -749,17 +537,49 @@
   .event-actions button.act-delete:hover{border-color:var(--red-deep);color:var(--red-deep);}
 
   @media (max-width: 980px){
-    .tool-grid{grid-template-columns:1fr 1fr;}
     .event-meta{grid-template-columns:1fr 1fr;}
   }
   @media (max-width: 700px){
-    .tool-grid{grid-template-columns:1fr;}
     .field-row{grid-template-columns:1fr;}
-    table.admin-table{font-size:0.8rem;}
     .event-meta{grid-template-columns:1fr;}
   }
 
+  /* ---------- CONFLICT REVIEW MODAL ---------- */
+  #event-conflict-review-modal.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(14, 12, 10, 0.75);
+    z-index: 3000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+  }
 
+  #event-conflict-review-modal.modal-overlay.show {
+    display: flex;
+  }
+
+  #event-conflict-review-modal .modal {
+    background: var(--paper, #F5F0E4);
+    border: 1.5px solid var(--ink, #242219);
+    border-radius: var(--radius, 2px);
+    width: 100%;
+    max-width: 680px;
+    box-shadow: 0 24px 0 0 rgba(14, 12, 10, 0.2);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #event-conflict-review-modal .modal-body {
+    background: var(--paper, #F5F0E4);
+    color: var(--ink, #242219);
+    padding: 24px 26px;
+    overflow-y: auto;
+    flex: 1;
+  }
 
   /* ---------- CHATBOT ---------- */
   .chat-fab{
@@ -779,7 +599,7 @@
   .chat-panel{
     position:fixed;
     bottom:96px;right:26px;
-    width:340px;
+    width:360px;
     max-width:calc(100vw - 40px);
     background:var(--paper-deep);
     border:1.5px solid var(--ink);
@@ -818,11 +638,11 @@
     display:flex;
     flex-direction:column;
     gap:10px;
-    max-height:320px;
+    max-height:300px;
     overflow-y:auto;
   }
   .chat-msg{
-    max-width:82%;
+    max-width:85%;
     padding:9px 13px;
     border-radius:var(--radius);
     font-size:0.85rem;
@@ -879,20 +699,6 @@
     color:var(--paper);
     display:flex;align-items:center;justify-content:center;
     flex-shrink:0;
-  }
-
-  @media (max-width: 980px){
-    .body-grid{grid-template-columns:1fr;}
-    .stats-grid{grid-template-columns:repeat(2, 1fr);}
-    .nav-links{display:none;}
-    .hero-seal{width:72px;height:72px;}
-  }
-  @media (max-width: 620px){
-    .stats-grid{grid-template-columns:1fr 1fr;}
-    .hero{padding:44px 0 78px;}
-    .hero-top{flex-direction:column-reverse;gap:18px;}
-    .chat-panel{right:14px;bottom:88px;}
-    .chat-fab{right:14px;bottom:18px;}
   }
 
   /* ---------- FOOTER ---------- */
@@ -1001,10 +807,11 @@
       </span>
     </a>
     <nav class="nav-links">
-      <a href="pembo_admin.html" class="">Dashboard</a>
-      <a href="pembo_adminFacilities.html" class="">Facilities</a>
-      <a href="pembo_adminReservations.html" class="">Reservations</a>
+      <a href="pembo_admin.html">Dashboard</a>
+      <a href="pembo_adminFacilities.html">Facilities</a>
+      <a href="pembo_adminReservations.html">Reservations</a>
       <a href="pembo_adminEvents.html" class="active">Events</a>
+      <a href="pembo_adminFeedback.html">Feedback</a>
     </nav>
     <div class="nav-right">
       <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
@@ -1047,40 +854,38 @@
     <button class="btn btn-small" id="add-event-btn">+ Add Event</button>
   </div>
 
- <!-- Filter & Month Controls Bar -->
-<div class="filter-bar">
-  <div class="filter-controls">
-    <button type="button" id="prev-month-btn" class="filter-btn">&lt; Prev Month</button>
-    <input type="month" id="month-picker" class="filter-month-picker">
-    <button type="button" id="next-month-btn" class="filter-btn">Next Month &gt;</button>
-    <strong id="month-display-label" class="filter-month-label"></strong>
-  </div>
+  <!-- Filter & Month Controls Bar -->
+  <div class="filter-bar">
+    <div class="filter-controls">
+      <button type="button" id="prev-month-btn" class="filter-btn">&lt; Prev Month</button>
+      <input type="month" id="month-picker" class="filter-month-picker">
+      <button type="button" id="next-month-btn" class="filter-btn">Next Month &gt;</button>
+      <strong id="month-display-label" class="filter-month-label"></strong>
+    </div>
 
-  <div class="filter-controls">
-    <!-- Category Filter Dropdown -->
-    <select id="category-filter" class="filter-month-picker">
-  <option value="all">All Categories</option>
-  <option value="Sports">Sports</option>
-  <option value="Empowerment">Empowerment</option>
-  <option value="Recreational">Recreational</option>
-  <option value="Training">Training</option>
-  <option value="Community">Community</option>
-  <option value="Other">Other</option>
-</select>
-    <!-- Status Filter Dropdown -->
-    <select id="status-filter" class="filter-month-picker">
-      <option value="upcoming">Upcoming Events</option>
-      <option value="past">Past / Done Events</option>
-      <option value="all">All Events</option>
-    </select>
+    <div class="filter-controls">
+      <select id="category-filter" class="filter-month-picker">
+        <option value="all">All Categories</option>
+        <option value="Sports">Sports</option>
+        <option value="Empowerment">Empowerment</option>
+        <option value="Recreational">Recreational</option>
+        <option value="Training">Training</option>
+        <option value="Community">Community</option>
+        <option value="Other">Other</option>
+      </select>
+      <select id="status-filter" class="filter-month-picker">
+        <option value="upcoming">Upcoming Events</option>
+        <option value="ongoing">Ongoing / Live</option>
+        <option value="past">Done / Finished</option>
+        <option value="all">All Events</option>
+      </select>
 
-    <!-- Show All Dates Checkbox -->
-    <label class="filter-toggle-label">
-      <input type="checkbox" id="show-all-dates-chk" class="filter-toggle-checkbox">
-      <span>Show All Dates</span>
-    </label>
+      <label class="filter-toggle-label">
+        <input type="checkbox" id="show-all-dates-chk" class="filter-toggle-checkbox">
+        <span>Show All Dates</span>
+      </label>
+    </div>
   </div>
-</div>
 
   <!-- Dynamic Event Cards List -->
   <div class="event-list" id="event-list"></div>
@@ -1100,6 +905,7 @@
       </div>
       <button class="modal-close" id="modal-close">✕</button>
     </div>
+
     <form class="modal-form" id="event-form" novalidate>
       <div class="field" data-field="title">
         <label for="e-title">Event Title <span class="req">*</span></label>
@@ -1121,13 +927,14 @@
             <option value="Recreational">Recreational</option>
             <option value="Training">Training</option>
             <option value="Community">Community</option>
+            <option value="Other">Other</option>
           </select>
           <span class="field-error">Select a category.</span>
         </div>
         <div class="field" data-field="capacity">
-          <label for="e-capacity">Slot Capacity <span class="req">*</span></label>
+          <label for="e-capacity">User Capacity <span class="req">*</span></label>
           <input type="number" id="e-capacity" min="1" placeholder="e.g. 60" required>
-          <span class="field-error">Enter a slot capacity.</span>
+          <span class="field-error">Enter a user capacity.</span>
         </div>
       </div>
       <div class="field-row">
@@ -1137,16 +944,18 @@
           <span class="field-error">Choose an event date.</span>
         </div>
         <div class="field" data-field="time">
-          <label for="e-time">Time <span class="req">*</span></label>
+          <label for="e-time">Event Time <span class="req">*</span></label>
           <input type="time" id="e-time" required>
           <span class="field-error">Choose a start time.</span>
         </div>
       </div>
       <div class="field-row">
         <div class="field" data-field="location">
-          <label for="e-location">Location <span class="req">*</span></label>
-          <input type="text" id="e-location" placeholder="e.g. Function Hall" required>
-          <span class="field-error">Enter a location.</span>
+          <label for="e-location">Venue / Facility Location <span class="req">*</span></label>
+          <select id="e-location" required>
+            <option value="" disabled selected>Select venue facility…</option>
+          </select>
+          <span class="field-error">Please select a venue.</span>
         </div>
         <div class="field" data-field="deadline">
           <label for="e-deadline">Registration Deadline <span class="req">*</span></label>
@@ -1154,6 +963,22 @@
           <span class="field-error">Choose a registration deadline.</span>
         </div>
       </div>
+
+      <div class="field" style="margin-top: 10px;">
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.85rem; text-transform: none; font-weight: 600; color: var(--ink);">
+          <input type="checkbox" id="e-need-resource" style="width: 16px; height: 16px; accent-color: var(--accent-deep);">
+          <span>Does this event require borrowing resources or equipment?</span>
+        </label>
+      </div>
+
+      <div class="field" id="resource-container" style="display: none;">
+        <label for="e-resource">Select Resource / Equipment <span class="req">*</span></label>
+        <select id="e-resource">
+          <option value="" disabled selected>Select equipment or resource…</option>
+        </select>
+        <span class="field-error">Please select a resource.</span>
+      </div>
+
       <div class="modal-actions">
         <button type="button" class="btn btn-secondary" id="modal-cancel">Cancel</button>
         <button type="submit" class="btn">Save Event →</button>
@@ -1161,6 +986,7 @@
     </form>
   </div>
 </div>
+
 <!-- View Registrants Modal -->
 <div id="view-modal-overlay" class="modal-overlay">
   <div class="modal-card" style="background:#fff; padding:24px; border-radius:12px; width:90%; max-width:500px; max-height:80vh; overflow-y:auto; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
@@ -1168,8 +994,33 @@
       <h3 id="view-modal-title" style="margin:0; font-size:1.25rem;">Event Registrations</h3>
       <button id="view-modal-close" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#666;" type="button">&times;</button>
     </div>
-    <div id="view-modal-body">
-      <!-- Registrant details render here dynamically -->
+    <div id="view-modal-body"></div>
+  </div>
+</div>
+
+<!-- Event Creation Conflict Review Modal -->
+<div class="modal-overlay" id="event-conflict-review-modal">
+  <div class="modal" style="max-width: 680px;">
+    <div class="modal-head" style="background: var(--accent, #8F171B);">
+      <div>
+        <div class="eyebrow" style="color: #fff;">Event Schedule Conflict</div>
+        <h2>Conflicting Resident Bookings Found</h2>
+      </div>
+      <button class="modal-close" id="rev-modal-close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="background: rgba(143,23,27,0.1); border: 1.5px solid var(--accent); padding: 14px 16px; border-radius: var(--radius); margin-bottom: 20px; font-size: 0.9rem; color: #6E1215; line-height: 1.5;">
+        ⚠️ You are trying to schedule an official SK Event on <strong id="rev-event-date"></strong> at <strong><span id="rev-facility-target"></span></strong>.<br>
+        There are <strong id="rev-conflict-count"></strong> approved resident reservation(s) on this date. Review their purposes below before deciding whether to proceed with this event.
+      </div>
+
+      <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 10px;">Conflicting Resident Bookings:</div>
+      <div id="rev-conflicts-list" style="background: var(--paper-deep); border: 1.5px solid var(--line); border-radius: var(--radius); padding: 16px; margin-bottom: 24px; display: flex; flex-direction: column; gap: 12px; max-height: 250px; overflow-y: auto; font-size: 0.88rem;"></div>
+
+      <div style="display: flex; gap: 12px; justify-content: flex-end; align-items: center; margin-top: 20px; flex-wrap: wrap;">
+        <button type="button" class="btn btn-outline" id="rev-cancel-event-btn" style="flex: 1; min-width: 180px;">Cancel &amp; Discard Event</button>
+        <button type="button" class="btn" id="rev-proceed-save-btn" style="background: var(--accent-deep); border-color: var(--accent-deep); color: #fff; flex: 1.5; min-width: 240px;">Proceed with Event &amp; Handle Reschedule →</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1204,20 +1055,20 @@
   <div class="chat-head">
     <div>
       <div class="title">SK Assistant</div>
-      <div class="sub">Barangay Pembo · Online</div>
+      <div class="sub">Barangay Pembo · Events Expert</div>
     </div>
     <button class="chat-close" id="chat-close">✕</button>
   </div>
   <div class="chat-body" id="chat-body">
-    <div class="chat-msg bot">Hi! I'm the SK Pembo assistant. I can help with facility availability, upcoming programs, your reservations, or announcements. What do you need?</div>
+    <div class="chat-msg bot">Hi! I'm the SK Pembo event assistant. I can help you review event counts, schedules, venues, and participant lists. What do you need?</div>
   </div>
   <div class="chat-suggest">
-    <button data-msg="Is the basketball court free this weekend?">Court availability</button>
-    <button data-msg="What programs are coming up?">Upcoming programs</button>
-    <button data-msg="Where's my reservation status?">My reservation status</button>
+    <button data-msg="How many events are upcoming?">Upcoming count</button>
+    <button data-msg="List sports events">Sports events</button>
+    <button data-msg="Which event has the most registrations?">Popular event</button>
   </div>
   <div class="chat-input-row">
-    <input type="text" id="chat-input" placeholder="Type a message…">
+    <input type="text" id="chat-input" placeholder="Ask about events, counts, venues…">
     <button class="chat-send" id="chat-send">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 20l16-8L4 4l2 8-2 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
     </button>
@@ -1238,11 +1089,9 @@
     addDoc, 
     updateDoc,
     deleteDoc, 
-    onSnapshot, 
-    serverTimestamp 
+    onSnapshot 
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // Firebase Configuration
   const firebaseConfig = {
     apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
     authDomain: "embo-access.firebaseapp.com",
@@ -1256,11 +1105,10 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  const PAGE_BARANGAY = "Pembo"; // Set the barangay for this admin page
+  const PAGE_BARANGAY = "Pembo";
   let allFetchedEventDocs = [];
-  let editingEventId = null; // Track if editing an existing event
+  let editingEventId = null;
 
-  // DOM Elements
   const overlay = document.getElementById('modal-overlay');
   const modalTitle = document.getElementById('modal-title');
   const form = document.getElementById('event-form');
@@ -1268,7 +1116,6 @@
   const toastText = document.getElementById('toast-text');
   const eventList = document.getElementById('event-list');
 
-  // Filter Elements
   const categoryFilter = document.getElementById('category-filter');
   const statusFilter = document.getElementById('status-filter');
   const monthPicker = document.getElementById('month-picker');
@@ -1277,31 +1124,25 @@
   const monthDisplayLabel = document.getElementById('month-display-label');
   const showAllDatesChk = document.getElementById('show-all-dates-chk');
 
-  // View Modal DOM Elements
-const viewOverlay = document.getElementById('view-modal-overlay');
-const viewTitle = document.getElementById('view-modal-title');
-const viewBody = document.getElementById('view-modal-body');
-const viewClose = document.getElementById('view-modal-close');
+  const viewOverlay = document.getElementById('view-modal-overlay');
+  const viewTitle = document.getElementById('view-modal-title');
+  const viewBody = document.getElementById('view-modal-body');
+  const viewClose = document.getElementById('view-modal-close');
 
-// Close handlers
-if (viewClose) {
-  viewClose.onclick = () => {
-    if (viewOverlay) {
-      viewOverlay.classList.remove('active-view-modal');
-    }
-  };
-}
+  if (viewClose) {
+    viewClose.onclick = () => {
+      if (viewOverlay) viewOverlay.classList.remove('active-view-modal');
+    };
+  }
 
-if (viewOverlay) {
-  viewOverlay.onclick = (e) => {
-    if (e.target === viewOverlay) {
-      viewOverlay.classList.remove('active-view-modal');
-    }
-  };
-}
+  if (viewOverlay) {
+    viewOverlay.onclick = (e) => {
+      if (e.target === viewOverlay) viewOverlay.classList.remove('active-view-modal');
+    };
+  }
 
-  // Initialize Month Picker
   const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
   let selectedYear = today.getFullYear();
   let selectedMonth = String(today.getMonth() + 1).padStart(2, '0');
   
@@ -1316,13 +1157,6 @@ if (viewOverlay) {
     if (monthDisplayLabel) monthDisplayLabel.textContent = labelText;
   }
 
-  function setError(fieldEl, hasError) {
-    if (!fieldEl) return;
-    fieldEl.classList.toggle('has-error', hasError);
-    const input = fieldEl.querySelector('input, select, textarea');
-    if (input) input.classList.toggle('error', hasError);
-  }
-
   function showToast(msg, isRed) {
     if (!toast || !toastText) return;
     toastText.textContent = msg;
@@ -1331,11 +1165,12 @@ if (viewOverlay) {
     setTimeout(() => toast.classList.remove('show'), 3200);
   }
 
-  // Add Event Button Handler
   document.getElementById('add-event-btn').addEventListener('click', () => {
-    editingEventId = null; // Clear edit state
+    editingEventId = null;
     modalTitle.textContent = 'Add Event';
     form.reset();
+    loadFacilityAndResourceDropdowns();
+    if (resourceContainer) resourceContainer.style.display = 'none';
     form.querySelectorAll('.field').forEach(f => f.classList.remove('has-error'));
     overlay.classList.add('show');
   });
@@ -1344,75 +1179,195 @@ if (viewOverlay) {
   document.getElementById('modal-cancel').addEventListener('click', () => overlay.classList.remove('show'));
   overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); });
 
-  // Form Submit Handler (Create or Update)
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    let valid = true;
+  const needResourceCheckbox = document.getElementById('e-need-resource');
+  const resourceContainer = document.getElementById('resource-container');
 
-    const fields = ['title', 'description', 'category', 'capacity', 'date', 'time', 'location', 'deadline'].map(id => {
-      const el = document.getElementById('e-' + id);
-      return [el, el && el.value && (el.type !== 'number' || Number(el.value) > 0)];
-    });
-
-    fields.forEach(([el, ok]) => { 
-      if (el) {
-        setError(el.closest('.field'), !ok); 
-        if (!ok) valid = false; 
+  if (needResourceCheckbox && resourceContainer) {
+    needResourceCheckbox.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        resourceContainer.style.display = 'flex';
+        document.getElementById('e-resource').setAttribute('required', 'true');
+      } else {
+        resourceContainer.style.display = 'none';
+        document.getElementById('e-resource').removeAttribute('required');
+        document.getElementById('e-resource').value = '';
       }
     });
+  }
 
-    if (!valid) return;
+  async function loadFacilityAndResourceDropdowns() {
+    const venueSelect = document.getElementById('e-location');
+    const resourceSelect = document.getElementById('e-resource');
+    if (!venueSelect || !resourceSelect) return;
 
-    const submitBtn = form.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    submitBtn.textContent = editingEventId ? "Updating..." : "Saving...";
+    try {
+      const facQuery = query(collection(db, "facilities"), where("barangay", "==", PAGE_BARANGAY));
+      const snap = await getDocs(facQuery);
+      
+      let venueOptions = '<option value="" disabled selected>Select venue facility…</option>';
+      let resourceOptions = '<option value="" disabled selected>Select equipment or resource…</option>';
 
-    const payload = {
+      snap.forEach(docSnap => {
+        const fac = docSnap.data();
+        if (fac.status !== "Hidden") {
+          const facType = (fac.type || '').trim().toLowerCase();
+          if (facType === 'venue' || facType === 'court') {
+            venueOptions += `<option value="${fac.name}">${fac.name} (${fac.type})</option>`;
+          } else if (facType === 'resource') {
+            resourceOptions += `<option value="${fac.name}">${fac.name}</option>`;
+          }
+        }
+      });
+
+      venueSelect.innerHTML = venueOptions;
+      resourceSelect.innerHTML = resourceOptions;
+    } catch (err) {
+      console.error("Error loading facilities and resources:", err);
+    }
+  }
+
+  loadFacilityAndResourceDropdowns();
+
+  let storedEventPayload = null;
+  let storedConflicts = [];
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const eventDate = document.getElementById('e-date').value;
+    const currentTodayStr = new Date().toISOString().split('T')[0];
+
+    if (eventDate < currentTodayStr) {
+      alert("Error: You cannot create or schedule an event for a date that has already passed.");
+      return;
+    }
+
+    const locationName = document.getElementById('e-location').value;
+    const resourceName = document.getElementById('e-need-resource')?.checked 
+      ? document.getElementById('e-resource').value 
+      : null;
+
+    storedEventPayload = {
       barangay: PAGE_BARANGAY,
       title: document.getElementById('e-title').value.trim(),
       description: document.getElementById('e-description').value.trim(),
       category: document.getElementById('e-category').value,
       slotCapacity: parseInt(document.getElementById('e-capacity').value, 10) || 0,
-      eventDate: document.getElementById('e-date').value,
+      eventDate: eventDate,
       eventTime: document.getElementById('e-time').value,
-      location: document.getElementById('e-location').value.trim(),
-      deadline: document.getElementById('e-deadline').value
+      location: locationName,
+      resourceNeeded: resourceName || "",
+      deadline: document.getElementById('e-deadline').value,
+      createdAt: new Date()
     };
 
     try {
-      if (editingEventId) {
-        // Update Existing Document
-        const eventDocRef = doc(db, "events", editingEventId);
-        await updateDoc(eventDocRef, payload);
-        showToast(`${payload.title} updated successfully!`);
-      } else {
-        // Create New Document
-        payload.registeredCount = 0;
-        payload.createdAt = serverTimestamp();
-        await addDoc(collection(db, "events"), payload);
-        showToast(`${payload.title} added successfully!`);
+      const qRes = query(
+        collection(db, "reservations"),
+        where("barangay", "==", PAGE_BARANGAY),
+        where("date", "==", eventDate),
+        where("status", "==", "Approved")
+      );
+      const snap = await getDocs(qRes);
+      storedConflicts = [];
+
+      snap.forEach(docSnap => {
+        const resData = docSnap.data();
+        const matchesVenue = (resData.facilityName || '').trim().toLowerCase() === locationName.trim().toLowerCase();
+        const matchesResource = resourceName && (resData.facilityName || '').trim().toLowerCase() === resourceName.trim().toLowerCase();
+        
+        if (matchesVenue || matchesResource) {
+          storedConflicts.push({ id: docSnap.id, ...resData });
+        }
+      });
+
+      if (storedConflicts.length > 0) {
+        openEventConflictReviewModal(storedEventPayload, storedConflicts);
+        return;
       }
 
+      if (editingEventId) {
+        await updateDoc(doc(db, "events", editingEventId), storedEventPayload);
+        showToast("Event updated successfully.");
+      } else {
+        await addDoc(collection(db, "events"), storedEventPayload);
+        showToast("Official SK Event published successfully!");
+      }
       overlay.classList.remove('show');
-      form.reset();
-      editingEventId = null;
+
     } catch (err) {
-      console.error("Error saving/updating event:", err);
-      showToast("Failed to save event.", true);
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Save Event →";
+      console.error("Error validating event conflicts:", err);
+      alert("An error occurred while checking facility conflicts.");
     }
   });
 
-  // Client-Side Filter Logic (Category, Status, Month)
+  function openEventConflictReviewModal(payload, conflicts) {
+    const modalOverlay = document.getElementById('event-conflict-review-modal');
+    if (!modalOverlay) return;
+
+    if (overlay) overlay.classList.remove('show');
+
+    document.getElementById('rev-event-date').textContent = payload.eventDate;
+    document.getElementById('rev-facility-target').textContent = payload.location + (payload.resourceNeeded ? ` & ${payload.resourceNeeded}` : '');
+    document.getElementById('rev-conflict-count').textContent = conflicts.length;
+
+    const listContainer = document.getElementById('rev-conflicts-list');
+    listContainer.innerHTML = conflicts.map((c, index) => `
+      <div style="padding-bottom: 10px; border-bottom: ${index < conflicts.length - 1 ? '1px dashed var(--line)' : 'none'};">
+        <div><strong>Resident:</strong> ${c.applicantName} (${c.contact})</div>
+        <div><strong>Reference:</strong> <span style="font-family:'IBM Plex Mono',monospace;">${c.referenceNumber}</span> | <strong>Slot:</strong> ${c.timeSlot}</div>
+        <div style="margin-top: 4px;"><strong>Purpose:</strong> <span style="color: var(--red-deep); font-weight: 600;">"${c.purpose}"</span></div>
+        ${c.notes ? `<div style="font-size:0.82rem; color:var(--ink-soft);">Notes: ${c.notes}</div>` : ''}
+      </div>
+    `).join('');
+
+    modalOverlay.classList.add('show');
+
+    document.getElementById('rev-cancel-event-btn').onclick = () => {
+      storedEventPayload = null;
+      storedConflicts = [];
+      modalOverlay.classList.remove('show');
+      alert("Event creation cancelled and discarded.");
+    };
+
+    document.getElementById('rev-modal-close').onclick = () => {
+      modalOverlay.classList.remove('show');
+    };
+
+    document.getElementById('rev-proceed-save-btn').onclick = async () => {
+      try {
+        if (editingEventId) {
+          await updateDoc(doc(db, "events", editingEventId), storedEventPayload);
+        } else {
+          await addDoc(collection(db, "events"), storedEventPayload);
+        }
+
+        for (const c of storedConflicts) {
+          const resRef = doc(db, "reservations", c.id);
+          await updateDoc(resRef, { 
+            status: "Reschedule Required",
+            adminNotice: `Overridden by official SK Event: "${payload.title}"` 
+          });
+        }
+
+        sessionStorage.setItem('targetConflictResId', storedConflicts[0].id);
+        modalOverlay.classList.remove('show');
+        window.location.href = 'pembo_adminReservations.html?resolveConflict=true';
+
+      } catch (err) {
+        console.error("Error saving event during override:", err);
+        alert("Failed to save event.");
+      }
+    };
+  }
+
   function applyFiltersAndRender() {
     if (!allFetchedEventDocs.length) {
       eventList.innerHTML = '<p style="padding: 20px; color: #666;">No events found for Barangay Pembo.</p>';
       return;
     }
 
-    const todayStr = new Date().toISOString().split('T')[0];
+    const currentTodayStr = new Date().toISOString().split('T')[0];
     const selectedCategory = categoryFilter ? categoryFilter.value : 'all';
     const selectedStatus = statusFilter ? statusFilter.value : 'upcoming';
     const showAllDates = showAllDatesChk ? showAllDatesChk.checked : false;
@@ -1421,18 +1376,19 @@ if (viewOverlay) {
     const filteredDocs = allFetchedEventDocs.filter(docSnap => {
       const ev = docSnap.data();
       const evDate = ev.eventDate || "";
-      const isPast = evDate < todayStr;
+      
+      let statusType = "upcoming";
+      if (evDate < currentTodayStr) statusType = "past";
+      else if (evDate === currentTodayStr) statusType = "ongoing";
 
-      // 1. Category Filter
       if (selectedCategory !== 'all' && ev.category !== selectedCategory) {
         return false;
       }
 
-      // 2. Status Filter
-      if (selectedStatus === 'upcoming' && isPast) return false;
-      if (selectedStatus === 'past' && !isPast) return false;
+      if (selectedStatus !== 'all' && statusType !== selectedStatus) {
+        return false;
+      }
 
-      // 3. Month Filter
       if (!showAllDates && currentMonthVal) {
         if (!evDate.startsWith(currentMonthVal)) return false;
       }
@@ -1440,208 +1396,202 @@ if (viewOverlay) {
       return true;
     });
 
-    renderEvents(filteredDocs, todayStr);
+    renderEvents(filteredDocs, currentTodayStr);
   }
 
-  // Render Events Function
-function renderEvents(docs, todayStr) {
-  eventList.innerHTML = '';
+  function renderEvents(docs, currentTodayStr) {
+    eventList.innerHTML = '';
 
-  if (docs.length === 0) {
-    eventList.innerHTML = '<p style="padding: 20px; color: #666;">No events match the selected filters.</p>';
-    return;
-  }
+    if (docs.length === 0) {
+      eventList.innerHTML = '<p style="padding: 20px; color: #666;">No events match the selected filters.</p>';
+      return;
+    }
 
-  docs.forEach(docSnap => {
-    const ev = docSnap.data();
-    const eventId = docSnap.id;
-    const registeredCount = ev.registeredCount || 0;
-    const capacity = ev.slotCapacity || 0;
-    const spotsLeft = Math.max(0, capacity - registeredCount);
-    const percentage = capacity > 0 ? Math.min(100, (registeredCount / capacity) * 100).toFixed(1) : 0;
-    
-    const isPast = ev.eventDate < todayStr;
-    const statusTagHtml = isPast 
-      ? '<span style="background:#f8d7da; color:#721c24; padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:600;">Past / Done</span>' 
-      : '<span style="background:#d4edda; color:#155724; padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:600;">Upcoming</span>';
-
-    const card = document.createElement('div');
-    card.className = 'event-card';
-
-    card.innerHTML = `
-      <div class="event-top">
-        <div class="event-title-row" style="display:flex; align-items:center; gap:8px;">
-          <h3>${ev.title}</h3>
-          <span class="type-pill">${ev.category}</span>
-          ${statusTagHtml}
-        </div>
-        <div class="event-actions">
-          <button type="button" class="btn-view-card">👁 View</button>
-          <button type="button" class="btn-edit-card">Edit</button>
-          <button type="button" class="btn-delete-card act-delete">Delete</button>
-        </div>
-      </div>
-      <p class="event-desc">${ev.description}</p>
-      <div class="event-meta">
-        <div>Date<strong>${ev.eventDate}</strong></div>
-        <div>Time<strong>${ev.eventTime}</strong></div>
-        <div>Location<strong>${ev.location}</strong></div>
-        <div>Deadline<strong>${ev.deadline}</strong></div>
-      </div>
-      <div class="event-progress-label"><span>Registrations</span><span>${registeredCount} / ${capacity} (${spotsLeft} spots left)</span></div>
-      <div class="event-progress-bar"><div class="event-progress-fill" style="width:${percentage}%;"></div></div>
-    `;
-
-// 1. VIEW BUTTON (Updated to read `firstname`, `lastname`, and `mobile` from users collection)
-const viewBtn = card.querySelector('.btn-view-card');
-viewBtn.addEventListener('click', async (e) => {
-  e.stopPropagation();
-  console.log("View clicked for:", ev.title);
-
-  if (viewOverlay && viewTitle && viewBody) {
-    viewTitle.textContent = `${ev.title} - Registrants`;
-    viewBody.innerHTML = `
-      <div style="font-size:0.95rem; line-height:1.6; color:#1e293b; margin-bottom:14px;">
-        <p style="margin:4px 0;"><strong>Category:</strong> ${ev.category}</p>
-        <p style="margin:4px 0;"><strong>Location:</strong> ${ev.location}</p>
-        <p style="margin:4px 0;"><strong>Date & Time:</strong> ${ev.eventDate} at ${ev.eventTime}</p>
-        <p style="margin:4px 0;"><strong>Registrations:</strong> ${registeredCount} / ${capacity} (${spotsLeft} spots remaining)</p>
-      </div>
-      <hr style="margin:16px 0; border:0; border-top:1px solid #cbd5e1;">
-      <h4 style="margin:0 0 10px 0; font-size:1rem; color:#0f172a;">List of Registered Residents:</h4>
-      <div id="registrants-list-container">
-        <p style="color:#64748b; font-size:0.9rem; font-style:italic;">Loading registrants...</p>
-      </div>
-    `;
-
-    // Show modal immediately
-    viewOverlay.classList.add('active-view-modal');
-
-    const container = document.getElementById('registrants-list-container');
-
-    try {
-      let registrantsData = [];
-
-      // Query your Firestore collection `event_registrations`
-      const regQuery = query(collection(db, "event_registrations"), where("eventId", "==", eventId));
-      const regSnapshot = await getDocs(regQuery);
+    docs.forEach(docSnap => {
+      const ev = docSnap.data();
+      const eventId = docSnap.id;
+      const registeredCount = ev.registeredCount || 0;
+      const capacity = ev.slotCapacity || 0;
+      const spotsLeft = Math.max(0, capacity - registeredCount);
+      const percentage = capacity > 0 ? Math.min(100, (registeredCount / capacity) * 100).toFixed(1) : 0;
       
-      regSnapshot.forEach(docSnap => {
-        registrantsData.push({ id: docSnap.id, ...docSnap.data() });
+      const evDate = ev.eventDate || "";
+      let statusBadgeHtml = '<span style="background:#d4edda; color:#155724; padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:600;">Upcoming</span>';
+      
+      if (evDate < currentTodayStr) {
+        statusBadgeHtml = '<span style="background:#f8d7da; color:#721c24; padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:600;">Done / Finished</span>';
+      } else if (evDate === currentTodayStr) {
+        statusBadgeHtml = '<span style="background:#fff3cd; color:#856404; padding:2px 8px; border-radius:12px; font-size:0.75rem; font-weight:600;">● Ongoing / Live</span>';
+      }
+
+      const card = document.createElement('div');
+      card.className = 'event-card';
+
+      card.innerHTML = `
+        <div class="event-top">
+          <div class="event-title-row" style="display:flex; align-items:center; gap:8px;">
+            <h3>${ev.title}</h3>
+            <span class="type-pill">${ev.category}</span>
+            ${statusBadgeHtml}
+          </div>
+          <div class="event-actions">
+            <button type="button" class="btn-view-card">👁 View</button>
+            <button type="button" class="btn-edit-card">Edit</button>
+            <button type="button" class="btn-delete-card act-delete">Delete</button>
+          </div>
+        </div>
+        <p class="event-desc">${ev.description}</p>
+        <div class="event-meta">
+          <div>Date<strong>${ev.eventDate}</strong></div>
+          <div>Time<strong>${ev.eventTime}</strong></div>
+          <div>Location<strong>${ev.location}</strong></div>
+          <div>Deadline<strong>${ev.deadline}</strong></div>
+        </div>
+        <div class="event-progress-label"><span>Registrations</span><span>${registeredCount} / ${capacity} (${spotsLeft} spots left)</span></div>
+        <div class="event-progress-bar"><div class="event-progress-fill" style="width:${percentage}%;"></div></div>
+      `;
+
+      const viewBtn = card.querySelector('.btn-view-card');
+      viewBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        if (viewOverlay && viewTitle && viewBody) {
+          viewTitle.textContent = `${ev.title} - Registrations`;
+          viewBody.innerHTML = `
+            <div style="font-size:0.95rem; line-height:1.6; color:#1e293b; margin-bottom:14px;">
+              <p style="margin:4px 0;"><strong>Category:</strong> ${ev.category}</p>
+              <p style="margin:4px 0;"><strong>Location:</strong> ${ev.location}</p>
+              <p style="margin:4px 0;"><strong>Date & Time:</strong> ${ev.eventDate} at ${ev.eventTime}</p>
+              <p style="margin:4px 0;"><strong>Registrations:</strong> ${registeredCount} / ${capacity} (${spotsLeft} spots remaining)</p>
+            </div>
+            <hr style="margin:16px 0; border:0; border-top:1px solid #cbd5e1;">
+            <h4 style="margin:0 0 10px 0; font-size:1rem; color:#0f172a;">List of Registered Residents:</h4>
+            <div id="registrants-list-container">
+              <p style="color:#64748b; font-size:0.9rem; font-style:italic;">Loading registrants...</p>
+            </div>
+          `;
+          viewOverlay.classList.add('active-view-modal');
+
+          const container = document.getElementById('registrants-list-container');
+
+          try {
+            let registrantsData = [];
+            const regQuery = query(collection(db, "event_registrations"), where("eventId", "==", eventId));
+            const regSnapshot = await getDocs(regQuery);
+            
+            regSnapshot.forEach(docSnap => {
+              registrantsData.push({ id: docSnap.id, ...docSnap.data() });
+            });
+
+            if (registrantsData.length === 0) {
+              container.innerHTML = `<p style="color:#64748b; font-size:0.9rem; font-style:italic;">No registrants recorded yet.</p>`;
+              return;
+            }
+
+            let htmlList = `<div style="display:flex; flex-direction:column; gap:8px;">`;
+            
+            for (let [index, reg] of registrantsData.entries()) {
+              let residentName = "";
+              let residentEmail = reg.email || reg.userEmail || "No email provided";
+              let residentPhone = reg.phoneNumber || reg.contactNumber || reg.phone || "";
+
+              if (reg.userId) {
+                try {
+                  const userDocSnap = await getDoc(doc(db, "users", reg.userId));
+                  if (userDocSnap.exists()) {
+                    const uData = userDocSnap.data();
+                    const fName = uData.firstname || uData.firstName || "";
+                    const lName = uData.lastname || uData.lastName || "";
+                    if (fName || lName) {
+                      residentName = `${fName} ${lName}`.trim();
+                    }
+                    residentEmail = uData.email || residentEmail;
+                    residentPhone = uData.mobile || uData.phoneNumber || uData.contactNumber || residentPhone;
+                  }
+                } catch (err) {
+                  console.error("Error fetching user profile for registrant:", err);
+                }
+              }
+
+              if (!residentName) {
+                residentName = reg.fullName || reg.name || "Registered Resident";
+              }
+
+              let registeredAtStr = "";
+              if (reg.registeredAt) {
+                if (typeof reg.registeredAt.toDate === 'function') {
+                  registeredAtStr = reg.registeredAt.toDate().toLocaleString();
+                } else if (reg.registeredAt.seconds) {
+                  registeredAtStr = new Date(reg.registeredAt.seconds * 1000).toLocaleString();
+                }
+              }
+
+              htmlList += `
+                <div style="background:#f8fafc; border:1px solid #e2e8f0; padding:10px 14px; border-radius:6px; font-size:0.88rem;">
+                  <div style="display:flex; justify-content:space-between; font-weight:600; color:#0f172a;">
+                    <span>${index + 1}. ${residentName}</span>
+                    <span style="font-size:0.78rem; color:#64748b; font-weight:normal;">${registeredAtStr}</span>
+                  </div>
+                  <div style="margin-top:4px; font-size:0.82rem; color:#475569;">
+                    📧 ${residentEmail} ${residentPhone ? `| 📱 ${residentPhone}` : ''}
+                  </div>
+                </div>
+              `;
+            }
+            htmlList += `</div>`;
+            container.innerHTML = htmlList;
+
+          } catch (err) {
+            console.error("Error fetching registrants:", err);
+            container.innerHTML = `<p style="color:#ef4444; font-size:0.9rem;">Failed to load registrants from database.</p>`;
+          }
+        }
       });
 
-      if (registrantsData.length === 0) {
-        container.innerHTML = `<p style="color:#64748b; font-size:0.9rem; font-style:italic;">No registrants recorded yet.</p>`;
-        return;
-      }
+      const editBtn = card.querySelector('.btn-edit-card');
+      editBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        editingEventId = eventId;
+        modalTitle.textContent = 'Edit Event';
 
-      // Build list of registrants and fetch user profile details
-      let htmlList = `<div style="display:flex; flex-direction:column; gap:8px;">`;
-      
-      for (let [index, reg] of registrantsData.entries()) {
-        let residentName = "";
-        let residentEmail = reg.email || reg.userEmail || "No email provided";
-        let residentPhone = reg.phoneNumber || reg.contactNumber || reg.phone || "";
+        document.getElementById('e-title').value = ev.title || '';
+        document.getElementById('e-description').value = ev.description || '';
+        document.getElementById('e-category').value = ev.category || '';
+        document.getElementById('e-capacity').value = ev.slotCapacity || '';
+        document.getElementById('e-date').value = ev.eventDate || '';
+        document.getElementById('e-time').value = ev.eventTime || '';
+        document.getElementById('e-location').value = ev.location || '';
+        document.getElementById('e-deadline').value = ev.deadline || '';
 
-        // If registration document references a userId, fetch the exact user profile from `users`
-        if (reg.userId) {
+        const hasResource = ev.resourceNeeded ? true : false;
+        if (needResourceCheckbox) {
+          needResourceCheckbox.checked = hasResource;
+          resourceContainer.style.display = hasResource ? 'flex' : 'none';
+          if (hasResource) {
+            document.getElementById('e-resource').value = ev.resourceNeeded || '';
+          }
+        }
+
+        overlay.classList.add('show');
+      });
+
+      const deleteBtn = card.querySelector('.btn-delete-card');
+      deleteBtn.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        if (confirm(`Delete "${ev.title}"?`)) {
           try {
-            const userDocSnap = await getDoc(doc(db, "users", reg.userId));
-            if (userDocSnap.exists()) {
-              const uData = userDocSnap.data();
-              // Combine firstname and lastname from your system structure
-              const fName = uData.firstname || uData.firstName || "";
-              const lName = uData.lastname || uData.lastName || "";
-              if (fName || lName) {
-                residentName = `${fName} ${lName}`.trim();
-              }
-              residentEmail = uData.email || residentEmail;
-              residentPhone = uData.mobile || uData.phoneNumber || uData.contactNumber || residentPhone;
-            }
+            await deleteDoc(doc(db, "events", eventId));
+            showToast(`${ev.title} deleted.`, true);
           } catch (err) {
-            console.error("Error fetching user profile for registrant:", err);
+            console.error("Delete error:", err);
+            showToast("Failed to delete event.", true);
           }
         }
+      });
 
-        // Fallback name if none found in user doc
-        if (!residentName) {
-          residentName = reg.fullName || reg.name || "Registered Resident";
-        }
-
-        // Safe Date Formatting
-        let registeredAtStr = "";
-        if (reg.registeredAt) {
-          if (typeof reg.registeredAt.toDate === 'function') {
-            registeredAtStr = reg.registeredAt.toDate().toLocaleString();
-          } else if (reg.registeredAt.seconds) {
-            registeredAtStr = new Date(reg.registeredAt.seconds * 1000).toLocaleString();
-          } else {
-            const parsed = new Date(reg.registeredAt);
-            if (!isNaN(parsed)) registeredAtStr = parsed.toLocaleString();
-          }
-        }
-
-        htmlList += `
-          <div style="background:#f8fafc; border:1px solid #e2e8f0; padding:10px 14px; border-radius:6px; font-size:0.88rem;">
-            <div style="display:flex; justify-content:space-between; font-weight:600; color:#0f172a;">
-              <span>${index + 1}. ${residentName}</span>
-              <span style="font-size:0.78rem; color:#64748b; font-weight:normal;">${registeredAtStr}</span>
-            </div>
-            <div style="margin-top:4px; font-size:0.82rem; color:#475569;">
-              📧 ${residentEmail} ${residentPhone ? `| 📱 ${residentPhone}` : ''}
-            </div>
-          </div>
-        `;
-      }
-      htmlList += `</div>`;
-      container.innerHTML = htmlList;
-
-    } catch (err) {
-      console.error("Error fetching registrants:", err);
-      container.innerHTML = `<p style="color:#ef4444; font-size:0.9rem;">Failed to load registrants from database.</p>`;
-    }
+      eventList.appendChild(card);
+    });
   }
-});
 
-    // 2. EDIT BUTTON
-    const editBtn = card.querySelector('.btn-edit-card');
-    editBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      editingEventId = eventId;
-      modalTitle.textContent = 'Edit Event';
-
-      document.getElementById('e-title').value = ev.title || '';
-      document.getElementById('e-description').value = ev.description || '';
-      document.getElementById('e-category').value = ev.category || '';
-      document.getElementById('e-capacity').value = ev.slotCapacity || '';
-      document.getElementById('e-date').value = ev.eventDate || '';
-      document.getElementById('e-time').value = ev.eventTime || '';
-      document.getElementById('e-location').value = ev.location || '';
-      document.getElementById('e-deadline').value = ev.deadline || '';
-
-      overlay.classList.add('show');
-    });
-
-    // 3. DELETE BUTTON
-    const deleteBtn = card.querySelector('.btn-delete-card');
-    deleteBtn.addEventListener('click', async (e) => {
-      e.stopPropagation();
-      if (confirm(`Delete "${ev.title}"?`)) {
-        try {
-          await deleteDoc(doc(db, "events", eventId));
-          showToast(`${ev.title} deleted.`, true);
-        } catch (err) {
-          console.error("Delete error:", err);
-          showToast("Failed to delete event.", true);
-        }
-      }
-    });
-
-    eventList.appendChild(card);
-  });
-}
-
-  // Realtime Listener
   function listenToEvents() {
     const q = query(
       collection(db, "events"),
@@ -1658,7 +1608,6 @@ viewBtn.addEventListener('click', async (e) => {
     });
   }
 
-  // Event Listeners for Filters
   if (categoryFilter) categoryFilter.addEventListener('change', applyFiltersAndRender);
   if (statusFilter) statusFilter.addEventListener('change', applyFiltersAndRender);
 
@@ -1702,7 +1651,6 @@ viewBtn.addEventListener('click', async (e) => {
     });
   }
 
-  // Auth Guard
   onAuthStateChanged(auth, async (user) => {
     if (user) {
       try {
@@ -1737,7 +1685,7 @@ viewBtn.addEventListener('click', async (e) => {
       window.location.href = "login_page.html";
     }
   });
-  // User dropdown + logout
+
   const userMenu = document.getElementById("user-menu");
   const userMenuBtn = document.getElementById("user-menu-btn");
   userMenuBtn.addEventListener("click", (e) => {
@@ -1762,6 +1710,76 @@ viewBtn.addEventListener('click', async (e) => {
       console.error("Logout failed:", err);
       alert("Could not log out. Please try again.");
     }
+  });
+
+  // ---------- AI CHATBOT / ASSISTANT EXPERT ----------
+  const chatFab = document.getElementById('chat-fab');
+  const chatPanel = document.getElementById('chat-panel');
+  const chatClose = document.getElementById('chat-close');
+  const chatBody = document.getElementById('chat-body');
+  const chatInput = document.getElementById('chat-input');
+  const chatSend = document.getElementById('chat-send');
+
+  if (chatFab) chatFab.addEventListener('click', () => chatPanel.classList.toggle('show'));
+  if (chatClose) chatClose.addEventListener('click', () => chatPanel.classList.remove('show'));
+
+  function appendChatMsg(text, sender) {
+    const div = document.createElement('div');
+    div.className = `chat-msg ${sender}`;
+    div.textContent = text;
+    chatBody.appendChild(div);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  async function handleChatQuery(question) {
+    const q = question.toLowerCase();
+    appendChatMsg(question, 'user');
+    chatInput.value = '';
+
+    setTimeout(() => {
+      let reply = "";
+      const totalEvents = allFetchedEventDocs.length;
+      
+      if (q.includes('how many') || q.includes('total') || q.includes('count')) {
+        const upcoming = allFetchedEventDocs.filter(d => d.data().eventDate > todayStr).length;
+        const ongoing = allFetchedEventDocs.filter(d => d.data().eventDate === todayStr).length;
+        const past = allFetchedEventDocs.filter(d => d.data().eventDate < todayStr).length;
+        reply = `We currently have ${totalEvents} total events recorded in Pembo: ${upcoming} upcoming, ${ongoing} ongoing today, and ${past} finished.`;
+      } else if (q.includes('sport') || q.includes('empowerment') || q.includes('training') || q.includes('recreational') || q.includes('community')) {
+        const keyword = q.includes('sport') ? 'Sports' : q.includes('empowerment') ? 'Empowerment' : q.includes('training') ? 'Training' : q.includes('recreational') ? 'Recreational' : 'Community';
+        const matchedCat = allFetchedEventDocs.filter(d => (d.data().category || '').toLowerCase() === keyword.toLowerCase());
+        if (matchedCat.length > 0) {
+          reply = `Found ${matchedCat.length} ${keyword} event(s): ` + matchedCat.map(d => `"${d.data().title}" on ${d.data().eventDate}`).join(', ');
+        } else {
+          reply = `I couldn't find any events matching the "${keyword}" category right now.`;
+        }
+      } else if (q.includes('popular') || q.includes('most') || q.includes('registrations')) {
+        if (totalEvents === 0) {
+          reply = `There are no events in the database yet.`;
+        } else {
+          let sorted = [...allFetchedEventDocs].sort((a,b) => (b.data().registeredCount || 0) - (a.data().registeredCount || 0));
+          let top = sorted[0].data();
+          reply = `The event with the most registrations is "${top.title}" with ${top.registeredCount || 0} participants at ${top.location}.`;
+        }
+      } else {
+        if (totalEvents === 0) {
+          reply = `No events have been created yet for Barangay Pembo.`;
+        } else {
+          const titles = allFetchedEventDocs.map(d => `• ${d.data().title} (${d.data().eventDate})`).slice(0, 4).join('\n');
+          reply = `Here are some of our recorded events:\n${titles}\n\nYou can ask me about upcoming counts, categories, venues, or popular events!`;
+        }
+      }
+      appendChatMsg(reply, 'bot');
+    }, 400);
+  }
+
+  if (chatSend && chatInput) {
+    chatSend.addEventListener('click', () => { if (chatInput.value.trim()) handleChatQuery(chatInput.value.trim()); });
+    chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter' && chatInput.value.trim()) handleChatQuery(chatInput.value.trim()); });
+  }
+
+  document.querySelectorAll('.chat-suggest button').forEach(btn => {
+    btn.addEventListener('click', () => handleChatQuery(btn.dataset.msg));
   });
 </script>
 

@@ -19,10 +19,10 @@
     --line: rgba(36,34,25,0.14);
     --radius: 2px;
 
-    /* per-barangay accent */
-    --accent: #A14E2A;
-    --accent-deep: #7A3B1F;
-    --accent-tint: rgba(161,78,42,0.15);
+    /* Original Comembo Terracotta / Rust Color */
+    --accent: #B85B35;
+    --accent-deep: #8E4324;
+    --accent-tint: rgba(184,91,53,0.14);
   }
 
   *{box-sizing:border-box;}
@@ -204,35 +204,35 @@
     background-image:
       radial-gradient(circle at 88% -10%, rgba(255,255,255,0.16), transparent 55%);
     color:var(--paper);
-    padding:56px 0 92px;
+    padding:40px 0 84px;
     position:relative;
   }
   .hero-top{
     display:flex;
-    align-items:flex-start;
+    align-items:center;
     justify-content:space-between;
     gap:40px;
-    margin-bottom:8px;
+    margin-bottom:0;
   }
   .hero-copy{max-width:640px;}
   .hero .eyebrow{color:rgba(245,240,228,0.85);}
   .hero .eyebrow::before{content:"";width:22px;height:1px;background:rgba(245,240,228,0.6);display:inline-block;}
   .hero h1{
-    font-size:clamp(2.1rem, 3.6vw, 2.9rem);
+    font-size:clamp(1.9rem, 3vw, 2.4rem);
     line-height:1.08;
     font-weight:700;
     color:var(--paper);
-    margin:14px 0 14px;
+    margin:12px 0 10px;
   }
   .hero p.lede{
-    font-size:1.02rem;
+    font-size:0.98rem;
     line-height:1.6;
     color:rgba(245,240,228,0.88);
     max-width:52ch;
-    margin-bottom:30px;
+    margin-bottom:0;
   }
   .hero-seal{
-    width:96px;height:96px;
+    width:76px;height:76px;
     border-radius:50%;
     background:var(--paper);
     border:3px solid rgba(245,240,228,0.5);
@@ -242,13 +242,7 @@
   }
   .hero-seal img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
 
-  .hero-page{padding:40px 0 84px;}
-  .hero-page .hero-top{margin-bottom:0;align-items:center;}
-  .hero-page h1{font-size:clamp(1.9rem, 3vw, 2.4rem);margin:12px 0 10px;}
-  .hero-page p.lede{margin-bottom:0;font-size:0.98rem;}
-  .hero-page .hero-seal{width:76px;height:76px;}
   .page-sub{padding:40px 0 8px;}
-
   .btn-secondary-nav{
     padding:9px 16px;
     font-size:0.82rem;
@@ -265,6 +259,7 @@
     box-shadow:none;
   }
 
+  /* ---------- SECTION HEAD & FILTERS ---------- */
   .section-head-row{
     display:flex;
     align-items:center;
@@ -275,51 +270,45 @@
   }
   .section-head-row h2{font-size:1.2rem;}
 
-  /* ---------- FILTER BAR ---------- */
-  .filter-bar {
+  .filter-row {
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    gap: 16px;
+    margin-bottom: 24px;
     background: #ffffff;
-    padding: 1rem 1.25rem;
-    border-radius: 10px;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    flex-wrap: wrap;
   }
-  .filter-controls {
+  .filter-pills {
     display: flex;
-    align-items: center;
-    gap: 0.6rem;
+    gap: 8px;
+    flex-wrap: wrap;
   }
-  .filter-select {
-    padding: 0.45rem 0.75rem;
-    border: 1px solid #cbd5e1;
+  .filter-pill {
+    background: var(--paper-deep);
+    border: 1px solid var(--line);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+  .filter-pill.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--paper);
+  }
+  .status-select {
+    padding: 8px 12px;
+    border: 1px solid var(--line);
     border-radius: 6px;
-    font-family: inherit;
-    font-size: 0.9rem;
-    color: #0f172a;
-    background-color: #ffffff;
+    font-size: 0.86rem;
+    background: #fff;
+    color: var(--ink);
   }
-  .tab-row{
-    display:flex;
-    gap:6px;
-    margin-bottom:20px;
-    flex-wrap:wrap;
-  }
-  .tab-btn{
-    background:var(--paper-deep);
-    border:1.5px solid var(--line);
-    padding:9px 16px;
-    border-radius:999px;
-    font-family:'IBM Plex Sans',sans-serif;
-    font-weight:600;
-    font-size:0.84rem;
-    color:var(--ink-soft);
-  }
-  .tab-btn.active{background:var(--accent-deep);border-color:var(--accent-deep);color:var(--paper);}
 
   /* ---------- TABLE ---------- */
   .table-card{
@@ -348,12 +337,11 @@
   table.admin-table tbody td{
     padding:15px 18px;
     border-bottom:1px solid var(--line);
-    vertical-align:top;
+    vertical-align:middle;
   }
   table.admin-table tbody tr:last-child td{border-bottom:none;}
   table.admin-table tbody tr:hover{background:rgba(36,34,25,0.025);}
-  .cell-title{font-weight:600;}
-  .cell-sub{font-size:0.78rem;color:var(--ink-soft);margin-top:2px;}
+  
   .type-pill{
     font-family:'IBM Plex Mono',monospace;
     font-size:0.66rem;
@@ -365,7 +353,7 @@
     border-radius:999px;
     white-space:nowrap;
   }
-  .row-actions{display:flex;gap:8px;}
+  .row-actions{display:flex;gap:6px;}
   .row-actions button{
     width:30px;height:30px;
     border-radius:var(--radius);
@@ -389,9 +377,11 @@
     display:inline-block;
   }
   .status-available{background:rgba(46,107,79,0.14);color:#1E4A36;}
+  .status-maintenance{background:rgba(184,134,42,0.16);color:#7A5A19;}
   .status-hidden{background:rgba(91,86,74,0.12);color:var(--ink-soft);}
+  .empty-row td{text-align:center;color:var(--ink-soft);padding:40px 18px;}
 
-  /* ---------- MODAL ---------- */
+  /* ---------- MODALS ---------- */
   .modal-overlay{
     display:none;
     position:fixed; inset:0;
@@ -455,9 +445,6 @@
     resize:vertical;
   }
   .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--ink);}
-  .field input.error, .field select.error, .field textarea.error{border-color:var(--red-deep);}
-  .field-error{font-size:0.76rem;color:var(--red-deep);display:none;}
-  .field.has-error .field-error{display:block;}
   .modal-actions{display:flex;gap:12px;margin-top:6px;}
   .modal-actions .btn{flex:1;justify-content:center;}
   .btn-secondary{background:transparent;color:var(--ink);}
@@ -467,7 +454,7 @@
   .toast{
     position:fixed;
     top:20px; left:50%;
-    transform:translate(-50%, -140%);
+    transform:translate(-50%, -20px);
     background:#1E4A36;
     color:var(--paper);
     padding:14px 22px;
@@ -477,10 +464,19 @@
     display:flex;
     align-items:center;
     gap:10px;
-    transition:transform .3s ease;
+    visibility:hidden;
+    opacity:0;
+    pointer-events:none;
+    transition:transform .3s ease, opacity .3s ease, visibility 0s linear .3s;
     box-shadow:0 8px 0 0 rgba(0,0,0,0.15);
   }
-  .toast.show{transform:translate(-50%, 0);}
+  .toast.show{
+    transform:translate(-50%, 0);
+    visibility:visible;
+    opacity:1;
+    pointer-events:auto;
+    transition:transform .3s ease, opacity .3s ease;
+  }
   .toast.toast-red{background:var(--red-deep);}
 
   /* ---------- CHATBOT ---------- */
@@ -702,7 +698,7 @@
 <header>
   <div class="wrap nav">
     <a href="index.html" class="brand">
-      <span class="seal"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Comembo seal"></span>
+      <span class="seal"><img src="../Pics/cembologo.png" alt="Comembo seal"></span>
       <span class="brand-text">
         <span class="sk">SK Comembo</span>
         <span class="brgy">Admin Console</span>
@@ -713,16 +709,18 @@
       <a href="comembo_adminFacilities.html" class="active">Facilities</a>
       <a href="comembo_adminReservations.html">Reservations</a>
       <a href="comembo_adminEvents.html">Events</a>
+      <a href="comembo_adminFeedback.html">Feedback</a>
+      <a
     </nav>
     <div class="nav-right">
       <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
       </button>
-      <a href="comembo_page.html" class="btn btn-small btn-secondary-nav" style="margin-right:2px;">View Resident Site</a>
+      <a href="comembo_admin.html" class="btn btn-small btn-secondary-nav" style="margin-right:2px;">View Resident Site</a>
       <div class="user-menu" id="user-menu">
         <button type="button" class="user-chip" id="user-menu-btn" aria-haspopup="true" aria-expanded="false">
-          <span class="avatar">MS</span>
-          <span id="admin-name">Admin</span>
+          <span class="avatar">SC</span>
+          <span id="admin-name">Admin - SK Comembo Admin</span>
           <svg class="caret" width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="user-dropdown" role="menu">
@@ -739,12 +737,12 @@
 <section class="hero hero-page">
   <div class="wrap hero-top">
     <div class="hero-copy">
-      <div class="eyebrow">SK Barangay Comembo · Admin</div>
+      <div class="eyebrow">SK BARANGAY COMEMBO · ADMIN</div>
       <h1>Manage Facilities</h1>
       <p class="lede">Add, edit, or remove facilities available for reservation in Comembo.</p>
     </div>
     <div class="hero-seal">
-      <img src="../Pics/Barangay_Comembo_Seal.png" alt="Comembo seal">
+      <img src="../Pics/cembologo.png" alt="Comembo seal">
     </div>
   </div>
 </section>
@@ -755,30 +753,35 @@
     <button class="btn btn-small" id="add-facility-btn">+ Add Facility</button>
   </div>
 
-  <!-- FILTER & TAB BAR -->
-  <div class="filter-bar">
-    <div class="tab-row" id="tab-row" style="margin-bottom:0;">
-      <button class="tab-btn active" data-type="all">All Types</button>
-      <button class="tab-btn" data-type="court">Courts</button>
-      <button class="tab-btn" data-type="venue">Venues</button>
-      <button class="tab-btn" data-type="resource">Resources</button>
+  <div class="filter-row">
+    <div class="filter-pills">
+      <button class="filter-pill active" data-type="all">All Types</button>
+      <button class="filter-pill" data-type="Court">Courts</button>
+      <button class="filter-pill" data-type="Venue">Venues</button>
+      <button class="filter-pill" data-type="Resource">Resources</button>
     </div>
-    <div class="filter-controls">
-      <select id="status-filter" class="filter-select">
-        <option value="all">All Statuses</option>
-        <option value="available">Available</option>
-        <option value="hidden">Hidden / Maintenance</option>
-      </select>
-    </div>
+    <select class="status-select" id="status-filter">
+      <option value="all">All Statuses</option>
+      <option value="Available">Available</option>
+      <option value="Maintenance">Maintenance</option>
+      <option value="Hidden">Hidden</option>
+    </select>
   </div>
 
   <div class="table-card">
     <table class="admin-table">
       <thead>
-        <tr><th>Name</th><th>Type</th><th>Description</th><th>Capacity</th><th>Status</th><th>Actions</th></tr>
+        <tr>
+          <th>NAME</th>
+          <th>TYPE</th>
+          <th>DESCRIPTION</th>
+          <th>CAPACITY</th>
+          <th>STATUS</th>
+          <th style="text-align:right;">ACTIONS</th>
+        </tr>
       </thead>
-      <tbody id="facilities-tbody">
-        <tr><td colspan="6" style="text-align: center; padding: 2rem; color: #777;">Loading facilities...</td></tr>
+      <tbody id="facilities-table-body">
+        <tr class="empty-row"><td colspan="6">Loading facilities...</td></tr>
       </tbody>
     </table>
   </div>
@@ -786,9 +789,10 @@
 
 <div class="toast" id="toast">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="#F5F0E4" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  <span id="toast-text">Facility saved.</span>
+  <span id="toast-text">Facility saved successfully.</span>
 </div>
 
+<!-- Add / Edit Facility Modal -->
 <div class="modal-overlay" id="modal-overlay">
   <div class="modal-box">
     <div class="modal-head">
@@ -798,15 +802,12 @@
       </div>
       <button class="modal-close" id="modal-close">✕</button>
     </div>
-    <form class="modal-form" id="facility-form" novalidate>
-      <input type="hidden" id="f-id" value="">
 
+    <form class="modal-form" id="facility-form" novalidate>
       <div class="field" data-field="name">
         <label for="f-name">Facility Name <span class="req">*</span></label>
-        <input type="text" id="f-name" placeholder="e.g. Basketball Court A" required>
-        <span class="field-error">Enter a facility name.</span>
+        <input type="text" id="f-name" placeholder="e.g. Comembo Complex" required>
       </div>
-
       <div class="field-row">
         <div class="field" data-field="type">
           <label for="f-type">Type <span class="req">*</span></label>
@@ -815,66 +816,48 @@
             <option value="Court">Court</option>
             <option value="Venue">Venue</option>
             <option value="Resource">Resource</option>
+            <option value="Other">Other</option>
           </select>
-          <span class="field-error">Select a facility type.</span>
         </div>
-
         <div class="field" data-field="capacity">
-          <label for="f-capacity">Capacity / Quantity <span class="req">*</span></label>
-          <input type="text" id="f-capacity" placeholder="e.g. 30 or 5 sets" required>
-          <span class="field-error">Enter capacity or quantity.</span>
+          <label for="f-capacity">Capacity <span class="req">*</span></label>
+          <input type="text" id="f-capacity" placeholder="e.g. 30" required>
         </div>
       </div>
-
       <div class="field" data-field="status">
-        <label for="f-status">Operational Status <span class="req">*</span></label>
+        <label for="f-status">Status <span class="req">*</span></label>
         <select id="f-status" required>
           <option value="Available">Available</option>
-          <option value="Under Maintenance">Under Maintenance</option>
+          <option value="Maintenance">Under Maintenance</option>
           <option value="Hidden">Hidden</option>
         </select>
       </div>
-
       <div class="field" data-field="description">
         <label for="f-description">Description <span class="req">*</span></label>
-        <textarea id="f-description" rows="3" placeholder="Briefly describe this facility…" required></textarea>
-        <span class="field-error">Enter a short description.</span>
+        <textarea id="f-description" rows="3" placeholder="Brief location or usage guidelines..." required></textarea>
       </div>
 
       <div class="modal-actions">
         <button type="button" class="btn btn-secondary" id="modal-cancel">Cancel</button>
-        <button type="submit" class="btn" id="modal-submit-btn">Save Facility →</button>
+        <button type="submit" class="btn">Save Facility →</button>
       </div>
     </form>
   </div>
 </div>
 
-<!-- CHATBOT WIDGET -->
-<button class="chat-fab" id="chat-fab" title="SK Assistant">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-</button>
-
-<div class="chat-panel" id="chat-panel">
-  <div class="chat-head">
-    <div>
-      <div class="title">SK Assistant (Live Firebase)</div>
-      <div class="sub">Barangay Comembo · Connected</div>
+<!-- Quick View Facility Modal -->
+<div class="modal-overlay" id="view-modal-overlay">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div>
+        <span class="tag">Facility Details</span>
+        <h2 id="view-modal-title">Comembo Facility Details</h2>
+      </div>
+      <button class="modal-close" id="view-modal-close">✕</button>
     </div>
-    <button class="chat-close" id="chat-close">✕</button>
-  </div>
-  <div class="chat-body" id="chat-body">
-    <div class="chat-msg bot">Hello Admin! Ask me anything in your own words—I query live Firebase facility records instantly for Barangay Comembo.</div>
-  </div>
-  <div class="chat-suggest">
-    <button data-msg="How many facilities are there?">Facility count</button>
-    <button data-msg="Which facilities are available?">Available venues</button>
-    <button data-msg="How do I add a new facility?">Help & guidance</button>
-  </div>
-  <div class="chat-input-row">
-    <input type="text" id="chat-input" placeholder="Ask anything in your own words…">
-    <button class="chat-send" id="chat-send">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 20l16-8L4 4l2 8-2 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-    </button>
+    <div style="padding:22px 26px;" id="view-modal-body">
+      <!-- Dynamically filled -->
+    </div>
   </div>
 </div>
 
@@ -886,10 +869,10 @@
         EMBO Access
       </div>
       <div class="foot-seals">
-        <div class="imgwrap"><img src="../Pics/cembologo.png" alt="Cembo"></div>
+        <div class="imgwrap"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Cembo"></div>
         <div class="imgwrap"><img src="../Pics/West_Rembo_Logo.png" alt="West Rembo"></div>
         <div class="imgwrap"><img src="../Pics/East_Rembo_Logo.png" alt="East Rembo"></div>
-        <div class="imgwrap"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Comembo"></div>
+        <div class="imgwrap"><img src="../Pics/cembologo.png" alt="Comembo"></div>
         <div class="imgwrap"><img src="../Pics/pembologo.png" alt="Pembo"></div>
       </div>
     </div>
@@ -899,6 +882,34 @@
     </div>
   </div>
 </footer>
+
+<button class="chat-fab" id="chat-fab" title="SK Assistant">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</button>
+
+<div class="chat-panel" id="chat-panel">
+  <div class="chat-head">
+    <div>
+      <div class="title">SK Assistant</div>
+      <div class="sub">Barangay Comembo · Facilities Expert</div>
+    </div>
+    <button class="chat-close" id="chat-close">✕</button>
+  </div>
+  <div class="chat-body" id="chat-body">
+    <div class="chat-msg bot">Hi! I'm the SK Comembo facilities assistant. I can help you check facility statuses or review available courts and venues. What do you need?</div>
+  </div>
+  <div class="chat-suggest">
+    <button data-msg="Which facilities are currently available?">Available facilities</button>
+    <button data-msg="How many courts are in Comembo?">Court count</button>
+    <button data-msg="Show facilities under maintenance">Maintenance list</button>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" id="chat-input" placeholder="Ask about Comembo facilities…">
+    <button class="chat-send" id="chat-send">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 20l16-8L4 4l2 8-2 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -910,14 +921,11 @@
     query, 
     collection, 
     where, 
-    getDocs, 
     addDoc, 
     updateDoc, 
     deleteDoc, 
     onSnapshot 
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-  const DEFAULT_BARANGAY = "Comembo"; 
 
   const firebaseConfig = {
     apiKey: "AIzaSyDFKXqobLs5Ic7-QwToeBm8gPryy_FfgcA",
@@ -932,41 +940,174 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  let currentAdminBarangay = DEFAULT_BARANGAY;
-  let unsubscribeFacilities = null;
-  let allFacilities = [];
+  const PAGE_BARANGAY = "Comembo";
+  let allFetchedFacilities = [];
+  let editingFacilityId = null;
   let activeTypeFilter = "all";
   let activeStatusFilter = "all";
 
   const overlay = document.getElementById('modal-overlay');
+  const viewOverlay = document.getElementById('view-modal-overlay');
   const modalTitle = document.getElementById('modal-title');
   const form = document.getElementById('facility-form');
   const toast = document.getElementById('toast');
   const toastText = document.getElementById('toast-text');
-  const tbody = document.getElementById('facilities-tbody');
-
-  const facilityIdInput = document.getElementById('f-id');
-  const nameInput = document.getElementById('f-name');
-  const typeInput = document.getElementById('f-type');
-  const capacityInput = document.getElementById('f-capacity');
-  const statusInput = document.getElementById('f-status');
-  const descInput = document.getElementById('f-description');
-
+  const tableBody = document.getElementById('facilities-table-body');
   const statusFilterSelect = document.getElementById('status-filter');
 
-  function showToast(msg, isRed = false) {
-    if (!toastText || !toast) return;
+  function showToast(msg, isRed) {
+    if (!toast || !toastText) return;
     toastText.textContent = msg;
-    toast.classList.toggle('toast-red', isRed);
+    toast.classList.toggle('toast-red', !!isRed);
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 3200);
   }
 
-  function setError(fieldEl, hasError) {
-    if (!fieldEl) return;
-    fieldEl.classList.toggle('has-error', hasError);
-    const input = fieldEl.querySelector('input, select, textarea');
-    if (input) input.classList.toggle('error', hasError);
+  document.getElementById('add-facility-btn').addEventListener('click', () => {
+    editingFacilityId = null;
+    modalTitle.textContent = 'Add Facility';
+    form.reset();
+    overlay.classList.add('show');
+  });
+
+  document.getElementById('modal-close').addEventListener('click', () => overlay.classList.remove('show'));
+  document.getElementById('modal-cancel').addEventListener('click', () => overlay.classList.remove('show'));
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('show'); });
+
+  document.getElementById('view-modal-close').addEventListener('click', () => viewOverlay.classList.remove('show'));
+  viewOverlay.addEventListener('click', (e) => { if (e.target === viewOverlay) viewOverlay.classList.remove('show'); });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const payload = {
+      barangay: PAGE_BARANGAY,
+      name: document.getElementById('f-name').value.trim(),
+      type: document.getElementById('f-type').value,
+      capacity: document.getElementById('f-capacity').value.trim(),
+      status: document.getElementById('f-status').value,
+      description: document.getElementById('f-description').value.trim()
+    };
+
+    try {
+      if (editingFacilityId) {
+        await updateDoc(doc(db, "facilities", editingFacilityId), payload);
+        showToast("Facility updated successfully.");
+      } else {
+        await addDoc(collection(db, "facilities"), payload);
+        showToast("New facility added successfully!");
+      }
+      overlay.classList.remove('show');
+    } catch (err) {
+      console.error("Error saving facility:", err);
+      showToast("Failed to save facility.", true);
+    }
+  });
+
+  function applyFilters() {
+    const filtered = allFetchedFacilities.filter(docSnap => {
+      const fac = docSnap.data();
+      const matchType = activeTypeFilter === "all" || (fac.type || '').toLowerCase() === activeTypeFilter.toLowerCase();
+      const matchStatus = activeStatusFilter === "all" || (fac.status || '').toLowerCase() === activeStatusFilter.toLowerCase();
+      return matchType && matchStatus;
+    });
+    renderFacilities(filtered);
+  }
+
+  function renderFacilities(docs) {
+    tableBody.innerHTML = '';
+    if (docs.length === 0) {
+      tableBody.innerHTML = `<tr class="empty-row"><td colspan="6">No facilities match the criteria.</td></tr>`;
+      return;
+    }
+
+    docs.forEach(docSnap => {
+      const fac = docSnap.data();
+      const facId = docSnap.id;
+      
+      let statusClass = "status-available";
+      if (fac.status === "Maintenance") statusClass = "status-maintenance";
+      else if (fac.status === "Hidden") statusClass = "status-hidden";
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="font-weight:600;">${fac.name}</td>
+        <td><span class="type-pill">${fac.type}</span></td>
+        <td style="color:var(--ink-soft); max-width:280px; font-size:0.84rem;">${fac.description || '-'}</td>
+        <td>${fac.capacity}</td>
+        <td><span class="status-pill ${statusClass}">${fac.status}</span></td>
+        <td style="text-align:right;">
+          <div class="row-actions" style="justify-content:flex-end;">
+            <button type="button" class="btn-view" title="Quick View">👁</button>
+            <button type="button" class="btn-edit" title="Edit Facility">✏️</button>
+            <button type="button" class="btn-delete act-delete" title="Delete Facility">🗑️</button>
+          </div>
+        </td>
+      `;
+
+      tr.querySelector('.btn-view').addEventListener('click', () => {
+        document.getElementById('view-modal-title').textContent = fac.name;
+        document.getElementById('view-modal-body').innerHTML = `
+          <p style="margin-bottom:8px;"><strong>Type:</strong> ${fac.type}</p>
+          <p style="margin-bottom:8px;"><strong>Capacity:</strong> ${fac.capacity}</p>
+          <p style="margin-bottom:8px;"><strong>Status:</strong> ${fac.status}</p>
+          <p style="margin-bottom:0; color:var(--ink-soft);"><strong>Description:</strong> ${fac.description || 'N/A'}</p>
+        `;
+        viewOverlay.classList.add('show');
+      });
+
+      tr.querySelector('.btn-edit').addEventListener('click', () => {
+        editingFacilityId = facId;
+        modalTitle.textContent = 'Edit Facility';
+        document.getElementById('f-name').value = fac.name || '';
+        document.getElementById('f-type').value = fac.type || '';
+        document.getElementById('f-capacity').value = fac.capacity || '';
+        document.getElementById('f-status').value = fac.status || 'Available';
+        document.getElementById('f-description').value = fac.description || '';
+        overlay.classList.add('show');
+      });
+
+      tr.querySelector('.btn-delete').addEventListener('click', async () => {
+        if (confirm(`Delete "${fac.name}"?`)) {
+          try {
+            await deleteDoc(doc(db, "facilities", facId));
+            showToast("Facility deleted.", true);
+          } catch (err) {
+            console.error("Delete error:", err);
+            showToast("Failed to delete facility.", true);
+          }
+        }
+      });
+
+      tableBody.appendChild(tr);
+    });
+  }
+
+  document.querySelectorAll('.filter-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      activeTypeFilter = pill.dataset.type;
+      applyFilters();
+    });
+  });
+
+  if (statusFilterSelect) {
+    statusFilterSelect.addEventListener('change', (e) => {
+      activeStatusFilter = e.target.value;
+      applyFilters();
+    });
+  }
+
+  function listenToFacilities() {
+    const q = query(collection(db, "facilities"), where("barangay", "==", PAGE_BARANGAY));
+    onSnapshot(q, (snapshot) => {
+      allFetchedFacilities = [];
+      snapshot.forEach(docSnap => allFetchedFacilities.push(docSnap));
+      applyFilters();
+    }, (err) => {
+      console.error("Firestore snapshot error:", err);
+    });
   }
 
   onAuthStateChanged(auth, async (user) => {
@@ -975,368 +1116,83 @@
         let fullName = "";
         const userDocRef = doc(db, "users", user.uid);
         const userDocSnap = await getDoc(userDocRef);
-
         if (userDocSnap.exists()) {
-          const data = userDocSnap.data();
-          fullName = data.fullName || data.name || data.firstName;
-          if (data.barangay) currentAdminBarangay = data.barangay;
-        } else {
-          const q = query(collection(db, "users"), where("email", "==", user.email));
-          const querySnapshot = await getDocs(q);
-          querySnapshot.forEach((docSnap) => {
-            if (docSnap.exists()) {
-              const data = docSnap.data();
-              fullName = data.fullName || data.name || data.firstName;
-              if (data.barangay) currentAdminBarangay = data.barangay;
-            }
-          });
+          fullName = userDocSnap.data().fullName || userDocSnap.data().firstName;
         }
-
-        const nameElement = document.getElementById("admin-name");
-        if (nameElement && fullName) nameElement.textContent = `Admin - ${fullName}`;
-
-        const avatarElement = document.querySelector(".user-chip .avatar");
-        if (avatarElement && fullName) {
-          avatarElement.textContent = fullName.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase();
+        if (document.getElementById("admin-name") && fullName) {
+          document.getElementById("admin-name").textContent = `Admin - ${fullName}`;
         }
-
-        listenToFacilities(currentAdminBarangay);
-
+        listenToFacilities();
       } catch (err) {
-        console.error("Error fetching admin profile:", err);
-        listenToFacilities(DEFAULT_BARANGAY);
+        console.error("Auth check error:", err);
       }
     } else {
       window.location.href = "login_page.html";
     }
   });
 
-  function listenToFacilities(barangay) {
-    if (unsubscribeFacilities) unsubscribeFacilities();
-
-    const q = query(collection(db, "facilities"), where("barangay", "==", barangay));
-
-    unsubscribeFacilities = onSnapshot(q, (snapshot) => {
-      allFacilities = [];
-      snapshot.forEach((docSnap) => {
-        allFacilities.push({ docId: docSnap.id, ...docSnap.data() });
-      });
-      renderTable();
-    }, (error) => {
-      console.error("Firestore Read Error: ", error);
-      showToast("Error loading facilities.", true);
-    });
-  }
-
-  function renderTable() {
-    if (!tbody) return;
-
-    let filtered = allFacilities.filter(f => {
-      const typeMatch = activeTypeFilter === 'all' || (f.type || '').toLowerCase() === activeTypeFilter.toLowerCase();
-      const statusLower = (f.status || 'available').toLowerCase();
-      let statusMatch = true;
-      if (activeStatusFilter === 'available') statusMatch = statusLower === 'available';
-      if (activeStatusFilter === 'hidden') statusMatch = statusLower !== 'available';
-      return typeMatch && statusMatch;
-    });
-
-    if (filtered.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 2rem; color: #777;">No facilities found matching the selected filter.</td></tr>`;
-      return;
-    }
-
-    tbody.innerHTML = filtered.map(data => {
-      const id = data.docId;
-      let statusClass = 'status-available';
-      if (data.status === 'Under Maintenance' || data.status === 'Hidden') {
-        statusClass = 'status-hidden';
-      }
-
-      return `
-        <tr data-id="${id}">
-          <td class="cell-title">${data.name}</td>
-          <td><span class="type-pill">${data.type}</span></td>
-          <td>${data.description}</td>
-          <td>${data.capacity}</td>
-          <td><span class="status-pill ${statusClass}" data-status>${data.status}</span></td>
-          <td>
-            <div class="row-actions">
-              <button title="Toggle visibility" data-toggle="${id}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg></button>
-              <button title="Edit" data-edit="${id}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 20h4l10-10-4-4L4 16v4Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
-              <button title="Delete" class="act-delete" data-delete="${id}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m2 0-1 13a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1L6 7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-            </div>
-          </td>
-        </tr>`;
-    }).join('');
-
-    // Attach listeners
-    document.querySelectorAll('[data-toggle]').forEach(btn => {
-      const id = btn.dataset.toggle;
-      btn.addEventListener('click', () => toggleFacilityStatus(id));
-    });
-    document.querySelectorAll('[data-edit]').forEach(btn => {
-      const id = btn.dataset.edit;
-      btn.addEventListener('click', () => editFacility(id));
-    });
-    document.querySelectorAll('[data-delete]').forEach(btn => {
-      const id = btn.dataset.delete;
-      btn.addEventListener('click', () => deleteFacility(id));
-    });
-  }
-
-  document.querySelectorAll('#tab-row .tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('#tab-row .tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      activeTypeFilter = btn.dataset.type;
-      renderTable();
-    });
-  });
-
-  if (statusFilterSelect) {
-    statusFilterSelect.addEventListener('change', (e) => {
-      activeStatusFilter = e.target.value;
-      renderTable();
-    });
-  }
-
-  async function toggleFacilityStatus(id) {
-    const f = allFacilities.find(x => x.docId === id);
-    if (!f) return;
-    const newStatus = f.status === 'Available' ? 'Hidden' : 'Available';
-    try {
-      await updateDoc(doc(db, "facilities", id), { status: newStatus });
-      showToast(`${f.name} status updated to ${newStatus}.`, newStatus === 'Hidden');
-    } catch (e) {
-      showToast("Permission denied or error updating status.", true);
-    }
-  }
-
-  function editFacility(id) {
-    const f = allFacilities.find(x => x.docId === id);
-    if (!f) return;
-    modalTitle.textContent = 'Edit Facility';
-    facilityIdInput.value = id;
-    nameInput.value = f.name;
-    typeInput.value = f.type;
-    capacityInput.value = f.capacity;
-    statusInput.value = f.status || 'Available';
-    descInput.value = f.description;
-
-    form.querySelectorAll('.field').forEach(field => field.classList.remove('has-error'));
-    overlay.classList.add('show');
-  }
-
-  async function deleteFacility(id) {
-    const f = allFacilities.find(x => x.docId === id);
-    if (!f || !confirm(`Remove ${f.name}? This action cannot be undone.`)) return;
-    try {
-      await deleteDoc(doc(db, "facilities", id));
-      showToast(`${f.name} removed successfully.`, true);
-    } catch (e) {
-      showToast("Failed to delete facility.", true);
-    }
-  }
-
-  document.getElementById('add-facility-btn').addEventListener('click', () => {
-    modalTitle.textContent = 'Add Facility';
-    facilityIdInput.value = '';
-    form.reset();
-    form.querySelectorAll('.field').forEach(f => f.classList.remove('has-error'));
-    overlay.classList.add('show');
-  });
-
-  const closeModal = () => overlay.classList.remove('show');
-  document.getElementById('modal-close').addEventListener('click', closeModal);
-  document.getElementById('modal-cancel').addEventListener('click', closeModal);
-  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    let valid = true;
-    const checks = [
-      [nameInput.closest('.field'), nameInput.value.trim().length > 0],
-      [typeInput.closest('.field'), !!typeInput.value],
-      [capacityInput.closest('.field'), capacityInput.value.trim().length > 0],
-      [statusInput.closest('.field'), !!statusInput.value],
-      [descInput.closest('.field'), descInput.value.trim().length > 0],
-    ];
-
-    checks.forEach(([fieldEl, ok]) => { setError(fieldEl, !ok); if (!ok) valid = false; });
-    if (!valid) return;
-
-    const payload = {
-      name: nameInput.value.trim(),
-      type: typeInput.value,
-      capacity: capacityInput.value.trim(),
-      status: statusInput.value,
-      description: descInput.value.trim(),
-      barangay: currentAdminBarangay || DEFAULT_BARANGAY,
-      updatedAt: new Date()
-    };
-
-    try {
-      const docId = facilityIdInput.value;
-      if (docId) {
-        await updateDoc(doc(db, "facilities", docId), payload);
-        showToast(`${payload.name} updated successfully.`);
-      } else {
-        await addDoc(collection(db, "facilities"), payload);
-        showToast(`${payload.name} added to Barangay ${payload.barangay}.`);
-      }
-      closeModal();
-    } catch (err) {
-      showToast("Error saving facility.", true);
-    }
-  });
-
-  // --- UPGRADED UNRESTRICTED AI / FIREBASE CHATBOT LOGIC WITH THINKING PAUSE ---
-  const fab = document.getElementById('chat-fab');
-  const panel = document.getElementById('chat-panel');
-  const closeBtn = document.getElementById('chat-close');
-  const navChatBtn = document.getElementById('nav-chat-btn');
-  const chatBody = document.getElementById('chat-body');
-  const chatInput = document.getElementById('chat-input');
-  const sendBtn = document.getElementById('chat-send');
-
-  function togglePanel() { 
-    if (!panel) return;
-    panel.classList.toggle('show'); 
-    if (panel.classList.contains('show') && chatInput) chatInput.focus(); 
-  }
-
-  if (fab) fab.addEventListener('click', togglePanel);
-  if (navChatBtn) navChatBtn.addEventListener('click', togglePanel);
-  if (closeBtn) closeBtn.addEventListener('click', () => panel.classList.remove('show'));
-
-  function addMsg(text, who) {
-    if (!chatBody) return;
-    const el = document.createElement('div');
-    el.className = 'chat-msg ' + who;
-    el.textContent = text;
-    chatBody.appendChild(el);
-    chatBody.scrollTop = chatBody.scrollHeight;
-    return el;
-  }
-
-  function handleNaturalLanguageChat(text) {
-    addMsg(text, 'user');
-    const q = text.toLowerCase();
-
-    // Show temporary "Thinking..." bubble
-    const thinkingEl = addMsg("Thinking...", 'bot');
-
-    setTimeout(() => {
-      let reply = "";
-      const availableItems = allFacilities.filter(f => (f.status || '').toLowerCase() === 'available');
-      const maintenanceItems = allFacilities.filter(f => (f.status || '').toLowerCase() !== 'available');
-
-      if (q.includes('how many') || q.includes('total') || q.includes('count') || q.includes('list')) {
-        if (allFacilities.length === 0) {
-          reply = `There are currently no facilities registered in Firebase for Barangay ${currentAdminBarangay}.`;
-        } else {
-          const names = allFacilities.map(f => `${f.name} (${f.type}, Status: ${f.status})`).join(', ');
-          reply = `We have ${allFacilities.length} total facility/ies in Firebase for Barangay ${currentAdminBarangay}:\n${names}`;
-        }
-      } else if (q.includes('available') || q.includes('free') || q.includes('open')) {
-        if (availableItems.length === 0) {
-          reply = `No facilities are currently marked as available in Barangay ${currentAdminBarangay}.`;
-        } else {
-          const names = availableItems.map(f => `${f.name} (${f.type}, Cap: ${f.capacity})`).join(', ');
-          reply = `Here are the currently available facilities: ${names}.`;
-        }
-      } else if (q.includes('maintenance') || q.includes('hidden') || q.includes('broken')) {
-        if (maintenanceItems.length === 0) {
-          reply = `All facilities in Barangay ${currentAdminBarangay} are fully operational and available!`;
-        } else {
-          const names = maintenanceItems.map(f => `${f.name} (${f.status})`).join(', ');
-          reply = `Facilities under maintenance or hidden: ${names}.`;
-        }
-      } else if (q.includes('search') || q.includes('find') || q.includes('court') || q.includes('hall') || q.includes('equipment')) {
-        const matches = allFacilities.filter(f => 
-          f.name.toLowerCase().includes(q) || 
-          f.type.toLowerCase().includes(q) || 
-          f.description.toLowerCase().includes(q)
-        );
-        if (matches.length === 0) {
-          reply = `I searched Firebase records for "${text}", but found no matching facility.`;
-        } else {
-          const details = matches.map(m => `• ${m.name} [Type: ${m.type}, Status: ${m.status}, Cap: ${m.capacity}]`).join('\n');
-          reply = `Found ${matches.length} matching facility record(s):\n${details}`;
-        }
-      } else if (q.includes('how') || q.includes('guide') || q.includes('steps') || q.includes('add') || q.includes('help')) {
-        if (q.includes('add')) {
-          reply = `To add a facility: Click the "+ Add Facility" button at the top right of the page, fill in the name, type, capacity, status, and description, then click "Save Facility".`;
-        } else if (q.includes('toggle') || q.includes('hide')) {
-          reply = `You can toggle a facility's visibility instantly by clicking the eye icon on its table row.`;
-        } else {
-          reply = `As your admin assistant, I can check live Firebase facility records for you! You can ask things like "How many facilities?", "Which ones are available?", or search for courts/venues.`;
-        }
-      } else {
-        const tokens = q.split(' ').filter(w => w.length > 2);
-        const results = allFacilities.filter(f => {
-          const blob = `${f.name} ${f.type} ${f.description} ${f.status}`.toLowerCase();
-          return tokens.some(t => blob.includes(t));
-        });
-
-        if (results.length > 0) {
-          const summary = results.map(f => `${f.name} (${f.status})`).join(', ');
-          reply = `Based on your query, I found these matching Firebase facility items: ${summary}.`;
-        } else {
-          reply = `I checked the live Firebase database for Barangay ${currentAdminBarangay}. You have ${allFacilities.length} total facilities recorded (${availableItems.length} available). Feel free to ask about specific equipment, capacities, or management instructions!`;
-        }
-      }
-
-      thinkingEl.textContent = reply;
-      chatBody.scrollTop = chatBody.scrollHeight;
-    }, 800);
-  }
-
-  if (sendBtn && chatInput) {
-    sendBtn.addEventListener('click', () => {
-      const v = chatInput.value.trim();
-      if (!v) return;
-      handleNaturalLanguageChat(v);
-      chatInput.value = '';
-    });
-    chatInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        const v = chatInput.value.trim();
-        if (!v) return;
-        handleNaturalLanguageChat(v);
-        chatInput.value = '';
-      }
-    });
-  }
-
-  document.querySelectorAll('.chat-suggest button').forEach(btn => {
-    btn.addEventListener('click', () => handleNaturalLanguageChat(btn.dataset.msg));
-  });
-
   const userMenu = document.getElementById("user-menu");
   const userMenuBtn = document.getElementById("user-menu-btn");
   userMenuBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-    const open = userMenu.classList.toggle("open");
-    userMenuBtn.setAttribute("aria-expanded", open);
+    userMenu.classList.toggle("open");
   });
-  document.addEventListener("click", (e) => {
-    if (!userMenu.contains(e.target)) {
-      userMenu.classList.remove("open");
-      userMenuBtn.setAttribute("aria-expanded", "false");
-    }
-  });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") userMenu.classList.remove("open");
-  });
+  document.addEventListener("click", () => userMenu.classList.remove("open"));
   document.getElementById("logout-btn").addEventListener("click", async () => {
-    try {
-      await signOut(auth);
-      window.location.href = "login_page.html";
-    } catch (err) {
-      console.error("Logout failed:", err);
-      alert("Could not log out. Please try again.");
-    }
+    await signOut(auth);
+    window.location.href = "login_page.html";
+  });
+
+  // ---------- AI CHATBOT EXPERT ----------
+  const chatFab = document.getElementById('chat-fab');
+  const chatPanel = document.getElementById('chat-panel');
+  const chatClose = document.getElementById('chat-close');
+  const chatBody = document.getElementById('chat-body');
+  const chatInput = document.getElementById('chat-input');
+  const chatSend = document.getElementById('chat-send');
+
+  if (chatFab) chatFab.addEventListener('click', () => chatPanel.classList.toggle('show'));
+  if (chatClose) chatClose.addEventListener('click', () => chatPanel.classList.remove('show'));
+
+  function appendChatMsg(text, sender) {
+    const div = document.createElement('div');
+    div.className = `chat-msg ${sender}`;
+    div.textContent = text;
+    chatBody.appendChild(div);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  async function handleChatQuery(question) {
+    const q = question.toLowerCase();
+    appendChatMsg(question, 'user');
+    chatInput.value = '';
+
+    setTimeout(() => {
+      let reply = "";
+      const total = allFetchedFacilities.length;
+      if (q.includes('available')) {
+        const avail = allFetchedFacilities.filter(d => d.data().status === 'Available');
+        reply = `There are ${avail.length} available facilities in Comembo: ` + avail.map(d => d.data().name).join(', ');
+      } else if (q.includes('court') || q.includes('how many')) {
+        const courts = allFetchedFacilities.filter(d => d.data().type === 'Court');
+        reply = `We have ${courts.length} sports court(s) recorded in Comembo.`;
+      } else if (q.includes('maintenance')) {
+        const maint = allFetchedFacilities.filter(d => d.data().status === 'Maintenance');
+        reply = maint.length > 0 ? `Facilities under maintenance: ` + maint.map(d => d.data().name).join(', ') : `No facilities are currently under maintenance.`;
+      } else {
+        reply = `Total facilities in Comembo: ${total}. You can ask me about available venues, courts, or maintenance status!`;
+      }
+      appendChatMsg(reply, 'bot');
+    }, 400);
+  }
+
+  if (chatSend && chatInput) {
+    chatSend.addEventListener('click', () => { if (chatInput.value.trim()) handleChatQuery(chatInput.value.trim()); });
+    chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter' && chatInput.value.trim()) handleChatQuery(chatInput.value.trim()); });
+  }
+
+  document.querySelectorAll('.chat-suggest button').forEach(btn => {
+    btn.addEventListener('click', () => handleChatQuery(btn.dataset.msg));
   });
 </script>
 

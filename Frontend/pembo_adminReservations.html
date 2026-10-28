@@ -19,7 +19,7 @@
     --line: rgba(36,34,25,0.14);
     --radius: 2px;
 
-    /* per-barangay accent for Pembo */
+    /* Pembo Accent */
     --accent: #8F171B;
     --accent-deep: #6E1215;
     --accent-tint: rgba(143,23,27,0.14);
@@ -293,6 +293,7 @@
     display: flex;
     align-items: center;
     gap: 0.6rem;
+    flex-wrap: wrap;
   }
 
   .filter-btn {
@@ -305,6 +306,7 @@
     border-radius: 6px;
   }
   .filter-btn:hover { background-color: #f8fafc; }
+  .filter-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
   .filter-month-picker, .filter-month-picker select {
     padding: 0.45rem 0.75rem;
@@ -315,6 +317,7 @@
     color: #0f172a;
     background-color: #ffffff;
   }
+  .filter-month-picker:disabled { background-color: #f1f5f9; cursor: not-allowed; }
   .filter-month-label {
     margin-left: 0.5rem;
     font-size: 1.05rem;
@@ -397,6 +400,7 @@
   .row-actions button:hover{border-color:var(--ink);color:var(--ink);}
   .row-actions button.act-approve:hover{border-color:#2E6B4F;color:#2E6B4F;}
   .row-actions button.act-reschedule:hover{border-color:#B8862A;color:#B8862A;}
+  .row-actions button.act-accept-counter{border-color:#2E6B4F;color:#2E6B4F;background:rgba(46,107,79,0.12);}
 
   .status-pill{
     font-family:'IBM Plex Mono',monospace;
@@ -697,7 +701,10 @@
 
   /* ---------- USER DROPDOWN ---------- */
   .user-menu{position:relative;}
-  .user-chip{cursor:pointer;font-family:inherit;color:var(--ink);}
+  .user-chip{cursor:pointer;font-family:inherit;color:var(--ink);transition:border-color .18s ease, background .18s ease;}
+  .user-chip:hover,.user-menu.open .user-chip{border-color:var(--accent-deep);background:var(--paper);}
+  .user-chip .caret{transition:transform .18s ease;color:var(--ink-soft);}
+  .user-menu.open .user-chip .caret{transform:rotate(180deg);}
   .user-dropdown{
     position:absolute;
     right:0;
@@ -757,9 +764,13 @@
         <button type="button" class="user-chip" id="user-menu-btn" aria-haspopup="true" aria-expanded="false">
           <span class="avatar">MS</span>
           <span id="admin-name">Admin</span>
+          <svg class="caret" width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="user-dropdown" role="menu">
-          <button type="button" class="dropdown-item logout" id="logout-btn" role="menuitem">Logout</button>
+          <button type="button" class="dropdown-item logout" id="logout-btn" role="menuitem">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Logout
+          </button>
         </div>
       </div>
     </div>
@@ -904,9 +915,9 @@
     <div class="chat-msg bot">Hello Admin! Ask me anything in your own words—I query live Firebase reservation records instantly to help you manage bookings in Pembo.</div>
   </div>
   <div class="chat-suggest">
-    <button data-msg="Who has pending reservations?">Pending list</button>
-    <button data-msg="Show me approved bookings">Approved bookings</button>
-    <button data-msg="How do I approve or reschedule?">Workflow help</button>
+    <button data-msg="How do slot conflicts work when rescheduling?">Slot conflicts?</button>
+    <button data-msg="How do I reschedule a booking if there's a mishap?">Rescheduling steps</button>
+    <button data-msg="Show me all approved reservations">Approved summary</button>
   </div>
   <div class="chat-input-row">
     <input type="text" id="chat-input" placeholder="Ask anything in your own words…">
@@ -1117,6 +1128,8 @@
     const targetMonth = currentDate.getMonth();
     const selectedPurpose = purposeFilter ? purposeFilter.value : 'all';
 
+    const todayStr = new Date().toISOString().split('T')[0];
+
     let filtered = allReservations.filter(r => {
       const statusLower = (r.status || 'pending').toLowerCase();
       let matchesStatus = (activeStatusFilter === 'all') ? true : (statusLower === activeStatusFilter);
@@ -1134,21 +1147,31 @@
 
     tableBody.innerHTML = filtered.map(r => {
       const statusLower = (r.status || 'pending').toLowerCase();
-      let actionColumn = '';
+      const isPending = statusLower === 'pending';
+      const isCounterOffer = isPending && (r.counterOffered || r.proposedDate);
+      
+      const isPastDate = r.date && r.date < todayStr;
+      
+      let actionColumn = `
+        <div class="row-actions">
+          ${isPending ? `
+            ${isCounterOffer ? `
+              <button title="Accept Counter-Offer" class="act-accept-counter js-accept-counter-btn" data-docid="${r.docId}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            ` : `
+              <button title="Approve Request" class="act-approve js-approve-btn" data-docid="${r.docId}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            `}
+          ` : ''}
 
-      if (statusLower === 'pending' || statusLower === 'rescheduled') {
-        actionColumn = `
-          <div class="row-actions">
-            <button title="Approve" class="act-approve js-approve-btn" data-docid="${r.docId}">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
+          ${!isPastDate ? `
             <button title="Propose Reschedule" class="act-reschedule js-reschedule-btn" data-docid="${r.docId}">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 12v1a8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0-8-8c-1.5 0-2.9.4-4 1.1L4 7m0 0v4h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
-          </div>`;
-      } else if (statusLower === 'approved') {
-        actionColumn = `<span class="cell-sub">Approved by ${r.approvedBy || adminFullName}</span>`;
-      }
+          ` : ''}
+        </div>`;
 
       return `
         <tr data-row data-status="${statusLower}">
@@ -1161,17 +1184,22 @@
             <div class="cell-sub">${r.contact || '—'}</div>
           </td>
           <td>
-            ${r.date || '—'}
+            ${r.date || '—'} 
+            ${isPastDate ? `<span style="color:#C22026; font-size:0.7rem; font-weight:600; display:inline-block; margin-left:4px;">(Done)</span>` : ''}
             <div class="cell-sub">${r.timeSlot || '—'}</div>
-            ${r.proposedDate ? `<div class="cell-sub" style="color:#B8862A;">Proposed: ${r.proposedDate} (${r.proposedTimeSlot || 'Same slot'})</div>` : ''}
+            ${r.proposedDate ? `<div class="cell-sub" style="color:#8F171B; font-weight:600;">Counter-Offered: ${r.proposedDate} (${r.proposedTimeSlot || 'Original slot'})</div>` : ''}
           </td>
           <td>${r.purpose || '—'}</td>
-          <td><span class="status-pill status-${statusLower}">${r.status}</span></td>
+          <td>
+            <span class="status-pill status-${statusLower}">${r.status}</span>
+            ${isCounterOffer ? `<div class="cell-sub" style="color:#2E6B4F; font-weight:600; font-size:0.72rem;">User Counter-Offer</div>` : ''}
+          </td>
           <td>${actionColumn}</td>
         </tr>`;
     }).join('');
 
     document.querySelectorAll('.js-approve-btn').forEach(btn => btn.addEventListener('click', () => handleApprove(btn.dataset.docid)));
+    document.querySelectorAll('.js-accept-counter-btn').forEach(btn => btn.addEventListener('click', () => handleAcceptCounterOffer(btn.dataset.docid)));
     document.querySelectorAll('.js-reschedule-btn').forEach(btn => btn.addEventListener('click', () => openRescheduleModal(btn.dataset.docid)));
   }
 
@@ -1191,7 +1219,7 @@
 
     if (status === "Approved") {
       emailSubject = `Reservation Approved - ${reservationData.referenceNumber || reservationData.facilityName}`;
-      emailBody = `Good news! Your reservation request for ${reservationData.facilityName} on ${reservationData.date} has been APPROVED by Barangay ${BARANGAY_NAME}.`;
+      emailBody = `Good news! Your reservation request for ${reservationData.facilityName} on ${reservationData.date} (${reservationData.timeSlot}) has been APPROVED by Barangay ${BARANGAY_NAME}.`;
     } else if (status === "Rescheduled") {
       emailSubject = `Reschedule Notice - ${reservationData.referenceNumber || reservationData.facilityName}`;
       emailBody = `Barangay ${BARANGAY_NAME} has requested a reschedule for your reservation at ${reservationData.facilityName}.\n\nReason: ${details.reason}\n${details.newDate ? `Proposed Date: ${details.newDate}` : ''}\n${details.newTimeSlot ? `Proposed Time: ${details.newTimeSlot}` : ''}\n\nPlease check your account dashboard to review and confirm.`;
@@ -1219,6 +1247,35 @@
       sendReservationEmail(r, "Approved");
       showToast("Reservation approved successfully.", false);
     } catch (err) { alert("Failed to approve."); }
+  }
+
+  async function handleAcceptCounterOffer(docId) {
+    const r = allReservations.find(x => x.docId === docId);
+    if (!r) return;
+
+    const finalDate = r.proposedDate || r.date;
+    const finalTimeSlot = r.proposedTimeSlot || r.timeSlot;
+
+    if (!confirm(`Accept resident's counter-offered schedule (${finalDate} · ${finalTimeSlot}) and approve this reservation?`)) return;
+
+    try {
+      await updateDoc(doc(db, "reservations", docId), {
+        status: "Approved",
+        date: finalDate,
+        timeSlot: finalTimeSlot,
+        proposedDate: null,
+        proposedTimeSlot: null,
+        counterOffered: false,
+        approvedBy: adminFullName
+      });
+
+      const updatedRecord = { ...r, date: finalDate, timeSlot: finalTimeSlot };
+      sendReservationEmail(updatedRecord, "Approved");
+      showToast("Counter-offer accepted and reservation approved!", false);
+    } catch (err) {
+      console.error("Error accepting counter offer:", err);
+      alert("Failed to accept counter offer.");
+    }
   }
 
   function openRescheduleModal(docId) {
@@ -1252,6 +1309,7 @@
         rescheduleReason: reasonText,
         proposedDate: proposedDate,
         proposedTimeSlot: proposedTimeSlot,
+        counterOffered: false,
         rescheduledBy: adminFullName
       });
 
@@ -1272,7 +1330,7 @@
     setTimeout(() => toast.classList.remove('show'), 3000);
   }
 
-  // --- UPGRADED UNRESTRICTED AI / FIREBASE CHATBOT LOGIC ---
+  // --- AI / CHATBOT LOGIC ---
   const fab = document.getElementById('chat-fab');
   const panel = document.getElementById('chat-panel');
   const closeBtn = document.getElementById('chat-close');
@@ -1298,76 +1356,62 @@
     el.textContent = text;
     chatBody.appendChild(el);
     chatBody.scrollTop = chatBody.scrollHeight;
+    return el;
   }
 
   function handleNaturalLanguageChat(text) {
     addMsg(text, 'user');
-    const q = text.toLowerCase();
+    const q = text.toLowerCase().trim();
+    const thinkingEl = addMsg("Thinking...", 'bot');
 
     setTimeout(() => {
       let reply = "";
-      const pendingItems = allReservations.filter(r => (r.status || '').toLowerCase() === 'pending');
       const approvedItems = allReservations.filter(r => (r.status || '').toLowerCase() === 'approved');
       const rescheduledItems = allReservations.filter(r => (r.status || '').toLowerCase() === 'rescheduled');
 
-      if (q.includes('pending') && (q.includes('who') || q.includes('list') || q.includes('names') || q.includes('show'))) {
-        if (pendingItems.length === 0) {
-          reply = `There are currently no pending reservation requests in Firebase for Barangay ${BARANGAY_NAME}.`;
-        } else {
-          const names = pendingItems.map(r => `${r.applicantName || 'Resident'} (${r.facilityName || 'Facility'} on ${r.date || 'TBD'})`).join(', ');
-          reply = `Here are the ${pendingItems.length} pending request(s) in Firebase: ${names}.`;
-        }
-      }
-      else if (q.includes('approved') && (q.includes('who') || q.includes('list') || q.includes('names') || q.includes('show'))) {
-        if (approvedItems.length === 0) {
-          reply = `There are currently no approved bookings in Firebase for Barangay ${BARANGAY_NAME}.`;
-        } else {
-          const names = approvedItems.map(r => `${r.applicantName || 'Resident'} (${r.facilityName || 'Facility'})`).join(', ');
-          reply = `Here are the approved bookings in Firebase: ${names}.`;
-        }
-      }
-      else if (q.includes('how many') || q.includes('total') || q.includes('count') || q.includes('status') || q.includes('summary')) {
-        reply = `Firebase Live Sync for Barangay ${BARANGAY_NAME}:\n• Total Reservations: ${allReservations.length}\n• Pending: ${pendingItems.length}\n• Approved: ${approvedItems.length}\n• Rescheduled: ${rescheduledItems.length}`;
-      }
-      else if (q.includes('search') || q.includes('find') || q.includes('did') || q.includes('check for') || q.includes('booking by')) {
-        const matches = allReservations.filter(r => 
-          (r.applicantName && r.applicantName.toLowerCase().includes(q)) ||
-          (r.facilityName && r.facilityName.toLowerCase().includes(q)) ||
-          (r.purpose && r.purpose.toLowerCase().includes(q)) ||
-          (r.referenceNumber && r.referenceNumber.toLowerCase().includes(q))
-        );
-        if (matches.length === 0) {
-          reply = `I searched Firebase records for "${text}", but found no matching reservations.`;
-        } else {
-          const details = matches.map(m => `• ${m.applicantName} for ${m.facilityName} on ${m.date} [Status: ${m.status}]`).join('\n');
-          reply = `Found ${matches.length} matching record(s) in Firebase:\n${details}`;
-        }
-      }
-      else if (q.includes('how') || q.includes('guide') || q.includes('steps') || q.includes('what to do') || q.includes('help')) {
-        if (q.includes('approve')) {
-          reply = `To approve a request: Find the booking under the Pending tab in the table and click the green checkmark icon. This updates Firebase immediately and emails the resident via EmailJS.`;
-        } else if (q.includes('reschedule') || q.includes('change date')) {
-          reply = `To reschedule: Click the calendar clock icon on the reservation row, enter your reason, and optionally select a new date and time slot.`;
-        } else {
-          reply = `As your admin assistant, I can query live Firebase data for you! You can ask things like "Who has pending requests?", "Show approved bookings", "Search for court", or ask for approval guidance.`;
-        }
+      const tagalogWords = ['kumusta', 'kamusta', 'salamat', 'paano', 'ano', 'ilan', 'meron', 'wala', 'pwede', 'bakit', 'sino', 'tulong', 'paki', 'po', 'ako', 'mo', 'nyo', 'ba', 'mga', 'na', 'ang', 'sa', 'at', 'ng', 'ka', 'naman', 'yung', 'para', 'saan', 'kailan'];
+      const englishWords = ['who', 'what', 'where', 'when', 'how', 'is', 'are', 'the', 'and', 'to', 'for', 'with', 'show', 'list', 'search', 'count', 'status'];
+
+      const tagalogCount = tagalogWords.filter(w => q.includes(w)).length;
+      const englishCount = englishWords.filter(w => q.includes(w)).length;
+
+      let lang = 'en';
+      if (tagalogCount > 0 && englishCount > 0) lang = 'taglish';
+      else if (tagalogCount > englishCount) lang = 'tl';
+      else lang = 'en';
+
+      const isGreeting = q === 'hi' || q === 'hello' || q === 'hey' || q.includes('good morning') || q.includes('kumusta') || q.includes('kamusta');
+      const isGratitude = q.includes('thank') || q.includes('salamat') || q.includes('thanks') || q.includes('thank you');
+
+      const adminKeywords = [
+        'conflict', 'double', 'overlap', 'sabay', 'reschedule', 'resched', 'lipat', 'booking', 'reservation', 
+        'facility', 'facilities', 'search', 'find', 'hanapin', 'list', 'count', 'summary', 'report', 'ilan', 
+        'status', 'mishap', 'emergency', 'sk', 'council', 'officer', 'youth', 'equipment', 'basketball', 
+        'court', 'hall', 'capacity', 'kagamitan', 'guideline', 'rule', 'patakaran', 'cancel', 'attendees', 
+        'barangay', 'pembo', 'event', 'who', 'what', 'show', 'how', 'sino', 'ano', 'paano', 'bakit'
+      ];
+
+      const matchesData = allReservations.some(r => 
+        (r.applicantName && q.includes(r.applicantName.toLowerCase())) ||
+        (r.facilityName && q.includes(r.facilityName.toLowerCase())) ||
+        (r.referenceNumber && q.includes(r.referenceNumber.toLowerCase()))
+      );
+
+      const hasAdminKeyword = adminKeywords.some(kw => q.includes(kw));
+      const isRelevant = isGreeting || isGratitude || matchesData || hasAdminKeyword;
+
+      if (!isRelevant) {
+        reply = "I'm your SK Admin Assistant. I can help with SK Pembo facility reservations, counter-offers, slot conflicts, and schedules.";
+      } 
+      else if (isGreeting) {
+        reply = `Hello, Admin! 👋 Currently, there are **${approvedItems.length}** approved bookings and **${rescheduledItems.length}** rescheduled items loaded for Barangay Pembo. How can I help you?`;
       }
       else {
-        const tokens = q.split(' ').filter(w => w.length > 2);
-        const results = allReservations.filter(r => {
-          const blob = `${r.applicantName} ${r.facilityName} ${r.purpose} ${r.status} ${r.date}`.toLowerCase();
-          return tokens.some(t => blob.includes(t));
-        });
-
-        if (results.length > 0) {
-          const summary = results.slice(0, 3).map(r => `${r.applicantName} (${r.facilityName} - ${r.status})`).join(', ');
-          reply = `Based on your query, I found these relevant Firebase records: ${summary}.`;
-        } else {
-          reply = `I checked the live and updated list for Barangay ${BARANGAY_NAME}. You currently have ${pendingItems.length} pending and ${approvedItems.length} approved reservations. Feel free to ask about specific residents, counts, or approval steps!`;
-        }
+        reply = `📊 **Live SK Pembo Summary:**\n• Total Bookings: ${allReservations.length}\n• Approved: ${approvedItems.length}\n• Rescheduled: ${rescheduledItems.length}`;
       }
 
-      addMsg(reply, 'bot');
+      thinkingEl.textContent = reply;
+      chatBody.scrollTop = chatBody.scrollHeight;
     }, 400);
   }
 
@@ -1393,14 +1437,29 @@
   });
 
   const userMenu = document.getElementById("user-menu");
-  document.getElementById("user-menu-btn").addEventListener("click", (e) => {
+  const userMenuBtn = document.getElementById("user-menu-btn");
+  userMenuBtn.addEventListener("click", (e) => {
     e.stopPropagation();
-    userMenu.classList.toggle("open");
+    const open = userMenu.classList.toggle("open");
+    userMenuBtn.setAttribute("aria-expanded", open);
   });
-  document.addEventListener("click", () => userMenu.classList.remove("open"));
+  document.addEventListener("click", (e) => {
+    if (!userMenu.contains(e.target)) {
+      userMenu.classList.remove("open");
+      userMenuBtn.setAttribute("aria-expanded", "false");
+    }
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") userMenu.classList.remove("open");
+  });
   document.getElementById("logout-btn").addEventListener("click", async () => {
-    await signOut(auth);
-    window.location.href = "login_page.html";
+    try {
+      await signOut(auth);
+      window.location.href = "login_page.html";
+    } catch (err) {
+      console.error("Logout failed:", err);
+      alert("Could not log out. Please try again.");
+    }
   });
 </script>
 

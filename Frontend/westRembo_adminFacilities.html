@@ -723,6 +723,7 @@
       <a href="westRembo_adminFacilities.html" class="active">Facilities</a>
       <a href="westRembo_adminReservations.html">Reservations</a>
       <a href="westRembo_adminEvents.html">Events</a>
+      <a href="westRembo_adminFeedback.html">Feedback</a>
     </nav>
     <div class="nav-right">
       <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
@@ -881,21 +882,21 @@
 <div class="chat-panel" id="chat-panel">
   <div class="chat-head">
     <div>
-      <div class="title">SK Assistant</div>
-      <div class="sub">Barangay West Rembo · Online</div>
+      <div class="title">SK Assistant (Live Firebase)</div>
+      <div class="sub">Barangay West Rembo · Connected</div>
     </div>
     <button class="chat-close" id="chat-close">✕</button>
   </div>
   <div class="chat-body" id="chat-body">
-    <div class="chat-msg bot">Hi! I'm the SK West Rembo assistant. I can help with facility availability, upcoming programs, your reservations, or announcements. What do you need?</div>
+    <div class="chat-msg bot">Hello Admin! Ask me anything in your own words—I query live Firebase facility records instantly for Barangay West Rembo.</div>
   </div>
   <div class="chat-suggest">
-    <button data-msg="Is the basketball court free this weekend?">Court availability</button>
-    <button data-msg="What programs are coming up?">Upcoming programs</button>
-    <button data-msg="Where's my reservation status?">My reservation status</button>
+    <button data-msg="How many facilities are there?">Facility count</button>
+    <button data-msg="Which facilities are available?">Available venues</button>
+    <button data-msg="How do I add a new facility?">Help & guidance</button>
   </div>
   <div class="chat-input-row">
-    <input type="text" id="chat-input" placeholder="Type a message…">
+    <input type="text" id="chat-input" placeholder="Ask anything in your own words…">
     <button class="chat-send" id="chat-send">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 20l16-8L4 4l2 8-2 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
     </button>
@@ -978,7 +979,7 @@
         if (userDocSnap.exists()) {
           const data = userDocSnap.data();
           fullName = data.fullName || data.name || data.firstName;
-          if (data.barangay) currentAdminBarangay = DEFAULT_BARANGAY;
+          if (data.barangay) currentAdminBarangay = data.barangay;
         } else {
           const q = query(collection(db, "users"), where("email", "==", user.email));
           const querySnapshot = await getDocs(q);
@@ -1040,7 +1041,7 @@
 
     let filtered = allFacilitiesData.filter(item => {
       if (currentFilter === 'all') return true;
-      return (item.type || '').toLowerCase() === currentFilter;
+      return (item.type || '').toLowerCase() === currentFilter.toLowerCase();
     });
 
     if (filtered.length === 0) {
@@ -1202,12 +1203,6 @@
   if (navChatBtn) navChatBtn.addEventListener('click', togglePanel);
   if (closeBtn) closeBtn.addEventListener('click', () => panel.classList.remove('show'));
 
-  const canned = {
-    "is the basketball court free this weekend?": "Let me check the calendar — the Basketball Court has an open slot Saturday 2:00–4:00 PM. Want me to start a reservation request for it?",
-    "what programs are coming up?": "Coming up: our Basketball Tournament and a Digital Skills Workshop this month. Tap \"Join Program\" on the home page to sign up.",
-    "where's my reservation status?": "You can see every request and its status — Pending, Approved, or Rejected — under \"My Reservations\" in the top menu."
-  };
-
   function addMsg(text, who) {
     if (!chatBody) return;
     const el = document.createElement('div');
@@ -1215,35 +1210,99 @@
     el.textContent = text;
     chatBody.appendChild(el);
     chatBody.scrollTop = chatBody.scrollHeight;
+    return el;
   }
 
-  function respond(text) {
+  function handleNaturalLanguageChat(text) {
     addMsg(text, 'user');
-    const key = text.trim().toLowerCase();
-    const reply = canned[key] || "Thanks — I've noted that.";
-    setTimeout(() => addMsg(reply, 'bot'), 500);
+    const q = text.toLowerCase();
+    const thinkingEl = addMsg("Thinking...", 'bot');
+
+    setTimeout(() => {
+      let reply = "";
+      const availableItems = allFacilitiesData.filter(f => (f.status || '').toLowerCase() === 'available');
+      const maintenanceItems = allFacilitiesData.filter(f => (f.status || '').toLowerCase() !== 'available');
+
+      if (q.includes('how many') || q.includes('total') || q.includes('count') || q.includes('list')) {
+        if (allFacilitiesData.length === 0) {
+          reply = `There are currently no facilities registered in Firebase for Barangay ${currentAdminBarangay}.`;
+        } else {
+          const names = allFacilitiesData.map(f => `${f.name} (${f.type}, Status: ${f.status})`).join(', ');
+          reply = `We have ${allFacilitiesData.length} total facility/ies in Firebase for Barangay ${currentAdminBarangay}:\n${names}`;
+        }
+      } else if (q.includes('available') || q.includes('free') || q.includes('open')) {
+        if (availableItems.length === 0) {
+          reply = `No facilities are currently marked as available in Barangay ${currentAdminBarangay}.`;
+        } else {
+          const names = availableItems.map(f => `${f.name} (${f.type}, Cap: ${f.capacity})`).join(', ');
+          reply = `Here are the currently available facilities: ${names}.`;
+        }
+      } else if (q.includes('maintenance') || q.includes('hidden') || q.includes('broken')) {
+        if (maintenanceItems.length === 0) {
+          reply = `All facilities in Barangay ${currentAdminBarangay} are fully operational and available!`;
+        } else {
+          const names = maintenanceItems.map(f => `${f.name} (${f.status})`).join(', ');
+          reply = `Facilities under maintenance or hidden: ${names}.`;
+        }
+      } else if (q.includes('search') || q.includes('find') || q.includes('court') || q.includes('hall') || q.includes('equipment')) {
+        const matches = allFacilitiesData.filter(f => 
+          f.name.toLowerCase().includes(q) || 
+          f.type.toLowerCase().includes(q) || 
+          f.description.toLowerCase().includes(q)
+        );
+        if (matches.length === 0) {
+          reply = `I searched Firebase records for "${text}", but found no matching facility.`;
+        } else {
+          const details = matches.map(m => `• ${m.name} [Type: ${m.type}, Status: ${m.status}, Cap: ${m.capacity}]`).join('\n');
+          reply = `Found ${matches.length} matching facility record(s):\n${details}`;
+        }
+      } else if (q.includes('how') || q.includes('guide') || q.includes('steps') || q.includes('add') || q.includes('help')) {
+        if (q.includes('add')) {
+          reply = `To add a facility: Click the "+ Add Facility" button at the top right of the page, fill in the name, type, capacity, status, and description, then click "Save Facility".`;
+        } else if (q.includes('toggle') || q.includes('hide')) {
+          reply = `You can toggle a facility's visibility instantly by clicking the eye icon on its table row.`;
+        } else {
+          reply = `As your admin assistant, I can check live Firebase facility records for you! You can ask things like "How many facilities?", "Which ones are available?", or search for courts/venues.`;
+        }
+      } else {
+        const tokens = q.split(' ').filter(w => w.length > 2);
+        const results = allFacilitiesData.filter(f => {
+          const blob = `${f.name} ${f.type} ${f.description} ${f.status}`.toLowerCase();
+          return tokens.some(t => blob.includes(t));
+        });
+
+        if (results.length > 0) {
+          const summary = results.map(f => `${f.name} (${f.status})`).join(', ');
+          reply = `Based on your query, I found these matching Firebase facility items: ${summary}.`;
+        } else {
+          reply = `I checked the live Firebase database for Barangay ${currentAdminBarangay}. You have ${allFacilitiesData.length} total facilities recorded (${availableItems.length} available). Feel free to ask about specific equipment, capacities, or management instructions!`;
+        }
+      }
+
+      thinkingEl.textContent = reply;
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }, 800);
   }
 
   if (sendBtn && chatInput) {
     sendBtn.addEventListener('click', () => {
       const v = chatInput.value.trim();
       if (!v) return;
-      respond(v);
+      handleNaturalLanguageChat(v);
       chatInput.value = '';
     });
-
     chatInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         const v = chatInput.value.trim();
         if (!v) return;
-        respond(v);
+        handleNaturalLanguageChat(v);
         chatInput.value = '';
       }
     });
   }
 
   document.querySelectorAll('.chat-suggest button').forEach(btn => {
-    btn.addEventListener('click', () => respond(btn.dataset.msg));
+    btn.addEventListener('click', () => handleNaturalLanguageChat(btn.dataset.msg));
   });
 
   const userMenu = document.getElementById("user-menu");

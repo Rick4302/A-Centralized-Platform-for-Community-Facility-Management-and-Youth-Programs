@@ -74,6 +74,8 @@
   .nav-links a:hover{background:var(--paper-deep);color:var(--ink);}
   .nav-links a.active{background:var(--accent);color:var(--paper);font-weight:600;}
   .nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+  .icon-btn{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line);background:var(--paper-deep);display:flex;align-items:center;justify-content:center;transition:border-color .18s ease, background .18s ease;}
+  .icon-btn:hover{border-color:var(--accent-deep);background:var(--paper);}
   .user-chip{display:flex;align-items:center;gap:9px;padding:6px 12px 6px 6px;border-radius:999px;border:1.5px solid var(--line);background:var(--paper-deep);font-size:0.85rem;font-weight:600;}
   .user-chip .avatar{width:26px;height:26px;border-radius:50%;background:var(--accent-deep);color:var(--paper);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:0.66rem;}
 
@@ -91,8 +93,8 @@
   .btn-outline:hover{background:var(--paper-deep);border-color:var(--ink);transform:translateY(-2px);box-shadow:none;}
   .btn-danger{background:transparent;border-color:var(--red-deep);color:var(--red-deep);}
   .btn-danger:hover{background:rgba(194,32,38,0.08);border-color:var(--red-deep);transform:translateY(-2px);box-shadow:none;}
-  .btn-warning{background:#B8862A;border-color:#B8862A;color:var(--paper);}
-  .btn-warning:hover{background:#966E20;border-color:#966E20;}
+  .btn-warning{background:#8F171B;border-color:#8F171B;color:var(--paper);}
+  .btn-warning:hover{background:#6E1215;border-color:#6E1215;}
   .btn-small{padding:9px 16px;font-size:0.82rem;}
 
   /* ---------- HERO & STATS ---------- */
@@ -198,6 +200,27 @@
   .detail-divider{border-top:1px dashed var(--line);margin:4px 0 20px;}
   .modal-actions{display:flex;gap:12px;flex-wrap:wrap;}
 
+  /* ---------- CHATBOT ---------- */
+  .chat-fab{position:fixed;bottom:26px;right:26px;width:58px;height:58px;border-radius:50%;background:var(--ink);border:2.5px solid var(--accent);color:var(--paper);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 0 0 rgba(36,34,25,0.18);z-index:900;transition:transform .18s ease;}
+  .chat-fab:hover{transform:translateY(-3px);}
+  .chat-panel{position:fixed;bottom:96px;right:26px;width:340px;max-width:calc(100vw - 40px);background:var(--paper-deep);border:1.5px solid var(--ink);border-radius:var(--radius);box-shadow:0 14px 0 0 rgba(36,34,25,0.12);z-index:900;display:none;flex-direction:column;overflow:hidden;}
+  .chat-panel.show{display:flex;}
+  .chat-head{background:var(--accent);color:var(--paper);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;}
+  .chat-head .title{font-family:'Fraunces',serif;font-weight:700;font-size:1rem;}
+  .chat-head .sub{font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:rgba(245,240,228,0.8);}
+  .chat-close{background:none;border:none;color:var(--paper);font-size:1.1rem;line-height:1;}
+  .chat-body{padding:16px 18px;display:flex;flex-direction:column;gap:10px;max-height:320px;overflow-y:auto;}
+  .chat-msg{max-width:82%;padding:9px 13px;border-radius:var(--radius);font-size:0.85rem;line-height:1.45;}
+  .chat-msg.bot{background:var(--paper);border:1px solid var(--line);align-self:flex-start;}
+  .chat-msg.user{background:var(--accent-deep);color:var(--paper);align-self:flex-end;}
+  .chat-suggest{display:flex;flex-wrap:wrap;gap:6px;padding:0 18px 12px;}
+  .chat-suggest button{font-size:0.74rem;padding:6px 11px;border-radius:999px;border:1px solid var(--accent-deep);background:transparent;color:var(--accent-deep);font-weight:600;}
+  .chat-suggest button:hover{background:var(--accent-tint);}
+  .chat-input-row{display:flex;gap:8px;padding:12px;border-top:1px dashed var(--line);}
+  .chat-input-row input{flex:1;font-family:'IBM Plex Sans',sans-serif;font-size:0.85rem;padding:10px 12px;border:1.5px solid var(--line);border-radius:var(--radius);background:var(--paper);outline:none;}
+  .chat-input-row input:focus{border-color:var(--ink);}
+  .chat-send{width:38px;height:38px;border-radius:var(--radius);background:var(--accent-deep);border:none;color:var(--paper);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
   /* FOOTER */
   footer{padding:50px 0 40px;border-top:1px solid var(--line);}
   .foot-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:30px;margin-bottom:36px;}
@@ -231,6 +254,9 @@
       <a href="pembo_feedback.html">Feedback</a>
     </nav>
     <div class="nav-right">
+      <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      </button>
       <div class="user-chip" id="user-chip">
           <span class="avatar" id="user-avatar">--</span>
           <span id="user-name">Loading...</span>
@@ -411,6 +437,34 @@
   </div>
 </div>
 
+<!-- ---------- CHATBOT ---------- -->
+<button class="chat-fab" id="chat-fab" title="SK Assistant">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+</button>
+<div class="chat-panel" id="chat-panel">
+  <div class="chat-head">
+    <div>
+      <div class="title">SK Assistant</div>
+      <div class="sub">Barangay Pembo · Reservations Expert</div>
+    </div>
+    <button class="chat-close" id="chat-close">✕</button>
+  </div>
+  <div class="chat-body" id="chat-body">
+    <div class="chat-msg bot">Hello! I can help you track your facility reservations, check pending approvals, or review rescheduled slots. What do you need? / Paano ko matutulungan ang iyong mga reservation?</div>
+  </div>
+  <div class="chat-suggest">
+    <button data-msg="How many pending reservations do I have?">Pending count</button>
+    <button data-msg="Isalin sa Tagalog">Isalin sa Tagalog</button>
+    <button data-msg="Show my approved bookings">Approved list</button>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" id="chat-input" placeholder="Ask about your bookings, status...">
+    <button class="chat-send" id="chat-send">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 20l16-8L4 4l2 8-2 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
 <div class="toast" id="toast">Action successful.</div>
 
 <script type="module">
@@ -458,7 +512,6 @@
   onAuthStateChanged(auth, async (user) => {
     if (!user) { window.location.href = 'login_page.html'; return; }
     
-    // User Profile Lookup with Safe Fallbacks
     try {
       let displayNameStr = "";
       const userDocRef = doc(db, "users", user.uid);
@@ -494,7 +547,6 @@
       document.getElementById('user-avatar').textContent = (user.email ? user.email[0] : "R").toUpperCase();
     }
 
-    // Subscribe to Firestore Live Reservations Stream
     const resQuery = query(collection(db, "reservations"), where("userId", "==", user.uid), where("barangay", "==", BARANGAY_NAME));
     onSnapshot(resQuery, (snapshot) => {
       userReservations = snapshot.docs.map(doc => ({ docId: doc.id, ...doc.data() }));
@@ -537,7 +589,7 @@
     document.getElementById('result-count').textContent = `${list.length} request${list.length === 1 ? '' : 's'}`;
 
     if (list.length === 0) {
-      document.getElementById('res-list').innerHTML = `<div class="empty-state"><h3>No reservations found</h3></div>`;
+      document.getElementById('res-list').innerHTML = `<div class="empty-state" style="text-align:center; padding:50px; color:var(--ink-soft);"><h3>No reservations found</h3></div>`;
       return;
     }
 
@@ -775,6 +827,131 @@
   });
   document.getElementById('search-input').addEventListener('input', render);
   document.getElementById('sort-select').addEventListener('change', render);
+
+  // ---------- CHATBOT LOGIC ----------
+  const fab = document.getElementById('chat-fab');
+  const panel = document.getElementById('chat-panel');
+  const closeBtn = document.getElementById('chat-close');
+  const navChatBtn = document.getElementById('nav-chat-btn');
+  const chatBody = document.getElementById('chat-body');
+  const chatInput = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('chat-send');
+
+  function togglePanel() { panel.classList.toggle('show'); if (panel.classList.contains('show')) chatInput.focus(); }
+  if (fab) fab.addEventListener('click', togglePanel);
+  if (navChatBtn) navChatBtn.addEventListener('click', togglePanel);
+  if (closeBtn) closeBtn.addEventListener('click', () => panel.classList.remove('show'));
+
+  function appendChatMsg(text, sender) {
+    if (!chatBody) return;
+    const div = document.createElement('div');
+    div.className = `chat-msg ${sender}`;
+    chatBody.appendChild(div);
+    div.textContent = text;
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }
+
+  function handleMyReservationsChat(userInput) {
+    appendChatMsg(userInput, 'user');
+    const q = userInput.toLowerCase().trim();
+
+    setTimeout(() => {
+      let reply = "";
+
+      const wantsTranslation = q.includes('translate') || q.includes('isalin') || q.includes('tagalog lang') || q.includes('sa tagalog') || q.includes('in tagalog');
+      const tagalogWords = ['kumusta', 'kamusta', 'salamat', 'paano', 'ano', 'ilan', 'meron', 'wala', 'pwede', 'bakit', 'sino', 'tulong', 'paki', 'po', 'ako', 'mo', 'nyo', 'ba', 'mga', 'na', 'ang', 'sa', 'at', 'ng', 'ka', 'kailan', 'saan', 'reserba', 'aking'];
+      const tagalogMatches = tagalogWords.filter(w => new RegExp(`\\b${w}\\b`, 'i').test(q)).length;
+      let forceTagalog = wantsTranslation || (tagalogMatches >= 2);
+
+      const reservationKeywords = [
+        'reservation', 'reservations', 'booking', 'bookings', 'request', 'requests', 
+        'pending', 'approved', 'rescheduled', 'cancelled', 'status', 'reference', 'ref', 
+        'date', 'time', 'facility', 'counter-offer', 'proposal', 'reserba', 'aking', 'ilan', 'ano', 'saan', 'paano',
+        'translate', 'isalin'
+      ];
+
+      const matchedRes = userReservations.find(r => (r.referenceNumber && q.includes(r.referenceNumber.toLowerCase())) || (r.facilityName && q.includes(r.facilityName.toLowerCase())));
+      const hasKeyword = reservationKeywords.some(kw => q.includes(kw)) || matchedRes;
+      const isGreeting = q === 'hi' || q === 'hello' || q === 'hey' || q.includes('good morning') || q.includes('kumusta') || q.includes('kamusta');
+      const isGratitude = q.includes('thank') || q.includes('salamat') || q.includes('thanks');
+
+      if (isGreeting) {
+        reply = forceTagalog
+          ? `Hello! 👋 Mayroon kang **${userReservations.length}** na total reservations sa Barangay ${BARANGAY_NAME}. Ano ang gusto mong tingnan o itanong tungkol sa iyong mga booking?`
+          : `Hello! 👋 You currently have **${userReservations.length}** total reservations recorded in Barangay ${BARANGAY_NAME}. What would you like to check about your bookings?`;
+      } 
+      else if (isGratitude) {
+        reply = forceTagalog ? `Walang anuman! Sabihin mo lang kung may kailangan ka pang tulong.` : `You're welcome! Let me know if you need any other assistance with your reservations.`;
+      }
+      else if (wantsTranslation) {
+        reply = `Narito ang pagsasalin: Ang pahinang ito ay nagpapakita ng lahat ng iyong facility reservations sa SK Barangay Pembo. Makikita mo rito kung ang iyong request ay Pending, Approved, Rescheduled, o Cancelled.`;
+      }
+      else if (!hasKeyword && !matchedRes) {
+        reply = forceTagalog
+          ? `⚠️ Pasensya na, hindi ko alam o naiintindihan ang tanong na 'yan. Bilang Reservation Assistant, mga tanong lamang tungkol sa iyong personal reservations, status, at booking history sa SK Pembo ang kaya kong sagutin.`
+          : `⚠️ I'm sorry, but I don't know the answer to that or it's outside my scope. As your Reservations Assistant, I can only answer questions regarding your personal reservations, approval statuses, and booking history in SK Pembo.`;
+      }
+      else if (matchedRes) {
+        reply = forceTagalog
+          ? `📋 **Booking Info (${matchedRes.referenceNumber || matchedRes.docId}):**\n• Pasilidad: ${matchedRes.facilityName}\n• Status: ${matchedRes.status}\n• Petsa: ${fmtDate(matchedRes.date)} (${matchedRes.timeSlot})\n• Attendees: ${matchedRes.attendees} tao`
+          : `📋 **Booking Info (${matchedRes.referenceNumber || matchedRes.docId}):**\n• Facility: ${matchedRes.facilityName}\n• Status: ${matchedRes.status}\n• Date: ${fmtDate(matchedRes.date)} (${matchedRes.timeSlot})\n• Attendees: ${matchedRes.attendees} people`;
+      }
+      else if (q.includes('pending') || q.includes('review')) {
+        const pendings = userReservations.filter(r => (r.status || '').toLowerCase() === 'pending');
+        reply = forceTagalog
+          ? `⏳ Mayroon kang **${pendings.length}** na reservation(s) na kasalukuyang nakabinbin (Pending) para sa pagsusuri ng admin.`
+          : `⏳ You currently have **${pendings.length}** pending reservation(s) awaiting admin review.`;
+      }
+      else if (q.includes('approved') || q.includes('confirmed')) {
+        const approveds = userReservations.filter(r => (r.status || '').toLowerCase() === 'approved');
+        reply = forceTagalog
+          ? `✅ Mayroon kang **${approveds.length}** na approved na reservation(s). Handa na ang mga ito para sa iyong nakatakdang schedule!`
+          : `✅ You have **${approveds.length}** approved reservation(s) ready and confirmed for your scheduled dates!`;
+      }
+      else if (q.includes('rescheduled') || q.includes('proposal')) {
+        const rescheds = userReservations.filter(r => (r.status || '').toLowerCase() === 'rescheduled');
+        reply = forceTagalog
+          ? `⚠️ Mayroon kang **${rescheds.length}** na reservation(s) na may nakabinbing reschedule proposal mula sa admin. I-click ang "View Details" para tanggapin o mag-propose ng sarili mong oras.`
+          : `⚠️ You have **${rescheds.length}** reservation(s) with proposed schedule adjustments from the admin. Click "View Details" on the card to accept or counter-offer.`;
+      }
+      else {
+        const total = userReservations.length;
+        const pending = userReservations.filter(r => (r.status || '').toLowerCase() === 'pending').length;
+        const approved = userReservations.filter(r => (r.status || '').toLowerCase() === 'approved').length;
+        
+        reply = forceTagalog
+          ? `📊 **Summary ng iyong mga Booking:**\n• Total: ${total}\n• Pending: ${pending}\n• Approved: ${approved}\n\nMaaari mong hanapin ang reference number o pangalan ng facility gamit ang search bar sa itaas.`
+          : `📊 **Your Booking Summary:**\n• Total Requests: ${total}\n• Pending: ${pending}\n• Approved: ${approved}\n\nYou can search through your requests anytime using the search bar above.`;
+      }
+
+      appendChatMsg(reply, 'bot');
+    }, 400);
+  }
+
+  if (sendBtn) {
+    sendBtn.addEventListener('click', () => { 
+      const v = chatInput.value.trim(); 
+      if (!v) return; 
+      handleMyReservationsChat(v); 
+      chatInput.value = ''; 
+    });
+  }
+
+  if (chatInput) {
+    chatInput.addEventListener('keydown', (e) => { 
+      if (e.key === 'Enter') { 
+        const v = chatInput.value.trim(); 
+        if (!v) return; 
+        handleMyReservationsChat(v); 
+        chatInput.value = ''; 
+      } 
+    });
+  }
+
+  document.querySelectorAll('.chat-suggest button').forEach(btn => {
+    btn.addEventListener('click', () => handleMyReservationsChat(btn.dataset.msg));
+  });
 </script>
+
 </body>
 </html>

@@ -19,7 +19,7 @@
     --line: rgba(36,34,25,0.14);
     --radius: 2px;
 
-    /* per-barangay accent */
+    /* per-barangay accent for Comembo */
     --accent: #A14E2A;
     --accent-deep: #7A3B1F;
     --accent-tint: rgba(161,78,42,0.15);
@@ -254,7 +254,6 @@
     max-width:52ch;
     margin-bottom:30px;
   }
-  .hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
   .hero-seal{
     width:96px;height:96px;
     border-radius:50%;
@@ -263,50 +262,12 @@
     padding:8px;
     flex-shrink:0;
     box-shadow:0 8px 0 0 rgba(0,0,0,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
   }
   .hero-seal img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
-
-  /* ---------- STATS STRIP ---------- */
-  .stats-strip{
-    margin-top:-54px;
-    position:relative;
-    z-index:10;
-    margin-bottom:52px;
-  }
-  .stats-grid{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    gap:16px;
-  }
-  .stat-card{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:18px 20px;
-    box-shadow:0 8px 0 0 rgba(36,34,25,0.08);
-    display:flex;
-    align-items:center;
-    gap:14px;
-  }
-  .stat-card .stat-icon{
-    width:42px;height:42px;
-    border-radius:50%;
-    background:var(--accent-tint);
-    display:flex;align-items:center;justify-content:center;
-    flex-shrink:0;
-    color:var(--accent-deep);
-  }
-  .stat-card .stat-num{
-    font-family:'Fraunces', serif;
-    font-weight:700;
-    font-size:1.5rem;
-    line-height:1;
-  }
-  .stat-card .stat-label{
-    font-size:0.76rem;
-    color:var(--ink-soft);
-    margin-top:3px;
-  }
 
   /* ---------- SHARED PAGE HERO ---------- */
   .hero-page{padding:40px 0 84px;}
@@ -314,8 +275,6 @@
   .hero-page h1{font-size:clamp(1.9rem, 3vw, 2.4rem);margin:12px 0 10px;}
   .hero-page p.lede{margin-bottom:0;font-size:0.98rem;}
   .hero-page .hero-seal{width:76px;height:76px;}
-  .stats-strip.compact{margin-top:-48px;margin-bottom:40px;}
-  .stats-strip.compact .stats-grid{grid-template-columns:repeat(3, 1fr);}
 
   .page-sub{padding:40px 0 8px;}
   .btn-secondary-nav{
@@ -344,123 +303,6 @@
     flex-wrap:wrap;
   }
   .section-head-row h2{font-size:1.2rem;}
-
-  /* ---------- MANAGEMENT TOOL CARDS ---------- */
-  .tool-grid{
-    display:grid;
-    grid-template-columns:repeat(3, 1fr);
-    gap:18px;
-    padding-bottom:80px;
-  }
-  .tool-card{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    padding:22px 24px;
-    text-decoration:none;
-    color:var(--ink);
-    display:block;
-    box-shadow:0 8px 0 0 rgba(36,34,25,0.07);
-    transition:transform .18s ease, box-shadow .18s ease;
-  }
-  .tool-card:hover{transform:translateY(-3px);box-shadow:0 11px 0 0 rgba(36,34,25,0.1);}
-  .tool-icon{
-    width:44px;height:44px;
-    border-radius:50%;
-    background:var(--accent-tint);
-    color:var(--accent-deep);
-    display:flex;align-items:center;justify-content:center;
-    margin-bottom:16px;
-  }
-  .tool-card h3{font-size:1.05rem;margin-bottom:6px;}
-  .tool-card p{font-size:0.84rem;color:var(--ink-soft);line-height:1.5;}
-  .tool-card .go{
-    margin-top:14px;
-    font-size:0.82rem;
-    font-weight:600;
-    color:var(--accent-deep);
-  }
-
-  /* ---------- TABLE ---------- */
-  .table-card{
-    background:var(--paper-deep);
-    border:1.5px solid var(--ink);
-    border-radius:var(--radius);
-    overflow:hidden;
-    margin-bottom:80px;
-  }
-  table.admin-table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:0.88rem;
-  }
-  table.admin-table thead th{
-    text-align:left;
-    font-family:'IBM Plex Mono',monospace;
-    font-size:0.68rem;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    color:var(--ink-soft);
-    padding:14px 18px;
-    border-bottom:1.5px solid var(--line);
-    background:rgba(36,34,25,0.03);
-  }
-  table.admin-table tbody td{
-    padding:15px 18px;
-    border-bottom:1px solid var(--line);
-    vertical-align:top;
-  }
-  table.admin-table tbody tr:last-child td{border-bottom:none;}
-  table.admin-table tbody tr:hover{background:rgba(36,34,25,0.025);}
-  .cell-title{font-weight:600;}
-  .cell-sub{font-size:0.78rem;color:var(--ink-soft);margin-top:2px;}
-  .type-pill{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:0.66rem;
-    text-transform:uppercase;
-    letter-spacing:0.04em;
-    background:var(--accent-tint);
-    color:var(--accent-deep);
-    padding:3px 9px;
-    border-radius:999px;
-    white-space:nowrap;
-  }
-  .row-actions{display:flex;gap:8px;}
-  .row-actions button{
-    width:30px;height:30px;
-    border-radius:var(--radius);
-    border:1.5px solid var(--line);
-    background:var(--paper);
-    display:flex;align-items:center;justify-content:center;
-    color:var(--ink-soft);
-    transition:border-color .15s ease, color .15s ease;
-  }
-  .row-actions button:hover{border-color:var(--ink);color:var(--ink);}
-  .row-actions button.act-approve:hover{border-color:#2E6B4F;color:#2E6B4F;}
-  .row-actions button.act-reject:hover{border-color:var(--red-deep);color:var(--red-deep);}
-  .row-actions button.act-delete:hover{border-color:var(--red-deep);color:var(--red-deep);}
-
-  .status-pill{
-    font-family:'IBM Plex Mono',monospace;
-    font-size:0.66rem;
-    letter-spacing:0.04em;
-    text-transform:uppercase;
-    padding:4px 10px;
-    border-radius:999px;
-    white-space:nowrap;
-    display:inline-block;
-  }
-  .status-available{background:rgba(46,107,79,0.14);color:#1E4A36;}
-  .status-approved{background:rgba(46,107,79,0.14);color:#1E4A36;}
-  .status-pending{background:rgba(184,134,42,0.16);color:#7A5A19;}
-  .status-rejected{background:rgba(194,32,38,0.12);color:var(--red-deep);}
-  .status-hidden{background:rgba(91,86,74,0.12);color:var(--ink-soft);}
-
-  .empty-row td{
-    text-align:center;
-    color:var(--ink-soft);
-    padding:40px 18px;
-  }
 
   /* ---------- FILTER BAR ---------- */
   .filter-bar {
@@ -521,25 +363,6 @@
   }
   .filter-toggle-checkbox { width: 16px; height: 16px; accent-color: #0f172a; }
 
-  /* ---------- TABS ---------- */
-  .tab-row{
-    display:flex;
-    gap:6px;
-    margin-bottom:24px;
-    flex-wrap:wrap;
-  }
-  .tab-btn{
-    background:var(--paper-deep);
-    border:1.5px solid var(--line);
-    padding:9px 16px;
-    border-radius:999px;
-    font-family:'IBM Plex Sans',sans-serif;
-    font-weight:600;
-    font-size:0.84rem;
-    color:var(--ink-soft);
-  }
-  .tab-btn.active{background:var(--accent-deep);border-color:var(--accent-deep);color:var(--paper);}
-
   /* ---------- MODALS ---------- */
   .modal-overlay{
     display:none;
@@ -578,7 +401,6 @@
     overflow-y:auto;
     box-shadow:0 16px 0 0 rgba(0,0,0,0.15);
   }
-  .modal-box.narrow{max-width:440px;}
   .modal-head{
     display:flex;
     align-items:flex-start;
@@ -622,15 +444,12 @@
     resize:vertical;
   }
   .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--ink);}
-  .field input.error, .field select.error, .field textarea.error{border-color:var(--red-deep);}
   .field-error{font-size:0.76rem;color:var(--red-deep);display:none;}
   .field.has-error .field-error{display:block;}
   .modal-actions{display:flex;gap:12px;margin-top:6px;}
   .modal-actions .btn{flex:1;justify-content:center;}
   .btn-secondary{background:transparent;color:var(--ink);}
   .btn-secondary:hover{background:var(--paper-deep);box-shadow:none;transform:none;border-color:var(--ink);}
-  .btn-danger{background:var(--red-deep);border-color:var(--red-deep);}
-  .btn-danger:hover{background:var(--black);border-color:var(--black);}
 
   /* ---------- TOAST ---------- */
   .toast{
@@ -689,6 +508,17 @@
     margin-bottom:14px;
   }
   .event-meta strong{display:block;color:var(--ink);font-weight:600;font-size:0.86rem;margin-top:2px;}
+  .type-pill{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:0.66rem;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    background:var(--accent-tint);
+    color:var(--accent-deep);
+    padding:3px 9px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
   .event-progress-label{
     display:flex;
     justify-content:space-between;
@@ -718,13 +548,10 @@
   .event-actions button.act-delete:hover{border-color:var(--red-deep);color:var(--red-deep);}
 
   @media (max-width: 980px){
-    .tool-grid{grid-template-columns:1fr 1fr;}
     .event-meta{grid-template-columns:1fr 1fr;}
   }
   @media (max-width: 700px){
-    .tool-grid{grid-template-columns:1fr;}
     .field-row{grid-template-columns:1fr;}
-    table.admin-table{font-size:0.8rem;}
     .event-meta{grid-template-columns:1fr;}
   }
 
@@ -888,8 +715,9 @@
     background:var(--paper-deep);
     display:flex;align-items:center;justify-content:center;
     padding:4px;
+    overflow:hidden;
   }
-  .foot-seals img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
+  .foot-seals img{width:100%!important;height:100%!important;object-fit:contain;border-radius:50%;}
   .foot-bottom{
     display:flex;
     justify-content:space-between;
@@ -991,20 +819,17 @@
       </span>
     </a>
     <nav class="nav-links">
-      <a href="comembo_admin.html" class="">Dashboard</a>
-      <a href="comembo_adminFacilities.html" class="">Facilities</a>
-      <a href="comembo_adminReservations.html" class="">Reservations</a>
+      <a href="comembo_admin.html">Dashboard</a>
+      <a href="comembo_adminFacilities.html">Facilities</a>
+      <a href="comembo_adminReservations.html">Reservations</a>
       <a href="comembo_adminEvents.html" class="active">Events</a>
+      <a href="comembo_adminFeedback.html">Feedback</a>
     </nav>
     <div class="nav-right">
-      <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-      </button>
-      <a href="comembo_admin.html" class="btn btn-small btn-secondary-nav" style="margin-right:2px;">View Resident Site</a>
       <div class="user-menu" id="user-menu">
         <button type="button" class="user-chip" id="user-menu-btn" aria-haspopup="true" aria-expanded="false">
-          <span class="avatar">MS</span>
-          <span id="admin-name">Admin</span>
+          <span class="avatar" id="admin-avatar">--</span>
+          <span id="admin-name">Loading...</span>
           <svg class="caret" width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="m6 9 6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
         <div class="user-dropdown" role="menu">
@@ -1172,7 +997,7 @@
 
 <!-- View Registrants Modal -->
 <div id="view-modal-overlay" class="modal-overlay">
-  <div class="modal-card" style="background:#fff; padding:24px; border-radius:12px; width:90%; max-width:500px; max-height:80vh; overflow-y:auto; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
+  <div class="modal-box" style="background:#fff; padding:24px; border-radius:12px; width:90%; max-width:500px; max-height:80vh; overflow-y:auto; box-shadow:0 10px 25px rgba(0,0,0,0.2);">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
       <h3 id="view-modal-title" style="margin:0; font-size:1.25rem;">Event Registrations</h3>
       <button id="view-modal-close" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:#666;" type="button">&times;</button>
@@ -1216,7 +1041,7 @@
         EMBO Access
       </div>
       <div class="foot-seals">
-        <div class="imgwrap"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Cembo"></div>
+        <div class="imgwrap"><img src="../Pics/Barangay_Comembo_Seal.png" alt="Comembo"></div>
         <div class="imgwrap"><img src="../Pics/West_Rembo_Logo.png" alt="West Rembo"></div>
         <div class="imgwrap"><img src="../Pics/East_Rembo_Logo.png" alt="East Rembo"></div>
         <div class="imgwrap"><img src="../Pics/cembologo.png" alt="Comembo"></div>
@@ -1418,6 +1243,13 @@
     e.preventDefault();
     
     const eventDate = document.getElementById('e-date').value;
+    const currentTodayStr = new Date().toISOString().split('T')[0];
+
+    if (eventDate < currentTodayStr) {
+      alert("Error: You cannot create or schedule an event for a date that has already passed.");
+      return;
+    }
+
     const locationName = document.getElementById('e-location').value;
     const resourceName = document.getElementById('e-need-resource')?.checked 
       ? document.getElementById('e-resource').value 
@@ -1836,22 +1668,26 @@
 
         if (userDocSnap.exists()) {
           const data = userDocSnap.data();
-          fullName = data.fullName || data.name || data.firstName;
+          const fName = data.firstname || data.firstName || "";
+          const lName = data.lastname || data.lastName || "";
+          fullName = `${fName} ${lName}`.trim() || data.fullName || data.name || "";
         } else {
           const q = query(collection(db, "users"), where("email", "==", user.email));
           const querySnapshot = await getDocs(q);
           querySnapshot.forEach((docSnap) => {
             if (docSnap.exists()) {
               const data = docSnap.data();
-              fullName = data.fullName || data.name || data.firstName;
+              const fName = data.firstname || data.firstName || "";
+              const lName = data.lastname || data.lastName || "";
+              fullName = `${fName} ${lName}`.trim() || data.fullName || data.name || "";
             }
           });
         }
 
-        const nameElement = document.getElementById("admin-name");
-        if (nameElement && fullName) {
-          nameElement.textContent = `Admin - ${fullName}`;
-        }
+        if (!fullName) fullName = user.displayName || user.email.split('@')[0] || "Admin";
+
+        document.getElementById("admin-name").textContent = fullName;
+        document.getElementById("admin-avatar").textContent = fullName.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase();
 
         listenToEvents();
       } catch (err) {

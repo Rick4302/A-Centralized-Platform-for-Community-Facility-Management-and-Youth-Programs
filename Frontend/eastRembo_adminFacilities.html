@@ -19,7 +19,7 @@
     --line: rgba(36,34,25,0.14);
     --radius: 2px;
 
-    /* per-barangay accent */
+    /* per-barangay accent for East Rembo */
     --accent: #B8862A;
     --accent-deep: #8C6720;
     --accent-tint: rgba(184,134,42,0.16);
@@ -712,6 +712,7 @@
       <a href="eastRembo_adminFacilities.html" class="active">Facilities</a>
       <a href="eastRembo_adminReservations.html">Reservations</a>
       <a href="eastRembo_adminEvents.html">Events</a>
+      <a href="eastRembo_adminFeedback.html">Feedback</a>
     </nav>
     <div class="nav-right">
       <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
@@ -1188,7 +1189,6 @@
     }
   });
 
-  // --- UPGRADED UNRESTRICTED AI / FIREBASE CHATBOT LOGIC WITH THINKING PAUSE ---
   const fab = document.getElementById('chat-fab');
   const panel = document.getElementById('chat-panel');
   const closeBtn = document.getElementById('chat-close');
@@ -1220,8 +1220,6 @@
   function handleNaturalLanguageChat(text) {
     addMsg(text, 'user');
     const q = text.toLowerCase();
-
-    // Show temporary "Thinking..." bubble
     const thinkingEl = addMsg("Thinking...", 'bot');
 
     setTimeout(() => {
