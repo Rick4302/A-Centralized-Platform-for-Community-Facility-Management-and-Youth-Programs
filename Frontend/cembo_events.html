@@ -624,10 +624,10 @@
         <a href="cembo_feedback.html">Feedback</a>
       </nav>
       <div class="nav-right">
-        <div class="user-chip" id="user-chip">
-          <span class="avatar" id="user-avatar">--</span>
-          <span id="user-name">Loading...</span>
-      </div>
+        <a href="cembo_myAccount.html" class="user-chip" id="user-chip">
+        <span class="avatar" id="user-avatar">--</span>
+        <span id="user-name">Loading...</span>
+      </a>
       </div>
     </div>
   </header>
@@ -654,9 +654,12 @@
       </div>
       <div class="chip-group">
         <button class="chip active" onclick="setCategory('all', this)">All</button>
-        <button class="chip" onclick="setCategory('sports', this)">Sports</button>
-        <button class="chip" onclick="setCategory('education', this)">Education</button>
-        <button class="chip" onclick="setCategory('civic', this)">Civic & Health</button>
+        <button class="chip" onclick="setCategory('Sports', this)">Sports</button>
+        <button class="chip" onclick="setCategory('Empowerment', this)">Empowerment</button>
+        <button class="chip" onclick="setCategory('Recreational', this)">Recreational</button>
+        <button class="chip" onclick="setCategory('Training', this)">Training</button>
+        <button class="chip" onclick="setCategory('Community', this)">Community</button>
+        <button class="chip" onclick="setCategory('Other', this)">Other</button>
       </div>
     </div>
   </div>
@@ -915,11 +918,8 @@
       const regCount = Number(ev.registeredCount) || 0;
       const fillPercentage = Math.min(Math.round((regCount / slotCap) * 100), 100);
 
-      // Map category text to match filter attributes
-      const catLower = (ev.category || "").toLowerCase();
-      let dataCat = "civic";
-      if (catLower.includes("sport")) dataCat = "sports";
-      else if (catLower.includes("educ") || catLower.includes("train")) dataCat = "education";
+      
+      const dataCat = (ev.category || "Other").trim();
 
       return `
         <article class="event-card" data-category="${dataCat}" data-title="${(ev.title || "").toLowerCase()}">
@@ -962,15 +962,16 @@
 
   window.filterEvents = function() {
     const searchInput = document.getElementById('eventSearch');
-    const queryText = searchInput ? searchInput.value.toLowerCase() : "";
+    const queryText = searchInput ? searchInput.value.toLowerCase().trim() : "";
     const cards = document.querySelectorAll('.event-card');
 
     cards.forEach(card => {
-      const cat = card.getAttribute('data-category');
-      const title = card.getAttribute('data-title');
+      const cardCat = (card.getAttribute('data-category') || "").toLowerCase().trim();
+      const cardTitle = (card.getAttribute('data-title') || "").toLowerCase().trim();
 
-      const matchesCat = (activeCategory === 'all' || cat === activeCategory);
-      const matchesQuery = title.includes(queryText);
+      const activeCatLower = activeCategory.toLowerCase().trim();
+      const matchesCat = (activeCatLower === 'all' || cardCat === activeCatLower);
+      const matchesQuery = !queryText || cardTitle.includes(queryText);
 
       if (matchesCat && matchesQuery) {
         card.style.display = 'flex';

@@ -635,13 +635,10 @@
       <a href="comembo_feedback.html">Feedback</a>
     </nav>
     <div class="nav-right">
-      <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="user-chip" id="user-chip">
-          <span class="avatar" id="user-avatar">--</span>
-          <span id="user-name">Loading...</span>
-      </div>
+      <a href="comembo_myAccount.html" class="user-chip" id="user-chip">
+        <span class="avatar" id="user-avatar">--</span>
+        <span id="user-name">Loading...</span>
+      </a>
     </div>
   </div>
 </header>
@@ -667,16 +664,10 @@
     </div>
     <div class="chip-group" id="type-filters">
       <button class="chip active" data-type="all">All</button>
-      <button class="chip" data-type="Sports Court">Sports Courts</button>
-      <button class="chip" data-type="Hall">Halls</button>
-      <button class="chip" data-type="Function Room">Function Rooms</button>
-      <button class="chip" data-type="Open Space">Open Spaces</button>
+      <button class="chip" data-type="Venue">Venue</button>
+      <button class="chip" data-type="Resource">Resource</button>
+      <button class="chip" data-type="Court">Court</button>
     </div>
-    <select class="sort-select" id="sort-select">
-      <option value="name">Sort: Name (A–Z)</option>
-      <option value="capacity">Sort: Capacity</option>
-      <option value="availability">Sort: Availability first</option>
-    </select>
   </div>
 </div>
 
@@ -985,6 +976,20 @@
     }
   }
 
+ // --- ADD EVENT LISTENERS FOR FILTER CHIPS & SEARCH ---
+  document.querySelectorAll('#type-filters .chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('#type-filters .chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      renderGrid();
+    });
+  });
+
+  document.getElementById('search-input')?.addEventListener('input', () => {
+    renderGrid();
+  });
+  // ----------------------------------------------------
+
   function renderGrid() {
     if (!grid) return;
     const searchVal = document.getElementById('search-input')?.value.trim().toLowerCase() || '';
@@ -992,8 +997,11 @@
     const activeType = activeChip ? activeChip.dataset.type : 'all';
 
     let list = rawFacilities.filter(f => {
-      const matchesType = (activeType === 'all') || (f.type && f.type.toLowerCase().trim() === activeType.toLowerCase().trim());
-      const matchesSearch = !searchVal || f.name.toLowerCase().includes(searchVal);
+      const facilityType = (f.type || '').trim().toLowerCase();
+      const filterType = activeType.trim().toLowerCase();
+
+      const matchesType = (filterType === 'all') || (facilityType === filterType);
+      const matchesSearch = !searchVal || (f.name && f.name.toLowerCase().includes(searchVal));
       return matchesType && matchesSearch;
     });
 
@@ -1009,19 +1017,19 @@
     grid.innerHTML = list.map(f => {
       const isAvailable = (f.status === 'Available');
       return `
-        <div class="facility-card">
+        <div class="facility-card" style="display:flex; flex-direction:column; justify-content:space-between; padding:20px; border:1px solid #e0e0e0; border-radius:12px; background:#fff;">
           <div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-              <span class="facility-type">${f.type}</span>
+              <span style="font-weight:600; font-size:0.85rem; color:#555;">${f.type}</span>
               <span class="status-badge ${isAvailable ? 'available' : 'unavailable'}">● ${f.status || 'Available'}</span>
             </div>
             <h3 style="margin:0 0 8px; font-size:1.15rem; font-weight:700;">${f.name}</h3>
-            <p style="font-size:0.88rem; color:var(--ink-soft); margin-bottom:16px;">${f.description || ''}</p>
-            <div style="font-size:0.85rem; color:var(--ink-soft); margin-bottom:16px;">👥 Up to ${f.capacity} people</div>
+            <p style="font-size:0.88rem; color:#666; margin-bottom:16px;">${f.description || ''}</p>
+            <div style="font-size:0.85rem; color:#777; margin-bottom:16px;">👥 Up to ${f.capacity} people</div>
           </div>
-          <div class="facility-footer">
+          <div style="display:flex; align-items:center; justify-content:space-between; padding-top:12px; border-top:1px solid #f0f0f0;">
             <span style="font-weight:600; font-size:0.95rem;">${f.fee || 'Free'}</span>
-            <button class="btn btn-small ${!isAvailable ? 'btn-disabled' : ''}" data-fac-id="${f.id}" ${!isAvailable ? 'disabled' : ''}>${isAvailable ? 'Reserve →' : 'Unavailable'}</button>
+            <button class="btn btn-small ${!isAvailable ? 'btn-disabled' : ''}" data-fac-id="${f.id}">${isAvailable ? 'Reserve →' : 'Unavailable'}</button>
           </div>
         </div>
       `;
@@ -1032,7 +1040,7 @@
         const facItem = rawFacilities.find(item => item.id === btn.dataset.facId);
         if (facItem) {
           if (facItem.status !== 'Available') {
-            showToast("This facility is currently unavailable.", true);
+            alert("This facility is currently unavailable.");
             return;
           }
           openModal(facItem);
@@ -1188,7 +1196,7 @@
       e.preventDefault();
       const name = document.getElementById('res-name').value.trim();
       const contact = document.getElementById('res-contact').value.trim();
-      const attendees = document.getElementById('res-attendees').value;
+      const attendees = Number(document.getElementById('res-attendees').value); // Converted to number
       const purpose = document.getElementById('res-purpose').value;
       const terms = document.getElementById('res-terms').checked;
       const selectedDate = dateInput.value;
@@ -1199,11 +1207,24 @@
         return;
       }
 
+      // --- NEW VALIDATION: Check if expected attendees exceed facility capacity ---
+      const capacityStr = String(currentFacility.capacity || "0");
+      const numbersInCapacity = capacityStr.match(/\d+/g);
+      const maxCapacity = numbersInCapacity ? Math.max(...numbersInCapacity.map(Number)) : 0;
+
+      if (maxCapacity > 0 && attendees > maxCapacity) {
+        errorBanner.classList.add('show');
+        document.getElementById('form-error-text').textContent = `⚠️ Capacity Exceeded: Expected attendees (${attendees}) exceed the maximum capacity for ${currentFacility.name} (${maxCapacity} people).`;
+        errorBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
+      // --------------------------------------------------------------------------
+
       if (!checkAndValidateDate(selectedDate)) {
         return; 
       }
 
-      // --- VALIDATION: Max 2 bookings per user per day ---
+      // --- VALIDATION: Check max 2 bookings per user per day ---
       try {
         const userDayQuery = query(
           collection(db, "reservations"),
@@ -1220,9 +1241,8 @@
       } catch (err) {
         console.error("Error checking user daily limits:", err);
       }
-      // ---------------------------------------------------
 
-      const refNum = `COMEMBO-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+      const refNum = `CEMBO-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
       const slotLabel = SLOTS.find(s => s.id === selectedSlot).label;
 
       const record = {
@@ -1236,7 +1256,7 @@
         timeSlot: slotLabel,
         purpose: purpose,
         attendees: attendees,
-        status: 'Approved', // <--- INSTANT APPROVAL INTEGRATED
+        status: 'Approved', 
         approvedBy: 'System',
         userId: currentUser.uid,
         userEmail: currentUser.email,
@@ -1246,10 +1266,10 @@
       try {
         await addDoc(collection(db, "reservations"), record);
         document.getElementById('success-ref').textContent = refNum;
-        if (formView) formView.style.display = 'none';
-        if (successView) successView.style.display = 'block';
+        formView.style.display = 'none';
+        successView.style.display = 'block';
       } catch (err) {
-        showToast("Error saving reservation.", true);
+        alert("Error saving reservation.");
       }
     });
   }

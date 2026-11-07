@@ -254,13 +254,10 @@
       <a href="westrembo_feedback.html">Feedback</a>
     </nav>
     <div class="nav-right">
-      <button class="icon-btn" title="Ask the SK Assistant" id="nav-chat-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12c0 4.418-4.03 8-9 8-1.06 0-2.078-.16-3.02-.457L3 21l1.54-4.11C3.57 15.6 3 13.87 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-      </button>
-      <div class="user-chip" id="user-chip">
-          <span class="avatar" id="user-avatar">--</span>
-          <span id="user-name">Loading...</span>
-      </div>
+      <a href="westrembo_myAccount.html" class="user-chip" id="user-chip">
+        <span class="avatar" id="user-avatar">--</span>
+        <span id="user-name">Loading...</span>
+      </a>
     </div>
   </div>
 </header>
@@ -326,6 +323,7 @@
     </div>
 
     <div class="res-list" id="res-list"></div>
+    <div class="pagination-container" id="pagination-container"></div>
   </div>
 </section>
 
@@ -497,6 +495,9 @@
   let currentDocId = null;
   let calCurrentDate = new Date();
   let selectedCounterDate = null;
+  let currentPage = 1;
+  
+  const itemsPerPage = 5;
 
   const ICONS = {
     "Sports Court": '<svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 3a9 9 0 0 0 0 18M3 12h18M5.5 6.5c2 1.8 4.2 2.8 6.5 2.8s4.5-1 6.5-2.8M5.5 17.5c2-1.8 4.2-2.8 6.5-2.8s4.5 1 6.5 2.8" stroke="currentColor" stroke-width="1.3"/></svg>',
@@ -569,7 +570,7 @@
     document.getElementById('count-rescheduled').textContent = userReservations.filter(r => (r.status || '').toLowerCase() === 'rescheduled').length;
   }
 
-  function render() {
+ function render() {
     const queryStr = document.getElementById('search-input').value.trim().toLowerCase();
     const sortBy = document.getElementById('sort-select').value;
 
@@ -590,11 +591,20 @@
     document.getElementById('result-count').textContent = `${list.length} request${list.length === 1 ? '' : 's'}`;
 
     if (list.length === 0) {
-      document.getElementById('res-list').innerHTML = `<div class="empty-state" style="text-align:center; padding:50px; color:var(--ink-soft);"><h3>No reservations found</h3></div>`;
+      document.getElementById('res-list').innerHTML = `<div class="empty-state" style="text-align:center; padding:30px; color:var(--ink-soft);"><h3>No reservations found</h3></div>`;
+      document.getElementById('pagination-container').innerHTML = ''; // Clear pagination
       return;
     }
 
-    document.getElementById('res-list').innerHTML = list.map(r => {
+    // --- PAGINATION SLICING LOGIC ---
+    const totalPages = Math.ceil(list.length / itemsPerPage);
+    if (currentPage > totalPages) currentPage = totalPages || 1;
+    
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const paginatedList = list.slice(startIndex, startIndex + itemsPerPage);
+    // --------------------------------
+
+    document.getElementById('res-list').innerHTML = paginatedList.map(r => {
       const type = FACILITY_TYPES[r.facilityName] || 'Hall';
       const statusLower = (r.status || 'pending').toLowerCase();
       
@@ -630,8 +640,57 @@
       </div>`;
     }).join('');
 
+    // --- RENDER PAGINATION BUTTONS ---
+    renderPaginationControls(totalPages);
+    // ---------------------------------
+
     document.querySelectorAll('.js-details-btn').forEach(btn => btn.addEventListener('click', () => openDetails(btn.dataset.docid)));
     document.querySelectorAll('.js-cancel-btn').forEach(btn => btn.addEventListener('click', () => openConfirm(btn.dataset.docid)));
+  }
+
+  // --- ADD THIS HELPER FUNCTION BELOW RENDER() ---
+  function renderPaginationControls(totalPages) {
+    const container = document.getElementById('pagination-container');
+    if (!container) return;
+
+    if (totalPages <= 1) {
+      container.innerHTML = '';
+      return;
+    }
+
+    let html = `<button class="page-btn" id="prev-page-btn" ${currentPage === 1 ? 'disabled' : ''}>‹ Previous</button>`;
+    
+    for (let i = 1; i <= totalPages; i++) {
+      html += `<button class="page-btn ${currentPage === i ? 'active' : ''}" data-page="${i}">${i}</button>`;
+    }
+
+    html += `<button class="page-btn" id="next-page-btn" ${currentPage === totalPages ? 'disabled' : ''}>Next ›</button>`;
+    container.innerHTML = html;
+
+    // Attach click events to pagination buttons
+    container.querySelectorAll('[data-page]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        currentPage = Number(btn.dataset.page);
+        render();
+        window.scrollTo({ top: 200, behavior: 'smooth' });
+      });
+    });
+
+    document.getElementById('prev-page-btn')?.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        render();
+        window.scrollTo({ top: 200, behavior: 'smooth' });
+      }
+    });
+
+    document.getElementById('next-page-btn')?.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        render();
+        window.scrollTo({ top: 200, behavior: 'smooth' });
+      }
+    });
   }
 
   async function fetchFacilityBookings(facilityId) {
@@ -822,12 +881,20 @@
   document.querySelectorAll('#status-filters .chip, .stat-card').forEach(el => {
     el.addEventListener('click', () => {
       activeStatus = el.dataset.status;
+      currentPage = 1;
       document.querySelectorAll('#status-filters .chip, .stat-card').forEach(c => c.classList.toggle('active', c.dataset.status === activeStatus));
       render();
     });
   });
-  document.getElementById('search-input').addEventListener('input', render);
-  document.getElementById('sort-select').addEventListener('change', render);
+  document.getElementById('search-input').addEventListener('input', () => {
+    currentPage = 1; 
+    render();
+  });
+
+  document.getElementById('sort-select').addEventListener('change', () => {
+    currentPage = 1; 
+    render();
+  });
 
   // ---------- CHATBOT LOGIC ----------
   const fab = document.getElementById('chat-fab');

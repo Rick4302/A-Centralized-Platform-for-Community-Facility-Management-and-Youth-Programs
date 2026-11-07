@@ -1083,6 +1083,27 @@
       return;
     }
 
+// --- FILE TYPE VALIDATION: Reject non-spreadsheet files ---
+    const validExtensions = ['.xlsx', '.xls', '.csv'];
+    const fileNameLower = file.name.toLowerCase();
+    const isValidExtension = validExtensions.some(ext => fileNameLower.endsWith(ext));
+    
+    const validMimeTypes = [
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-excel',
+      'text/csv',
+      'application/csv',
+      'application/vnd.msexcel'
+    ];
+    const isValidMime = file.type ? validMimeTypes.includes(file.type) : true;
+
+    if (!isValidExtension && !isValidMime) {
+      uploadStatus.textContent = "Invalid file type rejected.";
+      alert("⚠️ Invalid File Type: Please upload a valid Excel (.xlsx, .xls) or CSV file. PDFs and other non-spreadsheet formats are not allowed.");
+      fileInput.value = "";
+      return;
+    }
+
     uploadStatus.textContent = "Processing file and checking existing records...";
     const reader = new FileReader();
 
@@ -1119,7 +1140,7 @@
 
         uploadStatus.textContent = "Saving new residents...";
 
-        for (let row of rows) {
+       for (let row of rows) {
           if (!row || row.length === 0) continue;
           
           let firstname = "";
@@ -1127,7 +1148,7 @@
           let email = "";
 
           const firstVal = String(row[0] || "").trim();
-          if (firstVal.toLowerCase() === "first name" || firstVal.toLowerCase() === "firstname") continue;
+          if (!firstVal || firstVal.toLowerCase() === "first name" || firstVal.toLowerCase() === "firstname") continue;
 
           if (row.length >= 3) {
             firstname = String(row[0] || "").trim();
@@ -1139,6 +1160,13 @@
           } else if (row.length === 1) {
             firstname = firstVal;
           }
+
+          // --- STRICT FILTER: Skip empty or garbage rows ---
+          if (!firstname || firstname === "" || firstname === "undefined" || firstname === "null") {
+            skippedCount++;
+            continue;
+          }
+          // -------------------------------------------------
 
           if (firstname) {
             const emailKey = email ? email.toLowerCase() : "";

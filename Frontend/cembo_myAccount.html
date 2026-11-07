@@ -668,7 +668,7 @@
       EmailAuthProvider, reauthenticateWithCredential, updatePassword
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import {
-      getFirestore, doc, getDoc, collection, query, where, getDocs
+      getFirestore, doc, getDoc, collection, query, where, getDocs, setLogLevel
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     /* ------------------------------------------------------------------
@@ -687,6 +687,8 @@
     });
     const auth = getAuth(app);
     const db = getFirestore(app);
+
+    setLogLevel('debug');
 
     /* ------------------------------------------------------------------
        Helpers
@@ -758,26 +760,18 @@
       $("detailSince").textContent = memberSince.toLocaleDateString("en-PH", { month: "long", year: "numeric" });
 
       // Check validation against validated_residents collection (excel import match)
-      let isVerified = false;
-      try {
-        const residentsQuery = query(
-          collection(db, "validated_residents"),
-          where("barangay", "==", BARANGAY)
-        );
-        const querySnapshot = await getDocs(residentsQuery);
-        querySnapshot.forEach((docSnap) => {
-          const data = docSnap.data();
-          // Match by user email or matching firstname/lastname from excel sheet
-          const residentEmail = (data.email || "").trim().toLowerCase();
-          const userEmail = user.email.trim().toLowerCase();
-          
-          if (residentEmail === userEmail) {
-            isVerified = true;
-          }
-        });
-      } catch (err) {
-        console.error("Error checking residency validation list:", err);
-      }
+     let isVerified = false;
+try {
+  const residentsQuery = query(
+    collection(db, "validated_residents"),
+    where("barangay", "==", BARANGAY),
+    where("email", "==", user.email.trim().toLowerCase())
+  );
+  const querySnapshot = await getDocs(residentsQuery);
+  isVerified = !querySnapshot.empty;
+} catch (err) {
+  console.error("Error checking residency validation list:", err);
+}
 
       renderVerificationStatus(isVerified);
     });

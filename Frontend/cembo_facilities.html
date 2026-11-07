@@ -588,11 +588,10 @@
       <a href="cembo_feedback.html">Feedback</a>
     </nav>
     <div class="nav-right">
-      
-      <div class="user-chip" id="user-chip">
-          <span class="avatar" id="user-avatar">--</span>
-          <span id="user-name">Loading...</span>
-      </div>
+      <a href="cembo_myAccount.html" class="user-chip" id="user-chip">
+        <span class="avatar" id="user-avatar">--</span>
+        <span id="user-name">Loading...</span>
+      </a>
     </div>
   </div>
 </header>
@@ -618,16 +617,10 @@
     </div>
     <div class="chip-group" id="type-filters">
       <button class="chip active" data-type="all">All</button>
-      <button class="chip" data-type="Sports Court">Sports Courts</button>
-      <button class="chip" data-type="Hall">Halls</button>
-      <button class="chip" data-type="Function Room">Function Rooms</button>
-      <button class="chip" data-type="Open Space">Open Spaces</button>
+      <button class="chip" data-type="Venue">Venue</button>
+      <button class="chip" data-type="Resource">Resource</button>
+      <button class="chip" data-type="Court">Court</button>
     </div>
-    <select class="sort-select" id="sort-select">
-      <option value="name">Sort: Name (A–Z)</option>
-      <option value="capacity">Sort: Capacity</option>
-      <option value="availability">Sort: Availability first</option>
-    </select>
   </div>
 </div>
 
@@ -924,6 +917,20 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
     }
   }
 
+  // --- ADD EVENT LISTENERS FOR FILTER CHIPS & SEARCH ---
+  document.querySelectorAll('#type-filters .chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('#type-filters .chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      renderGrid();
+    });
+  });
+
+  document.getElementById('search-input')?.addEventListener('input', () => {
+    renderGrid();
+  });
+  // ----------------------------------------------------
+
   function renderGrid() {
     if (!grid) return;
     const searchVal = document.getElementById('search-input')?.value.trim().toLowerCase() || '';
@@ -931,8 +938,11 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
     const activeType = activeChip ? activeChip.dataset.type : 'all';
 
     let list = rawFacilities.filter(f => {
-      const matchesType = (activeType === 'all') || (f.type && f.type.toLowerCase().trim() === activeType.toLowerCase().trim());
-      const matchesSearch = !searchVal || f.name.toLowerCase().includes(searchVal);
+      const facilityType = (f.type || '').trim().toLowerCase();
+      const filterType = activeType.trim().toLowerCase();
+
+      const matchesType = (filterType === 'all') || (facilityType === filterType);
+      const matchesSearch = !searchVal || (f.name && f.name.toLowerCase().includes(searchVal));
       return matchesType && matchesSearch;
     });
 
@@ -1117,7 +1127,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
       e.preventDefault();
       const name = document.getElementById('res-name').value.trim();
       const contact = document.getElementById('res-contact').value.trim();
-      const attendees = document.getElementById('res-attendees').value;
+      const attendees = Number(document.getElementById('res-attendees').value); // Converted to number
       const purpose = document.getElementById('res-purpose').value;
       const terms = document.getElementById('res-terms').checked;
       const selectedDate = dateInput.value;
@@ -1128,11 +1138,24 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
         return;
       }
 
+      // --- NEW VALIDATION: Check if expected attendees exceed facility capacity ---
+      const capacityStr = String(currentFacility.capacity || "0");
+      const numbersInCapacity = capacityStr.match(/\d+/g);
+      const maxCapacity = numbersInCapacity ? Math.max(...numbersInCapacity.map(Number)) : 0;
+
+      if (maxCapacity > 0 && attendees > maxCapacity) {
+        errorBanner.classList.add('show');
+        document.getElementById('form-error-text').textContent = `⚠️ Capacity Exceeded: Expected attendees (${attendees}) exceed the maximum capacity for ${currentFacility.name} (${maxCapacity} people).`;
+        errorBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
+      // --------------------------------------------------------------------------
+
       if (!checkAndValidateDate(selectedDate)) {
         return; 
       }
 
-      // --- NEW VALIDATION: Check max 2 bookings per user per day ---
+      // --- VALIDATION: Check max 2 bookings per user per day ---
       try {
         const userDayQuery = query(
           collection(db, "reservations"),
@@ -1149,7 +1172,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
       } catch (err) {
         console.error("Error checking user daily limits:", err);
       }
-      // -------------------------------------------------------------
 
       const refNum = `CEMBO-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
       const slotLabel = SLOTS.find(s => s.id === selectedSlot).label;
